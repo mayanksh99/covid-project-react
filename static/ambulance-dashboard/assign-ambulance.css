@@ -4,7 +4,7 @@
   background: #fe7676;
   color: white;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
   align-items: center;
   justify-content: center;
   font-family: "Roboto", sans-serif;
@@ -24,7 +24,7 @@
 }
 .logout {
   margin-left: 1em;
-  margin-top: 15em;
+  margin-top: 90%;
 }
 
 .icon {
@@ -122,18 +122,34 @@
 /* Modal-Assign-Ambulance */
 .modal-header {
   background: #fe7676;
-  padding: 10px;
+  padding: 8px;
   color: white;
 }
-/* @media only screen and (min-width: 768px) { */
+
 .modal-title {
-  margin-left: 42%;
-  /* display: inline; */
+  width: 100%;
+  text-align: center;
+  padding-left: 35px;
+}
+
+.cross {
+  padding: 5px 8px;
+  background: white;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.close {
+  color: #707070;
+  opacity:1;
+}
+
+.modal-header .close {
+  padding: 0px;
+  margin: 0px;
 }
 /* } */
-.close {
-  color: black;
-}
+
 .form-field {
   padding-bottom: 10px;
   font-family: "Roboto", sans-serif;
@@ -197,13 +213,13 @@
   background: #fe7676;
   font-family: "Roboto", sans-serif;
   font-weight: bold;
-  padding: .5em 2.5em;
+  padding: 0.5em 2.5em;
   border: none;
   font-size: 1.1em;
 }
 
-.material-icons{
-    cursor: pointer;
+.material-icons {
+  cursor: pointer;
 }
 
 /* .cross{

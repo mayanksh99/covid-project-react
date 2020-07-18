@@ -7,8 +7,8 @@ const Label = styled.p`
 			margin: 0,
 			padding: 0,
 			color: "#a0aec0",
-			textTransform: "capitalize",
-			fontSize: "14px"
+			textTransform: "uppercase",
+			fontSize: "12px"
 		};
 	}}
 `;

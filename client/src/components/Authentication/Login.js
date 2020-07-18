@@ -121,7 +121,7 @@ const Login = props => {
 				</Col>
 				<Col span={14}>
 					<LoginWrapper>
-						<Heading color="red" size="2xl" align="center">
+						<Heading color="red" size="4xl" align="center">
 							Sign In
 						</Heading>
 						<EditCard>

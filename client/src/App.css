@@ -1,10 +1,10 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Sen:wght@400;700;800&display=swap"); */
 
-:root {
+/* :root {
 	--bg: #424242;
 	--primarycolor: #42548f;
 	--shadow: #f2f2f2;
-}
+} */
 
 @font-face {
 	font-family: "GoogleSansRG";
@@ -28,7 +28,6 @@ h4,
 h5,
 h6 {
 	font-family: "GoogleSansBD";
-	color: var(--primarycolor) !important;
 }
 
 p,

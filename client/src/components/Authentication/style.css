@@ -1,0 +1,23 @@
+.login-poster {
+	height: 100vh;
+	background-image: url("/assets/images/doctor5.jpg");
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+.login-grad {
+	height: 100vh;
+	background: linear-gradient(
+		0deg,
+		#fe7676 16.55%,
+		rgba(196, 196, 196, 0.2) 99.9%
+	);
+}
+
+.login-poster-text {
+	color: white;
+	font-weight: bold;
+	font-size: 38px;
+	text-align: center;
+	padding-top: 600px;
+}

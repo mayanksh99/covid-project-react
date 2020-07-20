@@ -1,12 +1,7 @@
 import React from "react";
-import Layout from "./../Layout/Layout";
 
 const DoctorProfile = () => {
-	return (
-		<Layout>
-			<div>Profile</div>
-		</Layout>
-	);
+	return <div>Profile</div>;
 };
 
 export default DoctorProfile;

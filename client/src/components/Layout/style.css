@@ -1,24 +1,47 @@
 .menu-wrapper {
-	height: 100vh;
-}
-
-.submenu-edit {
-	color: #fff;
+	height: 100%;
+	background-color: #008db9;
 }
 
 .menu-edit {
-	height: 100%;
-	background-color: #fe7676;
+	height: 90vh;
+	background-color: #008db9;
 	color: #fff;
 	font-weight: 700;
-	padding: 20px;
+	padding: 30px;
+	font-size: large;
 }
 
-.menu-edit:hover {
+.menu-link {
 	color: #fff !important;
 }
 
+.sublink {
+	font-size: 16px;
+}
+
+.ant-menu-submenu-arrow::after {
+	display: none;
+}
+
+.ant-menu-submenu-arrow::before {
+	display: none;
+}
+
+.ant-menu-item-selected {
+	background-color: #37a794 !important;
+}
+
+.ant-menu-item-selected:focus {
+	background-color: #37a794 !important;
+}
+
 .ant-menu {
-	background-color: #fe7676 !important;
+	background-color: #008db9 !important;
 	color: #fff;
+}
+
+.menu-icon {
+	font-size: 18px !important;
+	color: #fff !important;
 }

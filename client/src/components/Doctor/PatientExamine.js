@@ -1,12 +1,7 @@
 import React from "react";
-import Layout from "../Layout/Layout";
 
 const PatientExamine = () => {
-	return (
-		<Layout>
-			<div>Patient</div>
-		</Layout>
-	);
+	return <div>Patient</div>;
 };
 
 export default PatientExamine;

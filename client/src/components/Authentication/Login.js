@@ -113,6 +113,7 @@ const Login = props => {
 										Log in
 									</Button>
 								</Form.Item>
+								{/* <hr/> */}
 							</Form>
 						</Card>
 					</div>

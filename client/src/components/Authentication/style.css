@@ -27,14 +27,11 @@
 .login-form-card {
 	width: 26em;
 	border-radius: 4px;
-
-	/* -webkit-box-shadow: 0 10px 6px -6px #777;
-	-moz-box-shadow: 0 10px 6px -6px #777;
-	box-shadow: 0 10px 6px -6px #777; */
-	box-shadow: 0 0 10px #00000029;
+	background: transparent;
+	/* box-shadow: 0 0 10px #00000029;
 	-moz-box-shadow: 0 0 10px #00000029;
 	-webkit-box-shadow: 0 0 10px #00000029;
-	-o-box-shadow: 0 0 10px #00000029;
+	-o-box-shadow: 0 0 10px #00000029; */
 }
 
 .login-card-container {

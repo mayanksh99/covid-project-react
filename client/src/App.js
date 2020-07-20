@@ -3,13 +3,13 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import "antd/dist/antd.css";
 import "./App.css";
 import Login from "./components/Authentication/Login";
-import DoctorNavigator from "./components/Layout/DoctorNavigator";
+import PatientExamine from "./components/Doctor/PatientExamine";
 
 const App = () => {
 	return (
 		<Switch>
 			<Route exact path="/login" component={Login} />
-			<Route exact path="/doctor" component={DoctorNavigator} />
+			<Route exact path="/patientexamine" component={PatientExamine} />
 			<Redirect from="/" to="/login" />
 		</Switch>
 	);

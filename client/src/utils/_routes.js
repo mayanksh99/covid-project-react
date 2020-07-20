@@ -36,7 +36,7 @@ let routes = [
 		exact: true,
 		name: "Dashboard",
 		component: Dashboard,
-		key: "dashboard",
+		key: "Dashboard",
 		icon: AppstoreOutlined
 	},
 	{

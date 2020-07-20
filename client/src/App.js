@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import "antd/dist/antd.css";
 import "./App.css";
 
@@ -12,7 +12,6 @@ const App = () => {
 				<Route exact path="/login" component={Login} />
 				<Route path="/" component={Navigator} />
 			</Switch>
-			<Redirect from="/" to="/login" />
 		</Switch>
 	);
 };

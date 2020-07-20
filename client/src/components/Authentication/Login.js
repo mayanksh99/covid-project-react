@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Row, Col } from "antd";
-import { Form, Input, Button } from "antd";
+import { Row, Col, Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { Card } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 import { notification } from "antd";
@@ -40,82 +38,69 @@ const Login = props => {
 				</Col>
 				<Col span={14}>
 					<div className="login-card-container">
-						<Card className="login-form-card">
-							<div className="login-card-head">
-								Log in to your account
-							</div>
-							<hr />
-							<Form
-								name="normal_login"
-								className="login-form"
-								initialValues={{ remember: true }}
-								onFinish={onFinish}
-								onFinishFailed={onFinishFailed}
+						<h2 className="login-card-head">
+							Log in to your account
+						</h2>
+						<Form
+							name="normal_login"
+							className="login-form"
+							initialValues={{ remember: true }}
+							onFinish={onFinish}
+							onFinishFailed={onFinishFailed}
+						>
+							<Form.Item
+								className="imput-field"
+								name="username"
+								rules={[
+									{
+										required: true,
+										message: "Please input your Username!"
+									}
+								]}
 							>
-								<Form.Item
-									className="imput-field"
-									name="username"
-									rules={[
-										{
-											required: true,
-											message:
-												"Please input your Username!"
-										}
-									]}
+								<Input
+									prefix={
+										<UserOutlined className="site-form-item-icon" />
+									}
+									placeholder="Username"
+								/>
+							</Form.Item>
+							<Form.Item
+								className="imput-field"
+								name="password"
+								rules={[
+									{
+										required: true,
+										message: "Please input your Password!"
+									}
+								]}
+							>
+								<Input.Password
+									prefix={
+										<LockOutlined className="site-form-item-icon" />
+									}
+									placeholder="Password"
+									iconRender={visible =>
+										visible ? (
+											<EyeTwoTone />
+										) : (
+											<EyeInvisibleOutlined />
+										)
+									}
+								/>
+							</Form.Item>
+							<Form.Item>
+								<Button
+									type="primary"
+									htmlType="submit"
+									className="login-form-button"
+									block
 								>
-									<Input
-										prefix={
-											<UserOutlined className="site-form-item-icon" />
-										}
-										placeholder="Username"
-									/>
-								</Form.Item>
-								<Form.Item
-									className="imput-field"
-									name="password"
-									rules={[
-										{
-											required: true,
-											message:
-												"Please input your Password!"
-										}
-									]}
-								>
-									{/* <Input
-										prefix={
-											<LockOutlined className="site-form-item-icon" />
-										}
-										type="password"
-										placeholder="Password"
-										
-									/> */}
-									<Input.Password
-										prefix={
-											<LockOutlined className="site-form-item-icon" />
-										}
-										placeholder="Password"
-										iconRender={visible =>
-											visible ? (
-												<EyeTwoTone />
-											) : (
-												<EyeInvisibleOutlined />
-											)
-										}
-									/>
-								</Form.Item>
-								<Form.Item>
-									<Button
-										type="primary"
-										htmlType="submit"
-										className="login-form-button"
-										block
-									>
-										Log in
-									</Button>
-								</Form.Item>
-								{/* <hr/> */}
-							</Form>
-						</Card>
+									Log in
+								</Button>
+							</Form.Item>
+							{/* <hr/> */}
+						</Form>
 					</div>
 				</Col>
 			</Row>

@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { Menu } from "antd";
 import { UserOutlined, DesktopOutlined } from "@ant-design/icons";
 import "./style.css";

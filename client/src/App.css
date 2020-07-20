@@ -1,7 +1,40 @@
-@import url("https://fonts.googleapis.com/css2?family=Sen:wght@400;700;800&display=swap");
+/* :root {
+	--bg: #424242;
+	--primarycolor: #42548f;
+	--shadow: #f2f2f2;
+} */
+
+@font-face {
+	font-family: "GoogleSansRG";
+	src: url("/assets/fonts/GoogleSansDisplayRegular.ttf");
+}
+
+@font-face {
+	font-family: "GoogleSansMD";
+	src: url("/assets/fonts/GoogleSansDisplayMedium.ttf");
+}
+
+@font-face {
+	font-family: "GoogleSansBD";
+	src: url("/assets/fonts/GoogleSansDisplayBold.ttf");
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "GoogleSansBD";
+}
+
+p,
+label {
+	font-family: "GoogleSansRG";
+}
 
 body {
-  overflow-x: hidden;
-  font-family: Sen !important;
-  background-color: #f1f1f1 !important;
+	overflow-x: hidden;
+	font-family: "GoogleSansRG";
+	background-color: #f1f1f1 !important;
 }

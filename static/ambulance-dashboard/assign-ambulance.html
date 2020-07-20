@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <title>Assign-Ambulance</title>
+    <link rel="stylesheet" href="assign-ambulance.css" />
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="col-sm-3 dashboard">
+        <div class="style cont select">
+          <span class="material-icons icon">
+            dashboard
+          </span>
+          Dashboard
+        </div>
+        <div class="sub-list select">
+          <i class="fa fa-ambulance icon-large icon" aria-hidden="true"></i
+          >Assign Ambulance
+        </div>
+        <div class="sub-list select">
+          <i class="fa fa-check icon icon" aria-hidden="true"></i>Ambulance
+          Status
+        </div>
+        <div class="style select">
+          <i class="fa fa-address-card-o icon icon" aria-hidden="true"></i
+          >Profile
+        </div>
+        <div class="logout style select">
+          <i class="fa fa-sign-out icon icon" aria-hidden="true"></i>Log-out
+        </div>
+      </div>
+      <div class="col-sm-9 amb-front">
+        <div class="head">
+          <i class="fa fa-ambulance icon-large icon" aria-hidden="true"></i
+          >Assign Ambulance
+        </div>
+        <div class="amb-avlble">
+          Number of ambulance available &nbsp<span id="amb-available">6</span
+          >/<span id="total-avilable">28 </span>
+        </div>
+        <div class="head-2">
+          List of Patients to Assign Ambulance
+        </div>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Sr. no.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Area PIN</th>
+                <th scope="col">Hospital</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Govind Nagar</td>
+                <td>201206</td>
+                <td>IMS BHU</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-success btn-sm"
+                    data-toggle="modal"
+                    data-target="#amb-modal"
+                  >
+                    Assign Ambulance
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Govind Nagar</td>
+                <td>201206</td>
+                <td>IMS BHU</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-success btn-sm"
+                    data-toggle="modal"
+                    data-target="#amb-modal"
+                  >
+                    Assign Ambulance
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Govind Nagar</td>
+                <td>201206</td>
+                <td>IMS BHU</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-success btn-sm"
+                    data-toggle="modal"
+                    data-target="#amb-modal"
+                  >
+                    Assign Ambulance
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal-Assign-Ambulance-->
+    <div
+      class="modal fade"
+      id="amb-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="amb-modal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="amb-modal">Patient Details</h5>
+            <!-- <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button> -->
+            <button type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+            <span>
+              <div class='cross'>
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+            </span>
+          </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="form-field">Name</div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-res">Govind Nagar</div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-field">ID</div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-res">P1</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="form-field">Gender</div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-res">Male</div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-field">Age</div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-res">47 years</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="form-field">Phone</div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-res">+91-xxxxxxxxxx</div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-field">Hospital Address</div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-res">IMS BHU</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="form-field">District</div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-res">Ghaziabad</div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-field">Patient Address</div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-res">178/38 Modinagar Ghaziabad</div>
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="col-sm-2">
+                <div class="form-field">Name</div>
+                <div class="form-field">Gender</div>
+                <div class="form-field">Phone</div>
+                <div class="form-field">District</div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-res">Govind Nagar</div>
+                <div class="form-res">Male</div>
+                <div class="form-res">xxxxxxxxxx</div>
+                <div class="form-res">Ghaziabad</div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-field">ID</div>
+                <div class="form-field">Age</div>
+                <div class="form-field">Hospital Address</div>
+                <div class="form-field">Patient Address</div>
+              </div>
+              
+                <div class="form-res">P1</div>
+                <div class="form-res">47 years</div>
+                <div class="form-res">IMS BHU</div>
+                <div class="form-res">178/38 Modinagar Ghaziabad</div>
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col-sm-5 col-lg-3 form-field style1">
+                Assign Ambulance
+              </div>
+              <div class="col-sm-5 amb-drop style1">
+                <select class="select1">
+                  <option value="Name-Plate" class="item">Number-Plate</option>
+                  <option value="Name-Plate">Number-Plate</option>
+                  <option value="Name-Plate">Number-Plate</option>
+                  <option value="Name-Plate">Number-Plate</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-5 col-lg-3 form-field style2" style='padding-top: 8px;'>
+                Driver Name
+              </div>
+              <div class="col-sm-5 form-res style3">
+                <span>Dayanand Tiwari &nbsp
+                <span class="material-icons">
+                  create
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-5 col-lg-3 form-field style2">
+                Driver Phone
+              </div>
+              <div class="col-sm-5 form-res style3">
+                <span>+91-xxxxxxxxxx &nbsp</span>
+                <span class="material-icons">
+                  create
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary btn1"
+              data-dismiss="modal"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

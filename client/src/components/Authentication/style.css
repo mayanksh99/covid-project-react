@@ -1,12 +1,14 @@
 .login-poster {
 	height: 100vh;
+	margin: 0;
+	padding: 0;
 	background-image: url("/assets/images/doctor5.jpg");
 	background-size: contain;
 	background-repeat: no-repeat;
 }
 
 .login-grad {
-	height: 100vh;
+	height: 100%;
 	background: linear-gradient(
 		0deg,
 		#fe7676 16.55%,
@@ -20,4 +22,74 @@
 	font-size: 38px;
 	text-align: center;
 	padding-top: 600px;
+}
+
+.login-form-card {
+	width: 26em;
+	border-radius: 4px;
+	background: transparent;
+	/* box-shadow: 0 0 10px #00000029;
+	-moz-box-shadow: 0 0 10px #00000029;
+	-webkit-box-shadow: 0 0 10px #00000029;
+	-o-box-shadow: 0 0 10px #00000029; */
+}
+
+.login-card-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+.ant-card-body {
+	padding: 0;
+}
+
+.login-card-head {
+	padding-left: 22px;
+	padding-right: 22px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 1.15em;
+	font-weight: 700;
+}
+
+.login-form {
+	padding-left: 22px;
+	padding-right: 22px;
+	padding-bottom: 23px;
+	padding-top: 15px;
+}
+
+hr {
+	color: #f1f1f1;
+	background-color: #00000029;
+	padding: 0.5px;
+	margin: 0;
+	border: none;
+}
+
+.login-form-button {
+	background-color: #005ea5;
+	border-radius: 4px;
+	padding: 17px 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: 700;
+	margin-top: 10px;
+}
+
+.ant-input-affix-wrapper {
+	border: 1.5px solid #00000029;
+	border-radius: 4px;
+	background: #fafbfc;
+	padding: 6px 11px;
+	margin-top: 10px;
+}
+
+.ant-input-affix-wrapper > input.ant-input {
+	background: #fafbfc;
 }

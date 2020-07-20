@@ -2,14 +2,16 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import "antd/dist/antd.css";
 import "./App.css";
-import Login from "./components/Authentication/Login";
-import PatientExamine from "./components/Doctor/PatientExamine";
 
+import Login from "./components/Authentication/Login";
+import Navigator from "./components/Layout/Navigator";
 const App = () => {
 	return (
 		<Switch>
-			<Route exact path="/login" component={Login} />
-			<Route exact path="/patientexamine" component={PatientExamine} />
+			<Switch>
+				<Route exact path="/login" component={Login} />
+				<Route path="/" component={Navigator} />
+			</Switch>
 			<Redirect from="/" to="/login" />
 		</Switch>
 	);

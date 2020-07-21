@@ -12,6 +12,7 @@
         "react-scripts": "3.4.1"
     },
     "scripts": {
+        "format": "prettier --write 'src/**/*.{js,css,html}'",
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
@@ -31,5 +32,14 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "devDependencies": {
+        "husky": "^4.2.5",
+        "prettier": "^2.0.5"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run format"
+        }
     }
 }

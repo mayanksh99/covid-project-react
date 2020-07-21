@@ -118,7 +118,7 @@ const AddAmbulanceAdmin = props => {
 							className="login-form-button"
 							block
 						>
-							Log in
+							Submit
 						</Button>
 					</Form.Item>
 				</Form>

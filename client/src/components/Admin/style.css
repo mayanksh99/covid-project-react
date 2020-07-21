@@ -1,0 +1,12 @@
+thead[class*="ant-table-thead"] th {
+	font-weight: 600;
+	background-color: #c7c7c7 !important;
+}
+
+.ant-modal-header {
+	background-color: #005ea5;
+}
+
+.ant-modal-close-x {
+	color: #fff;
+}

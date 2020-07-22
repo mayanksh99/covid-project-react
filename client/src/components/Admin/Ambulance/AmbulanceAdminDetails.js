@@ -87,7 +87,7 @@ const AmbulanceAdminDetails = () => {
 			<AmbulanceAdminOption />
 			<div>
 				<h3 style={{ fontSize: "16px" }}>
-					Detail Ambulance Administrator
+					Detail of Ambulance Administrator
 				</h3>
 				<Row gutter={[16, 16]}>
 					<Col xs={24} sm={24} md={4} lg={6}>

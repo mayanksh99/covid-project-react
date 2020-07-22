@@ -1,6 +1,6 @@
 thead[class*="ant-table-thead"] th {
 	font-weight: 600;
-	background-color: #c7c7c7 !important;
+	background-color: #e6f7ff !important;
 }
 
 .ant-modal-header {
@@ -9,4 +9,29 @@ thead[class*="ant-table-thead"] th {
 
 .ant-modal-close-x {
 	color: #fff;
+}
+
+.ant-card,
+.ant-table {
+	border-radius: 4px !important;
+}
+
+.ambulance-button {
+	margin-top: 0px;
+}
+
+.profile-card-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.profile-data {
+	font-size: 16px;
+	font-weight: 500;
+}
+
+.profile-data-label {
+	color: #8c8c8c;
+	font-weight: 500;
 }

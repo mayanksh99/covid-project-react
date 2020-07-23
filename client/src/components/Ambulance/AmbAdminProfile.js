@@ -1,10 +1,23 @@
-import React from "react";
-import { Row, Col, Form, Input, Button } from "antd";
+import React, { useState } from "react";
+import { Row, Col, Form, Input, Button, Modal } from "antd";
 import "./style.css";
 
 const AmbAdminProfile = () => {
+	const [isVisible, setIsVisible] = useState(false);
 	const onFinish = values => {
 		console.log("form O/P ", values);
+	};
+
+	const showModal = () => {
+		setIsVisible(!isVisible);
+	};
+
+	const handleOk = () => {
+		setIsVisible(!isVisible);
+	};
+
+	const handleCancel = () => {
+		setIsVisible(!isVisible);
 	};
 
 	return (
@@ -109,6 +122,95 @@ const AmbAdminProfile = () => {
 					Change Password
 				</Button>
 			</Form>
+			<div style={{ marginTop: "20px" }}>
+				<Button type="primary" onClick={showModal}>
+					Add Ambulance
+				</Button>
+			</div>
+
+			<Modal
+				title="Patient Details"
+				visible={isVisible}
+				centered
+				onCancel={handleCancel}
+				footer={[
+					<Button
+						key="submit"
+						type="primary"
+						onClick={handleOk}
+						htmlType="submit"
+					>
+						Submit
+					</Button>
+				]}
+			>
+				<Form name="register" onFinish={onFinish}>
+					<Row>
+						<Col span={8}>Vehicle Number</Col>
+						<Col>
+							<Form.Item
+								name="Vehicle Number"
+								rules={[
+									{
+										required: true,
+										message: "Please input this field"
+									}
+								]}
+							>
+								<Input className="pwd" />
+							</Form.Item>
+						</Col>
+					</Row>
+					<Row>
+						<Col span={8}>Driver Name</Col>
+						<Col>
+							<Form.Item
+								name="Driver Name"
+								rules={[
+									{
+										required: true,
+										message: "Please input this field"
+									}
+								]}
+							>
+								<Input className="pwd" />
+							</Form.Item>
+						</Col>
+					</Row>
+					<Row>
+						<Col span={8}>Driver Phone</Col>
+						<Col>
+							<Form.Item
+								name="Driver Phone"
+								rules={[
+									{
+										required: true,
+										message: "Please input this field"
+									}
+								]}
+							>
+								<Input className="pwd" />
+							</Form.Item>
+						</Col>
+					</Row>
+					<Row>
+						<Col span={8}>Area</Col>
+						<Col>
+							<Form.Item
+								name="Area"
+								rules={[
+									{
+										required: true,
+										message: "Please input this field"
+									}
+								]}
+							>
+								<Input className="pwd" />
+							</Form.Item>
+						</Col>
+					</Row>
+				</Form>
+			</Modal>
 		</div>
 	);
 };

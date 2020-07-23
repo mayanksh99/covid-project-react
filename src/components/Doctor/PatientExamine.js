@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Statistic } from "antd";
-// import PageTitle from "../common/PageTitle";
+import PageTitle from "../common/PageTitle";
 
 import { Table, Tag, Space } from "antd";
 
@@ -80,12 +80,12 @@ const data = [
 const PatientExamine = () => {
 	return (
 		<>
-			{/* <PageTitle title="Examine Patients" /> */}
+			<PageTitle title="Examine Patients" />
 			<Statistic
 				title="Number of patients left to examine"
 				value={365}
 				valueStyle={{
-					fontWeight: 800,
+					fontWeight: 900,
 					fontSize: "2em",
 					color: "#005ea5"
 				}}

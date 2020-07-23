@@ -27,7 +27,7 @@ const AssignAmbulance = () => {
 
 	const data = [];
 
-	for (let i = 1; i <= 100; i++) {
+	for (let i = 1; i <= 4; i++) {
 		data.push({
 			key: i,
 			name: "John Blue",

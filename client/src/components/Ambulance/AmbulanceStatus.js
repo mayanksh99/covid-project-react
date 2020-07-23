@@ -55,7 +55,7 @@ const AmbulanceStatus = () => {
 
 	const data = [];
 
-	for (let i = 1; i <= 25; i++) {
+	for (let i = 1; i <= 6; i++) {
 		data.push({
 			key: i,
 			status: "available",

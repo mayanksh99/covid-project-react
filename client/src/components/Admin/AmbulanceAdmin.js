@@ -132,15 +132,15 @@ const AmbulanceAdmin = () => {
 							allowClear
 						/>
 					</Col>
-					<Card
+					{/* <Card
 						style={{ padding: 0, width: "100%", overflowX: "auto" }}
-					>
-						<Table
-							columns={columns}
-							dataSource={data}
-							pagination={{ position: ["bottomCenter"] }}
-						/>
-					</Card>
+					> */}
+					<Table
+						columns={columns}
+						dataSource={data}
+						pagination={{ position: ["bottomCenter"] }}
+					/>
+					{/* </Card> */}
 				</div>
 			</div>
 			{/* <Drawer

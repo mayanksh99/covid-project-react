@@ -2,15 +2,19 @@ import React from "react";
 import Dashboard from "../components/Dashboard/Dashboard";
 import PatientExamine from "../components/Doctor/PatientExamine";
 import AssignAmbulance from "../components/Ambulance/AssignAmbulance";
+import AmbulanceStatus from "../components/Ambulance/AmbulanceStatus";
 import AssignBed from "../components/Hospital/AssignBed";
 import DoctorProfile from "../components/Doctor/DoctorProfile";
+import AmbAdminProfile from "../components/Ambulance/AmbAdminProfile";
 
 import {
 	AppstoreOutlined,
 	MedicineBoxOutlined,
-	UserOutlined
+	UserOutlined,
+	CheckOutlined
 } from "@ant-design/icons";
 import Icon from "@ant-design/icons";
+import AmbulanceAdmin from "./../components/Admin/AmbulanceAdmin";
 
 const BedSvg = () => (
 	<svg fill="currentColor" viewBox="0 0 640 512" height="1em" width="1em">
@@ -36,7 +40,7 @@ let routes = [
 		exact: true,
 		name: "Dashboard",
 		component: Dashboard,
-		key: "Dashboard",
+		key: "dashboard",
 		icon: AppstoreOutlined
 	},
 	{
@@ -48,12 +52,28 @@ let routes = [
 		icon: MedicineBoxOutlined
 	},
 	{
+		path: "/amb-admin-Profile",
+		exact: true,
+		name: "Amb-Admin Profile",
+		component: AmbAdminProfile,
+		key: "amb-admin-profile",
+		icon: UserOutlined
+	},
+	{
 		path: "/assignambulance",
 		exact: true,
 		component: AssignAmbulance,
 		name: "Assign Ambulance",
 		key: "AssignAmbulance",
 		icon: AmbulanceIcon
+	},
+	{
+		path: "/ambulancestatus",
+		exact: true,
+		component: AmbulanceStatus,
+		name: "Ambulance Status",
+		key: "AmbulanceStatus",
+		icon: CheckOutlined
 	},
 	{
 		path: "/assignbed",
@@ -70,6 +90,14 @@ let routes = [
 		name: "Doctor Profile",
 		key: "DoctorProfile",
 		icon: UserOutlined
+	},
+	{
+		path: "/ambulanceadmin",
+		exact: true,
+		component: AmbulanceAdmin,
+		name: "Ambulance",
+		key: "AmbulanceAdmin",
+		icon: AmbulanceIcon
 	}
 ];
 

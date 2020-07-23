@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Form, Input, Button, notification } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./style.css";
+
 const Login = props => {
 	const [isLoading, setIsLoading] = useState(false);
 

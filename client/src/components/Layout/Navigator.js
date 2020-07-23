@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Layout, Menu } from "antd";
 import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import routes from "../../utils/_routes";
@@ -33,6 +33,7 @@ const Dashboard = props => {
 						trigger={null}
 						collapsible
 						collapsed={isCollapsed}
+						width={280}
 					>
 						<Menu
 							theme="light"

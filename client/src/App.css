@@ -38,3 +38,17 @@ body {
 	font-family: "GoogleSansRG";
 	background-color: #fafbfc !important;
 }
+
+.ant-menu-item:hover,
+.at-menu-item:active,
+.ant-menu-item-selected {
+	color: #008db9;
+}
+
+li.ant-menu-item.ant-menu-item-selected::after {
+	border: 2px solid #008db9;
+}
+
+.ant-menu {
+	margin-top: 32px;
+}

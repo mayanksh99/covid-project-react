@@ -11,6 +11,7 @@ import {
 	UserOutlined
 } from "@ant-design/icons";
 import Icon from "@ant-design/icons";
+import AmbulanceAdmin from "./../components/Admin/AmbulanceAdmin";
 
 const BedSvg = () => (
 	<svg fill="currentColor" viewBox="0 0 640 512" height="1em" width="1em">
@@ -36,7 +37,7 @@ let routes = [
 		exact: true,
 		name: "Dashboard",
 		component: Dashboard,
-		key: "Dashboard",
+		key: "dashboard",
 		icon: AppstoreOutlined
 	},
 	{
@@ -70,6 +71,14 @@ let routes = [
 		name: "Doctor Profile",
 		key: "DoctorProfile",
 		icon: UserOutlined
+	},
+	{
+		path: "/ambulanceadmin",
+		exact: true,
+		component: AmbulanceAdmin,
+		name: "Ambulance",
+		key: "AmbulanceAdmin",
+		icon: AmbulanceIcon
 	}
 ];
 

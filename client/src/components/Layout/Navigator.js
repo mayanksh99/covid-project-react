@@ -34,6 +34,7 @@ const Dashboard = props => {
 						trigger={null}
 						collapsible
 						collapsed={isCollapsed}
+						width={280}
 					>
 						<Menu
 							theme="light"

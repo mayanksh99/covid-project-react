@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Form, Input, Button, notification } from "antd";
 import {
 	EyeInvisibleOutlined,
@@ -10,21 +10,27 @@ import {
 import "./style.css";
 
 const Login = props => {
+	const [isLoading, setIsLoading] = useState(false);
+
 	const onFinish = values => {
+		setIsLoading(!isLoading);
 		console.log("Received values of form: ", values);
 		notification.success({
 			description: "Log in Successful",
 			duration: 2,
 			message: "Success"
 		});
+		setIsLoading(!isLoading);
 	};
 
 	const onFinishFailed = values => {
+		setIsLoading(!isLoading);
 		notification.error({
 			description: "Log in Failed",
 			duration: 2,
 			message: "Error"
 		});
+		setIsLoading(!isLoading);
 	};
 
 	return (
@@ -62,6 +68,7 @@ const Login = props => {
 								]}
 							>
 								<Input
+									className="input-field"
 									prefix={
 										<UserOutlined className="site-form-item-icon" />
 									}
@@ -79,17 +86,11 @@ const Login = props => {
 								]}
 							>
 								<Input.Password
+									className="input-field"
 									prefix={
 										<LockOutlined className="site-form-item-icon" />
 									}
 									placeholder="Password"
-									iconRender={visible =>
-										visible ? (
-											<EyeTwoTone />
-										) : (
-											<EyeInvisibleOutlined />
-										)
-									}
 								/>
 							</Form.Item>
 							<Form.Item>

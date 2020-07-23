@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Table, Row, Col, Select } from "antd";
 import "./style.css";
+import PageTitle from "../common/PageTitle";
+
 const AmbulanceStatus = () => {
 	const { Option } = Select;
 	const [isVisible, setIsVisible] = useState(false);
@@ -53,7 +55,7 @@ const AmbulanceStatus = () => {
 
 	const data = [];
 
-	for (let i = 1; i <= 25; i++) {
+	for (let i = 1; i <= 6; i++) {
 		data.push({
 			key: i,
 			status: "available",
@@ -64,7 +66,7 @@ const AmbulanceStatus = () => {
 
 	return (
 		<div className="container">
-			<div className="heading">Ambulance Status</div>
+			<PageTitle title="Ambulance Status" />
 
 			<Table
 				size="middle"

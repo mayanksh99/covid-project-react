@@ -1,9 +1,10 @@
 import React from "react";
+import PageTitle from "../common/PageTitle";
 
 const Dashboard = () => {
 	return (
 		<div>
-			<h2>Dashboard</h2>
+			<PageTitle title="Dashboard" />
 		</div>
 	);
 };

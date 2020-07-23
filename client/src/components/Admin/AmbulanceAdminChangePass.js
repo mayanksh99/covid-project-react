@@ -1,8 +1,6 @@
 import React from "react";
-import { Form } from "antd";
-import { Input } from "antd";
+import { Form, Button, Input } from "antd";
 import { LockOutlined } from "@ant-design/icons";
-import { Button } from "antd";
 
 const AmbulanceAdminChangePass = () => {
 	return (

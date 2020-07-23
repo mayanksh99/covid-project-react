@@ -5,7 +5,7 @@
 
 .heading {
 	font-size: 2.5em;
-	font-weight: 700;
+	font-family: GoogleSansBd;
 	background-image: linear-gradient(
 		0deg,
 		rgba(0, 0, 0, 0.2) 0,
@@ -20,7 +20,7 @@
 
 .heading2 {
 	font-size: 1.5em;
-	font-weight: 700;
+	font-family: GoogleSansBd;
 	background-image: linear-gradient(
 		0deg,
 		rgba(0, 0, 0, 0.2) 0,
@@ -39,21 +39,18 @@
 
 .ant-table-title {
 	font-size: 1.5em;
-	font-weight: 800;
-	text-align: center;
+	font-family: GoogleSansMd;
 	border-radius: 4px 4px 0px 0px;
-	background: rgb(0, 141, 185, 0.75);
-	color: white;
+	color: #424242;
 }
 
 .ant-table-thead > tr > th {
-	background: rgb(0, 141, 185, 0.42);
+	/* background: rgb(0, 141, 185, 0.42); */
 	font-size: 18px;
-	font-weight: 400;
 }
 
 .ant-table-tbody > tr > td {
-	background: rgb(0, 141, 185, 0.15);
+	/* background: rgb(0, 141, 185, 0.15); */
 	font-size: 16px;
 	border-color: rgb(0, 141, 185, 0.17);
 }
@@ -65,13 +62,13 @@
 .ant-statistic-content-value-int {
 	margin-bottom: 10px;
 	font-size: 30px;
-	font-weight: 500;
+	font-family: GoogleSansMd;
 }
 
 .ant-statistic-content-suffix {
 	margin-bottom: 10px;
 	font-size: 20px;
-	font-weight: 500;
+	font-family: GoogleSansMd;
 }
 
 .ant-pagination-item-active a {

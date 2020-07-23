@@ -9,6 +9,7 @@ import {
 	CheckCircleOutlined
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import PageTitle from "../common/PageTitle";
 
 const AmbulanceAdmin = () => {
 	const columns = [
@@ -116,7 +117,7 @@ const AmbulanceAdmin = () => {
 
 	return (
 		<>
-			<h2 className="login-card-head">Ambulance</h2>
+			<PageTitle title="Ambulance" />
 			<AmbulanceAdminOption />
 			<div className="table-wrapper-card">
 				<h3 style={{ fontSize: "16px" }}>
@@ -131,15 +132,15 @@ const AmbulanceAdmin = () => {
 							allowClear
 						/>
 					</Col>
-					<Card
+					{/* <Card
 						style={{ padding: 0, width: "100%", overflowX: "auto" }}
-					>
-						<Table
-							columns={columns}
-							dataSource={data}
-							pagination={{ position: ["bottomCenter"] }}
-						/>
-					</Card>
+					> */}
+					<Table
+						columns={columns}
+						dataSource={data}
+						pagination={{ position: ["bottomCenter"] }}
+					/>
+					{/* </Card> */}
 				</div>
 			</div>
 			{/* <Drawer

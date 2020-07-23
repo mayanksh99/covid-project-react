@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Form, Input, Button, Modal } from "antd";
 import "./style.css";
+import PageTitle from "../common/PageTitle";
 
 const AmbAdminProfile = () => {
 	const [isVisible, setIsVisible] = useState(false);
@@ -22,7 +23,7 @@ const AmbAdminProfile = () => {
 
 	return (
 		<div className="container">
-			<div className="heading">Profile</div>
+			<PageTitle title="Profile" />
 			<Row>
 				<Col span={3}>Name</Col>
 				<Col>Dayanand tiwari</Col>
@@ -35,9 +36,8 @@ const AmbAdminProfile = () => {
 				<Col span={3}>ID</Col>
 				<Col>P1</Col>
 			</Row>
-			<div className="heading2" style={{ marginTop: "40px" }}>
-				Change Password
-			</div>
+			<PageTitle title="Change Password" style={{ marginTop: "40px" }} />
+
 			<Form name="register" onFinish={onFinish}>
 				<Row>
 					<Col span={4}>Current Password</Col>

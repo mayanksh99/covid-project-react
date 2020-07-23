@@ -52,3 +52,8 @@ li.ant-menu-item.ant-menu-item-selected::after {
 .ant-menu {
 	margin-top: 32px;
 }
+
+.ant-statistic-content-value-int {
+	font-weight: 900 !important;
+	color: #005ea5;
+}

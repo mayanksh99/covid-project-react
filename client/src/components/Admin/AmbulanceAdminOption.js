@@ -12,18 +12,10 @@ const AmbulanceAdminOption = props => {
 		<div style={{ marginTop: "16px", marginBottom: "14px" }}>
 			<Row>
 				<Col xl={8} lg={8} md={12} sm={24} xs={24}>
-					<Statistic
-						title="Total"
-						value={113}
-						valueStyle={{ color: "#005ea5", fontWeight: 600 }}
-					/>
+					<Statistic title="Total" value={113} />
 				</Col>
 				<Col xl={8} lg={8} md={12} sm={24} xs={24}>
-					<Statistic
-						title="Available"
-						value={13}
-						valueStyle={{ color: "#005ea5", fontWeight: 600 }}
-					/>
+					<Statistic title="Available" value={13} />
 				</Col>
 				<Col xl={8} lg={8} md={12} sm={24} xs={24}>
 					<Button

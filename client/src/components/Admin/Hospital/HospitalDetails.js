@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { Row, Col, Card, Button, Table, Statistic, Form, Input } from "antd";
 import { BedSvg } from "./../../../utils/_routes";
+import UpdatePatientReport from "./UpdatePatientReport";
 
 const HospitalDetails = () => {
 	const [showBedChange, setShowBedChange] = useState(false);
+	const [showModal, setShowModal] = useState(false);
+
+	const handleModal = value => {
+		setShowModal(value);
+	};
+
 	const columns = [
 		{
 			title: "#",
@@ -28,17 +35,18 @@ const HospitalDetails = () => {
 		{
 			title: "Action",
 			dataIndex: "action",
-			key: "action"
-			// render: action => (
-			// 	<>
-			// 		<Select placeholder="select status">
-			// 			<Option value="available">Available</Option>
-			// 			<Option value="on-duty">On duty</Option>
-			// 			<Option value="disable">Disable</Option>
-			// 			<Option value="remove">Remove</Option>
-			// 		</Select>
-			// 	</>
-			// )
+			key: "action",
+			render: () => (
+				<>
+					<Button
+						type="primary"
+						className="login-form-button ambulance-button"
+						onClick={() => handleModal(true)}
+					>
+						Update Report
+					</Button>
+				</>
+			)
 		}
 	];
 
@@ -118,9 +126,9 @@ const HospitalDetails = () => {
 										Email
 									</span>
 									<br />
-									<p className="profile-data">
+									<span className="profile-data">
 										its.hospital@gmail.com
-									</p>
+									</span>
 								</p>
 								<p>
 									<span className="profile-data-label">
@@ -232,7 +240,7 @@ const HospitalDetails = () => {
 									fontWeight: 700
 								}}
 							>
-								List of Ambulances
+								List of Patients
 							</p>
 							<div
 								style={{
@@ -251,7 +259,10 @@ const HospitalDetails = () => {
 					</Col>
 				</Row>
 			</div>
-			{/* <AddAmbulance visible={showModal} handleModal={handleModal} /> */}
+			<UpdatePatientReport
+				visible={showModal}
+				handleModal={handleModal}
+			/>
 		</div>
 	);
 };

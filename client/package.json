@@ -1,50 +1,4 @@
 {
-<<<<<<< HEAD
-    "name": "covid-project-react",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-        "@ant-design/icons": "^4.2.1",
-        "antd": "^4.4.2",
-        "moment": "^2.27.0",
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1",
-        "react-router-dom": "^5.2.0",
-        "react-scripts": "3.4.1"
-    },
-    "scripts": {
-        "format": "prettier --write 'src/**/*.{js,css,html}'",
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
-    },
-    "eslintConfig": {
-        "extends": "react-app"
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
-    "devDependencies": {
-        "husky": "^4.2.5",
-        "prettier": "^2.0.5"
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "npm run format"
-        }
-    }
-}
-=======
   "name": "covid-project-react",
   "version": "0.1.0",
   "private": true,
@@ -89,4 +43,3 @@
     }
   }
 }
->>>>>>> 38a53331e550e9428d482158423d455d5010252c

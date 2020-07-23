@@ -1,9 +1,11 @@
 import React from "react";
-import { Row, Col, Form, Input, Button } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-
-import { notification } from "antd";
+import { Row, Col, Form, Input, Button, notification } from "antd";
+import {
+	EyeInvisibleOutlined,
+	EyeTwoTone,
+	UserOutlined,
+	LockOutlined
+} from "@ant-design/icons";
 
 import "./style.css";
 

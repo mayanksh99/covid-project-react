@@ -36,3 +36,8 @@ thead[class*="ant-table-thead"] th {
 	color: #8c8c8c;
 	font-weight: 500;
 }
+
+.patient-form-wrapper {
+	display: flex;
+	justify-content: center;
+}

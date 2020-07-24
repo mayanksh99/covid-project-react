@@ -3,7 +3,6 @@ import { Row, Col, Card, Button, Table, Statistic, Form, Input } from "antd";
 import { BedSvg } from "./../../../utils/_routes";
 import UpdatePatientReport from "./UpdatePatientReport";
 import PageTitle from "./../../common/PageTitle";
-import { CheckCircleFilled } from "@ant-design/icons";
 
 const HospitalDetails = () => {
 	const [showBedChange, setShowBedChange] = useState(false);

@@ -13,11 +13,16 @@ import {
 	MedicineBoxOutlined,
 	UserOutlined,
 	CheckOutlined,
+	UsergroupAddOutlined,
+	UserSwitchOutlined,
 	BookOutlined
 } from "@ant-design/icons";
 import Icon from "@ant-design/icons";
 import AmbulanceAdmin from "../components/Admin/Ambulance/AmbulanceAdmin";
 import HospitalAdmin from "./../components/Admin/Hospital/HospitalAdmin";
+import DoctorAdmin from "./../components/Admin/Doctor/DoctorAdmin";
+import AdminList from "./../components/Admin/AdminList";
+import PatientList from "./../components/Admin/PatientList";
 
 export const BedSvg = () => (
 	<svg fill="currentColor" viewBox="0 0 640 512" height="1em" width="1em">
@@ -117,6 +122,30 @@ let routes = [
 		component: HospitalAdmin,
 		key: "HospitalAdmin",
 		icon: MedicineBoxOutlined
+	},
+	{
+		path: "/doctoradmin",
+		exact: true,
+		name: "Doctor",
+		component: DoctorAdmin,
+		key: "DoctorAdmin",
+		icon: MedicineBoxOutlined
+	},
+	{
+		path: "/adminlist",
+		exact: true,
+		name: "Admin",
+		component: AdminList,
+		key: "AdminList",
+		icon: UsergroupAddOutlined
+	},
+	{
+		path: "/patientlist",
+		exact: true,
+		name: "Patient",
+		component: PatientList,
+		key: "PatientList",
+		icon: UserSwitchOutlined
 	}
 ];
 

@@ -1,0 +1,59 @@
+/* :root {
+	--bg: #424242;
+	--primarycolor: #42548f;
+	--shadow: #f2f2f2;
+} */
+
+@font-face {
+	font-family: "GoogleSansRG";
+	src: url("/assets/fonts/GoogleSansDisplayRegular.ttf");
+}
+
+@font-face {
+	font-family: "GoogleSansMD";
+	src: url("/assets/fonts/GoogleSansDisplayMedium.ttf");
+}
+
+@font-face {
+	font-family: "GoogleSansBD";
+	src: url("/assets/fonts/GoogleSansDisplayBold.ttf");
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "GoogleSansBD";
+}
+
+p,
+label {
+	font-family: "GoogleSansRG";
+}
+
+body {
+	overflow-x: hidden;
+	font-family: "GoogleSansRG";
+	background-color: #fafbfc !important;
+}
+
+.ant-menu-item:hover,
+.at-menu-item:active,
+.ant-menu-item-selected {
+	color: #008db9;
+}
+
+li.ant-menu-item.ant-menu-item-selected::after {
+	border: 2px solid #008db9;
+}
+
+.ant-menu {
+	margin-top: 32px;
+}
+
+.ant-statistic-content-value-int {
+	font-weight: 900 !important;
+	color: #005ea5;
+}

@@ -24,6 +24,7 @@ import {
 	DeleteOutlined
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import AddAdmin from "./AddAdmin";
 
 const { Option } = Select;
 
@@ -138,123 +139,10 @@ const AdminList = () => {
 			</Col>
 			<br />
 			<Row gutter={[16, 16]}>
-				<Col xs={24} sm={24} md={4} lg={6}>
-					<Card>
-						<p
-							style={{
-								fontSize: "18px",
-								color: "#008DB9",
-								fontWeight: 700
-							}}
-						>
-							Add Admin
-						</p>
-						<Form
-							layout="vertical"
-							name="update_patient"
-							className="login-form"
-							initialValues={{ remember: true }}
-						>
-							<Form.Item
-								name="name"
-								label="Name"
-								rules={[
-									{
-										required: true,
-										message: "Please input name!"
-									}
-								]}
-							>
-								<Input
-									className="input-field"
-									placeholder="Enter name"
-									prefix={<UserOutlined />}
-								/>
-							</Form.Item>
-							<Form.Item
-								name="email"
-								label="Email"
-								rules={[
-									{
-										required: true,
-										message: "Please input email!"
-									}
-								]}
-							>
-								<Input
-									className="input-field"
-									placeholder="Enter email"
-									prefix={<MailOutlined />}
-								/>
-							</Form.Item>
-							<Form.Item
-								name="role"
-								label="Role"
-								rules={[
-									{
-										required: true,
-										message: "Please select role!"
-									}
-								]}
-							>
-								<Select
-									placeholder="Select role"
-									// className="input-field"
-									prefix={<MailOutlined />}
-								>
-									<Option value="Master">Master</Option>
-									<Option value="Doctor">Doctor</Option>
-									<Option value="Hospital">Hospital</Option>
-									<Option value="Ambulance">Ambulance</Option>
-								</Select>
-							</Form.Item>
-							<Form.Item
-								name="password"
-								label="Password"
-								rules={[
-									{
-										required: true,
-										message: "Please input password!"
-									}
-								]}
-							>
-								<Input.Password
-									className="input-field"
-									placeholder="Enter password"
-									prefix={<LockOutlined />}
-								/>
-							</Form.Item>
-							<Form.Item
-								name="password"
-								label="Re-Password"
-								rules={[
-									{
-										required: true,
-										message: "Please input password!"
-									}
-								]}
-							>
-								<Input.Password
-									className="input-field"
-									placeholder="Enter Re-password"
-									prefix={<LockOutlined />}
-								/>
-							</Form.Item>
-
-							<Form.Item>
-								<Button
-									type="primary"
-									htmlType="submit"
-									className="login-form-button"
-									block
-								>
-									Submit
-								</Button>
-							</Form.Item>
-						</Form>
-					</Card>
+				<Col xs={24} sm={24} md={24} lg={8} xl={6}>
+					<AddAdmin />
 				</Col>
-				<Col xs={24} sm={24} md={20} lg={18}>
+				<Col xs={24} sm={24} md={24} lg={16} xl={18}>
 					<Card>
 						<p
 							style={{

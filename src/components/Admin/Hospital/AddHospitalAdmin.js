@@ -1,13 +1,14 @@
 import React from "react";
-import { Modal, Form, Input } from "antd";
+import { Modal, Row, Col, Form, Button, Input } from "antd";
 import {
 	UserOutlined,
 	PhoneOutlined,
-	PushpinOutlined
+	PushpinOutlined,
+	MailOutlined,
+	LockOutlined
 } from "@ant-design/icons";
-import { Button } from "antd";
 
-const AddAmbulance = props => {
+const AddHospitalAdmin = props => {
 	return (
 		<div>
 			<Modal
@@ -19,83 +20,83 @@ const AddAmbulance = props => {
 							color: "#fff"
 						}}
 					>
-						Add Ambulance
+						Add Hospital
 					</h3>
 				}
 				visible={props.visible}
 				onCancel={() => props.handleModal(!props.visible)}
 				footer={null}
 				width={400}
-				style={{ top: 50 }}
+				style={{ top: 10 }}
 			>
 				<Form
 					layout="vertical"
-					name="normal_login"
+					name="update_patient"
 					className="login-form"
 					initialValues={{ remember: true }}
 				>
 					<Form.Item
-						name="vehiclename"
-						label="Vehicle Name"
+						name="name"
+						label="Hospital Name"
 						rules={[
 							{
 								required: true,
-								message: "Please input vehicle name!"
+								message: "Please input name!"
 							}
 						]}
 					>
 						<Input
 							className="input-field"
-							placeholder="Enter vehicle name"
+							placeholder="Enter name"
 							prefix={<UserOutlined />}
 						/>
 					</Form.Item>
 					<Form.Item
-						name="drivername"
-						label="Driver Name"
+						name="email"
+						label="Email"
 						rules={[
 							{
 								required: true,
-								message: "Please input driver name!"
+								message: "Please input email!"
 							}
 						]}
 					>
 						<Input
 							className="input-field"
-							placeholder="Enter driver name"
-							prefix={<UserOutlined />}
+							placeholder="Enter email"
+							prefix={<MailOutlined />}
 						/>
 					</Form.Item>
 					<Form.Item
-						name="driverphone"
-						label="Driver Phone No."
+						name="password"
+						label="Password"
 						rules={[
 							{
 								required: true,
-								message: "Please input driver phone no.!"
+								message: "Please input password!"
 							}
 						]}
 					>
-						<Input
+						<Input.Password
 							className="input-field"
-							placeholder="Enter driver phone no."
-							prefix={<PhoneOutlined />}
+							placeholder="Enter password"
+							prefix={<LockOutlined />}
 						/>
 					</Form.Item>
 					<Form.Item
-						name="areapin"
-						label="Area Pin"
+						name="password"
+						label="Re-Password"
 						rules={[
 							{
 								required: true,
-								message: "Please input area pin!"
+								message: "Please input password!"
 							}
 						]}
 					>
-						<Input
+						<Input.Password
 							className="input-field"
-							placeholder="Enter area pin"
-							prefix={<PushpinOutlined />}
+							placeholder="Enter Re-password"
+							prefix={<LockOutlined />}
 						/>
 					</Form.Item>
 
@@ -115,4 +116,4 @@ const AddAmbulance = props => {
 	);
 };
 
-export default AddAmbulance;
+export default AddHospitalAdmin;

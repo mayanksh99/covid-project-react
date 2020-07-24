@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AmbulanceAdminOption from "./AmbulanceAdminOption";
 import { Card, Row, Col, Table, Tag, Select, Button } from "antd";
 import AddAmbulance from "./AddAmbulance";
+import PageTitle from "./../../common/PageTitle";
 
 const { Option } = Select;
 
@@ -83,7 +84,8 @@ const AmbulanceAdminDetails = () => {
 
 	return (
 		<div>
-			<h2 className="login-card-head">Ambulance</h2>
+			<PageTitle title="Ambulance" />
+
 			<AmbulanceAdminOption />
 			<div>
 				<h3 style={{ fontSize: "16px" }}>

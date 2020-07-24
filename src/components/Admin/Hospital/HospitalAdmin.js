@@ -1,12 +1,14 @@
 import React from "react";
 import { Col, Input, Card, Table, Popconfirm, Tooltip, Divider } from "antd";
 import { Link } from "react-router-dom";
+import PageTitle from "./../../common/PageTitle";
 import {
 	CloseCircleOutlined,
 	CheckCircleOutlined,
 	EditOutlined,
 	DeleteOutlined
 } from "@ant-design/icons";
+import HospitalAdminOption from "./HospitalAdminOption";
 
 const HospitalAdmin = () => {
 	const columns = [
@@ -113,12 +115,14 @@ const HospitalAdmin = () => {
 	];
 	return (
 		<div>
-			<h2 className="login-card-head">Hospital</h2>
-			<div className="table-wrapper-card">
+			<PageTitle title="Hospital" />
+			<HospitalAdminOption />
+			<div>
 				<h3 style={{ fontSize: "16px" }}>List of Hospitals</h3>
 				<div>
 					<Col span={6}>
 						<Input.Search
+							className="input-field"
 							type="text"
 							style={{ width: 200, marginBottom: 12 }}
 							placeholder="Search"

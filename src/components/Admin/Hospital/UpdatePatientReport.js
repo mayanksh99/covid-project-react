@@ -1,11 +1,11 @@
 import React from "react";
-import { Modal, Row, Col, Form, Button, Select } from "antd";
+import { Modal, Row, Col, Form, Button, Select, Rate, Input } from "antd";
 
 const { Option } = Select;
+const { TextArea } = Input;
 
 const UpdatePatientReport = props => {
-    const [form] = Form.useForm();
-    
+	const [form] = Form.useForm();
 
 	return (
 		<div>
@@ -25,7 +25,7 @@ const UpdatePatientReport = props => {
 				onCancel={() => props.handleModal(!props.visible)}
 				footer={null}
 				width={600}
-				style={{ top: 50 }}
+				style={{ top: 10 }}
 			>
 				<Row gutter={[16, 16]}>
 					<Col xl={12} lg={12} md={12} sm={12} xs={24}>
@@ -86,21 +86,26 @@ const UpdatePatientReport = props => {
 					className="login-form"
 					initialValues={{ remember: true }}
 				>
-                    <Row gutter={[16,16]}>
-					<Col xl={12} lg={12} md={12} sm={12}>
-						<Form.Item name="patientStatus" label="Patient Status">
-							<Select placeholder="select status">
-								<Option value="available">Available</Option>
-								<Option value="on-duty">On duty</Option>
-								<Option value="disable">Disable</Option>
-								<Option value="remove">Remove</Option>
-							</Select>
-						</Form.Item>
-					</Col >
-                    <Col xl={12} lg={12} md={12} sm={12}>
-                        
-                    </Col>
-                    </Row>
+					<Row gutter={[16, 16]}>
+						<Col xl={12} lg={12} md={12} sm={12}>
+							<Form.Item
+								name="patientStatus"
+								label="Patient Status"
+							>
+								<Select placeholder="select status">
+									<Option value="available">Available</Option>
+									<Option value="on-duty">On duty</Option>
+									<Option value="disable">Disable</Option>
+									<Option value="remove">Remove</Option>
+								</Select>
+							</Form.Item>
+						</Col>
+						<Col xl={12} lg={12} md={12} sm={12}>
+							<Form.Item name="rate" label="Rate the patient">
+								<Rate />
+							</Form.Item>
+						</Col>
+					</Row>
 					<Row gutter={[16, 16]}>
 						<Col xl={12} lg={12} md={12} sm={12}>
 							<Form.Item
@@ -113,7 +118,7 @@ const UpdatePatientReport = props => {
 								</Select>
 							</Form.Item>
 						</Col>
-						{/* {form.getFieldValue("testPerformedToday") === "yes" ? ( */}
+
 						<Col xl={12} lg={12} md={12} sm={12}>
 							<Form.Item name="reportResult" label="Test Result">
 								<Select placeholder="select status">
@@ -122,8 +127,11 @@ const UpdatePatientReport = props => {
 								</Select>
 							</Form.Item>
 						</Col>
-						{/* ) : null} */}
 					</Row>
+					<Form.Item name="comment" label="Doctor's Comment">
+						<TextArea rows={4} />
+					</Form.Item>
+
 					<Form.Item>
 						<Button
 							type="primary"

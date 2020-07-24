@@ -1,14 +1,31 @@
 import React, { useState } from "react";
 import "antd/dist/antd.css";
-import { Table, Statistic, Row, Col, Button, Input, Modal } from "antd";
+import {
+	Table,
+	Statistic,
+	Row,
+	Col,
+	Button,
+	Input,
+	Modal,
+	Select,
+	Rate
+} from "antd";
 import { AudioOutlined } from "@ant-design/icons";
 import PageTitle from "../common/PageTitle";
 
-const AssignBed = () => {
+const UpdateDailyReport = () => {
 	const [isVisible, setIsVisible] = useState(false);
+	const { Option } = Select;
+	const [selectedOption, setSelectedOption] = useState("");
+	const { TextArea } = Input;
 
 	const showModal = () => {
 		setIsVisible(!isVisible);
+	};
+
+	const handleChange = value => {
+		setSelectedOption(value);
 	};
 
 	const handleOk = () => {
@@ -18,7 +35,6 @@ const AssignBed = () => {
 	const handleCancel = () => {
 		setIsVisible(!isVisible);
 	};
-
 	const { Search } = Input;
 
 	const suffix = (
@@ -32,15 +48,15 @@ const AssignBed = () => {
 
 	const columns = [
 		{
-			title: "Name",
-			dataIndex: "name",
-			key: "name"
+			title: "ID",
+			dataIndex: "id",
+			key: "id"
 		},
 
 		{
-			title: "Severity",
-			dataIndex: "severity",
-			key: "severity"
+			title: "Name",
+			dataIndex: "name",
+			key: "name"
 		},
 
 		{
@@ -56,11 +72,11 @@ const AssignBed = () => {
 		},
 
 		{
-			title: "Assign Bed",
-			key: "assign bed",
+			title: "Update Report",
+			key: "update report",
 			render: () => (
 				<Button type="primary" onClick={showModal}>
-					Assign Bed
+					Update Report
 				</Button>
 			)
 		}
@@ -68,9 +84,10 @@ const AssignBed = () => {
 
 	const data = [];
 
-	for (let i = 0; i < 8; i++) {
+	for (let i = 0; i < 7; i++) {
 		data.push({
 			key: i,
+			id: `${i}`,
 			name: `Edward King ${i}`,
 			severity: "L2",
 			gender: `Male`,
@@ -80,21 +97,20 @@ const AssignBed = () => {
 
 	return (
 		<div style={{ padding: "10px 30px" }}>
-			<PageTitle title="Assign Beds" />
+			<PageTitle title="Update Report" />
 
 			<Row>
 				<Col span={8}>
 					<Statistic
-						title="Number of Beds available"
+						title="Number of Patients Admitted"
 						value={45}
-						suffix={`/${100}`}
 						valueStyle={{ color: "#008db9" }}
 					/>
 				</Col>
 
 				<Col span={8}>
 					<Statistic
-						title="Total Unattended Patients"
+						title="Number of Unoccupied Beds"
 						value={25}
 						valueStyle={{ color: "#008db9" }}
 					/>
@@ -111,7 +127,7 @@ const AssignBed = () => {
 
 			<Table
 				size="middle"
-				title={() => "List of Patients to Assign Bed"}
+				title={() => "List of Patients"}
 				columns={columns}
 				bordered={true}
 				dataSource={data}
@@ -154,10 +170,43 @@ const AssignBed = () => {
 					<Col span={6}>Patient Address</Col>
 					<Col span={8}>178/38 Modinagar Ghaziabad</Col>
 				</Row>
+				<Row className="second-segment">
+					<Col span={6}>Patient Status:</Col>
+					<Col span={18}>
+						<Select defaultValue="Status" onChange={handleChange}>
+							<Option value="Hospitalized">Hospitalized</Option>
+							<Option value="Discharged">Discharged</Option>
+						</Select>
+					</Col>
+				</Row>
+
+				<Row className="second-segment">
+					<Col span={6}>Test Performed Today:</Col>
+					<Col span={6}>
+						<Select defaultValue="No" onChange={handleChange}>
+							<Option value="No">No</Option>
+							<Option value="Yes">Yes</Option>
+						</Select>
+					</Col>
+					<Col span={6}>Report Result:</Col>
+					<Col span={6}>
+						<Select defaultValue="Result" onChange={handleChange}>
+							<Option value="Negative">Negative</Option>
+							<Option value="Positive">Positive</Option>
+						</Select>
+					</Col>
+				</Row>
 				<Row>
-					<Col span={6}>Room/Bed No:</Col>
-					<Col span={16}>
-						<Input placeholder="room/bed no" />
+					<Col span={6}>Rate the Patient</Col>
+					<Col span={18}>
+						<Rate />
+					</Col>
+				</Row>
+
+				<Row>
+					<Col span={6}>Doctor`s Comment</Col>
+					<Col span={18}>
+						<TextArea rows={4} />
 					</Col>
 				</Row>
 			</Modal>
@@ -165,4 +214,4 @@ const AssignBed = () => {
 	);
 };
 
-export default AssignBed;
+export default UpdateDailyReport;

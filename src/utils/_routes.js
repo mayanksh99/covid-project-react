@@ -4,6 +4,7 @@ import PatientExamine from "../components/Doctor/PatientExamine";
 import AssignAmbulance from "../components/Ambulance/AssignAmbulance";
 import AmbulanceStatus from "../components/Ambulance/AmbulanceStatus";
 import AssignBed from "../components/Hospital/AssignBed";
+import UpdateDailyReport from "../components/Hospital/UpdateDailyReport";
 import DoctorProfile from "../components/Doctor/DoctorProfile";
 import AmbAdminProfile from "../components/Ambulance/AmbAdminProfile";
 
@@ -13,7 +14,8 @@ import {
 	UserOutlined,
 	CheckOutlined,
 	UsergroupAddOutlined,
-	UserSwitchOutlined
+	UserSwitchOutlined,
+	BookOutlined
 } from "@ant-design/icons";
 import Icon from "@ant-design/icons";
 import AmbulanceAdmin from "../components/Admin/Ambulance/AmbulanceAdmin";
@@ -88,6 +90,14 @@ let routes = [
 		name: "Assign Bed",
 		key: "AssignBed",
 		icon: BedIcon
+	},
+	{
+		path: "/updatedailyreport",
+		exact: true,
+		component: UpdateDailyReport,
+		name: "Update Daily Report",
+		key: "UpdateDailyReport",
+		icon: BookOutlined
 	},
 	{
 		path: "/doctorprofile",

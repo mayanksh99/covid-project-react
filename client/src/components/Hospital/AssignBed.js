@@ -3,8 +3,8 @@ import "antd/dist/antd.css";
 import { Table } from "antd";
 import { Input } from "antd";
 import { AudioOutlined } from "@ant-design/icons";
-import { Button } from 'antd';
-import { Row, Col } from 'antd';
+import { Button } from "antd";
+import { Row, Col } from "antd";
 
 const AssignBed = () => {
 	const { Search } = Input;
@@ -37,8 +37,7 @@ const AssignBed = () => {
 			title: "Age",
 			dataIndex: "age",
 			key: "age"
-		},
-		
+		}
 	];
 
 	const data = [];
@@ -49,11 +48,10 @@ const AssignBed = () => {
 			name: `Edward King ${i}`,
 			severity: "L2",
 			gender: `Male`,
-			age: "43 Years",
+			age: "43 Years"
 			// render: ()=>{
 			// 	<Button type="primary">Assign Beds</Button>
 			// }
-			
 		});
 	}
 
@@ -62,13 +60,12 @@ const AssignBed = () => {
 			<h1>Assign Beds</h1>
 			<Row>
 				<Col span={12}>Total Patients</Col>
-				
-				
+
 				<Col span={12}>
-				<Search
-							placeholder="Search Patients"
-							onSearch={value => console.log(value)}
-							style={{ width: 200 }}
+					<Search
+						placeholder="Search Patients"
+						onSearch={value => console.log(value)}
+						style={{ width: 200 }}
 					/>
 				</Col>
 			</Row>
@@ -76,7 +73,7 @@ const AssignBed = () => {
 				<Col span={12}>28</Col>
 				<Col span={12}></Col>
 			</Row>
-			
+
 			<Row>
 				<Col span={8}>Total beds</Col>
 				<Col span={8}>Avaliable Beds</Col>
@@ -87,11 +84,9 @@ const AssignBed = () => {
 			<Row>
 				<Col span={8}>100</Col>
 				<Col span={8}>45</Col>
-				<Col span={8}>
-					
-				</Col>
+				<Col span={8}></Col>
 			</Row>
-			
+
 			<Table
 				size="middle"
 				title={() => "list of patients to assign beds"}

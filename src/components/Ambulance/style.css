@@ -1,7 +1,7 @@
-.ant-btn-primary {
+/* .ant-btn-primary {
 	background: #008db9;
 	border-radius: 4px;
-}
+} */
 
 .heading {
 	font-size: 2.5em;
@@ -37,7 +37,7 @@
 	padding: 10px 30px;
 }
 
-.ant-table-title {
+/* .ant-table-title {
 	font-size: 1.5em;
 	font-family: GoogleSansMd;
 	border-radius: 4px 4px 0px 0px;
@@ -45,12 +45,10 @@
 }
 
 .ant-table-thead > tr > th {
-	/* background: rgb(0, 141, 185, 0.42); */
 	font-size: 18px;
 }
 
 .ant-table-tbody > tr > td {
-	/* background: rgb(0, 141, 185, 0.15); */
 	font-size: 16px;
 	border-color: rgb(0, 141, 185, 0.17);
 }
@@ -77,11 +75,11 @@
 
 .ant-pagination-item-active {
 	border-color: #008db9;
-}
+} */
 
 /* table above, modal below */
 
-.ant-modal-header {
+/* .ant-modal-header {
 	background: rgb(0, 141, 185, 0.55);
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -111,7 +109,7 @@
 .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
 	height: auto;
 	border-radius: 4px;
-}
+} */
 
 .gap {
 	margin-left: 12px;

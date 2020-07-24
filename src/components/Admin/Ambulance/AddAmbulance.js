@@ -45,6 +45,7 @@ const AddAmbulance = props => {
 						]}
 					>
 						<Input
+							className="input-field"
 							placeholder="Enter vehicle name"
 							prefix={<UserOutlined />}
 						/>
@@ -60,6 +61,7 @@ const AddAmbulance = props => {
 						]}
 					>
 						<Input
+							className="input-field"
 							placeholder="Enter driver name"
 							prefix={<UserOutlined />}
 						/>
@@ -75,6 +77,7 @@ const AddAmbulance = props => {
 						]}
 					>
 						<Input
+							className="input-field"
 							placeholder="Enter driver phone no."
 							prefix={<PhoneOutlined />}
 						/>
@@ -90,6 +93,7 @@ const AddAmbulance = props => {
 						]}
 					>
 						<Input
+							className="input-field"
 							placeholder="Enter area pin"
 							prefix={<PushpinOutlined />}
 						/>

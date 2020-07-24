@@ -57,15 +57,3 @@
 	font-weight: 700;
 	margin-top: 10px;
 }
-
-.input-field {
-	border: 1.5px solid #00000029;
-	border-radius: 4px;
-	background: #fafbfc;
-	padding: 6px 12px;
-	margin-top: 10px;
-}
-
-.ant-input-affix-wrapper > input.ant-input {
-	background: #fafbfc;
-}

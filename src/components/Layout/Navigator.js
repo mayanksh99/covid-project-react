@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Layout, Menu } from "antd";
 import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import routes from "../../utils/_routes";
-import AmbulanceAdminDetails from "./../Admin/AmbulanceAdminDetails";
+import AmbulanceAdminDetails from "../Admin/Ambulance/AmbulanceAdminDetails";
+import HospitalDetails from "./../Admin/Hospital/HospitalDetails";
 import {
 	Redirect,
 	Route,
@@ -107,6 +108,11 @@ const Dashboard = props => {
 									exact
 									path="/ambulancedetails/:id"
 									component={AmbulanceAdminDetails}
+								/>
+								<Route
+									exact
+									path="/hospitaldetails/:id"
+									component={HospitalDetails}
 								/>
 							</Switch>
 						</Content>

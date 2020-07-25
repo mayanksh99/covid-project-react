@@ -1,9 +1,46 @@
-.ant-btn-primary {
+/* .ant-btn-primary {
 	background: #008db9;
 	border-radius: 4px;
+} */
+
+/* .ant-table-title {
+
+.heading {
+	font-size: 2.5em;
+	font-family: GoogleSansBd;
+	background-image: linear-gradient(
+		0deg,
+		rgba(0, 0, 0, 0.2) 0,
+		rgba(0, 0, 0, 0.2) 30%,
+		transparent 30%,
+		transparent
+	);
+	width: fit-content;
+	height: 47px;
+	margin-bottom: 20px;
 }
 
-.ant-table-title {
+.heading2 {
+	font-size: 1.5em;
+	font-family: GoogleSansBd;
+	background-image: linear-gradient(
+		0deg,
+		rgba(0, 0, 0, 0.2) 0,
+		rgba(0, 0, 0, 0.2) 30%,
+		transparent 30%,
+		transparent
+	);
+	width: fit-content;
+	height: 30px;
+	margin-bottom: 20px;
+}
+
+.container {
+	padding: 10px 30px;
+} */
+
+/* .ant-table-title {
+>>>>>>> upstream/master
 	font-size: 1.5em;
 	font-family: GoogleSansMd;
 	border-radius: 4px 4px 0px 0px;
@@ -41,11 +78,11 @@
 
 .ant-pagination-item-active {
 	border-color: #008db9;
-}
+} */
 
 /* table above, modal below */
 
-.ant-modal-header {
+/* .ant-modal-header {
 	background: rgb(0, 141, 185, 0.55);
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -72,7 +109,7 @@
 .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
 	height: auto;
 	border-radius: 4px;
-}
+} */
 
 .ml-11 {
 	margin-left: 11px;

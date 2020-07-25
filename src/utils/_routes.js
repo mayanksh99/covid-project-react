@@ -6,12 +6,14 @@ import AmbulanceStatus from "../components/Ambulance/AmbulanceStatus";
 import AssignBed from "../components/Hospital/AssignBed";
 import DoctorProfile from "../components/Doctor/DoctorProfile";
 import AmbAdminProfile from "../components/Ambulance/AmbAdminProfile";
+import AssignHospital from "../components/Doctor/AssignHospital";
 
 import {
 	AppstoreOutlined,
 	MedicineBoxOutlined,
 	UserOutlined,
-	CheckOutlined
+	CheckOutlined,
+	SolutionOutlined
 } from "@ant-design/icons";
 import Icon from "@ant-design/icons";
 import AmbulanceAdmin from "./../components/Admin/AmbulanceAdmin";
@@ -50,6 +52,14 @@ let routes = [
 		component: PatientExamine,
 		key: "PatientExamine",
 		icon: MedicineBoxOutlined
+	},
+	{
+		path: "/hospitalassign",
+		exact: true,
+		name: "Assign Hospital",
+		component: AssignHospital,
+		key: "AssignHospital",
+		icon: SolutionOutlined
 	},
 	{
 		path: "/amb-admin-Profile",

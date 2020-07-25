@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Statistic, Button, Select, Modal, Row, Col, Table } from "antd";
+import { Col, Row, Statistic, Table, Button, Modal, Select, Input } from "antd";
 import PageTitle from "../common/PageTitle";
 
-const PatientExamine = () => {
+const AssignHospital = () => {
 	const { Option } = Select;
+	const { TextArea } = Input;
 	const [isVisible, setIsVisible] = useState(false);
 	const [selectedOption, setSelectedOption] = useState("");
 
@@ -52,12 +53,11 @@ const PatientExamine = () => {
 			key: "action",
 			render: () => (
 				<Button type="primary" onClick={showModal}>
-					Examine
+					Assign Hospital
 				</Button>
 			)
 		}
 	];
-
 	const data = [
 		{
 			key: "1",
@@ -81,23 +81,42 @@ const PatientExamine = () => {
 			tags: ["cool", "teacher"]
 		}
 	];
-
 	return (
 		<div>
-			<PageTitle title="Examine Patients" />
-			<Statistic
-				title="Number of patients left to examine"
-				value={365}
-				valueStyle={{
-					fontWeight: 900,
-					fontSize: "2em",
-					color: "#005ea5"
-				}}
-			/>
+			<PageTitle title="Assign Hospital" />
+			<p style={{ fontSize: "16px", color: "#00000073" }}>
+				Beds Available
+			</p>
+			<Row gutter={16}>
+				<Col span={6}>
+					<Statistic
+						title="L1"
+						value={25}
+						suffix={`/${100}`}
+						valueStyle={{ color: "#008db9" }}
+					/>
+				</Col>
+				<Col span={6}>
+					<Statistic
+						title="L2"
+						value={9}
+						suffix={`/${77}`}
+						valueStyle={{ color: "#008db9" }}
+					/>
+				</Col>
+				<Col span={6}>
+					<Statistic
+						title="L3"
+						value={12}
+						suffix={`/${50}`}
+						valueStyle={{ color: "#008db9" }}
+					/>
+				</Col>
+			</Row>
 			<Table
 				bordered
 				// loading
-				title={() => "List of Patients to be examined"}
+				title={() => "List of Pending Patients"}
 				columns={columns}
 				dataSource={data}
 				pagination={false}
@@ -138,16 +157,6 @@ const PatientExamine = () => {
 					<Col span={6}>Patient Address</Col>
 					<Col span={8}>178/38 Modinagar Ghaziabad</Col>
 				</Row>
-				<Row className="mt-15">
-					<Col span={6}>Doctor's Remark</Col>
-					<Col span={17}>
-						Lorem Ipsum is simply dummy text of the printing and
-						typesetting industry. Lorem Ipsum has been the
-						industry's standard dummy text ever since the 1500s,
-						when an unknown printer took a galley of type and
-						scrambled it to make a type specimen book.
-					</Col>
-				</Row>
 				<Row className="second-segment">
 					<Col span={6}>Select severity level</Col>
 					<Col span={7}>
@@ -175,7 +184,12 @@ const PatientExamine = () => {
 						</Select>
 					</Col>
 				</Row>
-
+				<Row className="mt-15">
+					<Col span={6}>Doctor's Remark</Col>
+					<Col span={17}>
+						<TextArea rows={3} />
+					</Col>
+				</Row>
 				<Row
 					style={{
 						marginTop: "25px",
@@ -187,7 +201,7 @@ const PatientExamine = () => {
 						key="submit"
 						type="primary"
 						onClick={handleOk}
-						style={{ width: "21%", marginRight: "31px" }}
+						style={{ width: "25%", marginRight: "31px" }}
 					>
 						Submit
 					</Button>
@@ -200,4 +214,4 @@ const PatientExamine = () => {
 	);
 };
 
-export default PatientExamine;
+export default AssignHospital;

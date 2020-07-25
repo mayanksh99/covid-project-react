@@ -3,40 +3,6 @@
 	border-radius: 4px;
 }
 
-.heading {
-	font-size: 2.5em;
-	font-family: GoogleSansBd;
-	background-image: linear-gradient(
-		0deg,
-		rgba(0, 0, 0, 0.2) 0,
-		rgba(0, 0, 0, 0.2) 30%,
-		transparent 30%,
-		transparent
-	);
-	width: fit-content;
-	height: 47px;
-	margin-bottom: 20px;
-}
-
-.heading2 {
-	font-size: 1.5em;
-	font-family: GoogleSansBd;
-	background-image: linear-gradient(
-		0deg,
-		rgba(0, 0, 0, 0.2) 0,
-		rgba(0, 0, 0, 0.2) 30%,
-		transparent 30%,
-		transparent
-	);
-	width: fit-content;
-	height: 30px;
-	margin-bottom: 20px;
-}
-
-.container {
-	padding: 10px 30px;
-}
-
 .ant-table-title {
 	font-size: 1.5em;
 	font-family: GoogleSansMd;
@@ -45,12 +11,10 @@
 }
 
 .ant-table-thead > tr > th {
-	/* background: rgb(0, 141, 185, 0.42); */
 	font-size: 18px;
 }
 
 .ant-table-tbody > tr > td {
-	/* background: rgb(0, 141, 185, 0.15); */
 	font-size: 16px;
 	border-color: rgb(0, 141, 185, 0.17);
 }
@@ -86,9 +50,6 @@
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
-.ant-modal-title {
-	font-size: 20px;
-}
 
 .ant-modal-close-x {
 	line-height: 44px;
@@ -105,7 +66,7 @@
 }
 
 .second-segment {
-	margin-top: 40px;
+	margin-top: 30px;
 }
 
 .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
@@ -113,15 +74,21 @@
 	border-radius: 4px;
 }
 
-.gap {
-	margin-left: 12px;
+.ml-11 {
+	margin-left: 11px;
 }
 
-.pwd {
+/* .pwd {
 	border: 1.5px solid #00000029;
 	border-radius: 4px;
 	background: #fafbfc;
 	padding: 2px 14px;
 	display: flex;
 	justify-content: center;
+} */
+
+.status-modal-field {
+	border: 1px solid #d9d9d9;
+	border-radius: 4px;
+	padding: 2px 4px 0px 11px;
 }

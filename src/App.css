@@ -50,10 +50,18 @@ li.ant-menu-item.ant-menu-item-selected::after {
 }
 
 .ant-menu {
-	margin-top: 32px;
+	margin-top: 20px;
 }
 
 .ant-statistic-content-value-int {
 	font-weight: 900 !important;
 	color: #005ea5;
+}
+
+.pl-11 {
+	padding-left: 11px;
+}
+
+.mt-15 {
+	margin-top: 15px;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Card, Button, Table, Statistic, Form, Input } from "antd";
-import { BedSvg } from "./../../../utils/_routes";
+// import { BedSvg } from "./../../../utils/_routes";
 import UpdatePatientReport from "./UpdatePatientReport";
 import PageTitle from "./../../common/PageTitle";
 
@@ -181,7 +181,7 @@ const HospitalDetails = () => {
 												<Input
 													className="input-field mt-10"
 													placeholder="Total beds"
-													prefix={<BedSvg />}
+													// prefix={<BedSvg />}
 												/>
 											</Form.Item>
 										</Col>

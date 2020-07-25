@@ -14,13 +14,10 @@ import {
 	MedicineBoxOutlined,
 	UserOutlined,
 	CheckOutlined,
-<<<<<<< HEAD
-	SolutionOutlined
-=======
+	SolutionOutlined,
 	UsergroupAddOutlined,
 	UserSwitchOutlined,
 	BookOutlined
->>>>>>> upstream/master
 } from "@ant-design/icons";
 import Icon from "@ant-design/icons";
 import AmbulanceAdmin from "../components/Admin/Ambulance/AmbulanceAdmin";

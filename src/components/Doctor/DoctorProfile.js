@@ -1,26 +1,93 @@
-import React from "react";
-import { Row, Col, Form, Input, Button } from "antd";
+import React, { useState } from "react";
+import { Row, Col, Form, Input, Button, Upload, message } from "antd";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import PageTitle from "../common/PageTitle";
 
 const AmbAdminProfile = () => {
+	const [isLoading, setIsLoading] = useState(false);
+	const [image, setImage] = useState("");
+	const getBase64 = (img, callback) => {
+		const reader = new FileReader();
+		reader.addEventListener("load", () => callback(reader.result));
+		reader.readAsDataURL(img);
+	};
+
+	const beforeUpload = file => {
+		const isJpgOrPng =
+			file.type === "image/jpeg" || file.type === "image/png";
+		if (!isJpgOrPng) {
+			message.error("You can only upload JPG/PNG file!");
+		}
+		const isLt2M = file.size / 1024 / 1024 < 2;
+		if (!isLt2M) {
+			message.error("Image must smaller than 2MB!");
+		}
+		return isJpgOrPng && isLt2M;
+	};
+
+	const handleChange = info => {
+		if (info.file.status === "uploading") {
+			setIsLoading(!isLoading);
+			return;
+		}
+		if (info.file.status === "done") {
+			getBase64(
+				info.file.originFileObj,
+				imageUrl => (setImage(imageUrl), setIsLoading(!isLoading))
+			);
+		}
+	};
+
 	const onFinish = values => {
 		console.log("form O/P ", values);
 	};
+
+	const uploadButton = (
+		<div>
+			{isLoading ? <LoadingOutlined /> : <PlusOutlined />}
+			<div className="ant-upload-text">Upload</div>
+		</div>
+	);
 
 	return (
 		<div>
 			<PageTitle title="Profile" />
 			<Row>
-				<Col span={3}>Name</Col>
-				<Col>Dayanand tiwari</Col>
-			</Row>
-			<Row>
-				<Col span={3}>Email</Col>
-				<Col>abc@example.com</Col>
-			</Row>
-			<Row>
-				<Col span={3}>ID</Col>
-				<Col>P1</Col>
+				<Col span={14}>
+					<Row>
+						<Col span={8}>Name</Col>
+						<Col>Dayanand tiwari</Col>
+					</Row>
+					<Row>
+						<Col span={8}>Email</Col>
+						<Col>abc@example.com</Col>
+					</Row>
+					<Row>
+						<Col span={8}>ID</Col>
+						<Col>P1</Col>
+					</Row>
+				</Col>
+				<Col>
+					<Upload
+						name="avatar"
+						listType="picture-card"
+						className="avatar-uploader"
+						showUploadList={false}
+						action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+						beforeUpload={beforeUpload}
+						onChange={handleChange}
+					>
+						{image ? (
+							<img
+								src={image}
+								alt="avatar"
+								style={{ width: "100%" }}
+							/>
+						) : (
+							uploadButton
+						)}
+					</Upload>
+				</Col>
 			</Row>
 			<div style={{ marginTop: "50px" }}>
 				<PageTitle title="Change Password" />

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Statistic, Button, Select, Modal, Row, Col, Table } from "antd";
+import { Statistic, Button, Select, Modal, Row, Col, Table, Input } from "antd";
 import PageTitle from "../common/PageTitle";
 
 const PatientExamine = () => {
 	const { Option } = Select;
+	const { TextArea } = Input;
 	const [isVisible, setIsVisible] = useState(false);
 	const [selectedOption, setSelectedOption] = useState("");
 
@@ -102,6 +103,7 @@ const PatientExamine = () => {
 				dataSource={data}
 				pagination={false}
 			/>
+
 			<Modal
 				title={
 					<h3 style={{ color: "#fff", marginBottom: "-3px" }}>
@@ -138,16 +140,6 @@ const PatientExamine = () => {
 					<Col span={6}>Patient Address</Col>
 					<Col span={8}>178/38 Modinagar Ghaziabad</Col>
 				</Row>
-				<Row className="mt-15">
-					<Col span={6}>Doctor's Remark</Col>
-					<Col span={17}>
-						Lorem Ipsum is simply dummy text of the printing and
-						typesetting industry. Lorem Ipsum has been the
-						industry's standard dummy text ever since the 1500s,
-						when an unknown printer took a galley of type and
-						scrambled it to make a type specimen book.
-					</Col>
-				</Row>
 				<Row className="second-segment">
 					<Col span={6}>Select severity level</Col>
 					<Col span={7}>
@@ -175,7 +167,12 @@ const PatientExamine = () => {
 						</Select>
 					</Col>
 				</Row>
-
+				<Row className="mt-15">
+					<Col span={6}>Doctor's Remark</Col>
+					<Col span={17}>
+						<TextArea rows={3} />
+					</Col>
+				</Row>
 				<Row
 					style={{
 						marginTop: "25px",
@@ -187,7 +184,7 @@ const PatientExamine = () => {
 						key="submit"
 						type="primary"
 						onClick={handleOk}
-						style={{ width: "21%", marginRight: "31px" }}
+						style={{ width: "25%", marginRight: "31px" }}
 					>
 						Submit
 					</Button>

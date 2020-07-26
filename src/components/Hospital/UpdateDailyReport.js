@@ -1,30 +1,30 @@
 import React, { useState } from "react";
 import "antd/dist/antd.css";
-import { Table,
-		 Statistic,
-		 Row,
-		 Col,
-		 Button,
-		 Input,
-         Modal,
-         Select,
-         Rate  } from "antd";
+import {
+	Table,
+	Statistic,
+	Row,
+	Col,
+	Button,
+	Input,
+	Modal,
+	Select,
+	Rate
+} from "antd";
 import { AudioOutlined } from "@ant-design/icons";
 import PageTitle from "../common/PageTitle";
 
-
 const UpdateDailyReport = () => {
-	
 	const [isVisible, setIsVisible] = useState(false);
-    const { Option } = Select;
-    const [selectedOption, setSelectedOption] = useState("");
-    const { TextArea } = Input;
-    
+	const { Option } = Select;
+	const [selectedOption, setSelectedOption] = useState("");
+	const { TextArea } = Input;
+
 	const showModal = () => {
 		setIsVisible(!isVisible);
-    };
-    
-    const handleChange = value => {
+	};
+
+	const handleChange = value => {
 		setSelectedOption(value);
 	};
 
@@ -36,111 +36,94 @@ const UpdateDailyReport = () => {
 		setIsVisible(!isVisible);
 	};
 	const { Search } = Input;
-	
-	const suffix = 
-	(
+
+	const suffix = (
 		<AudioOutlined
-						style=
-								{{
-									fontSize: 16,
-									color: "#1890ff"
-								}}
+			style={{
+				fontSize: 16,
+				color: "#1890ff"
+			}}
 		/>
 	);
-	
-	const columns = 
-	[
-        
-            {
-                title: "ID",
-                dataIndex: "id",
-                key: "id",
-            },
 
-			{
-				title: "Name",
-				dataIndex: "name",
-				key: "name",
-			},
-					
-			{
-				title: "Gender",
-				dataIndex: "gender",
-				key: "gender"
-			},
-			
-			{
-				title: "Age",
-				dataIndex: "age",
-				key: "age"
-			},
-			
-			{
-				title: "Update Report",
-				key: "update report",
-				render: () => 
-								(
-									<Button type="primary" onClick={showModal} > 
-										Update Report
-									</Button>
-								)
-			}
+	const columns = [
+		{
+			title: "ID",
+			dataIndex: "id",
+			key: "id"
+		},
+
+		{
+			title: "Name",
+			dataIndex: "name",
+			key: "name"
+		},
+
+		{
+			title: "Gender",
+			dataIndex: "gender",
+			key: "gender"
+		},
+
+		{
+			title: "Age",
+			dataIndex: "age",
+			key: "age"
+		},
+
+		{
+			title: "Update Report",
+			key: "update report",
+			render: () => (
+				<Button type="primary" onClick={showModal}>
+					Update Report
+				</Button>
+			)
+		}
 	];
 
 	const data = [];
 
-	for (let i = 0; i < 100; i++) 
-		{
-			data.push
-					({
-                        key: i,
-                        id: `${i}`,
-						name: `Edward King ${i}`,
-						severity: "L2",
-						gender: `Male`,
-						age: "43 Years"
-					});
-		}
+	for (let i = 0; i < 100; i++) {
+		data.push({
+			key: i,
+			id: `${i}`,
+			name: `Edward King ${i}`,
+			severity: "L2",
+			gender: `Male`,
+			age: "43 Years"
+		});
+	}
 
 	return (
-		<div style={{padding: "10px 30px"}}>
+		<div style={{ padding: "10px 30px" }}>
 			<PageTitle title="Update Report" />
-			
-			
-			
+
 			<Row>
 				<Col span={8}>
-							
-							<Statistic
-								title="Number of Patients Admitted"
-								value={45}
-								valueStyle={{ color: "#008db9" }}
-							/>
-
+					<Statistic
+						title="Number of Patients Admitted"
+						value={45}
+						valueStyle={{ color: "#008db9" }}
+					/>
 				</Col>
 
 				<Col span={8}>
-
-							<Statistic
-								title="Number of Unoccupied Beds"
-								value={25}
-								valueStyle={{ color: "#008db9" }}
-							/>
-
+					<Statistic
+						title="Number of Unoccupied Beds"
+						value={25}
+						valueStyle={{ color: "#008db9" }}
+					/>
 				</Col>
-					
+
 				<Col span={8}>
-							
-							<Search
-								placeholder="Search Patients"
-								onSearch={value => console.log(value)}
-								style={{ width: 200 }}
-							/>
-							
+					<Search
+						placeholder="Search Patients"
+						onSearch={value => console.log(value)}
+						style={{ width: 200 }}
+					/>
 				</Col>
 			</Row>
-			
-			
 
 			<Table
 				size="middle"
@@ -190,63 +173,43 @@ const UpdateDailyReport = () => {
 				<Row className="second-segment">
 					<Col span={6}>Patient Status:</Col>
 					<Col span={18}>
-                        <Select
-							defaultValue="Status"
-							onChange={handleChange}
-						>
+						<Select defaultValue="Status" onChange={handleChange}>
 							<Option value="Hospitalized">Hospitalized</Option>
 							<Option value="Discharged">Discharged</Option>
 						</Select>
-                    </Col>
+					</Col>
 				</Row>
 
-                <Row className="second-segment">
+				<Row className="second-segment">
 					<Col span={6}>Test Performed Today:</Col>
 					<Col span={6}>
-                        <Select
-							defaultValue="No"
-							onChange={handleChange}
-						>
-							
-                            <Option value="No">No</Option>
+						<Select defaultValue="No" onChange={handleChange}>
+							<Option value="No">No</Option>
 							<Option value="Yes">Yes</Option>
-
 						</Select>
-                    </Col>
-                    <Col span={6}>Report Result:</Col>
+					</Col>
+					<Col span={6}>Report Result:</Col>
 					<Col span={6}>
-                        <Select
-							defaultValue="Result"
-							onChange={handleChange}
-						>
-							
-                            <Option value="Negative">Negative</Option>
+						<Select defaultValue="Result" onChange={handleChange}>
+							<Option value="Negative">Negative</Option>
 							<Option value="Positive">Positive</Option>
-
 						</Select>
-                    </Col>
+					</Col>
 				</Row>
-                <Row>
-                    <Col span={6}>Rate the Patient</Col>
-                    <Col span={18}>
-                        
-                        <Rate/>
+				<Row>
+					<Col span={6}>Rate the Patient</Col>
+					<Col span={18}>
+						<Rate />
+					</Col>
+				</Row>
 
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col span={6}>Doctor`s Comment</Col>
-                    <Col span={18}>
-                        
-                        <TextArea rows={4} />
-                    
-                    </Col>
-                </Row>
-				
+				<Row>
+					<Col span={6}>Doctor`s Comment</Col>
+					<Col span={18}>
+						<TextArea rows={4} />
+					</Col>
+				</Row>
 			</Modal>
-
-			
 		</div>
 	);
 };

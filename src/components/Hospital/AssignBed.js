@@ -1,138 +1,113 @@
 import React, { useState } from "react";
 import "antd/dist/antd.css";
-import { Table,
-		 Statistic,
-		 Row,
-		 Col,
-		 Button,
-		 Input,
-		 Modal  } from "antd";
+import { Table, Statistic, Row, Col, Button, Input, Modal } from "antd";
 import { AudioOutlined } from "@ant-design/icons";
 import PageTitle from "../common/PageTitle";
 
 const AssignBed = () => {
-	
 	const [isVisible, setIsVisible] = useState(false);
-	
-	const showModal = () => 
-							{
-								setIsVisible(!isVisible);
-							};
 
-	const handleOk = () => 
-							{
-								setIsVisible(!isVisible);
-							};
+	const showModal = () => {
+		setIsVisible(!isVisible);
+	};
 
-	const handleCancel = () => 
-							{
-								setIsVisible(!isVisible);
-							};
-	
+	const handleOk = () => {
+		setIsVisible(!isVisible);
+	};
+
+	const handleCancel = () => {
+		setIsVisible(!isVisible);
+	};
+
 	const { Search } = Input;
-	
-	const suffix = 
-	(
+
+	const suffix = (
 		<AudioOutlined
-						style=
-								{{
-									fontSize: 16,
-									color: "#1890ff"
-								}}
+			style={{
+				fontSize: 16,
+				color: "#1890ff"
+			}}
 		/>
 	);
-	
-	const columns = 
-	[
-		
-			{
-				title: "Name",
-				dataIndex: "name",
-				key: "name",
-			},
-			
-			{
-				title: "Severity",
-				dataIndex: "severity",
-				key: "severity"
-			},
-			
-			{
-				title: "Gender",
-				dataIndex: "gender",
-				key: "gender"
-			},
-			
-			{
-				title: "Age",
-				dataIndex: "age",
-				key: "age"
-			},
-			
-			{
-				title: "Assign Bed",
-				key: "assign bed",
-				render: () => 
-								(
-									<Button type="primary" onClick={showModal} > 
-										Assign Bed
-									</Button>
-								)
-			}
+
+	const columns = [
+		{
+			title: "Name",
+			dataIndex: "name",
+			key: "name"
+		},
+
+		{
+			title: "Severity",
+			dataIndex: "severity",
+			key: "severity"
+		},
+
+		{
+			title: "Gender",
+			dataIndex: "gender",
+			key: "gender"
+		},
+
+		{
+			title: "Age",
+			dataIndex: "age",
+			key: "age"
+		},
+
+		{
+			title: "Assign Bed",
+			key: "assign bed",
+			render: () => (
+				<Button type="primary" onClick={showModal}>
+					Assign Bed
+				</Button>
+			)
+		}
 	];
 
 	const data = [];
 
-	for (let i = 0; i < 100; i++) 
-		{
-			data.push
-					({
-						key: i,
-						name: `Edward King ${i}`,
-						severity: "L2",
-						gender: `Male`,
-						age: "43 Years"
-					});
-		}
+	for (let i = 0; i < 100; i++) {
+		data.push({
+			key: i,
+			name: `Edward King ${i}`,
+			severity: "L2",
+			gender: `Male`,
+			age: "43 Years"
+		});
+	}
 
 	return (
-		<div style={{padding: "10px 30px"}}>
+		<div style={{ padding: "10px 30px" }}>
 			<PageTitle title="Assign Beds" />
-			
+
 			<Row>
 				<Col span={8}>
-							
-							<Statistic
-								title="Number of Beds available"
-								value={45}
-								suffix={`/${100}`}
-								valueStyle={{ color: "#008db9" }}
-							/>
-
+					<Statistic
+						title="Number of Beds available"
+						value={45}
+						suffix={`/${100}`}
+						valueStyle={{ color: "#008db9" }}
+					/>
 				</Col>
 
 				<Col span={8}>
-
-							<Statistic
-								title="Total Unattended Patients"
-								value={25}
-								valueStyle={{ color: "#008db9" }}
-							/>
-
+					<Statistic
+						title="Total Unattended Patients"
+						value={25}
+						valueStyle={{ color: "#008db9" }}
+					/>
 				</Col>
-					
+
 				<Col span={8}>
-							
-							<Search
-								placeholder="Search Patients"
-								onSearch={value => console.log(value)}
-								style={{ width: 200 }}
-							/>
-							
+					<Search
+						placeholder="Search Patients"
+						onSearch={value => console.log(value)}
+						style={{ width: 200 }}
+					/>
 				</Col>
 			</Row>
-			
-			
 
 			<Table
 				size="middle"
@@ -144,21 +119,15 @@ const AssignBed = () => {
 			/>
 
 			<Modal
-				
 				title="Patient Details"
 				visible={isVisible}
 				centered
 				onCancel={handleCancel}
 				width={800}
 				footer={[
-						<Button key="submit" 
-								type="primary" 
-								onClick={handleOk}
-						>
-						
-							Submit
-						
-						</Button>
+					<Button key="submit" type="primary" onClick={handleOk}>
+						Submit
+					</Button>
 				]}
 			>
 				<Row>
@@ -188,15 +157,10 @@ const AssignBed = () => {
 				<Row>
 					<Col span={6}>Room/Bed No:</Col>
 					<Col span={16}>
-						
-									<Input placeholder="room/bed no"/>
-					
+						<Input placeholder="room/bed no" />
 					</Col>
 				</Row>
-				
 			</Modal>
-
-			
 		</div>
 	);
 };

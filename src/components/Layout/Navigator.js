@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Layout, Menu } from "antd";
 import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import routes from "../../utils/_routes";
 import AmbulanceAdminDetails from "../Admin/Ambulance/AmbulanceAdminDetails";
 import HospitalDetails from "./../Admin/Hospital/HospitalDetails";
+import { AuthContext } from "./../../contexts/userContext";
+import { getRole } from "./../../utils/_helper";
 import {
 	Redirect,
 	Route,
@@ -16,15 +18,9 @@ const { Content, Sider } = Layout;
 
 const Dashboard = props => {
 	const [isCollapsed, setIsCollapsed] = useState(false);
+	const userData = useState(getRole());
 
-	// useEffect(() => {
-	// 	if (
-	// 		!localStorage.getItem("token") ||
-	// 		localStorage.getItem("token") === "undefined"
-	// 	) {
-	// 		props.history.push("/login");
-	// 	}
-	// });
+	console.log(userData);
 
 	return (
 		<>
@@ -93,10 +89,13 @@ const Dashboard = props => {
 							<Switch>
 								{routes.map((route, idx) => {
 									return route.component ? (
-										<Route
+										<PrivateRoute
 											key={idx}
 											path={route.path}
 											exact={route.exact}
+											data={userData[0]}
+											role={route.role}
+											permission={route.permission}
 											render={props => (
 												<route.component {...props} />
 											)}
@@ -104,15 +103,21 @@ const Dashboard = props => {
 									) : null;
 								})}
 								<Redirect from="/dashboard" to="/" />
-								<Route
+								<PrivateRoute
 									exact
 									path="/ambulancedetails/:id"
 									component={AmbulanceAdminDetails}
+									role="admin"
+									permission={["master", "ambulance"]}
+									data={userData[0]}
 								/>
 								<Route
 									exact
 									path="/hospitaldetails/:id"
 									component={HospitalDetails}
+									role="admin"
+									permission={["master", "hospital"]}
+									data={userData[0]}
 								/>
 							</Switch>
 						</Content>
@@ -120,6 +125,40 @@ const Dashboard = props => {
 				</Layout>
 			</Router>
 		</>
+	);
+};
+
+const PrivateRoute = ({
+	component: Component,
+	role,
+	data,
+	permission,
+	...rest
+}) => {
+	const Data = useContext(AuthContext);
+	return (
+		<Route
+			{...rest}
+			render={props =>
+				Data.token !== "" ? (
+					role !== "admin" ? (
+						role === data.role ? (
+							<Component {...props} />
+						) : (
+							<div>403</div>
+						)
+					) : data.permissions.some(
+							r => permission.indexOf(r) >= 0
+					  ) ? (
+						<Component {...props} />
+					) : (
+						<div>403</div>
+					)
+				) : (
+					<Redirect to="/login" />
+				)
+			}
+		/>
 	);
 };
 

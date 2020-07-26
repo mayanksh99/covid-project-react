@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Row, Col, Form, Input, Button, Select } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./style.css";
@@ -13,6 +13,16 @@ const Login = props => {
 	const [form] = Form.useForm();
 	const Dispatch = useContext(DispatchContext);
 	const [isLoading, setIsLoading] = useState(false);
+
+	useEffect(() => {
+		const token = JSON.parse(localStorage.getItem("token"));
+		if (token) {
+			if (token.token !== "") {
+				props.history.push("/");
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const onFinish = async values => {
 		setIsLoading(true);

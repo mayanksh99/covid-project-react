@@ -6,7 +6,6 @@ import AmbulanceStatus from "../components/Ambulance/AmbulanceStatus";
 import AssignBed from "../components/Hospital/AssignBed";
 import DoctorProfile from "../components/Doctor/DoctorProfile";
 import AmbAdminProfile from "../components/Ambulance/AmbAdminProfile";
-
 import {
 	AppstoreOutlined,
 	MedicineBoxOutlined,
@@ -57,7 +56,8 @@ let routes = [
 		name: "Amb-Admin Profile",
 		component: AmbAdminProfile,
 		key: "amb-admin-profile",
-		icon: UserOutlined
+		icon: AmbulanceSvg
+		/*icon: UserOutlined*/
 	},
 	{
 		path: "/assignambulance",

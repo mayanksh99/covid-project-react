@@ -1,0 +1,185 @@
+.ant-table-title{
+    background-color: #008db9;
+    color:white!important;
+   
+}
+.ant-statistic{
+    display:flex;
+    background-color: #fff;
+    border:2px solid #008db9;
+    border-radius: 4px;
+}
+.ant-statistic-title{
+    padding-top: 10px;
+    padding-left: 20px;
+    color:#707070;
+    font-weight: 600;
+}
+.ant-statistic-content{
+    padding-left: 50px;
+}
+.ant-table-cell{
+    text-align: center!important;
+}
+.ant-modal-header{
+    background-color: #008db9!important;
+}
+.ant-modal-title{
+    color:#fff;
+}
+.PatientExamine-header{
+    display:flex;
+    justify-content:  center;
+}
+.PatientExamine-header svg{
+    color:#005ea5;
+    font-size: 2.5em;
+    margin-right: 1rem;    
+ }
+.DoctorProfile-content .image-section{
+    display: flex;
+    justify-content:flex-end;
+}
+.DoctorProfile-icon svg{
+   color:#005ea5;
+   font-size: 2.5em;
+   margin-right: 1rem;
+   
+}
+.DoctorProfile-title-one{
+    display: flex;
+    justify-content: flex-end;
+}
+.DoctorProfile-title-two{
+padding-left:100px
+}
+
+.DoctorProfile-img img{
+    width: 100px; height: 100px; border-radius: 50%; overflow: hidden;
+    border:2px solid #005ea5;
+}
+.DoctorProfile-header{
+    display: flex;
+    justify-content: center;
+}
+.DoctorProfile-details-one{
+ display: flex;
+ justify-content: center;
+ margin-top:-50px;
+  
+}
+.DoctorProfile-details-two{
+    display: flex;
+    justify-content: center;
+     
+   }
+.DoctorProfile-list{
+    width:55%;
+ 
+}
+
+
+.DoctorProfile-pass{
+  width:50%;
+}
+.DoctorProfile-form{
+    margin-top: 30px;
+}
+.DoctorProfile-formitem{
+    margin-left: 60px;
+}
+.DoctorProfile-input{
+    border: 1.5px solid #00000029;
+    border-radius: 4px;
+    background: #fafbfc;
+    padding-top: 3px;
+    display: flex;
+    justify-content: center;
+    width:200px;
+
+}
+.DoctorProfile-changePass{
+    display: flex;
+    width:100%;
+    flex-direction: column;
+    margin-left:240px;
+}
+
+.ChangePass-title{
+
+}
+.DoctorProfile-btn{
+    width:170px;
+    margin-top: 20px;
+    margin-left: 140px;
+    font-weight: 500;
+}
+.PatientExamine-heading{
+    color:#707070;
+    font-weight: bold;
+}
+.DoctorProfile-heading{
+    color:#707070;
+    font-weight: bold;
+    
+}
+      
+.DoctorPass-heading{
+
+    color:rgb(68, 59, 59);
+}
+@media(max-width:1500px){
+    .DoctorPass-heading{
+        margin-left: 130px;
+        
+    }
+}
+@media(max-width:924px){
+    .DoctorProfile-formitem {
+        margin-left: 0px;
+    }
+    .DoctorProfile-input{
+       
+    }
+    .DoctorProfile-btn{
+        margin-left: 130px;
+    }
+   
+}
+@media(max-width:915px){
+    .DoctorProfile-btn{
+        margin-left: 90px;
+    }
+    .DoctorPass-heading{
+        margin-left: 100px;
+        
+    }
+}
+@media(max-width:847px){
+    .DoctorProfile-input{
+       width:150px;
+    }
+    .DoctorProfile-btn{
+        width:150px;
+    }
+    .DoctorPass-heading{
+        margin-left: 80px;
+        
+    }
+}
+@media(max-width:777px){
+    .DoctorPass-heading{
+        margin-left: 30px;
+        
+    }
+}
+@media(max-width:767px){
+    .DoctorProfile-btn{
+        margin-left:0px;
+    }
+    .DoctorPass-heading{
+        margin-left: 0px;
+        
+    }
+}
+

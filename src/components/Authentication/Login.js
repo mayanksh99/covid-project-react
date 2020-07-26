@@ -1,36 +1,57 @@
-import React, { useState } from "react";
-import { Row, Col, Form, Input, Button, notification } from "antd";
-import {
-	EyeInvisibleOutlined,
-	EyeTwoTone,
-	UserOutlined,
-	LockOutlined
-} from "@ant-design/icons";
-
+import React, { useState, useContext } from "react";
+import { Row, Col, Form, Input, Button, Select } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./style.css";
+import PageTitle from "./../common/PageTitle";
+import { loginService } from "../../utils/services";
+import { _notification } from "../../utils/_helper";
+import { DispatchContext } from "../../contexts/userContext";
+
+const { Option } = Select;
 
 const Login = props => {
+	const [form] = Form.useForm();
+	const Dispatch = useContext(DispatchContext);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const onFinish = values => {
-		setIsLoading(!isLoading);
-		console.log("Received values of form: ", values);
-		notification.success({
-			description: "Log in Successful",
-			duration: 2,
-			message: "Success"
-		});
-		setIsLoading(!isLoading);
+	const onFinish = async values => {
+		setIsLoading(true);
+		try {
+			const data = { email: values.email, password: values.password };
+			const res = await loginService(values.role, data);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+				form.setFieldsValue({
+					password: ""
+				});
+			} else if (res.res.message === "success") {
+				Dispatch({
+					type: "IN",
+					token: res.token
+				});
+				_notification("success", "Success", "Logged In");
+				form.setFieldsValue({
+					email: "",
+					password: ""
+				});
+				setTimeout(() => {
+					props.history.push("/");
+				}, 200);
+			}
+			setIsLoading(false);
+		} catch (err) {
+			form.setFieldsValue({
+				password: ""
+			});
+			_notification("error", "Error", err.message);
+			setIsLoading(false);
+		}
 	};
 
 	const onFinishFailed = values => {
-		setIsLoading(!isLoading);
-		notification.error({
-			description: "Log in Failed",
-			duration: 2,
-			message: "Error"
-		});
-		setIsLoading(!isLoading);
+		setIsLoading(true);
+		_notification("error", "Error", "Something went wrong");
+		setIsLoading(false);
 	};
 
 	return (
@@ -47,62 +68,86 @@ const Login = props => {
 				</Col>
 				<Col span={14}>
 					<div className="login-card-container">
-						<h2 className="login-card-head">
-							Log in to your account
-						</h2>
-						<Form
-							name="normal_login"
-							className="login-form"
-							initialValues={{ remember: true }}
-							onFinish={onFinish}
-							onFinishFailed={onFinishFailed}
-						>
-							<Form.Item
-								name="username"
-								rules={[
-									{
-										required: true,
-										message: "Please input your Username!"
-									}
-								]}
+						<PageTitle title="Log in to your account" />
+
+						<div className="login-input-form">
+							<Form
+								form={form}
+								name="normal_login"
+								className="login-form"
+								onFinish={onFinish}
+								onFinishFailed={onFinishFailed}
 							>
-								<Input
-									className="input-field mt-10"
-									prefix={
-										<UserOutlined className="site-form-item-icon" />
-									}
-									placeholder="Username"
-								/>
-							</Form.Item>
-							<Form.Item
-								name="password"
-								rules={[
-									{
-										required: true,
-										message: "Please input your Password!"
-									}
-								]}
-							>
-								<Input.Password
-									className="input-field mt-10"
-									prefix={
-										<LockOutlined className="site-form-item-icon" />
-									}
-									placeholder="Password"
-								/>
-							</Form.Item>
-							<Form.Item>
-								<Button
-									type="primary"
-									htmlType="submit"
-									className="login-form-button"
-									block
+								<Form.Item
+									name="role"
+									rules={[
+										{
+											required: true,
+											message: "Please select your role!"
+										}
+									]}
 								>
-									Log in
-								</Button>
-							</Form.Item>
-							{/* <hr/> */}
-						</Form>
+									{/* <div className="login-select-role"> */}
+									<Select
+										placeholder="Select role"
+										style={{ width: "100%" }}
+									>
+										<Option value="doctor">Doctor</Option>
+										<Option value="hospital">
+											Hospital
+										</Option>
+										<Option value="ambulanceoperator">
+											Ambulance
+										</Option>
+										<Option value="admin">Admin</Option>
+									</Select>
+									{/* </div> */}
+								</Form.Item>
+								<Form.Item
+									name="email"
+									rules={[
+										{
+											type: "email",
+											required: true,
+											message: "Please input your email!"
+										}
+									]}
+								>
+									<Input
+										className="input-field mt-10"
+										prefix={<UserOutlined />}
+										placeholder="Email"
+									/>
+								</Form.Item>
+								<Form.Item
+									name="password"
+									rules={[
+										{
+											required: true,
+											message:
+												"Please input your Password!"
+										}
+									]}
+								>
+									<Input.Password
+										className="input-field mt-10"
+										prefix={<LockOutlined />}
+										placeholder="Password"
+									/>
+								</Form.Item>
+								<Form.Item>
+									<Button
+										type="primary"
+										htmlType="submit"
+										className="login-form-button"
+										block
+										loading={isLoading}
+									>
+										Log in
+									</Button>
+								</Form.Item>
+							</Form>
+						</div>
 					</div>
 				</Col>
 			</Row>

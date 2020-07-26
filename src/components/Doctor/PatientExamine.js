@@ -1,15 +1,16 @@
 import React from "react";
-import { Card, Statistic } from "antd";
+import { Statistic } from "antd";
 import PageTitle from "../common/PageTitle";
 
 import { Table, Tag, Space } from "antd";
+import { Link } from "react-router-dom";
 
 const columns = [
 	{
 		title: "Name",
 		dataIndex: "name",
 		key: "name",
-		render: text => <a>{text}</a>
+		render: text => <Link to="#">{text}</Link>
 	},
 	{
 		title: "Age",
@@ -46,8 +47,8 @@ const columns = [
 		key: "action",
 		render: (text, record) => (
 			<Space size="middle">
-				<a>Invite {record.name}</a>
-				<a>Delete</a>
+				<Link to="#">Invite {record.name}</Link>
+				<Link to="#">Delete</Link>
 			</Space>
 		)
 	}

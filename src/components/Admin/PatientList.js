@@ -12,8 +12,6 @@ import {
 } from "antd";
 import PageTitle from "./../common/PageTitle";
 import { UserOutlined, UploadOutlined } from "@ant-design/icons";
-import { MailOutlined } from "@ant-design/icons";
-import { LockOutlined } from "@ant-design/icons";
 
 const PatientList = () => {
 	const uploadProps = {

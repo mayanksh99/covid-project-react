@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import AmbulanceAdminOption from "./AmbulanceAdminOption";
 import { Card, Row, Col, Table, Tag, Select, Button } from "antd";
 import AddAmbulance from "./AddAmbulance";
-import PageTitle from "../common/PageTitle";
+import PageTitle from "./../../common/PageTitle";
+
 const { Option } = Select;
 
 const AmbulanceAdminDetails = () => {
@@ -84,10 +85,11 @@ const AmbulanceAdminDetails = () => {
 	return (
 		<div>
 			<PageTitle title="Ambulance" />
+
 			<AmbulanceAdminOption />
 			<div>
 				<h3 style={{ fontSize: "16px" }}>
-					Detail Ambulance Administrator
+					Detail of Ambulance Administrator
 				</h3>
 				<Row gutter={[16, 16]}>
 					<Col xs={24} sm={24} md={4} lg={6}>

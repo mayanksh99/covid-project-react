@@ -46,6 +46,7 @@ const AddAmbulanceAdmin = props => {
 						]}
 					>
 						<Input
+							className="input-field"
 							placeholder="Enter name"
 							prefix={<UserOutlined />}
 						/>
@@ -61,6 +62,7 @@ const AddAmbulanceAdmin = props => {
 						]}
 					>
 						<Input
+							className="input-field"
 							placeholder="Enter phone"
 							prefix={<PhoneOutlined />}
 						/>
@@ -76,6 +78,7 @@ const AddAmbulanceAdmin = props => {
 						]}
 					>
 						<Input
+							className="input-field"
 							placeholder="Enter pin"
 							prefix={<PushpinOutlined />}
 						/>
@@ -91,6 +94,7 @@ const AddAmbulanceAdmin = props => {
 						]}
 					>
 						<Input
+							className="input-field"
 							placeholder="Enter email"
 							prefix={<MailOutlined />}
 						/>
@@ -106,6 +110,7 @@ const AddAmbulanceAdmin = props => {
 						]}
 					>
 						<Input.Password
+							className="input-field"
 							placeholder="Enter password"
 							prefix={<LockOutlined />}
 						/>

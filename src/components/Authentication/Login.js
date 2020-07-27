@@ -58,7 +58,6 @@ const Login = props => {
 							onFinishFailed={onFinishFailed}
 						>
 							<Form.Item
-								className="imput-field"
 								name="username"
 								rules={[
 									{
@@ -68,7 +67,7 @@ const Login = props => {
 								]}
 							>
 								<Input
-									className="input-field"
+									className="input-field mt-10"
 									prefix={
 										<UserOutlined className="site-form-item-icon" />
 									}
@@ -76,7 +75,6 @@ const Login = props => {
 								/>
 							</Form.Item>
 							<Form.Item
-								className="imput-field"
 								name="password"
 								rules={[
 									{
@@ -86,7 +84,7 @@ const Login = props => {
 								]}
 							>
 								<Input.Password
-									className="input-field"
+									className="input-field mt-10"
 									prefix={
 										<LockOutlined className="site-form-item-icon" />
 									}

@@ -1,9 +1,6 @@
 import React, { useState, useEffect} from "react";
-import { Input, Statistic ,Button,Modal,Row ,Col,Select,Table,Card} from "antd";
+import { Input, Statistic ,Button,Modal,Row ,Col,Select,Table} from "antd";
 import PageTitle from "../common/PageTitle";
-import {
-	MedicineBoxOutlined
-} from '@ant-design/icons';
 import "./style.css";
 
 const PatientExamine = () => {
@@ -63,12 +60,9 @@ const PatientExamine = () => {
 	}
 	return (
 		<>
-			<div className="PatientExamine-header">
-				<MedicineBoxOutlined />
-				<PageTitle 
-					title="Examine Patients"
-				/>
-			</div>
+			<PageTitle 
+				title="Examine Patients"
+			/>
 			<Statistic
 				title="Number of patients left to examine"
 				value={365}
@@ -77,27 +71,35 @@ const PatientExamine = () => {
 					fontSize: "2em",
 					color: "#005ea5"
 				}}
-			/><br/>
-			<Card>
-				<Table
-					size="middle"
-					title={() => "List of Patients To Examine"}
-					showHeader={true}
-					closable={true}
-					bordered={false}
-					columns={tableColumns}
-					dataSource={data}
-					pagination={{ position: ["none", "bottomCenter"] }}
-				/>
-			</Card>
+			/>
+			<Table
+				size="middle"
+				title={() => "List of Patients to Examine"}
+				showHeader={true}
+				closable={true}
+				bordered={true}
+				columns={tableColumns}
+				dataSource={data}
+				pagination={{ position: ["none", "bottomCenter"] }}						
+			/>	
 			<Modal
-				title="Patient Details"
+				title={
+					<h3
+						style={{
+							textAlign: "center",
+							marginBottom: "-3px",
+							color: "#fff"
+						}}
+					>
+						Patient Details
+					</h3>
+				}
 				visible={isVisible}
 				centered
 				onCancel={handleCancel}
 				width={800}
 				footer={[
-					<Button key="submit" type="primary" onClick={handleOk}>
+					<Button key="submit" type="primary" onClick={handleOk} >
 						Submit
 					</Button>
 				]}
@@ -150,7 +152,7 @@ const PatientExamine = () => {
 						</Select>
 					</Col>
 				</Row>
-				<Row className="second-segment">
+				<Row className="second-segment Doctor-comment">
 					<Col span={6} className="PatientExamine-heading">Doctor's Comment</Col>
 					<Col span={16}>
 					<TextArea rows={4} />

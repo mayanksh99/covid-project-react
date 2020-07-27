@@ -50,14 +50,7 @@ let routes = [
 		key: "dashboard",
 		icon: AppstoreOutlined
 	},
-	{
-		path: "/patientexamine",
-		exact: true,
-		name: "Examine Patient",
-		component: PatientExamine,
-		key: "PatientExamine",
-		icon: MedicineBoxOutlined
-	},
+	
 	{
 		path: "/amb-admin-Profile",
 		exact: true,
@@ -106,6 +99,14 @@ let routes = [
 		name: "Doctor Profile",
 		key: "DoctorProfile",
 		icon: UserOutlined
+	},
+	{
+		path: "/patientexamine",
+		exact: true,
+		name: "Examine Patient",
+		component: PatientExamine,
+		key: "PatientExamine",
+		icon: MedicineBoxOutlined
 	},
 	{
 		path: "/ambulanceadmin",

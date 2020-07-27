@@ -4,6 +4,8 @@ import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import routes from "../../utils/_routes";
 import AmbulanceAdminDetails from "../Admin/Ambulance/AmbulanceAdminDetails";
 import HospitalDetails from "./../Admin/Hospital/HospitalDetails";
+import DoctorEditProfile from "./../Doctor/DoctorEditProfile"
+import UnassignedPatients from "./../Doctor/UnassignedPatients"
 import {
 	Redirect,
 	Route,
@@ -113,6 +115,16 @@ const Dashboard = props => {
 									exact
 									path="/hospitaldetails/:id"
 									component={HospitalDetails}
+								/>
+								<Route
+									exact
+									path="/doctorprofile/edit"
+									component={DoctorEditProfile}
+								/>
+								<Route
+									exact
+									path="/doctorprofile/view"
+									component={UnassignedPatients}
 								/>
 							</Switch>
 						</Content>

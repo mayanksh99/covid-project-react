@@ -1,7 +1,7 @@
 import React from "react";
 import PageTitle from "../../common/PageTitle";
 import DoctorAdminOption from "./DoctorAdminOption";
-import { Row, Col, Card, Button, Table, Tag, Statistic } from "antd";
+import { Row, Col, Card, Table } from "antd";
 
 const DoctorDetail = () => {
 	const columns = [

@@ -5,7 +5,9 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./contexts/userContext";
+import NetworkServices from "./utils/networkServices";
 
+NetworkServices();
 ReactDOM.render(
 	<AuthProvider>
 		<BrowserRouter>

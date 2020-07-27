@@ -50,6 +50,7 @@ const HospitalSvg = () => (
 
 const AmbulanceIcon = props => <Icon component={AmbulanceSvg} {...props} />;
 const BedIcon = props => <Icon component={BedSvg} {...props} />;
+const HospitalIcon = props => <Icon component={HospitalSvg} {...props} />;
 
 let routes = [
 	{
@@ -138,7 +139,7 @@ let routes = [
 		name: "Hospital",
 		component: HospitalAdmin,
 		key: "HospitalAdmin",
-		icon: HospitalSvg,
+		icon: HospitalIcon,
 		role: "admin",
 		permission: ["master", "hospital"]
 	},

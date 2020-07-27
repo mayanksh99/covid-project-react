@@ -48,13 +48,35 @@ const Dashboard = props => {
 							mode="inline"
 							// defaultSelectedKeys={"dashboard"}
 						>
-							{routes.map((route, idx) => (
-								<Menu.Item key={route.key}>
-									<route.icon />
-									<span>{route.name}</span>
-									<Link to={route.path} />
-								</Menu.Item>
-							))}
+							{routes.map((route, idx) => {
+								if (
+									route.role === userData[0].role &&
+									route.role === "admin"
+								) {
+									if (
+										userData[0].permissions.some(
+											r =>
+												route.permission.indexOf(r) >= 0
+										)
+									) {
+										return (
+											<Menu.Item key={route.key}>
+												<route.icon />
+												<span>{route.name}</span>
+												<Link to={route.path} />
+											</Menu.Item>
+										);
+									}
+								} else if (route.role === userData[0].role) {
+									return (
+										<Menu.Item key={route.key}>
+											<route.icon />
+											<span>{route.name}</span>
+											<Link to={route.path} />
+										</Menu.Item>
+									);
+								}
+							})}
 							<Menu.Item
 								key={"signout"}
 								onClick={() => {

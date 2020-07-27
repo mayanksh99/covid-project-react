@@ -5,16 +5,16 @@ const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 
 axios.defaults.baseURL = BASE_URL;
 
-function setUserToken() {
-	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
-	if (AUTH_TOKEN.token !== "") {
-		if (AUTH_TOKEN.token.includes("Logout")) {
-			localStorage.clear();
-			window.location.push("/login");
-		}
-		axios.defaults.headers.common["x-auth-token"] = AUTH_TOKEN.token;
-	}
-}
+// function setUserToken() {
+// 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
+// 	if (AUTH_TOKEN.token !== "") {
+// 		if (AUTH_TOKEN.token.includes("Logout")) {
+// 			localStorage.clear();
+// 			window.location.push("/login");
+// 		}
+// 		axios.defaults.headers.common["x-auth-token"] = AUTH_TOKEN.token;
+// 	}
+// }
 
 /******************AUTH SERVICES********************/
 

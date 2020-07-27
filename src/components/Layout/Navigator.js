@@ -4,8 +4,8 @@ import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import routes from "../../utils/_routes";
 import AmbulanceAdminDetails from "../Admin/Ambulance/AmbulanceAdminDetails";
 import HospitalDetails from "./../Admin/Hospital/HospitalDetails";
-import DoctorEditProfile from "./../Doctor/DoctorEditProfile"
-import UnassignedPatients from "./../Doctor/UnassignedPatients"
+import DoctorEditProfile from "./../Doctor/DoctorEditProfile";
+import UnassignedPatients from "./../Doctor/UnassignedPatients";
 import {
 	Redirect,
 	Route,

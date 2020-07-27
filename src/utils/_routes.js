@@ -50,7 +50,7 @@ let routes = [
 		key: "dashboard",
 		icon: AppstoreOutlined
 	},
-	
+
 	{
 		path: "/amb-admin-Profile",
 		exact: true,

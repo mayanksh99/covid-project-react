@@ -14,7 +14,7 @@ const PageTitle = ({ title }) => {
 				backgroundImage:
 					"linear-gradient(0deg,rgba(0, 0, 0, 0.1) 0,rgba(0, 0, 0, 0.1) 30%,transparent 30%,transparent)",
 				width: "fit-content",
-				height: 30,
+				height: 30
 			}}
 		/>
 	);

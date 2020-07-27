@@ -1,18 +1,17 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {
 	Redirect,
-	Route,
 	Switch,
 	BrowserRouter as Router,
 	Link
 } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { getRole } from "./../../utils/_helper";
 import routes from "../../utils/_routes";
+import PrivateRoute from "./PrivateRoute";
 import AmbulanceAdminDetails from "../Admin/Ambulance/AmbulanceAdminDetails";
 import HospitalDetails from "./../Admin/Hospital/HospitalDetails";
-import { AuthContext } from "./../../contexts/userContext";
-import { getRole } from "./../../utils/_helper";
 import PatientExamine from "./../Doctor/PatientExamine";
 import AmbAdminProfile from "./../Ambulance/AmbAdminProfile";
 import AssignAmbulance from "./../Ambulance/AssignAmbulance";
@@ -25,14 +24,13 @@ import HospitalAdmin from "./../Admin/Hospital/HospitalAdmin";
 import DoctorAdmin from "./../Admin/Doctor/DoctorAdmin";
 import AdminList from "./../Admin/AdminList";
 import PatientList from "./../Admin/PatientList";
+import DoctorDetail from "../Admin/Doctor/DoctorAdminDetail";
 
 const { Content, Sider } = Layout;
 
 const Dashboard = props => {
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const userData = useState(getRole());
-
-	console.log(userData);
 
 	return (
 		<>
@@ -214,10 +212,18 @@ const Dashboard = props => {
 									permission={["master", "ambulance"]}
 									data={userData[0]}
 								/>
-								<Route
+								<PrivateRoute
 									exact
 									path="/hospitaldetails/:id"
 									component={HospitalDetails}
+									role="admin"
+									permission={["master", "hospital"]}
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/doctordetails/:id"
+									component={DoctorDetail}
 									role="admin"
 									permission={["master", "hospital"]}
 									data={userData[0]}
@@ -228,40 +234,6 @@ const Dashboard = props => {
 				</Layout>
 			</Router>
 		</>
-	);
-};
-
-const PrivateRoute = ({
-	component: Component,
-	role,
-	data,
-	permission,
-	...rest
-}) => {
-	const Data = useContext(AuthContext);
-	return (
-		<Route
-			{...rest}
-			render={props =>
-				Data.token !== "" ? (
-					role !== "admin" ? (
-						role === data.role ? (
-							<Component {...props} />
-						) : (
-							<div>403</div>
-						)
-					) : data.permissions.some(
-							r => permission.indexOf(r) >= 0
-					  ) ? (
-						<Component {...props} />
-					) : (
-						<div>403</div>
-					)
-				) : (
-					<Redirect to="/login" />
-				)
-			}
-		/>
 	);
 };
 

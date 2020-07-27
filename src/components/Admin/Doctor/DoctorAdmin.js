@@ -21,7 +21,7 @@ const DoctorAdmin = () => {
 			title: "Name",
 			dataIndex: "name",
 			key: "name",
-			render: name => <Link to="/hospitaldetails/sdvsdvsd">{name}</Link>
+			render: name => <Link to="/doctordetails/sdvsdvsd">{name}</Link>
 		},
 		{
 			title: "Email",

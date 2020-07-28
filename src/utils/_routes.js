@@ -5,9 +5,8 @@ import AssignAmbulance from "../components/Ambulance/AssignAmbulance";
 import AmbulanceStatus from "../components/Ambulance/AmbulanceStatus";
 import AssignBed from "../components/Hospital/AssignBed";
 import UpdateDailyReport from "../components/Hospital/UpdateDailyReport";
-import DoctorProfile from "../components/Doctor/DoctorProfile";
+// import DoctorProfile from "../components/Doctor/DoctorProfile";
 import AmbAdminProfile from "../components/Ambulance/AmbAdminProfile";
-import AssignHospital from "../components/Doctor/AssignHospital";
 
 import {
 	AppstoreOutlined,
@@ -116,15 +115,15 @@ let routes = [
 		icon: BookOutlined,
 		role: "hospital"
 	},
-	{
-		path: "/doctorprofile",
-		exact: true,
-		component: DoctorProfile,
-		name: "Doctor Profile",
-		key: "DoctorProfile",
-		icon: UserOutlined,
-		role: "doctor"
-	},
+	// {
+	// 	path: "/doctorprofile",
+	// 	exact: true,
+	// 	component: DoctorProfile,
+	// 	name: "Doctor Profile",
+	// 	key: "DoctorProfile",
+	// 	icon: UserOutlined,
+	// 	role: "doctor"
+	// },
 	{
 		path: "/ambulanceadmin",
 		exact: true,

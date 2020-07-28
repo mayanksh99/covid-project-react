@@ -62,14 +62,6 @@ let routes = [
 		icon: MedicineBoxOutlined
 	},
 	{
-		path: "/hospitalassign",
-		exact: true,
-		name: "Assign Hospital",
-		component: AssignHospital,
-		key: "AssignHospital",
-		icon: SolutionOutlined
-	},
-	{
 		path: "/amb-admin-Profile",
 		exact: true,
 		name: "Amb-Admin Profile",

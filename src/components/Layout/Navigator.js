@@ -25,7 +25,8 @@ import DoctorAdmin from "./../Admin/Doctor/DoctorAdmin";
 import AdminList from "./../Admin/AdminList";
 import PatientList from "./../Admin/PatientList";
 import DoctorDetail from "../Admin/Doctor/DoctorAdminDetail";
-
+import DoctorEditProfile from "../Doctor/DoctorEditProfile";
+import UnassignedPatients from "../Doctor/UnassignedPatients";
 const { Content, Sider } = Layout;
 
 const Dashboard = props => {
@@ -255,6 +256,20 @@ const Dashboard = props => {
 									component={DoctorDetail}
 									role="admin"
 									permission={["master", "hospital"]}
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/doctorprofile/edit"
+									component={DoctorEditProfile}
+									role="doctor"
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/doctorprofile/view"
+									component={UnassignedPatients}
+									role="doctor"
 									data={userData[0]}
 								/>
 							</Switch>

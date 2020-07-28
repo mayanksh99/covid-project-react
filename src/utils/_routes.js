@@ -7,7 +7,6 @@ import AssignBed from "../components/Hospital/AssignBed";
 import UpdateDailyReport from "../components/Hospital/UpdateDailyReport";
 import DoctorProfile from "../components/Doctor/DoctorProfile";
 import AmbAdminProfile from "../components/Ambulance/AmbAdminProfile";
-
 import {
 	AppstoreOutlined,
 	MedicineBoxOutlined,
@@ -62,21 +61,13 @@ let routes = [
 		icon: AppstoreOutlined
 	},
 	{
-		path: "/patientexamine",
-		exact: true,
-		name: "Examine Patient",
-		component: PatientExamine,
-		key: "PatientExamine",
-		icon: MedicineBoxOutlined,
-		role: "doctor"
-	},
-	{
 		path: "/amb-admin-Profile",
 		exact: true,
 		name: "Amb-Admin Profile",
 		component: AmbAdminProfile,
 		key: "amb-admin-profile",
-		icon: UserOutlined
+		icon: AmbulanceSvg
+		/*icon: UserOutlined*/
 	},
 	{
 		path: "/assignambulance",
@@ -121,6 +112,15 @@ let routes = [
 		name: "Doctor Profile",
 		key: "DoctorProfile",
 		icon: UserOutlined,
+		role: "doctor"
+	},
+	{
+		path: "/patientexamine",
+		exact: true,
+		name: "Examine Patient",
+		component: PatientExamine,
+		key: "PatientExamine",
+		icon: MedicineBoxOutlined,
 		role: "doctor"
 	},
 	{

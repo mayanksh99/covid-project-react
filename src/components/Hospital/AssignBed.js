@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "antd/dist/antd.css";
 import { Table, Statistic, Row, Col, Button, Input, Modal } from "antd";
-import { AudioOutlined } from "@ant-design/icons";
+// import { AudioOutlined } from "@ant-design/icons";
 import PageTitle from "../common/PageTitle";
 
 const AssignBed = () => {
@@ -21,14 +21,14 @@ const AssignBed = () => {
 
 	const { Search } = Input;
 
-	const suffix = (
-		<AudioOutlined
-			style={{
-				fontSize: 16,
-				color: "#1890ff"
-			}}
-		/>
-	);
+	// const suffix = (
+	// 	<AudioOutlined
+	// 		style={{
+	// 			fontSize: 16,
+	// 			color: "#1890ff"
+	// 		}}
+	// 	/>
+	// );
 
 	const columns = [
 		{

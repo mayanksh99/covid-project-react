@@ -94,21 +94,21 @@ const AdminList = () => {
 	const data = [
 		{
 			key: "1",
-			name: "Corona Pidit",
+			name: "Rahul Singh",
 			email: "admin@admin.com",
 			role: "Doctor",
 			action: "Detail"
 		},
 		{
 			key: "2",
-			name: "Corona Pidit",
+			name: "Rahul Singh",
 			email: "admin@admin.com",
 			role: "Ambulance",
 			action: "Detail"
 		},
 		{
 			key: "3",
-			name: "Corona Pidit",
+			name: "Rahul Singh",
 			email: "admin@admin.com",
 			role: "Doctor",
 			action: "Detail"

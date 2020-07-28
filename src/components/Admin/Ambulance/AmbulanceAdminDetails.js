@@ -119,13 +119,13 @@ const AmbulanceAdminDetails = () => {
 									+91-9654231546
 								</span>
 							</p>
-							<p>
+							{/* <p>
 								<span className="profile-data-label">
 									Area Pin
 								</span>
 								<br />
 								<span className="profile-data">201206</span>
-							</p>
+							</p> */}
 							<p>
 								<span className="profile-data-label">
 									Email

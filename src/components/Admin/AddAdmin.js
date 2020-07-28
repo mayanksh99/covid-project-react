@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Form, Input, Select, Button } from "antd";
-import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
+// import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
@@ -36,7 +36,7 @@ const AddAdmin = () => {
 						<Input
 							className="input-field"
 							placeholder="Enter name"
-							prefix={<UserOutlined />}
+							// prefix={<UserOutlined />}
 						/>
 					</Form.Item>
 					<Form.Item
@@ -52,7 +52,7 @@ const AddAdmin = () => {
 						<Input
 							className="input-field"
 							placeholder="Enter email"
-							prefix={<MailOutlined />}
+							// prefix={<MailOutlined />}
 						/>
 					</Form.Item>
 					<Form.Item
@@ -68,45 +68,13 @@ const AddAdmin = () => {
 						<Select
 							placeholder="Select role"
 							// className="input-field"
-							prefix={<MailOutlined />}
+							// prefix={<MailOutlined />}
 						>
 							<Option value="Master">Master</Option>
 							<Option value="Doctor">Doctor</Option>
 							<Option value="Hospital">Hospital</Option>
 							<Option value="Ambulance">Ambulance</Option>
 						</Select>
-					</Form.Item>
-					<Form.Item
-						name="password"
-						label="Password"
-						rules={[
-							{
-								required: true,
-								message: "Please input password!"
-							}
-						]}
-					>
-						<Input.Password
-							className="input-field"
-							placeholder="Enter password"
-							prefix={<LockOutlined />}
-						/>
-					</Form.Item>
-					<Form.Item
-						name="password"
-						label="Re-Password"
-						rules={[
-							{
-								required: true,
-								message: "Please input password!"
-							}
-						]}
-					>
-						<Input.Password
-							className="input-field"
-							placeholder="Enter Re-password"
-							prefix={<LockOutlined />}
-						/>
 					</Form.Item>
 
 					<Form.Item>

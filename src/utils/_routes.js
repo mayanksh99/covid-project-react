@@ -121,7 +121,7 @@ let routes = [
 		component: PatientExamine,
 		key: "PatientExamine",
 		icon: MedicineBoxOutlined,
-		role:"doctor"
+		role: "doctor"
 	},
 	{
 		path: "/ambulanceadmin",

@@ -256,12 +256,14 @@ const Dashboard = props => {
 									path="/doctorprofile/edit"
 									component={DoctorEditProfile}
 									role="doctor"
+									data={userData[0]}
 								/>
 								<PrivateRoute
 									exact
 									path="/doctorprofile/view"
 									component={UnassignedPatients}
 									role="doctor"
+									data={userData[0]}
 								/>
 							</Switch>
 						</Content>

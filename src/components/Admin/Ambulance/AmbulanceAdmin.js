@@ -120,9 +120,7 @@ const AmbulanceAdmin = () => {
 			<PageTitle title="Ambulance" />
 			<AmbulanceAdminOption />
 			<div className="table-wrapper-card">
-				<h3 style={{ fontSize: "16px" }}>
-					List of Ambulance Administrator
-				</h3>
+				<h3 style={{ fontSize: "16px" }}>List of Ambulance Operator</h3>
 				<div>
 					<Col span={6}>
 						<Input.Search

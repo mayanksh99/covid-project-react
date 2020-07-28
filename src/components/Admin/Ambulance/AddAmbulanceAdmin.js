@@ -20,7 +20,7 @@ const AddAmbulanceAdmin = props => {
 							color: "#fff"
 						}}
 					>
-						Add Ambulance Administrator
+						Add Ambulance Operator
 					</h3>
 				}
 				visible={props.visible}

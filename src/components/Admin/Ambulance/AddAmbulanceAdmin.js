@@ -3,9 +3,9 @@ import { Modal, Form, Input, Button } from "antd";
 import {
 	UserOutlined,
 	PhoneOutlined,
-	MailOutlined,
-	LockOutlined,
-	PushpinOutlined
+	MailOutlined
+	// LockOutlined,
+	// PushpinOutlined
 } from "@ant-design/icons";
 
 const AddAmbulanceAdmin = props => {
@@ -67,7 +67,7 @@ const AddAmbulanceAdmin = props => {
 							prefix={<PhoneOutlined />}
 						/>
 					</Form.Item>
-					<Form.Item
+					{/* <Form.Item
 						name="areapin"
 						label="Area Pin"
 						rules={[
@@ -82,7 +82,7 @@ const AddAmbulanceAdmin = props => {
 							placeholder="Enter pin"
 							prefix={<PushpinOutlined />}
 						/>
-					</Form.Item>
+					</Form.Item> */}
 					<Form.Item
 						name="email"
 						label="Email"
@@ -99,7 +99,7 @@ const AddAmbulanceAdmin = props => {
 							prefix={<MailOutlined />}
 						/>
 					</Form.Item>
-					<Form.Item
+					{/* <Form.Item
 						name="password"
 						label="Password"
 						rules={[
@@ -114,7 +114,7 @@ const AddAmbulanceAdmin = props => {
 							placeholder="Enter password"
 							prefix={<LockOutlined />}
 						/>
-					</Form.Item>
+					</Form.Item> */}
 
 					<Form.Item>
 						<Button

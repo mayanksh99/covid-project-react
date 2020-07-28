@@ -48,6 +48,11 @@ const Dashboard = props => {
 							mode="inline"
 							// defaultSelectedKeys={"dashboard"}
 						>
+							{/* <Menu.Item key={"dashboard"}>
+								<AppstoreOutlined />
+								<span>Dashboard</span>
+								<Link to="/" />
+							</Menu.Item> */}
 							{routes.map((route, idx) => {
 								if (
 									route.role === userData[0].role &&
@@ -77,6 +82,7 @@ const Dashboard = props => {
 									);
 								}
 							})}
+
 							<Menu.Item
 								key={"signout"}
 								onClick={() => {
@@ -135,6 +141,7 @@ const Dashboard = props => {
 									) : null;
 								})}
 								 */}
+								{/* <Route exact path="/" component={Dashboard} /> */}
 								<PrivateRoute
 									exact
 									path="/patientexamine"

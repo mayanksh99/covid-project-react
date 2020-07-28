@@ -76,38 +76,6 @@ const AddAdmin = () => {
 							<Option value="Ambulance">Ambulance</Option>
 						</Select>
 					</Form.Item>
-					<Form.Item
-						name="password"
-						label="Password"
-						rules={[
-							{
-								required: true,
-								message: "Please input password!"
-							}
-						]}
-					>
-						<Input.Password
-							className="input-field"
-							placeholder="Enter password"
-							prefix={<LockOutlined />}
-						/>
-					</Form.Item>
-					<Form.Item
-						name="password"
-						label="Re-Password"
-						rules={[
-							{
-								required: true,
-								message: "Please input password!"
-							}
-						]}
-					>
-						<Input.Password
-							className="input-field"
-							placeholder="Enter Re-password"
-							prefix={<LockOutlined />}
-						/>
-					</Form.Item>
 
 					<Form.Item>
 						<Button

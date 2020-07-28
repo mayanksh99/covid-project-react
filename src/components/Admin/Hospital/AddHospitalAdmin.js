@@ -1,6 +1,6 @@
 import React from "react";
-import { Modal, Form, Button, Input } from "antd";
-import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
+import { Modal, Form, Button, Input, InputNumber, Radio } from "antd";
+// import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
 
 const AddHospitalAdmin = props => {
 	return (
@@ -42,7 +42,7 @@ const AddHospitalAdmin = props => {
 						<Input
 							className="input-field"
 							placeholder="Enter name"
-							prefix={<UserOutlined />}
+							// prefix={<UserOutlined />}
 						/>
 					</Form.Item>
 					<Form.Item
@@ -58,39 +58,77 @@ const AddHospitalAdmin = props => {
 						<Input
 							className="input-field"
 							placeholder="Enter email"
-							prefix={<MailOutlined />}
+							// prefix={<MailOutlined />}
 						/>
 					</Form.Item>
+
 					<Form.Item
-						name="password"
-						label="Password"
+						name="category"
+						label="Category"
 						rules={[
 							{
 								required: true,
-								message: "Please input password!"
+								message: "Please select category!"
 							}
 						]}
 					>
-						<Input.Password
-							className="input-field"
-							placeholder="Enter password"
-							prefix={<LockOutlined />}
-						/>
+						<Radio.Group>
+							<Radio value="L1">L1</Radio>
+							<Radio value="L2">L2</Radio>
+							<Radio value="L3">L3</Radio>
+						</Radio.Group>
 					</Form.Item>
+
 					<Form.Item
-						name="password"
-						label="Re-Password"
+						name="contact"
+						label="Contact No."
 						rules={[
 							{
 								required: true,
-								message: "Please input password!"
+								message: "Please input conatct no.!"
 							}
 						]}
 					>
-						<Input.Password
+						<Input
 							className="input-field"
-							placeholder="Enter Re-password"
-							prefix={<LockOutlined />}
+							placeholder="Enter contact no."
+							// prefix={<MailOutlined />}
+						/>
+					</Form.Item>
+
+					<Form.Item
+						name="address"
+						label="Address"
+						rules={[
+							{
+								required: true,
+								message: "Please input address!"
+							}
+						]}
+					>
+						<Input
+							className="input-field"
+							placeholder="Enter address"
+							// prefix={<MailOutlined />}
+						/>
+					</Form.Item>
+
+					<Form.Item
+						name="totalBeds"
+						label="Total Beds"
+						rules={[
+							{
+								required: true,
+								message: "Please input total beds!"
+							}
+						]}
+					>
+						<InputNumber
+							min={1}
+							style={{ width: "100%" }}
+							className="input-field"
+							placeholder="Enter total beds"
+							// prefix={<UserOutlined />}
 						/>
 					</Form.Item>
 

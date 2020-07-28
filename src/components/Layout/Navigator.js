@@ -1,30 +1,36 @@
 import React, { useState } from "react";
-import { Layout, Menu } from "antd";
-import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
-import routes from "../../utils/_routes";
-import AmbulanceAdminDetails from "../Admin/Ambulance/AmbulanceAdminDetails";
-import HospitalDetails from "./../Admin/Hospital/HospitalDetails";
 import {
 	Redirect,
-	Route,
 	Switch,
 	BrowserRouter as Router,
 	Link
 } from "react-router-dom";
+import { Layout, Menu } from "antd";
+import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { getRole } from "./../../utils/_helper";
+import routes from "../../utils/_routes";
+import PrivateRoute from "./PrivateRoute";
+import AmbulanceAdminDetails from "../Admin/Ambulance/AmbulanceAdminDetails";
+import HospitalDetails from "./../Admin/Hospital/HospitalDetails";
+import PatientExamine from "./../Doctor/PatientExamine";
+import AmbAdminProfile from "./../Ambulance/AmbAdminProfile";
+import AssignAmbulance from "./../Ambulance/AssignAmbulance";
+import AmbulanceStatus from "./../Ambulance/AmbulanceStatus";
+import AssignBed from "./../Hospital/AssignBed";
+import UpdateDailyReport from "./../Hospital/UpdateDailyReport";
+import DoctorProfile from "./../Doctor/DoctorProfile";
+import AmbulanceAdmin from "./../Admin/Ambulance/AmbulanceAdmin";
+import HospitalAdmin from "./../Admin/Hospital/HospitalAdmin";
+import DoctorAdmin from "./../Admin/Doctor/DoctorAdmin";
+import AdminList from "./../Admin/AdminList";
+import PatientList from "./../Admin/PatientList";
+import DoctorDetail from "../Admin/Doctor/DoctorAdminDetail";
 
 const { Content, Sider } = Layout;
 
 const Dashboard = props => {
 	const [isCollapsed, setIsCollapsed] = useState(false);
-
-	// useEffect(() => {
-	// 	if (
-	// 		!localStorage.getItem("token") ||
-	// 		localStorage.getItem("token") === "undefined"
-	// 	) {
-	// 		props.history.push("/login");
-	// 	}
-	// });
+	const userData = useState(getRole());
 
 	return (
 		<>
@@ -42,13 +48,35 @@ const Dashboard = props => {
 							mode="inline"
 							// defaultSelectedKeys={"dashboard"}
 						>
-							{routes.map((route, idx) => (
-								<Menu.Item key={route.key}>
-									<route.icon />
-									<span>{route.name}</span>
-									<Link to={route.path} />
-								</Menu.Item>
-							))}
+							{routes.map((route, idx) => {
+								if (
+									route.role === userData[0].role &&
+									route.role === "admin"
+								) {
+									if (
+										userData[0].permissions.some(
+											r =>
+												route.permission.indexOf(r) >= 0
+										)
+									) {
+										return (
+											<Menu.Item key={route.key}>
+												<route.icon />
+												<span>{route.name}</span>
+												<Link to={route.path} />
+											</Menu.Item>
+										);
+									}
+								} else if (route.role === userData[0].role) {
+									return (
+										<Menu.Item key={route.key}>
+											<route.icon />
+											<span>{route.name}</span>
+											<Link to={route.path} />
+										</Menu.Item>
+									);
+								}
+							})}
 							<Menu.Item
 								key={"signout"}
 								onClick={() => {
@@ -91,28 +119,136 @@ const Dashboard = props => {
 							}}
 						>
 							<Switch>
-								{routes.map((route, idx) => {
+								{/* {routes.map((route, idx) => {
 									return route.component ? (
-										<Route
+										<PrivateRoute
 											key={idx}
 											path={route.path}
 											exact={route.exact}
+											data={userData[0]}
+											role={route.role}
+											permission={route.permission}
 											render={props => (
 												<route.component {...props} />
 											)}
 										/>
 									) : null;
 								})}
+								 */}
+								<PrivateRoute
+									exact
+									path="/patientexamine"
+									component={PatientExamine}
+									data={userData[0]}
+									role="doctor"
+								/>
+								<PrivateRoute
+									exact
+									path="/amb-admin-Profile"
+									component={AmbAdminProfile}
+									role="ambulanceoperator"
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/assignambulance"
+									component={AssignAmbulance}
+									role="ambulanceoperator"
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/ambulancestatus"
+									component={AmbulanceStatus}
+									data={userData[0]}
+									role="ambulanceoperator"
+								/>
+								<PrivateRoute
+									exact
+									path="/assignbed"
+									component={AssignBed}
+									data={userData[0]}
+									role="hospital"
+								/>
+								<PrivateRoute
+									exact
+									path="/updatedailyreport"
+									component={UpdateDailyReport}
+									data={userData[0]}
+									role="hospital"
+								/>
+								<PrivateRoute
+									exact
+									path="/doctorprofile"
+									component={DoctorProfile}
+									data={userData[0]}
+									role="doctor"
+								/>
+								<PrivateRoute
+									exact
+									path="/ambulanceadmin"
+									component={AmbulanceAdmin}
+									role="admin"
+									permission={["master", "ambulance"]}
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/hospitaladmin"
+									component={HospitalAdmin}
+									role="admin"
+									permission={["master", "hospital"]}
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/doctoradmin"
+									component={DoctorAdmin}
+									role="admin"
+									permission={["master", "doctor"]}
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/adminlist"
+									component={AdminList}
+									role="admin"
+									permission={["master"]}
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/patientlist"
+									component={PatientList}
+									role="admin"
+									permission={["master"]}
+									data={userData[0]}
+								/>
+
 								<Redirect from="/dashboard" to="/" />
-								<Route
+								<PrivateRoute
 									exact
 									path="/ambulancedetails/:id"
 									component={AmbulanceAdminDetails}
+									role="admin"
+									permission={["master", "ambulance"]}
+									data={userData[0]}
 								/>
-								<Route
+								<PrivateRoute
 									exact
 									path="/hospitaldetails/:id"
 									component={HospitalDetails}
+									role="admin"
+									permission={["master", "hospital"]}
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/doctordetails/:id"
+									component={DoctorDetail}
+									role="admin"
+									permission={["master", "hospital"]}
+									data={userData[0]}
 								/>
 							</Switch>
 						</Content>

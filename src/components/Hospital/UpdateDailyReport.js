@@ -11,14 +11,14 @@ import {
 	Select,
 	Rate
 } from "antd";
-import { AudioOutlined } from "@ant-design/icons";
+// import { AudioOutlined } from "@ant-design/icons";
 import PageTitle from "../common/PageTitle";
 
+const { Option } = Select;
+const { TextArea } = Input;
 const UpdateDailyReport = () => {
 	const [isVisible, setIsVisible] = useState(false);
-	const { Option } = Select;
-	const [selectedOption, setSelectedOption] = useState("");
-	const { TextArea } = Input;
+	const [setSelectedOption] = useState("");
 
 	const showModal = () => {
 		setIsVisible(!isVisible);
@@ -37,14 +37,14 @@ const UpdateDailyReport = () => {
 	};
 	const { Search } = Input;
 
-	const suffix = (
-		<AudioOutlined
-			style={{
-				fontSize: 16,
-				color: "#1890ff"
-			}}
-		/>
-	);
+	// const suffix = (
+	// 	<AudioOutlined
+	// 		style={{
+	// 			fontSize: 16,
+	// 			color: "#1890ff"
+	// 		}}
+	// 	/>
+	// );
 
 	const columns = [
 		{

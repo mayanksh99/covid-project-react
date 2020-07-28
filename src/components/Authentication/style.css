@@ -47,13 +47,9 @@
 	height: 30px;
 }
 
-.login-form-button {
-	background-color: #005ea5;
-	border-radius: 4px;
-	padding: 16px 14px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-weight: 700;
-	margin-top: 10px;
+/* .login-select-role {
+	margin-bottom: 10px;
 }
+
+.login-input-form {
+} */

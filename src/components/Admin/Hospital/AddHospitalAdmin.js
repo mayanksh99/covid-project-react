@@ -1,12 +1,6 @@
 import React from "react";
-import { Modal, Row, Col, Form, Button, Input } from "antd";
-import {
-	UserOutlined,
-	PhoneOutlined,
-	PushpinOutlined,
-	MailOutlined,
-	LockOutlined
-} from "@ant-design/icons";
+import { Modal, Form, Button, Input } from "antd";
+import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
 
 const AddHospitalAdmin = props => {
 	return (

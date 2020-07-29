@@ -70,6 +70,11 @@ body {
 }
 
 .input-field {
+	border-radius: 4px;
+	/* padding: 6px 12px; */
+}
+
+.login-input-field {
 	border: 1.5px solid #00000029;
 	border-radius: 4px;
 	background: #fafbfc;

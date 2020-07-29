@@ -4,6 +4,7 @@ import PageTitle from "../common/PageTitle";
 import "./style.css";
 
 const PatientExamine = () => {
+
 	const { TextArea } = Input;
 	const { Option } = Select;
 	const [isVisible, setIsVisible] = useState(false);
@@ -22,12 +23,14 @@ const PatientExamine = () => {
 		setIsVisible(!isVisible);
 	};
 	const tableColumns = [
+
 		{
 			title: "Patient ID",
 			dataIndex: "id",
 			key: "id"
 		},
 		{
+
 			title: "Patient Name",
 			dataIndex: "name",
 			key: "name"
@@ -47,11 +50,13 @@ const PatientExamine = () => {
 					className="Examine-btn"
 					onClick={showModal}
 				>
+
 					Examine
 				</Button>
 			)
 		}
 	];
+
 	const data = [];
 	for (let i = 1; i <= 5; i++) {
 		data.push({
@@ -61,8 +66,9 @@ const PatientExamine = () => {
 			age: "55 years"
 		});
 	}
+
 	return (
-		<>
+		<div>
 			<PageTitle title="Examine Patients" />
 			<Statistic
 				title="Number of patients left to examine"
@@ -83,6 +89,7 @@ const PatientExamine = () => {
 				dataSource={data}
 				pagination={{ position: ["none", "bottomCenter"] }}
 			/>
+
 			<Modal
 				title={
 					<h3
@@ -92,10 +99,12 @@ const PatientExamine = () => {
 							color: "#fff"
 						}}
 					>
+
 						Patient Details
 					</h3>
 				}
 				visible={isVisible}
+
 				centered
 				onCancel={handleCancel}
 				width={800}
@@ -153,12 +162,14 @@ const PatientExamine = () => {
 						<Select
 							defaultValue="select level"
 							onChange={handleChange}
+
 						>
 							<Option value="L1">L1</Option>
 							<Option value="L2">L2</Option>
 							<Option value="L3">L3</Option>
 						</Select>
 					</Col>
+
 					<Col sm={6} xs={24} className="PatientExamine-heading">
 						Select Hospital
 					</Col>
@@ -183,6 +194,7 @@ const PatientExamine = () => {
 				</Row>
 			</Modal>
 		</>
+
 	);
 };
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { LOGIN, ADD_PATIENT } from "./routes";
 
-const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
+const BASE_URL = "https://adb545f69dd4.ngrok.io/api/v1";
 
 axios.defaults.baseURL = BASE_URL;
 

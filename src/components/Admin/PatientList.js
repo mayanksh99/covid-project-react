@@ -21,6 +21,7 @@ const PatientList = () => {
 	const [form] = Form.useForm();
 	const dateFormat = "DD/MM/YYYY";
 	const [isLoading, setIsLoading] = useState(false);
+	const [report, setReport] = useState(null);
 	const [fileList, setFileList] = useState(null);
 	const uploadProps = {
 		name: "file",
@@ -69,8 +70,8 @@ const PatientList = () => {
 			formData.append("relativeEmail", values.relativeEmail);
 			formData.append("sampleCollected", sampleCollected);
 			formData.append("sampleResult", sampleResult);
-			if (values.report) {
-				formData.append("report", values.report.file.originFileObj);
+			if (report) {
+				formData.append("report", report);
 			}
 			const res = await addPatientService(formData);
 			if (res.error) {
@@ -101,6 +102,10 @@ const PatientList = () => {
 			_notification("error", "Error", err.message);
 			setIsLoading(false);
 		}
+	};
+
+	const handleReport = e => {
+		setReport(e.target.files[0]);
 	};
 
 	return (
@@ -173,7 +178,7 @@ const PatientList = () => {
 									style={{ width: "100%" }}
 									className="input-field"
 									placeholder="Enter age"
-									prefix={<UserOutlined />}
+									// prefix={<UserOutlined />}
 								/>
 							</Form.Item>
 							<Form.Item
@@ -315,11 +320,12 @@ const PatientList = () => {
 							</Row>
 
 							<Form.Item name="report" label="Patient Report">
-								<Upload {...uploadProps} fileList={fileList}>
+								{/* <Upload {...uploadProps} fileList={fileList}>
 									<Button>
 										<UploadOutlined /> Click to Upload
 									</Button>
-								</Upload>
+								</Upload> */}
+								<Input type="file" onChange={handleReport} />
 							</Form.Item>
 
 							<Form.Item>

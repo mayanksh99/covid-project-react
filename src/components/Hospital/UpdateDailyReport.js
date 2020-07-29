@@ -84,11 +84,7 @@ const UpdateDailyReport = () => {
 
 	const data = [];
 
-<<<<<<< HEAD
-	for (let i = 0; i < 100; i++) {
-=======
 	for (let i = 0; i < 7; i++) {
->>>>>>> 9b18323a3ebf3144aaad344a3366866642069c55
 		data.push({
 			key: i,
 			id: `${i}`,

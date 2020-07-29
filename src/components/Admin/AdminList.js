@@ -26,6 +26,7 @@ const AdminList = () => {
 	const [action] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [admins, setAdmins] = useState(null);
+	const [refresh, setRefresh] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -38,7 +39,7 @@ const AdminList = () => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, []);
+	}, [refresh]);
 
 	const columns = [
 		{
@@ -151,7 +152,7 @@ const AdminList = () => {
 			<br />
 			<Row gutter={[16, 16]}>
 				<Col xs={24} sm={24} md={24} lg={8} xl={6}>
-					<AddAdmin />
+					<AddAdmin refresh={refresh} setRefresh={setRefresh} />
 				</Col>
 				<Col xs={24} sm={24} md={24} lg={16} xl={18}>
 					<Card>

@@ -54,7 +54,6 @@ const PatientList = () => {
 
 	const onFinish = async values => {
 		setIsLoading(true);
-		console.log(values);
 		try {
 			let sampleCollected = values.sampleCollected.format("DD/MM/YYYY");
 			let sampleResult = values.sampleResult.format("DD/MM/YYYY");

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGIN, ADD_PATIENT, GET_ADMINS } from "./routes";
+import { LOGIN, ADD_PATIENT, GET_ADMINS, ADD_ADMINS } from "./routes";
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 
@@ -56,6 +56,18 @@ export const getAdminsService = async () => {
 	setUserToken();
 	try {
 		const response = await axios.get(GET_ADMINS);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const addAdminService = async data => {
+	setUserToken();
+	try {
+		const response = await axios.post(ADD_ADMINS, data);
 		if (response.status === 200 && response.data.error === false)
 			return response.data;
 	} catch (err) {

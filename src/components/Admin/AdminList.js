@@ -19,7 +19,7 @@ import {
 } from "@ant-design/icons";
 import PageTitle from "./../common/PageTitle";
 import AddAdmin from "./AddAdmin";
-import { getAdminsService } from "./../../utils/services";
+import { getAdminsService, delByAdminService } from "./../../utils/services";
 import { _notification } from "../../utils/_helper";
 
 const AdminList = () => {
@@ -40,6 +40,24 @@ const AdminList = () => {
 			}
 		})();
 	}, [refresh]);
+
+	const handleDelete = async id => {
+		try {
+			const res = await delByAdminService("admin", id);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification(
+					"success",
+					"Success",
+					"Admin deleted successfully"
+				);
+				setRefresh(!refresh);
+			}
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+		}
+	};
 
 	const columns = [
 		{
@@ -110,7 +128,7 @@ const AdminList = () => {
 					<Tooltip title="Delete admin">
 						<Popconfirm
 							title="Are you sure delete this user?"
-							// onConfirm={() => handleUserDelete(action[1])}
+							onConfirm={() => handleDelete(id)}
 							okText="Yes"
 							cancelText="No"
 						>

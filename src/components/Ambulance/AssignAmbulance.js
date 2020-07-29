@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Table, Statistic, Row, Col, Select } from "antd";
+import { EditOutlined } from "@ant-design/icons";
 import "./style.css";
 import PageTitle from "../common/PageTitle";
 const AssignAmbulance = () => {
@@ -38,6 +39,11 @@ const AssignAmbulance = () => {
 
 	const tableColumns = [
 		{
+			title: "#",
+			dataIndex: "key",
+			key: "key"
+		},
+		{
 			title: "Name",
 			dataIndex: "name",
 			key: "name"
@@ -53,7 +59,7 @@ const AssignAmbulance = () => {
 			key: "address"
 		},
 		{
-			title: "Assign Ambulance",
+			title: "Action",
 			key: "assign",
 			render: () => (
 				<Button type="primary" onClick={showModal}>
@@ -83,16 +89,16 @@ const AssignAmbulance = () => {
 				pagination={{ position: ["none", "bottomCenter"] }}
 			/>
 			<Modal
-				title="Patient Details"
+				title={
+					<h3 style={{ color: "#fff", marginBottom: "-3px" }}>
+						Patient Details
+					</h3>
+				}
 				visible={isVisible}
-				centered
 				onCancel={handleCancel}
 				width={800}
-				footer={[
-					<Button key="submit" type="primary" onClick={handleOk}>
-						Submit
-					</Button>
-				]}
+				centered
+				footer={null}
 			>
 				<Row>
 					<Col span={4}>Name</Col>
@@ -124,6 +130,7 @@ const AssignAmbulance = () => {
 						<Select
 							defaultValue="choose plate"
 							onChange={handleChange}
+							style={{ width: "160px" }}
 						>
 							<Option value="UP65 AT 8754">UP65 AT 8754</Option>
 							<Option value="UP65 AT 8753">UP65 AT 8753</Option>
@@ -134,11 +141,39 @@ const AssignAmbulance = () => {
 				</Row>
 				<Row>
 					<Col span={6}>Driver Name</Col>
-					<Col className="gap">Dayanand tiwari</Col>
+					<Col className="ml-11">
+						Dayanand tiwari{" "}
+						<EditOutlined
+							className="ml-11"
+							style={{ cursor: "pointer" }}
+						/>
+					</Col>
 				</Row>
 				<Row>
 					<Col span={6}>Driver Phone</Col>
-					<Col className="gap">+91-xxxxxxxxxx</Col>
+					<Col className="ml-11">
+						+91-xxxxxxxxxx
+						<EditOutlined
+							className="ml-11"
+							style={{ cursor: "pointer" }}
+						/>
+					</Col>
+				</Row>
+				<Row
+					style={{
+						marginTop: "25px",
+						width: "100%",
+						justifyContent: "flex-end"
+					}}
+				>
+					<Button
+						key="submit"
+						type="primary"
+						onClick={handleOk}
+						style={{ width: "25%", marginRight: "15px" }}
+					>
+						Submit
+					</Button>
 				</Row>
 			</Modal>
 		</div>

@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { Row, Col, Form, Input, Button, Modal } from "antd";
 import "./style.css";
 import PageTitle from "../common/PageTitle";
+import {
+	PushpinOutlined,
+	PhoneOutlined,
+	UserOutlined,
+	NumberOutlined
+} from "@ant-design/icons";
 
 const AmbAdminProfile = () => {
 	const [isVisible, setIsVisible] = useState(false);
@@ -13,16 +19,12 @@ const AmbAdminProfile = () => {
 		setIsVisible(!isVisible);
 	};
 
-	const handleOk = () => {
-		setIsVisible(!isVisible);
-	};
-
 	const handleCancel = () => {
 		setIsVisible(!isVisible);
 	};
 
 	return (
-		<div className="container">
+		<div>
 			<PageTitle title="Profile" />
 			<Row>
 				<Col span={3}>Name</Col>
@@ -36,7 +38,9 @@ const AmbAdminProfile = () => {
 				<Col span={3}>ID</Col>
 				<Col>P1</Col>
 			</Row>
-			<PageTitle title="Change Password" style={{ marginTop: "40px" }} />
+			<div style={{ marginTop: "50px" }}>
+				<PageTitle title="Change Password" />
+			</div>
 
 			<Form name="register" onFinish={onFinish}>
 				<Row>
@@ -44,6 +48,7 @@ const AmbAdminProfile = () => {
 					<Col span={6}>
 						<Form.Item
 							name="currPassword"
+							hasFeedback={true}
 							rules={[
 								{
 									required: true,
@@ -62,6 +67,7 @@ const AmbAdminProfile = () => {
 						<Form.Item
 							name="newPassword"
 							dependencies={["currPassword"]}
+							hasFeedback={true}
 							rules={[
 								{
 									required: true,
@@ -93,6 +99,7 @@ const AmbAdminProfile = () => {
 						<Form.Item
 							name="conPassword"
 							dependencies={["newPassword"]}
+							hasFeedback={true}
 							rules={[
 								{
 									required: true,
@@ -118,97 +125,118 @@ const AmbAdminProfile = () => {
 						</Form.Item>
 					</Col>
 				</Row>
-				<Button type="primary" htmlType="submit">
+				<Button
+					type="primary"
+					htmlType="submit"
+					style={{ marginTop: "20px", width: "15%" }}
+				>
 					Change Password
 				</Button>
 			</Form>
 			<div style={{ marginTop: "20px" }}>
-				<Button type="primary" onClick={showModal}>
+				<Button
+					type="primary"
+					onClick={showModal}
+					style={{ width: "15%" }}
+				>
 					Add Ambulance
 				</Button>
 			</div>
 
 			<Modal
-				title="Patient Details"
-				visible={isVisible}
-				centered
-				onCancel={handleCancel}
-				footer={[
-					<Button
-						key="submit"
-						type="primary"
-						onClick={handleOk}
-						htmlType="submit"
+				title={
+					<h3
+						style={{
+							textAlign: "center",
+							marginBottom: "-3px",
+							color: "#fff"
+						}}
 					>
-						Submit
-					</Button>
-				]}
+						Add Ambulance
+					</h3>
+				}
+				visible={isVisible}
+				onCancel={handleCancel}
+				footer={null}
+				width={400}
 			>
-				<Form name="register" onFinish={onFinish}>
-					<Row>
-						<Col span={8}>Vehicle Number</Col>
-						<Col>
-							<Form.Item
-								name="Vehicle Number"
-								rules={[
-									{
-										required: true,
-										message: "Please input this field"
-									}
-								]}
-							>
-								<Input className="pwd" />
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row>
-						<Col span={8}>Driver Name</Col>
-						<Col>
-							<Form.Item
-								name="Driver Name"
-								rules={[
-									{
-										required: true,
-										message: "Please input this field"
-									}
-								]}
-							>
-								<Input className="pwd" />
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row>
-						<Col span={8}>Driver Phone</Col>
-						<Col>
-							<Form.Item
-								name="Driver Phone"
-								rules={[
-									{
-										required: true,
-										message: "Please input this field"
-									}
-								]}
-							>
-								<Input className="pwd" />
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row>
-						<Col span={8}>Area</Col>
-						<Col>
-							<Form.Item
-								name="Area"
-								rules={[
-									{
-										required: true,
-										message: "Please input this field"
-									}
-								]}
-							>
-								<Input className="pwd" />
-							</Form.Item>
-						</Col>
-					</Row>
+				<Form
+					layout="vertical"
+					name="normal_login"
+					className="login-form"
+					initialValues={{ remember: true }}
+				>
+					<Form.Item
+						name="vehiclenumber"
+						label="Vehicle Number"
+						rules={[
+							{
+								required: true,
+								message: "Please input vehicle number!"
+							}
+						]}
+					>
+						<Input
+							placeholder="Enter vehicle number"
+							prefix={<NumberOutlined />}
+						/>
+					</Form.Item>
+					<Form.Item
+						name="drivername"
+						label="Driver Name"
+						rules={[
+							{
+								required: true,
+								message: "Please input driver name!"
+							}
+						]}
+					>
+						<Input
+							placeholder="Enter driver name"
+							prefix={<UserOutlined />}
+						/>
+					</Form.Item>
+					<Form.Item
+						name="driverphone"
+						label="Driver Phone No."
+						rules={[
+							{
+								required: true,
+								message: "Please input driver phone no.!"
+							}
+						]}
+					>
+						<Input
+							placeholder="Enter driver phone no."
+							prefix={<PhoneOutlined />}
+						/>
+					</Form.Item>
+					<Form.Item
+						name="areapin"
+						label="Area Pin"
+						rules={[
+							{
+								required: true,
+								message: "Please input area pin!"
+							}
+						]}
+					>
+						<Input
+							placeholder="Enter area pin"
+							prefix={<PushpinOutlined />}
+						/>
+					</Form.Item>
+
+					<Form.Item>
+						<Button
+							type="primary"
+							htmlType="submit"
+							className="login-form-button"
+							block
+						>
+							Submit
+						</Button>
+					</Form.Item>
 				</Form>
 			</Modal>
 		</div>

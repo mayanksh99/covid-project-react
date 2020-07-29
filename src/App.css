@@ -39,19 +39,19 @@ body {
 	background-color: #fafbfc !important;
 }
 
-/* .ant-menu-item:hover,
+.ant-menu-item:hover,
 .at-menu-item:active,
 .ant-menu-item-selected {
 	color: #008db9;
-} */
+}
 
-/* li.ant-menu-item.ant-menu-item-selected::after {
+li.ant-menu-item.ant-menu-item-selected::after {
 	border: 2px solid #008db9;
 }
 
 .ant-menu {
-	margin-top: 32px;
-} */
+	margin-top: 20px;
+}
 
 .login-form-button {
 	background-color: #005ea5;
@@ -69,6 +69,13 @@ body {
 	color: #005ea5;
 }
 
+.pl-11 {
+	padding-left: 11px;
+}
+
+.mt-15 {
+	margin-top: 15px;
+}
 .input-field {
 	border: 1.5px solid #00000029;
 	border-radius: 4px;
@@ -78,8 +85,4 @@ body {
 
 .mt-10 {
 	margin-top: 10px;
-}
-
-.ant-input-affix-wrapper > input.ant-input {
-	background: #fafbfc;
 }

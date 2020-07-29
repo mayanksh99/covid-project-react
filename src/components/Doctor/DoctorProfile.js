@@ -1,12 +1,11 @@
-
 import React from "react";
-import { Row, Col, Form, Input, Button, Card } from "antd";
+import { Row, Col, Button, Card } from "antd";
 import PageTitle from "../common/PageTitle";
 import "./style.css";
 const DoctorProfile = () => {
-	const onFinish = values => {
-		console.log("form O/P ", values);
-	};
+	// const onFinish = values => {
+	// 	console.log("form O/P ", values);
+	// };
 	return (
 		<div>
 			<div className="DoctorProfile-header">
@@ -16,7 +15,10 @@ const DoctorProfile = () => {
 				<div className="DoctorProfile-content">
 					<Row className="image-section">
 						<div className="DoctorProfile-img">
-							<img src="https://www.naspp.com/App_Themes/NASPP/images/default_user.png" />
+							<img
+								src="https://www.naspp.com/App_Themes/NASPP/images/default_user.png"
+								alt="pic"
+							/>
 						</div>
 					</Row>
 					<div className="Doctor-details">

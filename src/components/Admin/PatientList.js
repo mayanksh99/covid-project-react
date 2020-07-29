@@ -7,13 +7,13 @@ import {
 	Button,
 	InputNumber,
 	Radio,
-	Upload,
-	message,
+	// Upload,
+	// message,
 	DatePicker,
 	Row
 } from "antd";
 import PageTitle from "./../common/PageTitle";
-import { UserOutlined, UploadOutlined } from "@ant-design/icons";
+// import { UserOutlined, UploadOutlined } from "@ant-design/icons";
 import { _notification } from "../../utils/_helper";
 import { addPatientService } from "../../utils/services";
 
@@ -22,35 +22,35 @@ const PatientList = () => {
 	const dateFormat = "DD/MM/YYYY";
 	const [isLoading, setIsLoading] = useState(false);
 	const [report, setReport] = useState(null);
-	const [fileList, setFileList] = useState(null);
-	const uploadProps = {
-		name: "file",
-		action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-		headers: {
-			authorization: "authorization-text"
-		},
-		onChange(info) {
-			// if (info.file.status !== "uploading") {
-			// 	console.log(info.file, info.fileList);
-			// }
-			// if (info.file.status === "done") {
-			// 	message.success(`${info.file.name} file uploaded successfully`);
-			// } else if (info.file.status === "error") {
-			// 	message.error(`${info.file.name} file upload failed.`);
-			// }
-			if (info.file.status === "done") {
-				message.success(`${info.file.name} file uploaded successfully`);
-			} else if (info.file.status === "error") {
-				message.error(`${info.file.name} file upload failed.`);
-			}
-			setFileList(info.fileList);
-		},
-		onRemove(info) {
-			form.setFieldsValue({
-				report: undefined
-			});
-		}
-	};
+	// const [fileList, setFileList] = useState(null);
+	// const uploadProps = {
+	// 	name: "file",
+	// 	action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+	// 	headers: {
+	// 		authorization: "authorization-text"
+	// 	},
+	// 	onChange(info) {
+	// if (info.file.status !== "uploading") {
+	// 	console.log(info.file, info.fileList);
+	// }
+	// if (info.file.status === "done") {
+	// 	message.success(`${info.file.name} file uploaded successfully`);
+	// } else if (info.file.status === "error") {
+	// 	message.error(`${info.file.name} file upload failed.`);
+	// }
+	// 		if (info.file.status === "done") {
+	// 			message.success(`${info.file.name} file uploaded successfully`);
+	// 		} else if (info.file.status === "error") {
+	// 			message.error(`${info.file.name} file upload failed.`);
+	// 		}
+	// 		setFileList(info.fileList);
+	// 	},
+	// 	onRemove(info) {
+	// 		form.setFieldsValue({
+	// 			report: undefined
+	// 		});
+	// 	}
+	// };
 
 	const onFinish = async values => {
 		setIsLoading(true);

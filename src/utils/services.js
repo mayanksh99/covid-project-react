@@ -1,7 +1,7 @@
 import axios from "axios";
-import { LOGIN, ADD_PATIENT } from "./routes";
+import { LOGIN, ADD_PATIENT, GET_ADMINS } from "./routes";
 
-const BASE_URL = "https://adb545f69dd4.ngrok.io/api/v1";
+const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 
 axios.defaults.baseURL = BASE_URL;
 
@@ -44,9 +44,20 @@ export const addPatientService = async data => {
 			}
 		};
 		const response = await axios.post(ADD_PATIENT, data, config);
-		if (response.status === 200 && response.data.error === false) {
+		if (response.status === 200 && response.data.error === false)
 			return response.data;
-		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getAdminsService = async () => {
+	setUserToken();
+	try {
+		const response = await axios.get(GET_ADMINS);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;

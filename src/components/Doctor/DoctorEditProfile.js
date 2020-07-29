@@ -1,18 +1,9 @@
-import React, { useState } from "react";
-import {
-	Upload,
-	Form,
-	Input,
-	Select,
-	Checkbox,
-	Button,
-	AutoComplete
-} from "antd";
+import React from "react";
+import { Upload, Form, Input, Select, Checkbox, Button } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import PageTitle from "../common/PageTitle";
 
 const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
 const formItemLayout = {
 	labelCol: {
 		xs: { span: 24 },
@@ -48,7 +39,6 @@ const DoctorEditProfile = () => {
 			</Select>
 		</Form.Item>
 	);
-	const [autoCompleteResult, setAutoCompleteResult] = useState([]);
 	return (
 		<div>
 			<PageTitle title=" Edit Profile" />

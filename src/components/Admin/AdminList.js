@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import PageTitle from "./../common/PageTitle";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
 	Col,
 	Statistic,
@@ -8,7 +8,8 @@ import {
 	Table,
 	Popconfirm,
 	Tooltip,
-	Divider
+	Divider,
+	Tag
 } from "antd";
 import {
 	CloseCircleOutlined,
@@ -16,16 +17,34 @@ import {
 	EditOutlined,
 	DeleteOutlined
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import PageTitle from "./../common/PageTitle";
 import AddAdmin from "./AddAdmin";
+import { getAdminsService } from "./../../utils/services";
+import { _notification } from "../../utils/_helper";
 
 const AdminList = () => {
 	const [action] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [admins, setAdmins] = useState(null);
+
+	useEffect(() => {
+		(async () => {
+			setIsLoading(true);
+			try {
+				const res = await getAdminsService();
+				setAdmins(res.data);
+				setIsLoading(false);
+			} catch (err) {
+				_notification("warning", "Error", err.message);
+			}
+		})();
+	}, []);
+
 	const columns = [
 		{
 			title: "#",
-			dataIndex: "key",
-			key: "key"
+			dataIndex: "index",
+			key: "index"
 		},
 		{
 			title: "Name",
@@ -38,15 +57,26 @@ const AdminList = () => {
 			key: "email"
 		},
 		{
-			title: "Role",
-			dataIndex: "role",
-			key: "role"
+			title: "Permissions",
+			dataIndex: "permissions",
+			key: "permissions",
+			render: permissions => (
+				<>
+					{permissions.map((permission, id) => {
+						return (
+							<Tag color="green" key={id}>
+								{permission}
+							</Tag>
+						);
+					})}
+				</>
+			)
 		},
 		{
 			title: "Action",
 			dataIndex: "action",
 			key: "action",
-			render: () => (
+			render: id => (
 				<>
 					<Popconfirm
 						title="Do you want to toggle user block?"
@@ -91,29 +121,19 @@ const AdminList = () => {
 		}
 	];
 
-	const data = [
-		{
-			key: "1",
-			name: "Rahul Singh",
-			email: "admin@admin.com",
-			role: "Doctor",
-			action: "Detail"
-		},
-		{
-			key: "2",
-			name: "Rahul Singh",
-			email: "admin@admin.com",
-			role: "Ambulance",
-			action: "Detail"
-		},
-		{
-			key: "3",
-			name: "Rahul Singh",
-			email: "admin@admin.com",
-			role: "Doctor",
-			action: "Detail"
-		}
-	];
+	const data = admins
+		? admins.map((admin, i) => {
+				const { _id, name, email, permissions } = admin;
+				return {
+					index: ++i,
+					key: _id,
+					name,
+					email,
+					permissions,
+					action: _id
+				};
+		  })
+		: null;
 
 	return (
 		<>
@@ -121,7 +141,7 @@ const AdminList = () => {
 			<Col xl={6} lg={6} md={6} sm={6} xs={24}>
 				<Statistic
 					title="Total admins"
-					value={13}
+					value={admins ? admins.length : 0}
 					valueStyle={{
 						color: "#005ea5",
 						fontWeight: 600
@@ -155,6 +175,7 @@ const AdminList = () => {
 								columns={columns}
 								dataSource={data}
 								pagination={{ position: ["bottomCenter"] }}
+								loading={isLoading}
 							/>
 						</div>
 					</Card>

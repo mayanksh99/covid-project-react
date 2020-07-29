@@ -4,7 +4,8 @@ import {
 	ADD_PATIENT,
 	GET_ADMINS,
 	ADD_ADMIN,
-	DEL_BY_ADMIN
+	DEL_BY_ADMIN,
+	GET_DOCTORS
 } from "./routes";
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
@@ -39,7 +40,7 @@ export const loginService = async (role, data) => {
 	}
 };
 
-/******************ADMIN SERVICES********************/
+/******************MASTER ADMIN SERVICES********************/
 
 export const addPatientService = async data => {
 	setUserToken();
@@ -86,6 +87,20 @@ export const delByAdminService = async (role, id) => {
 	setUserToken();
 	try {
 		const response = await axios.delete(`${DEL_BY_ADMIN}/${role}/${id}`);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+/******************DOCTOR ADMIN SERVICES********************/
+
+export const getDoctorsService = async () => {
+	setUserToken();
+	try {
+		const response = await axios.get(GET_DOCTORS);
 		if (response.status === 200 && response.data.error === false)
 			return response.data;
 	} catch (err) {

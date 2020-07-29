@@ -1,7 +1,8 @@
 import React from "react";
 import PageTitle from "../../common/PageTitle";
 import DoctorAdminOption from "./DoctorAdminOption";
-import { Row, Col, Card, Table } from "antd";
+import { Row, Col, Card, Table, Avatar } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 const DoctorDetail = () => {
 	const columns = [
@@ -72,6 +73,10 @@ const DoctorDetail = () => {
 							>
 								Personal Information
 							</p>
+							<div style={{ textAlign: "center" }}>
+								<Avatar size={84} icon={<UserOutlined />} />
+							</div>
+							<br />
 							<p>
 								<span className="profile-data-label">Name</span>
 								<br />
@@ -80,8 +85,20 @@ const DoctorDetail = () => {
 								</span>
 							</p>
 							<p>
+								<span className="profile-data-label">Age</span>
+								<br />
+								<span className="profile-data">56</span>
+							</p>
+							<p>
 								<span className="profile-data-label">
-									Phone No.
+									Gender
+								</span>
+								<br />
+								<span className="profile-data">Male</span>
+							</p>
+							<p>
+								<span className="profile-data-label">
+									Contact No.
 								</span>
 								<br />
 								<span className="profile-data">
@@ -95,6 +112,15 @@ const DoctorDetail = () => {
 								<br />
 								<span className="profile-data">
 									kishore@gmail.com
+								</span>
+							</p>
+							<p>
+								<span className="profile-data-label">
+									Address
+								</span>
+								<br />
+								<span className="profile-data">
+									270, Vasant Kunj, Delhi
 								</span>
 							</p>
 							<p>

@@ -1,10 +1,10 @@
 import React from "react";
 import { Modal, Form, Input } from "antd";
-import {
-	UserOutlined,
-	PhoneOutlined,
-	PushpinOutlined
-} from "@ant-design/icons";
+// import {
+// 	UserOutlined,
+// 	PhoneOutlined,
+// 	PushpinOutlined
+// } from "@ant-design/icons";
 import { Button } from "antd";
 
 const AddAmbulance = props => {
@@ -35,19 +35,19 @@ const AddAmbulance = props => {
 					initialValues={{ remember: true }}
 				>
 					<Form.Item
-						name="vehiclename"
-						label="Vehicle Name"
+						name="vehicleNo"
+						label="Vehicle No."
 						rules={[
 							{
 								required: true,
-								message: "Please input vehicle name!"
+								message: "Please input vehicle no.!"
 							}
 						]}
 					>
 						<Input
 							className="input-field"
-							placeholder="Enter vehicle name"
-							prefix={<UserOutlined />}
+							placeholder="Enter vehicle no."
+							// prefix={<UserOutlined />}
 						/>
 					</Form.Item>
 					<Form.Item
@@ -63,7 +63,7 @@ const AddAmbulance = props => {
 						<Input
 							className="input-field"
 							placeholder="Enter driver name"
-							prefix={<UserOutlined />}
+							// prefix={<UserOutlined />}
 						/>
 					</Form.Item>
 					<Form.Item
@@ -79,7 +79,7 @@ const AddAmbulance = props => {
 						<Input
 							className="input-field"
 							placeholder="Enter driver phone no."
-							prefix={<PhoneOutlined />}
+							// prefix={<PhoneOutlined />}
 						/>
 					</Form.Item>
 					<Form.Item
@@ -95,7 +95,7 @@ const AddAmbulance = props => {
 						<Input
 							className="input-field"
 							placeholder="Enter area pin"
-							prefix={<PushpinOutlined />}
+							// prefix={<PushpinOutlined />}
 						/>
 					</Form.Item>
 

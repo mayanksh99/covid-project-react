@@ -1,0 +1,58 @@
+/*common*/
+.Doctor-comment {
+	margin-top: 30px;
+}
+/*PatientExamine*/
+.PatientExamine-heading {
+	color: #707070;
+	font-weight: bold;
+}
+/*Doctor Profile */
+.DoctorProfile-content .image-section {
+	display: flex;
+	justify-content: flex-end;
+}
+.DoctorProfile-row {
+	margin-bottom: 30px;
+}
+.DoctorProfile-btn {
+	min-width: 250px;
+	font-weight: 300;
+}
+
+.DoctorProfile-img img {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	overflow: hidden;
+	border: 2px solid #005ea5;
+}
+.DoctorProfile-details-one {
+	display: flex;
+	justify-content: center;
+	margin-top: -50px;
+}
+.DoctorProfile-list {
+	width: 80%;
+}
+.DoctorProfile-heading {
+	color: #707070;
+	font-weight: bold;
+}
+/*DoctorEditProfile*/
+.DoctorEditProfile-container {
+	display: flex;
+	justify-content: start;
+}
+.DoctorEditProfile-btn {
+	font-weight: 300;
+	border-radius: 0px;
+}
+@media (min-width: 719px) {
+	.DoctorEditProfile-btn {
+		width: 265px;
+	}
+}
+.DoctorEditProfile-Form {
+	margin-top: 60px;
+}

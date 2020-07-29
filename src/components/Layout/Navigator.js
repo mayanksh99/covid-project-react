@@ -25,7 +25,8 @@ import DoctorAdmin from "./../Admin/Doctor/DoctorAdmin";
 import AdminList from "./../Admin/AdminList";
 import PatientList from "./../Admin/PatientList";
 import DoctorDetail from "../Admin/Doctor/DoctorAdminDetail";
-
+import DoctorEditProfile from "../Doctor/DoctorEditProfile";
+import UnassignedPatients from "../Doctor/UnassignedPatients";
 const { Content, Sider } = Layout;
 
 const Dashboard = props => {
@@ -48,6 +49,11 @@ const Dashboard = props => {
 							mode="inline"
 							// defaultSelectedKeys={"dashboard"}
 						>
+							{/* <Menu.Item key={"dashboard"}>
+								<AppstoreOutlined />
+								<span>Dashboard</span>
+								<Link to="/" />
+							</Menu.Item> */}
 							{routes.map((route, idx) => {
 								if (
 									route.role === userData[0].role &&
@@ -77,6 +83,7 @@ const Dashboard = props => {
 									);
 								}
 							})}
+
 							<Menu.Item
 								key={"signout"}
 								onClick={() => {
@@ -135,6 +142,7 @@ const Dashboard = props => {
 									) : null;
 								})}
 								 */}
+								{/* <Route exact path="/" component={Dashboard} /> */}
 								<PrivateRoute
 									exact
 									path="/patientexamine"
@@ -248,6 +256,20 @@ const Dashboard = props => {
 									component={DoctorDetail}
 									role="admin"
 									permission={["master", "hospital"]}
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/doctorprofile/edit"
+									component={DoctorEditProfile}
+									role="doctor"
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/doctorprofile/view"
+									component={UnassignedPatients}
+									role="doctor"
 									data={userData[0]}
 								/>
 							</Switch>

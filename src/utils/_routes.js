@@ -7,7 +7,6 @@ import AssignBed from "../components/Hospital/AssignBed";
 import UpdateDailyReport from "../components/Hospital/UpdateDailyReport";
 import DoctorProfile from "../components/Doctor/DoctorProfile";
 import AmbAdminProfile from "../components/Ambulance/AmbAdminProfile";
-
 import {
 	AppstoreOutlined,
 	MedicineBoxOutlined,
@@ -39,8 +38,18 @@ const AmbulanceSvg = () => (
 	</svg>
 );
 
+const HospitalSvg = () => (
+	<svg fill="currentColor" viewBox="0 0 640 512" height="1em" width="1em">
+		<path
+			d="M448 492v20H0v-20c0-6.627 5.373-12 12-12h20V120c0-13.255 10.745-24 24-24h88V24c0-13.255 10.745-24 24-24h112c13.255 0 24 10.745 24 24v72h88c13.255 0 24 10.745 24 24v360h20c6.627 0 12 5.373 12 12zM308 192h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12zm-168 64h40c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12zm104 128h-40c-6.627 0-12 5.373-12 12v84h64v-84c0-6.627-5.373-12-12-12zm64-96h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12zm-116 12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h40c6.627 0 12-5.373 12-12v-40zM182 96h26v26a6 6 0 006 6h20a6 6 0 006-6V96h26a6 6 0 006-6V70a6 6 0 00-6-6h-26V38a6 6 0 00-6-6h-20a6 6 0 00-6 6v26h-26a6 6 0 00-6 6v20a6 6 0 006 6z"
+			stroke="none"
+		/>
+	</svg>
+);
+
 const AmbulanceIcon = props => <Icon component={AmbulanceSvg} {...props} />;
 const BedIcon = props => <Icon component={BedSvg} {...props} />;
+const HospitalIcon = props => <Icon component={HospitalSvg} {...props} />;
 
 let routes = [
 	{
@@ -52,20 +61,13 @@ let routes = [
 		icon: AppstoreOutlined
 	},
 	{
-		path: "/patientexamine",
-		exact: true,
-		name: "Examine Patient",
-		component: PatientExamine,
-		key: "PatientExamine",
-		icon: MedicineBoxOutlined
-	},
-	{
 		path: "/amb-admin-Profile",
 		exact: true,
 		name: "Amb-Admin Profile",
 		component: AmbAdminProfile,
 		key: "amb-admin-profile",
-		icon: UserOutlined
+		icon: AmbulanceSvg
+		/*icon: UserOutlined*/
 	},
 	{
 		path: "/assignambulance",
@@ -73,7 +75,8 @@ let routes = [
 		component: AssignAmbulance,
 		name: "Assign Ambulance",
 		key: "AssignAmbulance",
-		icon: AmbulanceIcon
+		icon: AmbulanceIcon,
+		role: "ambulanceoperator"
 	},
 	{
 		path: "/ambulancestatus",
@@ -81,7 +84,8 @@ let routes = [
 		component: AmbulanceStatus,
 		name: "Ambulance Status",
 		key: "AmbulanceStatus",
-		icon: CheckOutlined
+		icon: CheckOutlined,
+		role: "ambulanceoperator"
 	},
 	{
 		path: "/assignbed",
@@ -89,7 +93,8 @@ let routes = [
 		component: AssignBed,
 		name: "Assign Bed",
 		key: "AssignBed",
-		icon: BedIcon
+		icon: BedIcon,
+		role: "hospital"
 	},
 	{
 		path: "/updatedailyreport",
@@ -97,7 +102,8 @@ let routes = [
 		component: UpdateDailyReport,
 		name: "Update Daily Report",
 		key: "UpdateDailyReport",
-		icon: BookOutlined
+		icon: BookOutlined,
+		role: "hospital"
 	},
 	{
 		path: "/doctorprofile",
@@ -105,7 +111,17 @@ let routes = [
 		component: DoctorProfile,
 		name: "Doctor Profile",
 		key: "DoctorProfile",
-		icon: UserOutlined
+		icon: UserOutlined,
+		role: "doctor"
+	},
+	{
+		path: "/patientexamine",
+		exact: true,
+		name: "Examine Patient",
+		component: PatientExamine,
+		key: "PatientExamine",
+		icon: MedicineBoxOutlined,
+		role: "doctor"
 	},
 	{
 		path: "/ambulanceadmin",
@@ -113,7 +129,9 @@ let routes = [
 		component: AmbulanceAdmin,
 		name: "Ambulance",
 		key: "AmbulanceAdmin",
-		icon: AmbulanceIcon
+		icon: AmbulanceIcon,
+		role: "admin",
+		permission: ["master", "ambulance"]
 	},
 	{
 		path: "/hospitaladmin",
@@ -121,7 +139,9 @@ let routes = [
 		name: "Hospital",
 		component: HospitalAdmin,
 		key: "HospitalAdmin",
-		icon: MedicineBoxOutlined
+		icon: HospitalIcon,
+		role: "admin",
+		permission: ["master", "hospital"]
 	},
 	{
 		path: "/doctoradmin",
@@ -129,7 +149,9 @@ let routes = [
 		name: "Doctor",
 		component: DoctorAdmin,
 		key: "DoctorAdmin",
-		icon: MedicineBoxOutlined
+		icon: MedicineBoxOutlined,
+		role: "admin",
+		permission: ["master", "doctor"]
 	},
 	{
 		path: "/adminlist",
@@ -137,7 +159,9 @@ let routes = [
 		name: "Admin",
 		component: AdminList,
 		key: "AdminList",
-		icon: UsergroupAddOutlined
+		icon: UsergroupAddOutlined,
+		role: "admin",
+		permission: ["master"]
 	},
 	{
 		path: "/patientlist",
@@ -145,7 +169,9 @@ let routes = [
 		name: "Patient",
 		component: PatientList,
 		key: "PatientList",
-		icon: UserSwitchOutlined
+		icon: UserSwitchOutlined,
+		role: "admin",
+		permission: ["master"]
 	}
 ];
 

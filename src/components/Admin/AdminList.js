@@ -5,19 +5,12 @@ import {
 	Statistic,
 	Row,
 	Card,
-	Button,
 	Table,
-	Form,
-	Input,
-	Select,
 	Popconfirm,
 	Tooltip,
 	Divider
 } from "antd";
 import {
-	UserOutlined,
-	MailOutlined,
-	LockOutlined,
 	CloseCircleOutlined,
 	CheckCircleOutlined,
 	EditOutlined,
@@ -25,8 +18,6 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import AddAdmin from "./AddAdmin";
-
-const { Option } = Select;
 
 const AdminList = () => {
 	const [action] = useState(false);
@@ -103,21 +94,21 @@ const AdminList = () => {
 	const data = [
 		{
 			key: "1",
-			name: "Corona Pidit",
+			name: "Rahul Singh",
 			email: "admin@admin.com",
 			role: "Doctor",
 			action: "Detail"
 		},
 		{
 			key: "2",
-			name: "Corona Pidit",
+			name: "Rahul Singh",
 			email: "admin@admin.com",
 			role: "Ambulance",
 			action: "Detail"
 		},
 		{
 			key: "3",
-			name: "Corona Pidit",
+			name: "Rahul Singh",
 			email: "admin@admin.com",
 			role: "Doctor",
 			action: "Detail"

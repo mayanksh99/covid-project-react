@@ -12,8 +12,6 @@ import {
 } from "antd";
 import PageTitle from "./../common/PageTitle";
 import { UserOutlined, UploadOutlined } from "@ant-design/icons";
-import { MailOutlined } from "@ant-design/icons";
-import { LockOutlined } from "@ant-design/icons";
 
 const PatientList = () => {
 	const uploadProps = {
@@ -137,37 +135,22 @@ const PatientList = () => {
 								/>
 							</Form.Item>
 							<Form.Item
-								name="district"
-								label="District"
+								name="email"
+								label="Email ID"
 								rules={[
 									{
 										required: true,
-										message: "Please input district!"
+										message: "Please input email!"
 									}
 								]}
 							>
 								<Input
 									className="input-field"
-									placeholder="Enter district"
+									placeholder="Enter email"
 									// prefix={<UserOutlined />}
 								/>
 							</Form.Item>
-							<Form.Item
-								name="labname"
-								label="Lab name"
-								rules={[
-									{
-										required: true,
-										message: "Please input lab name!"
-									}
-								]}
-							>
-								<Input
-									className="input-field"
-									placeholder="Enter lab name"
-									// prefix={<UserOutlined />}
-								/>
-							</Form.Item>
+
 							<Form.Item
 								name="familyContact"
 								label="Family's Contact No."

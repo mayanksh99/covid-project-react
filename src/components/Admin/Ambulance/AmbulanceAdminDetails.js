@@ -89,7 +89,7 @@ const AmbulanceAdminDetails = () => {
 			<AmbulanceAdminOption />
 			<div>
 				<h3 style={{ fontSize: "16px" }}>
-					Detail of Ambulance Administrator
+					Detail of Ambulance Operator
 				</h3>
 				<Row gutter={[16, 16]}>
 					<Col xs={24} sm={24} md={4} lg={6}>
@@ -119,13 +119,13 @@ const AmbulanceAdminDetails = () => {
 									+91-9654231546
 								</span>
 							</p>
-							<p>
+							{/* <p>
 								<span className="profile-data-label">
 									Area Pin
 								</span>
 								<br />
 								<span className="profile-data">201206</span>
-							</p>
+							</p> */}
 							<p>
 								<span className="profile-data-label">
 									Email

@@ -38,7 +38,7 @@ const AmbulanceAdminOption = props => {
 						className="login-form-button"
 						onClick={() => handelModal(true)}
 					>
-						Add Administrator
+						Add Operator
 					</Button>
 				</Col>
 			</Row>

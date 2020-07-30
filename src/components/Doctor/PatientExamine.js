@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Input, Statistic, Button, Modal, Row, Col, Select, Table } from "antd";
 import PageTitle from "../common/PageTitle";
 import "./style.css";
 
 const PatientExamine = () => {
-
 	const { TextArea } = Input;
 	const { Option } = Select;
 	const [isVisible, setIsVisible] = useState(false);
-	const [selectedOption, setSelectedOption] = useState("");
-	const handleChange = value => {
-		setSelectedOption(value);
-	};
+	// const [selectedOption, setSelectedOption] = useState("");
+	// const handleChange = value => {
+	// 	setSelectedOption(value);
+	// };
 	const showModal = () => {
 		setIsVisible(!isVisible);
 	};
@@ -23,14 +22,12 @@ const PatientExamine = () => {
 		setIsVisible(!isVisible);
 	};
 	const tableColumns = [
-
 		{
 			title: "Patient ID",
 			dataIndex: "id",
 			key: "id"
 		},
 		{
-
 			title: "Patient Name",
 			dataIndex: "name",
 			key: "name"
@@ -50,7 +47,6 @@ const PatientExamine = () => {
 					className="Examine-btn"
 					onClick={showModal}
 				>
-
 					Examine
 				</Button>
 			)
@@ -68,7 +64,7 @@ const PatientExamine = () => {
 	}
 
 	return (
-		<div>
+		<>
 			<PageTitle title="Examine Patients" />
 			<Statistic
 				title="Number of patients left to examine"
@@ -99,12 +95,10 @@ const PatientExamine = () => {
 							color: "#fff"
 						}}
 					>
-
 						Patient Details
 					</h3>
 				}
 				visible={isVisible}
-
 				centered
 				onCancel={handleCancel}
 				width={800}
@@ -161,8 +155,7 @@ const PatientExamine = () => {
 					<Col sm={6} xs={24}>
 						<Select
 							defaultValue="select level"
-							onChange={handleChange}
-
+							// onChange={handleChange}
 						>
 							<Option value="L1">L1</Option>
 							<Option value="L2">L2</Option>
@@ -176,7 +169,7 @@ const PatientExamine = () => {
 					<Col sm={8} xs={24}>
 						<Select
 							defaultValue="select Hospital"
-							onChange={handleChange}
+							// onChange={handleChange}
 						>
 							<Option value="IMS BHU">IMS BHU</Option>
 							<Option value="IMS BHU">IMS BHU</Option>
@@ -194,7 +187,6 @@ const PatientExamine = () => {
 				</Row>
 			</Modal>
 		</>
-
 	);
 };
 

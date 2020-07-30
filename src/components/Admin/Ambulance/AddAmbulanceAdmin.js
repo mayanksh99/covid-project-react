@@ -1,14 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Form, Input, Button } from "antd";
-import {
-	UserOutlined,
-	PhoneOutlined,
-	MailOutlined
-	// LockOutlined,
-	// PushpinOutlined
-} from "@ant-design/icons";
+import { _notification } from "../../../utils/_helper";
+import { addAmbOperatorService } from "../../../utils/services";
 
 const AddAmbulanceAdmin = props => {
+	const [form] = Form.useForm();
+	const [isLoading, setIsLoading] = useState(false);
+
+	const onFinish = async values => {
+		setIsLoading(true);
+		try {
+			const res = await addAmbOperatorService(values);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification(
+					"success",
+					"Success",
+					"Operator added successfully"
+				);
+				props.setRefresh(!props.refresh);
+				props.handleModal(false);
+				form.setFieldsValue({
+					name: "",
+					contact: "",
+					email: ""
+				});
+			}
+			setIsLoading(false);
+		} catch (err) {
+			_notification("error", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
+
 	return (
 		<div>
 			<Modal
@@ -30,10 +55,10 @@ const AddAmbulanceAdmin = props => {
 				style={{ top: 50 }}
 			>
 				<Form
+					form={form}
 					layout="vertical"
-					name="normal_login"
-					className="login-form"
-					initialValues={{ remember: true }}
+					name="operator_form"
+					onFinish={onFinish}
 				>
 					<Form.Item
 						name="name"
@@ -48,7 +73,6 @@ const AddAmbulanceAdmin = props => {
 						<Input
 							className="input-field"
 							placeholder="Enter name"
-							prefix={<UserOutlined />}
 						/>
 					</Form.Item>
 					<Form.Item
@@ -64,7 +88,6 @@ const AddAmbulanceAdmin = props => {
 						<Input
 							className="input-field"
 							placeholder="Enter phone"
-							prefix={<PhoneOutlined />}
 						/>
 					</Form.Item>
 					{/* <Form.Item
@@ -88,6 +111,7 @@ const AddAmbulanceAdmin = props => {
 						label="Email"
 						rules={[
 							{
+								type: "email",
 								required: true,
 								message: "Please input email!"
 							}
@@ -96,25 +120,8 @@ const AddAmbulanceAdmin = props => {
 						<Input
 							className="input-field"
 							placeholder="Enter email"
-							prefix={<MailOutlined />}
 						/>
 					</Form.Item>
-					{/* <Form.Item
-						name="password"
-						label="Password"
-						rules={[
-							{
-								required: true,
-								message: "Please input password!"
-							}
-						]}
-					>
-						<Input.Password
-							className="input-field"
-							placeholder="Enter password"
-							prefix={<LockOutlined />}
-						/>
-					</Form.Item> */}
 
 					<Form.Item>
 						<Button
@@ -122,6 +129,7 @@ const AddAmbulanceAdmin = props => {
 							htmlType="submit"
 							className="login-form-button"
 							block
+							loading={isLoading}
 						>
 							Submit
 						</Button>

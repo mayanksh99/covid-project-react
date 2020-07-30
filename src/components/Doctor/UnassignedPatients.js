@@ -6,10 +6,10 @@ const UnassignedPatients = () => {
 	const { TextArea } = Input;
 	const { Option } = Select;
 	const [isVisible, setIsVisible] = useState(false);
-	const [selectedOption, setSelectedOption] = useState("");
-	const handleChange = value => {
-		setSelectedOption(value);
-	};
+	// const [selectedOption, setSelectedOption] = useState("");
+	// const handleChange = value => {
+	// 	setSelectedOption(value);
+	// };
 	const showModal = () => {
 		setIsVisible(!isVisible);
 	};
@@ -183,7 +183,7 @@ const UnassignedPatients = () => {
 						<Col sm={6} xs={24}>
 							<Select
 								defaultValue="select level"
-								onChange={handleChange}
+								// onChange={handleChange}
 							>
 								<Option value="L1">L1</Option>
 								<Option value="L2">L2</Option>
@@ -196,7 +196,7 @@ const UnassignedPatients = () => {
 						<Col sm={8} xs={24}>
 							<Select
 								defaultValue="select Hospital"
-								onChange={handleChange}
+								// onChange={handleChange}
 							>
 								<Option value="IMS BHU">IMS BHU</Option>
 								<Option value="IMS BHU">IMS BHU</Option>
@@ -304,7 +304,7 @@ const UnassignedPatients = () => {
 						<Col sm={6} xs={24}>
 							<Select
 								defaultValue="select level"
-								onChange={handleChange}
+								// onChange={handleChange}
 							>
 								<Option value="L1">L1</Option>
 								<Option value="L2">L2</Option>
@@ -317,7 +317,7 @@ const UnassignedPatients = () => {
 						<Col sm={8} xs={24}>
 							<Select
 								defaultValue="select Hospital"
-								onChange={handleChange}
+								// onChange={handleChange}
 							>
 								<Option value="IMS BHU">IMS BHU</Option>
 								<Option value="IMS BHU">IMS BHU</Option>

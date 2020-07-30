@@ -1,8 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Form, Button, Input, InputNumber, Radio } from "antd";
-// import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
+import { _notification } from "../../../utils/_helper";
+import { addHospitalService } from "../../../utils/services";
 
 const AddHospitalAdmin = props => {
+	const [form] = Form.useForm();
+	const [isLoading, setIsLoading] = useState(false);
+
+	const onFinish = async values => {
+		setIsLoading(true);
+		try {
+			const res = await addHospitalService(values);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification(
+					"success",
+					"Success",
+					"Doctor added successfully"
+				);
+				props.setRefresh(!props.refresh);
+				props.handleModal(false);
+				form.setFieldsValue({
+					name: "",
+					email: "",
+					address: "",
+					category: "",
+					contact: "",
+					totalBeds: ""
+				});
+			}
+			setIsLoading(false);
+		} catch (err) {
+			_notification("error", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
+
 	return (
 		<div>
 			<Modal
@@ -24,10 +58,10 @@ const AddHospitalAdmin = props => {
 				style={{ top: 10 }}
 			>
 				<Form
+					form={form}
 					layout="vertical"
-					name="update_patient"
-					className="login-form"
-					initialValues={{ remember: true }}
+					name="hospital_form"
+					onFinish={onFinish}
 				>
 					<Form.Item
 						name="name"
@@ -50,6 +84,7 @@ const AddHospitalAdmin = props => {
 						label="Email"
 						rules={[
 							{
+								type: "email",
 								required: true,
 								message: "Please input email!"
 							}
@@ -138,6 +173,7 @@ const AddHospitalAdmin = props => {
 							htmlType="submit"
 							className="login-form-button"
 							block
+							loading={isLoading}
 						>
 							Submit
 						</Button>

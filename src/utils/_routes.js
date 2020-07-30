@@ -10,9 +10,7 @@ import AmbAdminProfile from "../components/Ambulance/AmbAdminProfile";
 import {
 	AppstoreOutlined,
 	MedicineBoxOutlined,
-	UserOutlined,
 	CheckOutlined,
-	SolutionOutlined,
 	UsergroupAddOutlined,
 	UserSwitchOutlined,
 	BookOutlined

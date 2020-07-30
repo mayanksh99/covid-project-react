@@ -1,29 +1,67 @@
-import React from "react";
-import { Modal, Form, Input, Button, Upload, message, Radio } from "antd";
-import {
-	// UserOutlined,
-	// PhoneOutlined,
-	// MailOutlined,
-	// MedicineBoxOutlined,
-	UploadOutlined
-} from "@ant-design/icons";
+import React, { useState } from "react";
+import { Modal, Form, Input, Button, Radio, InputNumber } from "antd";
+import { addDoctorService } from "./../../../utils/services";
+import { _notification } from "../../../utils/_helper";
 
 const AddDoctorAdmin = props => {
-	const uploadProps = {
-		name: "file",
-		action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-		headers: {
-			authorization: "authorization-text"
-		},
-		onChange(info) {
-			if (info.file.status !== "uploading") {
-				console.log(info.file, info.fileList);
+	const [form] = Form.useForm();
+	const [isLoading, setIsLoading] = useState(false);
+	// const uploadProps = {
+	// 	name: "file",
+	// 	action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+	// 	headers: {
+	// 		authorization: "authorization-text"
+	// 	},
+	// 	onChange(info) {
+	// 		if (info.file.status !== "uploading") {
+	// 			console.log(info.file, info.fileList);
+	// 		}
+	// 		if (info.file.status === "done") {
+	// 			message.success(`${info.file.name} file uploaded successfully`);
+	// 		} else if (info.file.status === "error") {
+	// 			message.error(`${info.file.name} file upload failed.`);
+	// 		}
+	// 	}
+	// };
+
+	const onFinish = async values => {
+		setIsLoading(true);
+		try {
+			const formData = new FormData();
+			formData.append("empId", values.empId);
+			formData.append("name", values.name);
+			formData.append("age", values.age);
+			formData.append("gender", values.gender);
+			formData.append("contact", values.contact);
+			formData.append("address", values.address);
+			formData.append("email", values.email);
+			formData.append("hospital", values.hospital);
+			const res = await addDoctorService(formData);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification(
+					"success",
+					"Success",
+					"Doctor added successfully"
+				);
+				props.setRefresh(!props.refresh);
+				props.handleModal(false);
+				form.setFieldsValue({
+					name: "",
+					empId: "",
+					age: "",
+					gender: "",
+					contact: "",
+					address: "",
+					email: "",
+					hospital: ""
+				});
 			}
-			if (info.file.status === "done") {
-				message.success(`${info.file.name} file uploaded successfully`);
-			} else if (info.file.status === "error") {
-				message.error(`${info.file.name} file upload failed.`);
-			}
+			setIsLoading(false);
+		} catch (err) {
+			_notification("error", "Error", err.message);
+			setIsLoading(false);
 		}
 	};
 
@@ -47,10 +85,10 @@ const AddDoctorAdmin = props => {
 			style={{ top: 50 }}
 		>
 			<Form
+				form={form}
 				layout="vertical"
-				name="normal_login"
-				className="login-form"
-				initialValues={{ remember: true }}
+				name="doctor_form"
+				onFinish={onFinish}
 			>
 				<Form.Item
 					name="name"
@@ -70,6 +108,23 @@ const AddDoctorAdmin = props => {
 				</Form.Item>
 
 				<Form.Item
+					name="empId"
+					label="Employee ID"
+					rules={[
+						{
+							required: true,
+							message: "Please input id!"
+						}
+					]}
+				>
+					<Input
+						className="input-field"
+						placeholder="Enter id"
+						// prefix={<UserOutlined />}
+					/>
+				</Form.Item>
+
+				<Form.Item
 					name="age"
 					label="Age"
 					rules={[
@@ -79,9 +134,11 @@ const AddDoctorAdmin = props => {
 						}
 					]}
 				>
-					<Input
+					<InputNumber
+						min={1}
 						className="input-field"
 						placeholder="Enter age"
+						style={{ width: "100%" }}
 						// prefix={<PhoneOutlined />}
 					/>
 				</Form.Item>
@@ -141,6 +198,7 @@ const AddDoctorAdmin = props => {
 					label="Email"
 					rules={[
 						{
+							type: "email",
 							required: true,
 							message: "Please input email!"
 						}
@@ -170,13 +228,13 @@ const AddDoctorAdmin = props => {
 					/>
 				</Form.Item>
 
-				<Form.Item name="image" label="Profile Pic">
+				{/* <Form.Item name="image" label="Profile Pic">
 					<Upload {...uploadProps}>
 						<Button>
 							<UploadOutlined /> Click to Upload
 						</Button>
 					</Upload>
-				</Form.Item>
+				</Form.Item> */}
 
 				<Form.Item>
 					<Button
@@ -184,6 +242,7 @@ const AddDoctorAdmin = props => {
 						htmlType="submit"
 						className="login-form-button"
 						block
+						loading={isLoading}
 					>
 						Submit
 					</Button>

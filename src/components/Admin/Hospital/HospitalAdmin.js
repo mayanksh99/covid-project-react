@@ -144,7 +144,7 @@ const HospitalAdmin = () => {
 	return (
 		<div>
 			<PageTitle title="Hospital" />
-			<HospitalAdminOption />
+			<HospitalAdminOption refresh={refresh} setRefresh={setRefresh} />
 			<div>
 				<h3 style={{ fontSize: "16px" }}>List of Hospitals</h3>
 				<div>

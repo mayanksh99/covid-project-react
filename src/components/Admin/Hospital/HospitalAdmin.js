@@ -25,6 +25,7 @@ const HospitalAdmin = () => {
 			setIsLoading(true);
 			try {
 				const res = await getHospitalsService();
+				console.log(res.data);
 				setHospitals(res.data);
 				setIsLoading(false);
 			} catch (err) {
@@ -59,9 +60,11 @@ const HospitalAdmin = () => {
 		},
 		{
 			title: "Name",
-			dataIndex: "name",
-			key: "name",
-			render: name => <Link to="/hospitaldetails/sdvsdvsd">{name}</Link>
+			dataIndex: "detail",
+			key: "detail",
+			render: detail => (
+				<Link to="/hospitaldetails/sdvsdvsd">{detail.name}</Link>
+			)
 		},
 		{
 			title: "Contact No.",
@@ -129,7 +132,18 @@ const HospitalAdmin = () => {
 
 	const data = hospitals
 		? hospitals.map((hospital, id) => {
-				const { _id, name, contact, address, category } = hospital;
+				const {
+					_id,
+					name,
+					contact,
+					address,
+					category,
+					email,
+					availableBeds,
+					occupiedBeds,
+					reservedBeds,
+					totalBeds
+				} = hospital;
 				return {
 					index: ++id,
 					key: _id,
@@ -137,7 +151,19 @@ const HospitalAdmin = () => {
 					contact,
 					address,
 					category,
-					action: _id
+					action: _id,
+					detail: {
+						_id,
+						name,
+						contact,
+						address,
+						category,
+						email,
+						availableBeds,
+						occupiedBeds,
+						reservedBeds,
+						totalBeds
+					}
 				};
 		  })
 		: null;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../style.css";
 import { Col, Table, Input, Card, Popconfirm, Divider, Tooltip } from "antd";
 import AmbulanceAdminOption from "./AmbulanceAdminOption";
@@ -10,13 +10,32 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import PageTitle from "./../../common/PageTitle";
+import { _notification } from "../../../utils/_helper";
+import { getAmbOperatorService } from "../../../utils/services";
 
 const AmbulanceAdmin = () => {
+	const [refresh, setRefresh] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [ambOperators, setAmbOperators] = useState(null);
+
+	useEffect(() => {
+		(async () => {
+			setIsLoading(true);
+			try {
+				const res = await getAmbOperatorService();
+				setAmbOperators(res.data);
+				setIsLoading(false);
+			} catch (err) {
+				_notification("warning", "Error", err.message);
+			}
+		})();
+	}, [refresh]);
+
 	const columns = [
 		{
 			title: "#",
-			dataIndex: "key",
-			key: "key"
+			dataIndex: "index",
+			key: "index"
 		},
 		{
 			title: "Name",
@@ -24,21 +43,21 @@ const AmbulanceAdmin = () => {
 			key: "name",
 			render: name => <Link to="/ambulancedetails/sdvsdvsd">{name}</Link>
 		},
+		// {
+		// 	title: "Phone",
+		// 	dataIndex: "phone",
+		// 	key: "phone"
+		// },
 		{
-			title: "Phone",
-			dataIndex: "phone",
-			key: "phone"
+			title: "Email",
+			dataIndex: "email",
+			key: "email"
 		},
-		{
-			title: "Area Pin",
-			dataIndex: "areapin",
-			key: "areapin"
-		},
-		{
-			title: "Count",
-			dataIndex: "count",
-			key: "count"
-		},
+		// {
+		// 	title: "Count",
+		// 	dataIndex: "count",
+		// 	key: "count"
+		// },
 		{
 			title: "Action",
 			dataIndex: "action",
@@ -88,37 +107,23 @@ const AmbulanceAdmin = () => {
 		}
 	];
 
-	const data = [
-		{
-			key: "1",
-			name: "John Brown",
-			phone: "+915864268542",
-			areapin: 201206,
-			count: 56,
-			action: true
-		},
-		{
-			key: "2",
-			name: "John Black",
-			phone: "+915864268542",
-			areapin: 201206,
-			count: 56,
-			action: false
-		},
-		{
-			key: "3",
-			name: "John Blue",
-			phone: "+915864268542",
-			areapin: 201206,
-			count: 56,
-			action: true
-		}
-	];
+	const data = ambOperators
+		? ambOperators.map((operator, id) => {
+				const { _id, name, email } = operator;
+				return {
+					index: ++id,
+					key: _id,
+					name,
+					email,
+					action: _id
+				};
+		  })
+		: null;
 
 	return (
 		<>
 			<PageTitle title="Ambulance" />
-			<AmbulanceAdminOption />
+			<AmbulanceAdminOption refresh={refresh} setRefresh={setRefresh} />
 			<div className="table-wrapper-card">
 				<h3 style={{ fontSize: "16px" }}>List of Ambulance Operator</h3>
 				<div>
@@ -135,6 +140,7 @@ const AmbulanceAdmin = () => {
 						style={{ padding: 0, width: "100%", overflowX: "auto" }}
 					>
 						<Table
+							loading={isLoading}
 							columns={columns}
 							dataSource={data}
 							pagination={{ position: ["bottomCenter"] }}

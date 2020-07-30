@@ -9,7 +9,10 @@ import {
 	DeleteOutlined
 } from "@ant-design/icons";
 import HospitalAdminOption from "./HospitalAdminOption";
-import { getHospitalsService } from "../../../utils/services";
+import {
+	getHospitalsService,
+	delByAdminService
+} from "../../../utils/services";
 import { _notification } from "../../../utils/_helper";
 
 const HospitalAdmin = () => {
@@ -29,6 +32,24 @@ const HospitalAdmin = () => {
 			}
 		})();
 	}, [refresh]);
+
+	const handleDelete = async id => {
+		try {
+			const res = await delByAdminService("hospital", id);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification(
+					"success",
+					"Success",
+					"Doctor deleted successfully"
+				);
+				setRefresh(!refresh);
+			}
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+		}
+	};
 
 	const columns = [
 		{
@@ -91,10 +112,10 @@ const HospitalAdmin = () => {
 					</Tooltip>
 
 					<Divider type="vertical" />
-					<Tooltip title="Delete admin">
+					<Tooltip title="Delete hospital">
 						<Popconfirm
 							title="Are you sure delete this user?"
-							// onConfirm={() => handleUserDelete(action[1])}
+							onConfirm={() => handleDelete(id)}
 							okText="Yes"
 							cancelText="No"
 						>

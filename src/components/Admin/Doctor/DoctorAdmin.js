@@ -151,7 +151,11 @@ const DoctorAdmin = () => {
 	return (
 		<div>
 			<PageTitle title="Doctor" />
-			<DoctorAdminOption count={doctors ? doctors.length : 0} />
+			<DoctorAdminOption
+				count={doctors ? doctors.length : 0}
+				refresh={refresh}
+				setRefresh={setRefresh}
+			/>
 			<div>
 				<h3 style={{ fontSize: "16px" }}>List of Hospitals</h3>
 				<div>

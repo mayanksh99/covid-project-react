@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Statistic, Button } from "antd";
 import AddDoctorAdmin from "./AddDoctorAdmin";
 
-const DoctorAdminOption = ({ count }) => {
+const DoctorAdminOption = ({ count, refresh, setRefresh }) => {
 	const [showModal, setshowModal] = useState(false);
 
 	const handelModal = value => {
@@ -42,7 +42,12 @@ const DoctorAdminOption = ({ count }) => {
 					</Button>
 				</Col>
 			</Row>
-			<AddDoctorAdmin visible={showModal} handleModal={handelModal} />
+			<AddDoctorAdmin
+				visible={showModal}
+				handleModal={handelModal}
+				refresh={refresh}
+				setRefresh={setRefresh}
+			/>
 		</div>
 	);
 };

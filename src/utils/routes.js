@@ -9,3 +9,4 @@ export const DEL_BY_ADMIN = "/users"; //DELETE
 
 /******************DOCTOR ADMIN ROUTES********************/
 export const GET_DOCTORS = "/doctors"; //GET
+export const ADD_DOCTOR = "/doctors"; //POST

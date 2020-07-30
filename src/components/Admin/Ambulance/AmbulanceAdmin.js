@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import PageTitle from "./../../common/PageTitle";
 import { _notification } from "../../../utils/_helper";
 import { getAmbOperatorService } from "../../../utils/services";
+import { delByAdminService } from "./../../../utils/services";
 
 const AmbulanceAdmin = () => {
 	const [refresh, setRefresh] = useState(false);
@@ -30,6 +31,24 @@ const AmbulanceAdmin = () => {
 			}
 		})();
 	}, [refresh]);
+
+	const handleDelete = async id => {
+		try {
+			const res = await delByAdminService("ambulanceoperator", id);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification(
+					"success",
+					"Success",
+					"Operator deleted successfully"
+				);
+				setRefresh(!refresh);
+			}
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+		}
+	};
 
 	const columns = [
 		{
@@ -62,7 +81,7 @@ const AmbulanceAdmin = () => {
 			title: "Action",
 			dataIndex: "action",
 			key: "action",
-			render: action => (
+			render: id => (
 				<>
 					<Popconfirm
 						title="Do you want to toggle user block?"
@@ -70,7 +89,7 @@ const AmbulanceAdmin = () => {
 						okText="Yes"
 						cancelText="No"
 					>
-						{action ? (
+						{id ? (
 							<Tooltip title="Unblock user">
 								<CloseCircleOutlined
 									style={{ color: "#DB4437" }}
@@ -92,10 +111,10 @@ const AmbulanceAdmin = () => {
 					</Tooltip>
 
 					<Divider type="vertical" />
-					<Tooltip title="Delete admin">
+					<Tooltip title="Delete operator">
 						<Popconfirm
 							title="Are you sure delete this user?"
-							// onConfirm={() => handleUserDelete(action[1])}
+							onConfirm={() => handleDelete(id)}
 							okText="Yes"
 							cancelText="No"
 						>

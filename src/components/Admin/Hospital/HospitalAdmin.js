@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Input, Card, Table, Popconfirm, Tooltip, Divider } from "antd";
 import { Link } from "react-router-dom";
 import PageTitle from "./../../common/PageTitle";
@@ -9,13 +9,32 @@ import {
 	DeleteOutlined
 } from "@ant-design/icons";
 import HospitalAdminOption from "./HospitalAdminOption";
+import { getHospitalsService } from "../../../utils/services";
+import { _notification } from "../../../utils/_helper";
 
 const HospitalAdmin = () => {
+	const [refresh, setRefresh] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [hospitals, setHospitals] = useState(null);
+
+	useEffect(() => {
+		(async () => {
+			setIsLoading(true);
+			try {
+				const res = await getHospitalsService();
+				setHospitals(res.data);
+				setIsLoading(false);
+			} catch (err) {
+				_notification("warning", "Error", err.message);
+			}
+		})();
+	}, [refresh]);
+
 	const columns = [
 		{
 			title: "#",
-			dataIndex: "key",
-			key: "key"
+			dataIndex: "index",
+			key: "index"
 		},
 		{
 			title: "Name",
@@ -24,9 +43,9 @@ const HospitalAdmin = () => {
 			render: name => <Link to="/hospitaldetails/sdvsdvsd">{name}</Link>
 		},
 		{
-			title: "Phone",
-			dataIndex: "phone",
-			key: "phone"
+			title: "Contact No.",
+			dataIndex: "contact",
+			key: "contact"
 		},
 		{
 			title: "Address",
@@ -42,7 +61,7 @@ const HospitalAdmin = () => {
 			title: "Action",
 			dataIndex: "action",
 			key: "action",
-			render: action => (
+			render: id => (
 				<>
 					<Popconfirm
 						title="Do you want to toggle user block?"
@@ -50,7 +69,7 @@ const HospitalAdmin = () => {
 						okText="Yes"
 						cancelText="No"
 					>
-						{action ? (
+						{id ? (
 							<Tooltip title="Unblock user">
 								<CloseCircleOutlined
 									style={{ color: "#DB4437" }}
@@ -87,32 +106,20 @@ const HospitalAdmin = () => {
 		}
 	];
 
-	const data = [
-		{
-			key: "1",
-			name: "ITS Hospital",
-			phone: "+915864268542",
-			address: "KIET Group of Institutions",
-			category: "L1",
-			action: true
-		},
-		{
-			key: "2",
-			name: "John Black",
-			phone: "+915864268542",
-			address: "KIET Group of Institutions",
-			category: "L1,L2",
-			action: false
-		},
-		{
-			key: "3",
-			name: "John Blue",
-			phone: "+915864268542",
-			address: "KIET Group of Institutions",
-			category: "L1",
-			action: true
-		}
-	];
+	const data = hospitals
+		? hospitals.map((hospital, id) => {
+				const { _id, name, contact, address, category } = hospital;
+				return {
+					index: ++id,
+					key: _id,
+					name,
+					contact,
+					address,
+					category,
+					action: _id
+				};
+		  })
+		: null;
 	return (
 		<div>
 			<PageTitle title="Hospital" />
@@ -133,6 +140,7 @@ const HospitalAdmin = () => {
 						style={{ padding: 0, width: "100%", overflowX: "auto" }}
 					>
 						<Table
+							loading={isLoading}
 							columns={columns}
 							dataSource={data}
 							pagination={{ position: ["bottomCenter"] }}

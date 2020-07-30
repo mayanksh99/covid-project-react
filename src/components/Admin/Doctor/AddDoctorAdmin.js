@@ -54,7 +54,8 @@ const AddDoctorAdmin = props => {
 					gender: "",
 					contact: "",
 					address: "",
-					email: ""
+					email: "",
+					hospital: ""
 				});
 			}
 			setIsLoading(false);

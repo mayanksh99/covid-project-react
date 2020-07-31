@@ -10,7 +10,9 @@ import {
 	GET_HOSPITALS,
 	ADD_HOSPITAL,
 	GET_AMBULANCE_OPERATOR,
-	ADD_AMBULANCE_OPERATOR
+	ADD_AMBULANCE_OPERATOR,
+	ADD_REPORT,
+	GET_ADMITTED_PATIENTS
 } from "./routes";
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
@@ -177,3 +179,26 @@ export const addAmbOperatorService = async data => {
 		else throw err.message;
 	}
 };
+/*******************HOSPITAL SERVICE ******************/
+export const getadmittedPatientsService =async (id) =>{
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_ADMITTED_PATIENTS}/${id}`);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+}
+export const addReportService = async data => {
+	setUserToken();
+	try {
+		const response = await axios.post(ADD_REPORT, data);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+}; 

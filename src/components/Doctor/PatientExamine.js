@@ -52,10 +52,6 @@ const PatientExamine = () => {
 			)
 		}
 	];
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master
 	const data = [];
 	for (let i = 1; i <= 5; i++) {
 		data.push({
@@ -65,10 +61,6 @@ const PatientExamine = () => {
 			age: "55 years"
 		});
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master
 	return (
 		<>
 			<PageTitle title="Examine Patients" />
@@ -91,10 +83,6 @@ const PatientExamine = () => {
 				dataSource={data}
 				pagination={{ position: ["none", "bottomCenter"] }}
 			/>
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master
 			<Modal
 				title={
 					<h3
@@ -164,21 +152,13 @@ const PatientExamine = () => {
 					<Col sm={6} xs={24}>
 						<Select
 							defaultValue="select level"
-<<<<<<< HEAD
-							onChange={handleChange}
-=======
 							// onChange={handleChange}
->>>>>>> upstream/master
 						>
 							<Option value="L1">L1</Option>
 							<Option value="L2">L2</Option>
 							<Option value="L3">L3</Option>
 						</Select>
 					</Col>
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master
 					<Col sm={6} xs={24} className="PatientExamine-heading">
 						Select Hospital
 					</Col>
@@ -202,11 +182,7 @@ const PatientExamine = () => {
 					</Col>
 				</Row>
 			</Modal>
-<<<<<<< HEAD
-		</div>
-=======
 		</>
->>>>>>> upstream/master
 	);
 };
 

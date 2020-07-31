@@ -1,16 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Input, Statistic, Button, Modal, Row, Col, Select, Table } from "antd";
 import PageTitle from "../common/PageTitle";
 import "./style.css";
+import io from "socket.io-client";
+import { AuthContext } from "../../contexts/userContext";
 
+const { TextArea } = Input;
+const { Option } = Select;
+let socket;
 const PatientExamine = () => {
-	const { TextArea } = Input;
-	const { Option } = Select;
+	const Data = useContext(AuthContext);
 	const [isVisible, setIsVisible] = useState(false);
-	// const [selectedOption, setSelectedOption] = useState("");
-	// const handleChange = value => {
-	// 	setSelectedOption(value);
-	// };
+	const [patients, setPatients] = useState(null);
+	const [count, setCount] = useState(0);
+	const [isLoading, setIsLoading] = useState(false);
+	const EndPoint = "https://covid-project-gzb.herokuapp.com";
+
+	useEffect(() => {
+		setIsLoading(true);
+		socket = io(EndPoint);
+		socket.on("PATIENTS_POOL_FOR_DOCTOR", res => {
+			console.log(res);
+			setPatients(res.patients);
+			setCount(res.remainingPatients);
+			setIsLoading(false);
+		});
+		socket.emit("patientsPoolForDoctor", { token: Data.token });
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [EndPoint]);
+
 	const showModal = () => {
 		setIsVisible(!isVisible);
 	};
@@ -23,9 +41,14 @@ const PatientExamine = () => {
 	};
 	const tableColumns = [
 		{
+			title: "#",
+			dataIndex: "index",
+			key: "index"
+		},
+		{
 			title: "Patient ID",
-			dataIndex: "id",
-			key: "id"
+			dataIndex: "caseId",
+			key: "caseId"
 		},
 		{
 			title: "Patient Name",
@@ -35,16 +58,15 @@ const PatientExamine = () => {
 		{
 			title: "Patient Age",
 			dataIndex: "age",
-			key: "age",
-			responsive: ["sm"]
+			key: "age"
 		},
 		{
 			title: "Examine Patient",
-			key: "Examine-btn",
-			render: () => (
+			key: "action",
+			render: id => (
 				<Button
 					type="primary"
-					className="Examine-btn"
+					className="login-form-button"
 					onClick={showModal}
 				>
 					Examine
@@ -53,22 +75,26 @@ const PatientExamine = () => {
 		}
 	];
 
-	const data = [];
-	for (let i = 1; i <= 5; i++) {
-		data.push({
-			key: i,
-			name: "John green",
-			id: "P1",
-			age: "55 years"
-		});
-	}
+	const data = patients
+		? patients.map((patient, id) => {
+				const { _id, caseId, name, age } = patient;
+				return {
+					index: ++id,
+					key: _id,
+					caseId,
+					name,
+					age,
+					action: _id
+				};
+		  })
+		: null;
 
 	return (
 		<>
 			<PageTitle title="Examine Patients" />
 			<Statistic
 				title="Number of patients left to examine"
-				value={365}
+				value={count}
 				valueStyle={{
 					fontWeight: 900,
 					fontSize: "2em",
@@ -79,8 +105,8 @@ const PatientExamine = () => {
 				size="middle"
 				title={() => "List of Patients to Examine"}
 				showHeader={true}
-				closable={true}
-				bordered={true}
+				loading={isLoading}
+				bordered={false}
 				columns={tableColumns}
 				dataSource={data}
 				pagination={{ position: ["none", "bottomCenter"] }}

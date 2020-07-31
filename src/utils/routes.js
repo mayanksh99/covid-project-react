@@ -18,3 +18,6 @@ export const ADD_HOSPITAL = "/hospitals"; //POST
 /******************HOSPITAL ADMIN ROUTES********************/
 export const GET_AMBULANCE_OPERATOR = "/ambulances/operator"; //GET
 export const ADD_AMBULANCE_OPERATOR = "/ambulances/operator"; //POST
+
+/******************DOCTOR ROUTES********************/
+export const ATTEND_PATIENT = "/doctors/patients/attend"; //POST

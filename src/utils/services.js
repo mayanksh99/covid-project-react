@@ -177,3 +177,5 @@ export const addAmbOperatorService = async data => {
 		else throw err.message;
 	}
 };
+
+/******************DOCTOR SERVICES********************/

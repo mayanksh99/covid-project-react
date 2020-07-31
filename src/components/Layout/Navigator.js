@@ -54,6 +54,7 @@ const Dashboard = props => {
 								<span>Dashboard</span>
 								<Link to="/" />
 							</Menu.Item> */}
+
 							{routes.map((route, idx) => {
 								if (
 									route.role === userData[0].role &&
@@ -82,6 +83,7 @@ const Dashboard = props => {
 										</Menu.Item>
 									);
 								}
+								return 0;
 							})}
 
 							<Menu.Item

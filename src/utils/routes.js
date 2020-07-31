@@ -20,6 +20,5 @@ export const GET_AMBULANCE_OPERATOR = "/ambulances/operator"; //GET
 export const ADD_AMBULANCE_OPERATOR = "/ambulances/operator"; //POST
 
 /******************HOSPITAL ROUTES***********************/
-export const GET_ADMITTED_PATIENTS="/hospitals/admitted" //GET
-export const ADD_REPORT ="/report";//POST
-
+export const GET_ADMITTED_PATIENTS = "/hospitals/admitted"; //GET
+export const ADD_REPORT = "/report"; //POST

@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
 import {
 	Table,
@@ -14,11 +14,14 @@ import {
 } from "antd";
 // import { AudioOutlined } from "@ant-design/icons";
 import PageTitle from "../common/PageTitle";
-import { addReportService,getadmittedPatientsService} from "../../utils/services";
-import { _notification,getRole} from "../../utils/_helper";
+import {
+	addReportService,
+	getadmittedPatientsService
+} from "../../utils/services";
+import { _notification, getRole } from "../../utils/_helper";
 
 const { Option } = Select;
-const { TextArea ,Search} = Input;
+const { TextArea, Search } = Input;
 const UpdateDailyReport = props => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [setSelectedOption] = useState("");
@@ -55,12 +58,13 @@ const UpdateDailyReport = props => {
 		(async () => {
 			setIsLoading(true);
 			try {
-				if(userData){
-					const res = await getadmittedPatientsService(userData[0].id);
+				if (userData) {
+					const res = await getadmittedPatientsService(
+						userData[0].id
+					);
 					console.log(res);
 					setIsLoading(false);
 				}
-				
 			} catch (err) {
 				_notification("warning", "Error", err.message);
 			}
@@ -88,11 +92,11 @@ const UpdateDailyReport = props => {
 				props.setRefresh(!props.refresh);
 				props.handleModal(false);
 				form.setFieldsValue({
-					patientstatus:"",
-					testcheck:"",
-					reportresult:"",
-					rate:"",
-					comment:""
+					patientstatus: "",
+					testcheck: "",
+					reportresult: "",
+					rate: "",
+					comment: ""
 				});
 			}
 			setIsLoading(false);
@@ -130,7 +134,7 @@ const UpdateDailyReport = props => {
 		{
 			title: "Update Report",
 			key: "update report",
-			dataIndex:"age",
+			dataIndex: "age",
 			render: () => (
 				<Button type="primary" onClick={showModal()}>
 					Update Report
@@ -139,22 +143,17 @@ const UpdateDailyReport = props => {
 		}
 	];
 	const data = patients
-	? patients.map((patients, id) => {
-			const {
-				_id,
-				name,
-				gender,
-				age
-			} = patients;
-			return {
-				index: ++id,
-				key: _id,
-				name,
-				gender,
-				age
-			};
-	  })
-	: null;
+		? patients.map((patients, id) => {
+				const { _id, name, gender, age } = patients;
+				return {
+					index: ++id,
+					key: _id,
+					name,
+					gender,
+					age
+				};
+		  })
+		: null;
 	// const data = [];
 
 	// for (let i = 0; i < 7; i++) {
@@ -269,7 +268,9 @@ const UpdateDailyReport = props => {
 								label="Patient Status"
 							>
 								<Select placeholder="select status">
-									<Option value="available">Hospitalized</Option>
+									<Option value="available">
+										Hospitalized
+									</Option>
 									<Option value="on-duty">Discharged</Option>
 								</Select>
 							</Form.Item>
@@ -281,7 +282,10 @@ const UpdateDailyReport = props => {
 								name="testcheck"
 								label="Test Performed Today:"
 							>
-								<Select defaultValue="No" onChange={handleChange}>
+								<Select
+									defaultValue="No"
+									onChange={handleChange}
+								>
 									<Option value="No">No</Option>
 									<Option value="Yes">Yes</Option>
 								</Select>
@@ -292,7 +296,10 @@ const UpdateDailyReport = props => {
 								name="reportresult"
 								label="Report Result:"
 							>
-								<Select placeholder="select" onChange={handleChange}>
+								<Select
+									placeholder="select"
+									onChange={handleChange}
+								>
 									<Option value="Negative">Negative</Option>
 									<Option value="Positive">Positive</Option>
 								</Select>

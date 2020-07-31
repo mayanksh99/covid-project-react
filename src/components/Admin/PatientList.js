@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	Col,
 	Card,
@@ -7,30 +7,106 @@ import {
 	Button,
 	InputNumber,
 	Radio,
-	Upload,
-	message
+	// Upload,
+	// message,
+	DatePicker,
+	Row
 } from "antd";
 import PageTitle from "./../common/PageTitle";
-import { UserOutlined, UploadOutlined } from "@ant-design/icons";
+// import { UserOutlined, UploadOutlined } from "@ant-design/icons";
+import { _notification } from "../../utils/_helper";
+import { addPatientService } from "../../utils/services";
 
 const PatientList = () => {
-	const uploadProps = {
-		name: "file",
-		action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-		headers: {
-			authorization: "authorization-text"
-		},
-		onChange(info) {
-			if (info.file.status !== "uploading") {
-				console.log(info.file, info.fileList);
+	const [form] = Form.useForm();
+	const dateFormat = "DD/MM/YYYY";
+	const [isLoading, setIsLoading] = useState(false);
+	const [report, setReport] = useState(null);
+	// const [fileList, setFileList] = useState(null);
+	// const uploadProps = {
+	// 	name: "file",
+	// 	action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+	// 	headers: {
+	// 		authorization: "authorization-text"
+	// 	},
+	// 	onChange(info) {
+	// if (info.file.status !== "uploading") {
+	// 	console.log(info.file, info.fileList);
+	// }
+	// if (info.file.status === "done") {
+	// 	message.success(`${info.file.name} file uploaded successfully`);
+	// } else if (info.file.status === "error") {
+	// 	message.error(`${info.file.name} file upload failed.`);
+	// }
+	// 		if (info.file.status === "done") {
+	// 			message.success(`${info.file.name} file uploaded successfully`);
+	// 		} else if (info.file.status === "error") {
+	// 			message.error(`${info.file.name} file upload failed.`);
+	// 		}
+	// 		setFileList(info.fileList);
+	// 	},
+	// 	onRemove(info) {
+	// 		form.setFieldsValue({
+	// 			report: undefined
+	// 		});
+	// 	}
+	// };
+
+	const onFinish = async values => {
+		setIsLoading(true);
+		try {
+			let sampleCollected = values.sampleCollected.format("DD/MM/YYYY");
+			let sampleResult = values.sampleResult.format("DD/MM/YYYY");
+			const formData = new FormData();
+			formData.append("caseId", values.caseId);
+			formData.append("name", values.name);
+			formData.append("age", values.age);
+			formData.append("gender", values.gender);
+			formData.append("phone", values.phone);
+			formData.append("address", values.address);
+			formData.append("email", values.email);
+			formData.append("relativePhone", values.relativePhone);
+			formData.append("relativeEmail", values.relativeEmail);
+			formData.append("sampleCollected", sampleCollected);
+			formData.append("sampleResult", sampleResult);
+			if (report) {
+				formData.append("report", report);
 			}
-			if (info.file.status === "done") {
-				message.success(`${info.file.name} file uploaded successfully`);
-			} else if (info.file.status === "error") {
-				message.error(`${info.file.name} file upload failed.`);
+			const res = await addPatientService(formData);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification(
+					"success",
+					"Success",
+					"Patient added successfully"
+				);
+				form.setFieldsValue({
+					name: "",
+					caseId: "",
+					age: "",
+					gender: "",
+					phone: "",
+					address: "",
+					email: "",
+					relativePhone: "",
+					relativeEmail: "",
+					sampleCollected: "",
+					sampleResult: "",
+					report: ""
+				});
 			}
+			setIsLoading(false);
+		} catch (err) {
+			_notification("error", "Error", err.message);
+			setIsLoading(false);
 		}
 	};
+
+	const handleReport = e => {
+		setReport(e.target.files[0]);
+	};
+
 	return (
 		<>
 			<PageTitle title="Add Patient" />
@@ -48,11 +124,28 @@ const PatientList = () => {
 							Patient Form
 						</p>
 						<Form
+							form={form}
 							layout="vertical"
-							name="update_patient"
+							name="patient-form"
 							className="login-form"
-							initialValues={{ remember: true }}
+							onFinish={onFinish}
 						>
+							<Form.Item
+								name="caseId"
+								label="Case ID"
+								rules={[
+									{
+										required: true,
+										message: "Please input case id!"
+									}
+								]}
+							>
+								<Input
+									className="input-field"
+									placeholder="Enter case id"
+									// prefix={<UserOutlined />}
+								/>
+							</Form.Item>
 							<Form.Item
 								name="name"
 								label="Name"
@@ -84,7 +177,7 @@ const PatientList = () => {
 									style={{ width: "100%" }}
 									className="input-field"
 									placeholder="Enter age"
-									prefix={<UserOutlined />}
+									// prefix={<UserOutlined />}
 								/>
 							</Form.Item>
 							<Form.Item
@@ -139,6 +232,7 @@ const PatientList = () => {
 								label="Email ID"
 								rules={[
 									{
+										type: "email",
 										required: true,
 										message: "Please input email!"
 									}
@@ -152,7 +246,7 @@ const PatientList = () => {
 							</Form.Item>
 
 							<Form.Item
-								name="familyContact"
+								name="relativePhone"
 								label="Family's Contact No."
 								rules={[
 									{
@@ -168,7 +262,7 @@ const PatientList = () => {
 								/>
 							</Form.Item>
 							<Form.Item
-								name="familyEmail"
+								name="relativeEmail"
 								label="Family's Email ID"
 								rules={[
 									{
@@ -185,12 +279,52 @@ const PatientList = () => {
 								/>
 							</Form.Item>
 
+							<Row gutter={[16, 16]}>
+								<Col span={12}>
+									<Form.Item
+										name="sampleCollected"
+										label="Sample Collected Date"
+										rules={[
+											{
+												required: true,
+												message:
+													"Please input sample collected  date!"
+											}
+										]}
+									>
+										<DatePicker
+											format={dateFormat}
+											style={{ width: "100%" }}
+										/>
+									</Form.Item>
+								</Col>
+								<Col span={12}>
+									<Form.Item
+										name="sampleResult"
+										label="Sample Result Date"
+										rules={[
+											{
+												required: true,
+												message:
+													"Please input sample result  date!"
+											}
+										]}
+									>
+										<DatePicker
+											format={dateFormat}
+											style={{ width: "100%" }}
+										/>
+									</Form.Item>
+								</Col>
+							</Row>
+
 							<Form.Item name="report" label="Patient Report">
-								<Upload {...uploadProps}>
+								{/* <Upload {...uploadProps} fileList={fileList}>
 									<Button>
 										<UploadOutlined /> Click to Upload
 									</Button>
-								</Upload>
+								</Upload> */}
+								<Input type="file" onChange={handleReport} />
 							</Form.Item>
 
 							<Form.Item>
@@ -199,6 +333,7 @@ const PatientList = () => {
 									htmlType="submit"
 									className="login-form-button"
 									block
+									loading={isLoading}
 								>
 									Submit
 								</Button>

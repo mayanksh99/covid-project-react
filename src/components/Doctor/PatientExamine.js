@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Input, Statistic, Button, Modal, Row, Col, Select, Table } from "antd";
 import PageTitle from "../common/PageTitle";
 import "./style.css";
@@ -7,10 +7,10 @@ const PatientExamine = () => {
 	const { TextArea } = Input;
 	const { Option } = Select;
 	const [isVisible, setIsVisible] = useState(false);
-	const [selectedOption, setSelectedOption] = useState("");
-	const handleChange = value => {
-		setSelectedOption(value);
-	};
+	// const [selectedOption, setSelectedOption] = useState("");
+	// const handleChange = value => {
+	// 	setSelectedOption(value);
+	// };
 	const showModal = () => {
 		setIsVisible(!isVisible);
 	};
@@ -52,6 +52,7 @@ const PatientExamine = () => {
 			)
 		}
 	];
+
 	const data = [];
 	for (let i = 1; i <= 5; i++) {
 		data.push({
@@ -61,6 +62,7 @@ const PatientExamine = () => {
 			age: "55 years"
 		});
 	}
+
 	return (
 		<>
 			<PageTitle title="Examine Patients" />
@@ -83,6 +85,7 @@ const PatientExamine = () => {
 				dataSource={data}
 				pagination={{ position: ["none", "bottomCenter"] }}
 			/>
+
 			<Modal
 				title={
 					<h3
@@ -152,20 +155,21 @@ const PatientExamine = () => {
 					<Col sm={6} xs={24}>
 						<Select
 							defaultValue="select level"
-							onChange={handleChange}
+							// onChange={handleChange}
 						>
 							<Option value="L1">L1</Option>
 							<Option value="L2">L2</Option>
 							<Option value="L3">L3</Option>
 						</Select>
 					</Col>
+
 					<Col sm={6} xs={24} className="PatientExamine-heading">
 						Select Hospital
 					</Col>
 					<Col sm={8} xs={24}>
 						<Select
 							defaultValue="select Hospital"
-							onChange={handleChange}
+							// onChange={handleChange}
 						>
 							<Option value="IMS BHU">IMS BHU</Option>
 							<Option value="IMS BHU">IMS BHU</Option>

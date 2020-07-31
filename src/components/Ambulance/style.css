@@ -1,60 +1,6 @@
-/* .ant-btn-primary {
+.ant-btn-primary {
 	background: #008db9;
 	border-radius: 4px;
-} */
-
-.heading {
-	font-size: 2.5em;
-	font-family: GoogleSansBd;
-	background-image: linear-gradient(
-		0deg,
-		rgba(0, 0, 0, 0.2) 0,
-		rgba(0, 0, 0, 0.2) 30%,
-		transparent 30%,
-		transparent
-	);
-	width: fit-content;
-	height: 47px;
-	margin-bottom: 20px;
-}
-
-.heading2 {
-	font-size: 1.5em;
-	font-family: GoogleSansBd;
-	background-image: linear-gradient(
-		0deg,
-		rgba(0, 0, 0, 0.2) 0,
-		rgba(0, 0, 0, 0.2) 30%,
-		transparent 30%,
-		transparent
-	);
-	width: fit-content;
-	height: 30px;
-	margin-bottom: 20px;
-}
-
-.container {
-	padding: 10px 30px;
-}
-
-/* .ant-table-title {
-	font-size: 1.5em;
-	font-family: GoogleSansMd;
-	border-radius: 4px 4px 0px 0px;
-	color: #424242;
-}
-
-.ant-table-thead > tr > th {
-	font-size: 18px;
-}
-
-.ant-table-tbody > tr > td {
-	font-size: 16px;
-	border-color: rgb(0, 141, 185, 0.17);
-}
-
-.ant-statistic-title {
-	font-size: 16px;
 }
 
 .ant-statistic-content-value-int {
@@ -69,23 +15,36 @@
 	font-family: GoogleSansMd;
 }
 
+.ant-table-title {
+	font-size: 1.5em;
+	font-family: GoogleSansMd;
+	border-radius: 4px 4px 0px 0px;
+	color: #424242;
+}
+
 .ant-pagination-item-active a {
 	color: #008db9;
 }
 
 .ant-pagination-item-active {
 	border-color: #008db9;
-} */
+}
+
+.ant-table-thead > tr > th {
+	font-size: 14px;
+}
+
+.ant-table-tbody > tr > td {
+	font-size: 16px;
+	border-color: rgb(0, 141, 185, 0.17);
+}
 
 /* table above, modal below */
 
-/* .ant-modal-header {
+.ant-modal-header {
 	background: rgb(0, 141, 185, 0.55);
 	padding-top: 10px;
 	padding-bottom: 10px;
-}
-.ant-modal-title {
-	font-size: 20px;
 }
 
 .ant-modal-close-x {
@@ -103,23 +62,20 @@
 }
 
 .second-segment {
-	margin-top: 40px;
+	margin-top: 30px;
 }
 
 .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
 	height: auto;
 	border-radius: 4px;
-} */
-
-.gap {
-	margin-left: 12px;
 }
 
-.pwd {
-	border: 1.5px solid #00000029;
+.ml-11 {
+	margin-left: 11px;
+}
+
+.status-modal-field {
+	border: 1px solid #d9d9d9;
 	border-radius: 4px;
-	background: #fafbfc;
-	padding: 2px 14px;
-	display: flex;
-	justify-content: center;
+	padding: 2px 4px 0px 11px;
 }

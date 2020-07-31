@@ -1,10 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Form, Input, Select, Button } from "antd";
-// import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
+import { _notification } from "../../utils/_helper";
+import { addAdminService } from "../../utils/services";
 
 const { Option } = Select;
 
-const AddAdmin = () => {
+const AddAdmin = ({ refresh, setRefresh }) => {
+	const [form] = Form.useForm();
+	const [isLoading, setIsLoading] = useState(false);
+
+	const onFinish = async values => {
+		setIsLoading(true);
+		try {
+			let data;
+			if (values.permissions.includes("master")) {
+				data = {
+					name: values.name,
+					email: values.email,
+					permissions: ["master"]
+				};
+			} else {
+				data = { ...values };
+			}
+			const res = await addAdminService(data);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification("success", "Success", "Admin added successfully");
+				form.setFieldsValue({
+					name: "",
+					email: "",
+					permissions: []
+				});
+				setRefresh(!refresh);
+			}
+			setIsLoading(false);
+		} catch (err) {
+			_notification("error", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
+
 	return (
 		<div>
 			<Card>
@@ -18,10 +54,10 @@ const AddAdmin = () => {
 					Add Admin
 				</p>
 				<Form
+					form={form}
 					layout="vertical"
-					name="update_patient"
-					className="login-form"
-					initialValues={{ remember: true }}
+					name="add_admin"
+					onFinish={onFinish}
 				>
 					<Form.Item
 						name="name"
@@ -44,6 +80,7 @@ const AddAdmin = () => {
 						label="Email"
 						rules={[
 							{
+								type: "email",
 								required: true,
 								message: "Please input email!"
 							}
@@ -56,24 +93,20 @@ const AddAdmin = () => {
 						/>
 					</Form.Item>
 					<Form.Item
-						name="role"
-						label="Role"
+						name="permissions"
+						label="Permissions"
 						rules={[
 							{
 								required: true,
-								message: "Please select role!"
+								message: "Please select permission!"
 							}
 						]}
 					>
-						<Select
-							placeholder="Select role"
-							// className="input-field"
-							// prefix={<MailOutlined />}
-						>
-							<Option value="Master">Master</Option>
-							<Option value="Doctor">Doctor</Option>
-							<Option value="Hospital">Hospital</Option>
-							<Option value="Ambulance">Ambulance</Option>
+						<Select placeholder="Select permission" mode="multiple">
+							<Option value="master">Master</Option>
+							<Option value="doctor">Doctor</Option>
+							<Option value="hospital">Hospital</Option>
+							<Option value="ambulance">Ambulance</Option>
 						</Select>
 					</Form.Item>
 
@@ -83,6 +116,7 @@ const AddAdmin = () => {
 							htmlType="submit"
 							className="login-form-button"
 							block
+							loading={isLoading}
 						>
 							Submit
 						</Button>

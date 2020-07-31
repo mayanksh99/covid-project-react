@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PageTitle from "./../../common/PageTitle";
 import { Col, Input, Card, Table, Popconfirm, Tooltip, Divider } from "antd";
 import {
@@ -9,29 +9,73 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import DoctorAdminOption from "./DoctorAdminOption";
+import { getDoctorsService } from "../../../utils/services";
+import { _notification } from "../../../utils/_helper";
+import { delByAdminService } from "./../../../utils/services";
 
 const DoctorAdmin = () => {
+	const [refresh, setRefresh] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [doctors, setDoctors] = useState(null);
+
+	useEffect(() => {
+		(async () => {
+			setIsLoading(true);
+			try {
+				const res = await getDoctorsService();
+				setDoctors(res.data);
+				setIsLoading(false);
+			} catch (err) {
+				_notification("warning", "Error", err.message);
+			}
+		})();
+	}, [refresh]);
+
+	const handleDelete = async id => {
+		try {
+			const res = await delByAdminService("doctor", id);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification(
+					"success",
+					"Success",
+					"Doctor deleted successfully"
+				);
+				setRefresh(!refresh);
+			}
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+		}
+	};
+
 	const columns = [
 		{
 			title: "#",
-			dataIndex: "key",
-			key: "key"
+			dataIndex: "index",
+			key: "index"
+		},
+		{
+			title: "ID",
+			dataIndex: "empId",
+			key: "empId"
 		},
 		{
 			title: "Name",
 			dataIndex: "name",
-			key: "name",
-			render: name => <Link to="/doctordetails/sdvsdvsd">{name}</Link>
+			key: "name"
+			// render: name => <Link to="/doctordetails/sdvsdvsd">{name}</Link>
 		},
+
+		// {
+		// 	title: "Age",
+		// 	dataIndex: "age",
+		// 	key: "age"
+		// },
 		{
-			title: "Email",
-			dataIndex: "email",
-			key: "email"
-		},
-		{
-			title: "Phone",
-			dataIndex: "phone",
-			key: "phone"
+			title: "Contact",
+			dataIndex: "contact",
+			key: "contact"
 		},
 		{
 			title: "Hospital",
@@ -43,7 +87,7 @@ const DoctorAdmin = () => {
 			title: "Action",
 			dataIndex: "action",
 			key: "action",
-			render: action => (
+			render: id => (
 				<>
 					<Popconfirm
 						title="Do you want to toggle user block?"
@@ -51,7 +95,7 @@ const DoctorAdmin = () => {
 						okText="Yes"
 						cancelText="No"
 					>
-						{action ? (
+						{id ? (
 							<Tooltip title="Unblock user">
 								<CloseCircleOutlined
 									style={{ color: "#DB4437" }}
@@ -73,10 +117,10 @@ const DoctorAdmin = () => {
 					</Tooltip>
 
 					<Divider type="vertical" />
-					<Tooltip title="Delete admin">
+					<Tooltip title="Delete doctor">
 						<Popconfirm
 							title="Are you sure delete this user?"
-							// onConfirm={() => handleUserDelete(action[1])}
+							onConfirm={() => handleDelete(id)}
 							okText="Yes"
 							cancelText="No"
 						>
@@ -88,37 +132,30 @@ const DoctorAdmin = () => {
 		}
 	];
 
-	const data = [
-		{
-			key: "1",
-			name: "Dr. Kishore Kumar",
-			email: "doctor4covid@doc.in",
-			phone: "+915864268542",
-			hospital: "ITS Hospital",
-			action: true
-		},
-		{
-			key: "2",
-			name: "John Black",
-			email: "doctor4covid@doc.in",
-			phone: "+915864268542",
-			hospital: "ITS Hospital",
-			action: false
-		},
-		{
-			key: "3",
-			name: "John Blue",
-			email: "doctor4covid@doc.in",
-			phone: "+915864268542",
-			hospital: "ITS Hospital",
-			action: true
-		}
-	];
+	const data = doctors
+		? doctors.map((doctor, id) => {
+				const { _id, name, hospital, contact, age, empId } = doctor;
+				return {
+					index: ++id,
+					key: _id,
+					name,
+					hospital,
+					contact,
+					age,
+					empId,
+					action: _id
+				};
+		  })
+		: null;
 
 	return (
 		<div>
 			<PageTitle title="Doctor" />
-			<DoctorAdminOption />
+			<DoctorAdminOption
+				count={doctors ? doctors.length : 0}
+				refresh={refresh}
+				setRefresh={setRefresh}
+			/>
 			<div>
 				<h3 style={{ fontSize: "16px" }}>List of Hospitals</h3>
 				<div>
@@ -135,6 +172,7 @@ const DoctorAdmin = () => {
 						style={{ padding: 0, width: "100%", overflowX: "auto" }}
 					>
 						<Table
+							loading={isLoading}
 							columns={columns}
 							dataSource={data}
 							pagination={{ position: ["bottomCenter"] }}

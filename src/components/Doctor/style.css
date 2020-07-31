@@ -42,7 +42,7 @@
 /*DoctorEditProfile*/
 .DoctorEditProfile-container {
 	display: flex;
-	justify-content: start;
+	justify-content: flex-start;
 }
 .DoctorEditProfile-btn {
 	font-weight: 300;

@@ -7,10 +7,10 @@ const PatientExamine = () => {
 	const { TextArea } = Input;
 	const { Option } = Select;
 	const [isVisible, setIsVisible] = useState(false);
-	const [selectedOption, setSelectedOption] = useState("");
-	const handleChange = value => {
-		setSelectedOption(value);
-	};
+	// const [selectedOption, setSelectedOption] = useState("");
+	// const handleChange = value => {
+	// 	setSelectedOption(value);
+	// };
 	const showModal = () => {
 		setIsVisible(!isVisible);
 	};
@@ -52,6 +52,10 @@ const PatientExamine = () => {
 			)
 		}
 	];
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
 	const data = [];
 	for (let i = 1; i <= 5; i++) {
 		data.push({
@@ -61,8 +65,12 @@ const PatientExamine = () => {
 			age: "55 years"
 		});
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
 	return (
-		<div>
+		<>
 			<PageTitle title="Examine Patients" />
 			<Statistic
 				title="Number of patients left to examine"
@@ -83,6 +91,10 @@ const PatientExamine = () => {
 				dataSource={data}
 				pagination={{ position: ["none", "bottomCenter"] }}
 			/>
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
 			<Modal
 				title={
 					<h3
@@ -152,20 +164,28 @@ const PatientExamine = () => {
 					<Col sm={6} xs={24}>
 						<Select
 							defaultValue="select level"
+<<<<<<< HEAD
 							onChange={handleChange}
+=======
+							// onChange={handleChange}
+>>>>>>> upstream/master
 						>
 							<Option value="L1">L1</Option>
 							<Option value="L2">L2</Option>
 							<Option value="L3">L3</Option>
 						</Select>
 					</Col>
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
 					<Col sm={6} xs={24} className="PatientExamine-heading">
 						Select Hospital
 					</Col>
 					<Col sm={8} xs={24}>
 						<Select
 							defaultValue="select Hospital"
-							onChange={handleChange}
+							// onChange={handleChange}
 						>
 							<Option value="IMS BHU">IMS BHU</Option>
 							<Option value="IMS BHU">IMS BHU</Option>
@@ -182,7 +202,11 @@ const PatientExamine = () => {
 					</Col>
 				</Row>
 			</Modal>
+<<<<<<< HEAD
 		</div>
+=======
+		</>
+>>>>>>> upstream/master
 	);
 };
 

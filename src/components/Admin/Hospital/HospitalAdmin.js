@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Input, Card, Table, Popconfirm, Tooltip, Divider } from "antd";
 import { Link } from "react-router-dom";
 import PageTitle from "./../../common/PageTitle";
@@ -9,24 +9,67 @@ import {
 	DeleteOutlined
 } from "@ant-design/icons";
 import HospitalAdminOption from "./HospitalAdminOption";
+import {
+	getHospitalsService,
+	delByAdminService
+} from "../../../utils/services";
+import { _notification } from "../../../utils/_helper";
 
 const HospitalAdmin = () => {
+	const [refresh, setRefresh] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [hospitals, setHospitals] = useState(null);
+
+	useEffect(() => {
+		(async () => {
+			setIsLoading(true);
+			try {
+				const res = await getHospitalsService();
+				console.log(res.data);
+				setHospitals(res.data);
+				setIsLoading(false);
+			} catch (err) {
+				_notification("warning", "Error", err.message);
+			}
+		})();
+	}, [refresh]);
+
+	const handleDelete = async id => {
+		try {
+			const res = await delByAdminService("hospital", id);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification(
+					"success",
+					"Success",
+					"Doctor deleted successfully"
+				);
+				setRefresh(!refresh);
+			}
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+		}
+	};
+
 	const columns = [
 		{
 			title: "#",
-			dataIndex: "key",
-			key: "key"
+			dataIndex: "index",
+			key: "index"
 		},
 		{
 			title: "Name",
-			dataIndex: "name",
-			key: "name",
-			render: name => <Link to="/hospitaldetails/sdvsdvsd">{name}</Link>
+			dataIndex: "detail",
+			key: "detail",
+			render: detail => (
+				<Link to="/hospitaldetails/sdvsdvsd">{detail.name}</Link>
+			)
 		},
 		{
-			title: "Phone",
-			dataIndex: "phone",
-			key: "phone"
+			title: "Contact No.",
+			dataIndex: "contact",
+			key: "contact"
 		},
 		{
 			title: "Address",
@@ -42,7 +85,7 @@ const HospitalAdmin = () => {
 			title: "Action",
 			dataIndex: "action",
 			key: "action",
-			render: action => (
+			render: id => (
 				<>
 					<Popconfirm
 						title="Do you want to toggle user block?"
@@ -50,7 +93,7 @@ const HospitalAdmin = () => {
 						okText="Yes"
 						cancelText="No"
 					>
-						{action ? (
+						{id ? (
 							<Tooltip title="Unblock user">
 								<CloseCircleOutlined
 									style={{ color: "#DB4437" }}
@@ -72,10 +115,10 @@ const HospitalAdmin = () => {
 					</Tooltip>
 
 					<Divider type="vertical" />
-					<Tooltip title="Delete admin">
+					<Tooltip title="Delete hospital">
 						<Popconfirm
 							title="Are you sure delete this user?"
-							// onConfirm={() => handleUserDelete(action[1])}
+							onConfirm={() => handleDelete(id)}
 							okText="Yes"
 							cancelText="No"
 						>
@@ -87,36 +130,47 @@ const HospitalAdmin = () => {
 		}
 	];
 
-	const data = [
-		{
-			key: "1",
-			name: "ITS Hospital",
-			phone: "+915864268542",
-			address: "KIET Group of Institutions",
-			category: "L1",
-			action: true
-		},
-		{
-			key: "2",
-			name: "John Black",
-			phone: "+915864268542",
-			address: "KIET Group of Institutions",
-			category: "L1,L2",
-			action: false
-		},
-		{
-			key: "3",
-			name: "John Blue",
-			phone: "+915864268542",
-			address: "KIET Group of Institutions",
-			category: "L1",
-			action: true
-		}
-	];
+	const data = hospitals
+		? hospitals.map((hospital, id) => {
+				const {
+					_id,
+					name,
+					contact,
+					address,
+					category,
+					email,
+					availableBeds,
+					occupiedBeds,
+					reservedBeds,
+					totalBeds
+				} = hospital;
+				return {
+					index: ++id,
+					key: _id,
+					name,
+					contact,
+					address,
+					category,
+					action: _id,
+					detail: {
+						_id,
+						name,
+						contact,
+						address,
+						category,
+						email,
+						availableBeds,
+						occupiedBeds,
+						reservedBeds,
+						totalBeds
+					}
+				};
+		  })
+		: null;
 	return (
 		<div>
 			<PageTitle title="Hospital" />
-			<HospitalAdminOption />
+			<HospitalAdminOption refresh={refresh} setRefresh={setRefresh} />
 			<div>
 				<h3 style={{ fontSize: "16px" }}>List of Hospitals</h3>
 				<div>
@@ -133,6 +187,7 @@ const HospitalAdmin = () => {
 						style={{ padding: 0, width: "100%", overflowX: "auto" }}
 					>
 						<Table
+							loading={isLoading}
 							columns={columns}
 							dataSource={data}
 							pagination={{ position: ["bottomCenter"] }}

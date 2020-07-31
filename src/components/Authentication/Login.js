@@ -124,7 +124,7 @@ const Login = props => {
 									]}
 								>
 									<Input
-										className="input-field mt-10"
+										className="login-input-field mt-10"
 										prefix={<UserOutlined />}
 										placeholder="Email"
 									/>
@@ -140,7 +140,7 @@ const Login = props => {
 									]}
 								>
 									<Input.Password
-										className="input-field mt-10"
+										className="login-input-field mt-10"
 										prefix={<LockOutlined />}
 										placeholder="Password"
 									/>

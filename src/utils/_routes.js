@@ -13,7 +13,8 @@ import {
 	CheckOutlined,
 	UsergroupAddOutlined,
 	UserSwitchOutlined,
-	BookOutlined
+	BookOutlined,
+	UserOutlined
 } from "@ant-design/icons";
 import Icon from "@ant-design/icons";
 import AmbulanceAdmin from "../components/Admin/Ambulance/AmbulanceAdmin";

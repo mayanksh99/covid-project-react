@@ -6,7 +6,13 @@ import { _notification } from "../../utils/_helper";
 const { TextArea } = Input;
 const { Option } = Select;
 
-const AttendPatient = ({ isVisible, showModal, patientData }) => {
+const AttendPatient = ({
+	isVisible,
+	showModal,
+	patientData,
+	refresh,
+	setRefresh
+}) => {
 	const [form] = Form.useForm();
 	const [isLoading, setIsLoading] = useState(false);
 	const [check, setCheck] = useState(false);
@@ -28,6 +34,7 @@ const AttendPatient = ({ isVisible, showModal, patientData }) => {
 					"Success",
 					"Patient examine successfully"
 				);
+				setRefresh(!refresh);
 				showModal(false);
 				form.setFieldsValue({
 					level: "",

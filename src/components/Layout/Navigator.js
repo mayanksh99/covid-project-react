@@ -269,7 +269,7 @@ const Dashboard = props => {
 								/>
 								<PrivateRoute
 									exact
-									path="/doctorprofile/view"
+									path="/unassignedpatients"
 									component={UnassignedPatients}
 									role="doctor"
 									data={userData[0]}

@@ -124,6 +124,7 @@ const PatientExamine = () => {
 			patientData={patientData}
 			refresh={refresh}
 			setRefresh={setRefresh}
+			parent="Examine"
 		/>
 	);
 };

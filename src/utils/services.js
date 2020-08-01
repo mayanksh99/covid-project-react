@@ -13,7 +13,8 @@ import {
 	ADD_AMBULANCE_OPERATOR,
 	ATTEND_PATIENT,
 	ASSIGN_LEVEL,
-	UNASSIGNED_PATIENT
+	UNASSIGNED_PATIENT,
+	DECLINED_PATIENT
 } from "./routes";
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
@@ -214,6 +215,20 @@ export const getUnassignedPatientService = async () => {
 	setUserToken();
 	try {
 		const response = await axios.get(UNASSIGNED_PATIENT);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		console.log(err.response);
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getDeclinedPatientService = async () => {
+	setUserToken();
+	try {
+		const response = await axios.get(DECLINED_PATIENT);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "antd";
-import "./style.css";
-import { getUnassignedPatientService } from "./../../utils/services";
+import { getDeclinedPatientService } from "../../utils/services";
 import { _notification } from "../../utils/_helper";
+import { Button } from "antd";
 import PatientTable from "./PatientTable";
 
-const UnassignedPatients = () => {
+const DeclinedPatient = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [patients, setPatients] = useState(null);
@@ -16,7 +15,7 @@ const UnassignedPatients = () => {
 		(async () => {
 			setIsLoading(true);
 			try {
-				const res = await getUnassignedPatientService();
+				const res = await getDeclinedPatientService();
 				console.log(res);
 				setPatients(res.data);
 				setIsLoading(false);
@@ -101,9 +100,9 @@ const UnassignedPatients = () => {
 
 	return (
 		<PatientTable
-			pageTitle="Unassigned Patients"
-			statTitle="Number of unassigned patients"
-			tableTitle="List of Unassigned Patients"
+			pageTitle="Declined Patients"
+			statTitle="Number of declined patients"
+			tableTitle="List of Declined Patients"
 			count={patients ? patients.length : 0}
 			isLoading={isLoading}
 			tableColumns={tableColumns}
@@ -113,8 +112,9 @@ const UnassignedPatients = () => {
 			patientData={patientData}
 			refresh={refresh}
 			setRefresh={setRefresh}
-			parent="Unassigned"
+			parent="Declined"
 		/>
 	);
 };
-export default UnassignedPatients;
+
+export default DeclinedPatient;

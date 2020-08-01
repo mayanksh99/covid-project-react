@@ -11,7 +11,8 @@ const AttendPatient = ({
 	showModal,
 	patientData,
 	refresh,
-	setRefresh
+	setRefresh,
+	parent
 }) => {
 	const [form] = Form.useForm();
 	const [isLoading, setIsLoading] = useState(false);
@@ -20,11 +21,19 @@ const AttendPatient = ({
 	const onFinish = async values => {
 		setIsLoading(true);
 		try {
-			const data = {
-				level: values.level,
-				comment: values.comment,
-				isDeclined: check
-			};
+			let data;
+			if (Array.isArray(values.level)) {
+				data = {
+					comment: values.comment,
+					isDeclined: check
+				};
+			} else {
+				data = {
+					level: values.level,
+					comment: values.comment,
+					isDeclined: check
+				};
+			}
 			const res = await assignLevelService(patientData.key, data);
 			if (res.error) {
 				_notification("error", "Error", res.message);
@@ -45,6 +54,15 @@ const AttendPatient = ({
 		} catch (err) {
 			_notification("error", "Error", err.message);
 			setIsLoading(false);
+		}
+	};
+
+	const handleCheck = e => {
+		setCheck(e.target.checked);
+		if (e.target.checked) {
+			form.setFieldsValue({
+				level: []
+			});
 		}
 	};
 
@@ -125,31 +143,36 @@ const AttendPatient = ({
 								label="Severity Level"
 								rules={[
 									{
-										required: true,
+										required: !check,
 										message: "Please input case id!"
 									}
 								]}
 							>
-								<Select placeholder="select level">
+								<Select
+									placeholder="select level"
+									disabled={check}
+								>
 									<Option value="L1">L1</Option>
 									<Option value="L2">L2</Option>
 									<Option value="L3">L3</Option>
 								</Select>
 							</Form.Item>
 						</Col>
-						<Col xl={12} lg={12} md={12} sm={24} xs={24}>
-							<Form.Item
-								name="isDeclined"
-								// label="Declined to come?"
-							>
-								<Checkbox
-									checked={check}
-									onChange={() => setCheck(!check)}
+						{parent !== "Declined" ? (
+							<Col xl={12} lg={12} md={12} sm={24} xs={24}>
+								<Form.Item
+									name="isDeclined"
+									// label="Declined to come?"
 								>
-									Declined to come?
-								</Checkbox>
-							</Form.Item>
-						</Col>
+									<Checkbox
+										checked={check}
+										onChange={e => handleCheck(e)}
+									>
+										Declined to come?
+									</Checkbox>
+								</Form.Item>
+							</Col>
+						) : null}
 					</Row>
 
 					<Form.Item name="comment" label="Doctor's Comment">

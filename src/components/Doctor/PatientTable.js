@@ -15,7 +15,8 @@ const PatientTable = ({
 	statTitle,
 	tableTitle,
 	refresh,
-	setRefresh
+	setRefresh,
+	parent
 }) => {
 	return (
 		<div>
@@ -44,6 +45,7 @@ const PatientTable = ({
 				patientData={patientData}
 				refresh={refresh}
 				setRefresh={setRefresh}
+				parent={parent}
 			/>
 		</div>
 	);

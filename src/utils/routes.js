@@ -19,6 +19,10 @@ export const ADD_HOSPITAL = "/hospitals"; //POST
 export const GET_AMBULANCE_OPERATOR = "/ambulances/operator"; //GET
 export const ADD_AMBULANCE_OPERATOR = "/ambulances/operator"; //POST
 
+/******************DOCTOR ROUTES********************/
+export const ATTEND_PATIENT = "/doctors/patients/attend"; //POST
+export const ASSIGN_LEVEL = "/doctors/patients/level"; //POST
+
 /******************HOSPITAL ROUTES***********************/
 export const GET_ADMITTED_PATIENTS = "/hospitals/admitted"; //GET
 export const ADD_REPORT = "/report"; //POST

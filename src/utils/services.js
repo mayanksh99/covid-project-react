@@ -223,6 +223,19 @@ export const getAmbulanceService = async () => {
 	}
 };
 
+export const searchAmbOperatorService = async params => {
+	setUserToken();
+	try {
+		const response = await axios.get(GET_AMBULANCE_OPERATOR, { params });
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
 /******************DOCTOR SERVICES********************/
 
 export const attendPatientService = async id => {

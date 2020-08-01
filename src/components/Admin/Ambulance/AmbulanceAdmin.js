@@ -11,7 +11,10 @@ import {
 import { Link } from "react-router-dom";
 import PageTitle from "./../../common/PageTitle";
 import { _notification } from "../../../utils/_helper";
-import { getAmbOperatorService } from "../../../utils/services";
+import {
+	getAmbOperatorService,
+	searchAmbOperatorService
+} from "../../../utils/services";
 import { delByAdminService } from "./../../../utils/services";
 
 const AmbulanceAdmin = () => {
@@ -24,11 +27,11 @@ const AmbulanceAdmin = () => {
 			setIsLoading(true);
 			try {
 				const res = await getAmbOperatorService();
-				console.log(res);
 				setAmbOperators(res.data.operators);
 				setIsLoading(false);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
+				setIsLoading(false);
 			}
 		})();
 	}, [refresh]);
@@ -48,6 +51,19 @@ const AmbulanceAdmin = () => {
 			}
 		} catch (err) {
 			_notification("warning", "Error", err.message);
+		}
+	};
+
+	const handleQuery = async val => {
+		setIsLoading(true);
+		try {
+			let params = { search: val };
+			const res = await searchAmbOperatorService(params);
+			setAmbOperators(res.data.operators);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
 		}
 	};
 
@@ -155,6 +171,7 @@ const AmbulanceAdmin = () => {
 							style={{ width: 200, marginBottom: 12 }}
 							placeholder="Search"
 							allowClear
+							onSearch={value => handleQuery(value)}
 						/>
 					</Col>
 					<Card

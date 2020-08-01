@@ -14,7 +14,8 @@ import {
 	ATTEND_PATIENT,
 	ASSIGN_LEVEL,
 	UNASSIGNED_PATIENT,
-	DECLINED_PATIENT
+	DECLINED_PATIENT,
+	USER_PROFILE
 } from "./routes";
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
@@ -45,6 +46,20 @@ export const loginService = async (role, data) => {
 			};
 		} else return response.data;
 	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getProfileService = async () => {
+	setUserToken();
+	try {
+		const response = await axios.get(USER_PROFILE);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		console.log(err.response);
 		if (err.response) throw err.response.data;
 		else throw err.message;
 	}

@@ -1,4 +1,5 @@
 export const LOGIN = "/users/login"; //POST
+export const USER_PROFILE = "/users/profile"; //GET
 
 /******************MASTER ADMIN ROUTES********************/
 

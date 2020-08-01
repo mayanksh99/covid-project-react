@@ -210,6 +210,19 @@ export const addAmbOperatorService = async data => {
 	}
 };
 
+export const searchAmbOperatorService = async params => {
+	setUserToken();
+	try {
+		const response = await axios.get(GET_AMBULANCE_OPERATOR, { params });
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
 export const getAmbulanceService = async () => {
 	setUserToken();
 	try {
@@ -223,10 +236,10 @@ export const getAmbulanceService = async () => {
 	}
 };
 
-export const searchAmbOperatorService = async params => {
+export const getOperatorAmbService = async params => {
 	setUserToken();
 	try {
-		const response = await axios.get(GET_AMBULANCE_OPERATOR, { params });
+		const response = await axios.get(GET_AMBULANCES, { params });
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

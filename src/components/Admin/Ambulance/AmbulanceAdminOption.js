@@ -25,7 +25,7 @@ const AmbulanceAdminOption = ({ refresh, setRefresh }) => {
 	return (
 		<div style={{ marginTop: "16px", marginBottom: "14px" }}>
 			<Row>
-				<Col xl={5} lg={4} md={12} sm={12} xs={24}>
+				<Col xl={5} lg={5} md={12} sm={12} xs={24}>
 					<Statistic
 						title="Total"
 						value={
@@ -38,21 +38,21 @@ const AmbulanceAdminOption = ({ refresh, setRefresh }) => {
 						valueStyle={{ color: "#005ea5", fontWeight: 600 }}
 					/>
 				</Col>
-				<Col xl={5} lg={4} md={12} sm={12} xs={24}>
+				<Col xl={5} lg={5} md={12} sm={12} xs={24}>
 					<Statistic
 						title="Available"
 						value={count ? count.available : 0}
 						valueStyle={{ color: "#005ea5", fontWeight: 600 }}
 					/>
 				</Col>
-				<Col xl={5} lg={4} md={12} sm={12} xs={24}>
+				<Col xl={5} lg={5} md={12} sm={12} xs={24}>
 					<Statistic
 						title="On duty"
 						value={count ? count.onDuty : 0}
 						valueStyle={{ color: "#005ea5", fontWeight: 600 }}
 					/>
 				</Col>
-				<Col xl={5} lg={4} md={12} sm={12} xs={24}>
+				<Col xl={5} lg={5} md={12} sm={12} xs={24}>
 					<Statistic
 						title="Disable"
 						value={count ? count.disabled : 0}

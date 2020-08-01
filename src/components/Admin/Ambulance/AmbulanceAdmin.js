@@ -13,9 +13,9 @@ import PageTitle from "./../../common/PageTitle";
 import { _notification } from "../../../utils/_helper";
 import {
 	getAmbOperatorService,
-	searchAmbOperatorService
+	searchAmbOperatorService,
+	delByAdminService
 } from "../../../utils/services";
-import { delByAdminService } from "./../../../utils/services";
 
 const AmbulanceAdmin = () => {
 	const [refresh, setRefresh] = useState(false);
@@ -75,9 +75,11 @@ const AmbulanceAdmin = () => {
 		},
 		{
 			title: "Name",
-			dataIndex: "name",
-			key: "name",
-			render: name => <Link to="/ambulancedetails/sdvsdvsd">{name}</Link>
+			dataIndex: "detail",
+			key: "detail",
+			render: detail => (
+				<Link to={`/ambulancedetails/${detail[1]}`}>{detail[0]}</Link>
+			)
 		},
 		{
 			title: "Contact",
@@ -89,11 +91,6 @@ const AmbulanceAdmin = () => {
 			dataIndex: "email",
 			key: "email"
 		},
-		// {
-		// 	title: "Count",
-		// 	dataIndex: "count",
-		// 	key: "count"
-		// },
 		{
 			title: "Action",
 			dataIndex: "action",
@@ -149,7 +146,7 @@ const AmbulanceAdmin = () => {
 				return {
 					index: ++id,
 					key: _id,
-					name,
+					detail: [name, _id],
 					contact,
 					email,
 					action: _id

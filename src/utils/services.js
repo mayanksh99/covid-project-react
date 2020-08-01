@@ -16,7 +16,8 @@ import {
 	UNASSIGNED_PATIENT,
 	DECLINED_PATIENT,
 	USER_PROFILE,
-	UPDATE_PROFILE
+	UPDATE_PROFILE,
+	GET_AMBULANCES
 } from "./routes";
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
@@ -181,7 +182,7 @@ export const addHospitalService = async data => {
 	}
 };
 
-/******************HOSPITAL ADMIN SERVICES********************/
+/******************AMBULANCE ADMIN SERVICES********************/
 
 export const getAmbOperatorService = async () => {
 	setUserToken();
@@ -200,6 +201,19 @@ export const addAmbOperatorService = async data => {
 	setUserToken();
 	try {
 		const response = await axios.post(ADD_AMBULANCE_OPERATOR, data);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getAmbulanceService = async () => {
+	setUserToken();
+	try {
+		const response = await axios.get(GET_AMBULANCES);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

@@ -188,9 +188,9 @@ const AttendPatient = ({
 										placeholder="select level"
 										disabled={check}
 									>
-										<Option value="L1">L1</Option>
-										<Option value="L2">L2</Option>
-										<Option value="L3">L3</Option>
+										<Option value="l1">L1</Option>
+										<Option value="l2">L2</Option>
+										<Option value="l3">L3</Option>
 									</Select>
 								</Form.Item>
 							</Col>

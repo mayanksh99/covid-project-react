@@ -24,7 +24,8 @@ const AmbulanceAdmin = () => {
 			setIsLoading(true);
 			try {
 				const res = await getAmbOperatorService();
-				setAmbOperators(res.data);
+				console.log(res);
+				setAmbOperators(res.data.operators);
 				setIsLoading(false);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
@@ -62,11 +63,11 @@ const AmbulanceAdmin = () => {
 			key: "name",
 			render: name => <Link to="/ambulancedetails/sdvsdvsd">{name}</Link>
 		},
-		// {
-		// 	title: "Phone",
-		// 	dataIndex: "phone",
-		// 	key: "phone"
-		// },
+		{
+			title: "Contact",
+			dataIndex: "contact",
+			key: "contact"
+		},
 		{
 			title: "Email",
 			dataIndex: "email",
@@ -128,11 +129,12 @@ const AmbulanceAdmin = () => {
 
 	const data = ambOperators
 		? ambOperators.map((operator, id) => {
-				const { _id, name, email } = operator;
+				const { _id, name, email, contact } = operator;
 				return {
 					index: ++id,
 					key: _id,
 					name,
+					contact,
 					email,
 					action: _id
 				};

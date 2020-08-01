@@ -16,7 +16,6 @@ const DeclinedPatient = () => {
 			setIsLoading(true);
 			try {
 				const res = await getDeclinedPatientService();
-				console.log(res);
 				setPatients(res.data);
 				setIsLoading(false);
 			} catch (err) {

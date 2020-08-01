@@ -207,7 +207,7 @@ export const assignLevelService = async (id, data) => {
 	}
 };
 /*******************HOSPITAL SERVICES ******************/
-export const getadmittedPatientsService =async (id) =>{
+export const getadmittedPatientsService = async id => {
 	setUserToken();
 	try {
 		const response = await axios.get(`${GET_ADMITTED_PATIENTS}/${id}`);
@@ -217,7 +217,7 @@ export const getadmittedPatientsService =async (id) =>{
 		if (err.response) throw err.response.data;
 		else throw err.message;
 	}
-}
+};
 export const addReportService = async data => {
 	setUserToken();
 	try {
@@ -228,4 +228,4 @@ export const addReportService = async data => {
 		if (err.response) throw err.response.data;
 		else throw err.message;
 	}
-}; 
+};

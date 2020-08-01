@@ -4,9 +4,12 @@ import PageTitle from "../common/PageTitle";
 import "./style.css";
 import { _notification } from "../../utils/_helper";
 import { getProfileService } from "./../../utils/services";
+import { Link } from "react-router-dom";
+
 const DoctorProfile = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState(null);
+
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);
@@ -21,12 +24,10 @@ const DoctorProfile = () => {
 	}, []);
 
 	return (
-		<div>
-			<div className="DoctorProfile-header">
-				<PageTitle title="Profile" />
-			</div>
-			{data ? (
-				<Skeleton loading={isLoading} active>
+		<>
+			<PageTitle title="Profile" />
+			<Skeleton loading={isLoading} active>
+				{data ? (
 					<Card>
 						<div className="DoctorProfile-content">
 							<Row className="image-section">
@@ -148,7 +149,9 @@ const DoctorProfile = () => {
 										</Row>
 										<Row className="DoctorProfile-row">
 											<Col md={12} xs={24}>
-												<a href="/doctorprofile/edit">
+												<Link
+													to={`/editprofile/${data._id}`}
+												>
 													<Button
 														type="primary"
 														htmlType="submit"
@@ -156,7 +159,7 @@ const DoctorProfile = () => {
 													>
 														Edit Profile
 													</Button>
-												</a>
+												</Link>
 											</Col>
 										</Row>
 									</div>
@@ -164,9 +167,9 @@ const DoctorProfile = () => {
 							</div>
 						</div>
 					</Card>
-				</Skeleton>
-			) : null}
-		</div>
+				) : null}
+			</Skeleton>
+		</>
 	);
 };
 

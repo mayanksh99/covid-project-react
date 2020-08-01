@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Statistic, Button, Table } from "antd";
-import PageTitle from "../common/PageTitle";
+import { Button } from "antd";
 import "./style.css";
 import io from "socket.io-client";
 import { AuthContext } from "../../contexts/userContext";
 import { attendPatientService, EndPoint } from "../../utils/services";
-import AttendPatient from "./AttendPatient";
+import PatientTable from "./PatientTable";
 
 let socket;
 const PatientExamine = () => {
@@ -16,6 +15,7 @@ const PatientExamine = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isBtnLoading, setIsBtnLoading] = useState(false);
 	const [patientData, setPatientData] = useState(null);
+	const [refresh, setRefresh] = useState(false);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -26,12 +26,16 @@ const PatientExamine = () => {
 			setIsLoading(false);
 		});
 		socket.emit("patientsPoolForDoctor", { token: Data.token });
+		return () => {
+			socket.off();
+		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [EndPoint]);
 
-	const attendPatient = data => {
-		setIsBtnLoading(true);
-		attendPatientService(data.key);
+	const attendPatient = async data => {
+		// setIsBtnLoading(true);
+		let res = await attendPatientService(data.key);
+		console.log(res);
 		setPatientData(data);
 		showModal(true);
 		setIsBtnLoading(false);
@@ -107,32 +111,21 @@ const PatientExamine = () => {
 		: null;
 
 	return (
-		<>
-			<PageTitle title="Examine Patients" />
-			<Statistic
-				title="Number of patients left to examine"
-				value={count}
-				valueStyle={{
-					fontWeight: 900,
-					fontSize: "2em",
-					color: "#005ea5"
-				}}
-			/>
-			<Table
-				title={() => "List of Patients to Examine"}
-				showHeader={true}
-				loading={isLoading}
-				bordered={false}
-				columns={tableColumns}
-				dataSource={data}
-				pagination={{ position: ["none", "bottomCenter"] }}
-			/>
-			<AttendPatient
-				isVisible={isVisible}
-				showModal={showModal}
-				patientData={patientData}
-			/>
-		</>
+		<PatientTable
+			pageTitle="Examine Patients"
+			statTitle="Number of patients left to examine"
+			tableTitle="List of Patients to Examine"
+			count={count}
+			isLoading={isLoading}
+			tableColumns={tableColumns}
+			data={data}
+			isVisible={isVisible}
+			showModal={showModal}
+			patientData={patientData}
+			refresh={refresh}
+			setRefresh={setRefresh}
+			parent="Examine"
+		/>
 	);
 };
 

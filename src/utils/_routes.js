@@ -22,6 +22,8 @@ import HospitalAdmin from "./../components/Admin/Hospital/HospitalAdmin";
 import DoctorAdmin from "./../components/Admin/Doctor/DoctorAdmin";
 import AdminList from "./../components/Admin/AdminList";
 import PatientList from "./../components/Admin/PatientList";
+import UnassignedPatients from "./../components/Doctor/UnassignedPatients";
+import DeclinedPatient from "./../components/Doctor/DeclinedPatient";
 
 export const BedSvg = () => (
 	<svg fill="currentColor" viewBox="0 0 640 512" height="1em" width="1em">
@@ -111,6 +113,24 @@ let routes = [
 		name: "Examine Patient",
 		component: PatientExamine,
 		key: "PatientExamine",
+		icon: MedicineBoxOutlined,
+		role: "doctor"
+	},
+	{
+		path: "/unassignedpatient",
+		exact: true,
+		name: "Unassigned Patient",
+		component: UnassignedPatients,
+		key: "UnassignedPatients",
+		icon: MedicineBoxOutlined,
+		role: "doctor"
+	},
+	{
+		path: "/declinedpatient",
+		exact: true,
+		name: "Declined Patient",
+		component: DeclinedPatient,
+		key: "DeclinedPatient",
 		icon: MedicineBoxOutlined,
 		role: "doctor"
 	},

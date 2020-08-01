@@ -27,6 +27,7 @@ import PatientList from "./../Admin/PatientList";
 import DoctorDetail from "../Admin/Doctor/DoctorAdminDetail";
 import DoctorEditProfile from "../Doctor/DoctorEditProfile";
 import UnassignedPatients from "../Doctor/UnassignedPatients";
+import DeclinedPatient from "./../Doctor/DeclinedPatient";
 const { Content, Sider } = Layout;
 
 const Dashboard = props => {
@@ -269,8 +270,15 @@ const Dashboard = props => {
 								/>
 								<PrivateRoute
 									exact
-									path="/doctorprofile/view"
+									path="/unassignedpatient"
 									component={UnassignedPatients}
+									role="doctor"
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/declinedpatient"
+									component={DeclinedPatient}
 									role="doctor"
 									data={userData[0]}
 								/>

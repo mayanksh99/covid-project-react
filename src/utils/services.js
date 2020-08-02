@@ -220,7 +220,7 @@ export const getadmittedPatientsService = async id => {
 	}
 };
 
-export const addReportService = async (id,data) => {
+export const addReportService = async (id, data) => {
 	setUserToken();
 	try {
 		const response = await axios.post(`${ADD_REPORT}/${id}`, data);
@@ -231,4 +231,3 @@ export const addReportService = async (id,data) => {
 		else throw err.message;
 	}
 };
-

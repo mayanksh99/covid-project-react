@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
-import {Table,Statistic,Row,Col,Button,Input,Modal,Select,Rate,Form} from "antd";
+import {
+	Table,
+	Statistic,
+	Row,
+	Col,
+	Button,
+	Input,
+	Modal,
+	Select,
+	Rate,
+	Form
+} from "antd";
 import { _notification, getRole } from "../../utils/_helper";
 import PageTitle from "../common/PageTitle";
-import {addReportService,getadmittedPatientsService} from "../../utils/services";
+import {
+	addReportService,
+	getadmittedPatientsService
+} from "../../utils/services";
 
 const UpdateDailyReport = props => {
 	const userData = useState(getRole());
@@ -27,10 +41,19 @@ const UpdateDailyReport = props => {
 	const handleCancel = () => {
 		setIsVisible(!isVisible);
 	};
-	
+
 	const data = patients
 		? patients.map((pat, i) => {
-				const { _id, name, gender, age, phone,address,district,caseId} = pat;
+				const {
+					_id,
+					name,
+					gender,
+					age,
+					phone,
+					address,
+					district,
+					caseId
+				} = pat;
 				return {
 					index: ++i,
 					key: _id,
@@ -44,48 +67,48 @@ const UpdateDailyReport = props => {
 				};
 		  })
 		: null;
-		const columns = [
-			{
-				title: "#",
-				dataIndex: "index",
-				key: "index"
-			},
-			{
-				title: "ID",
-				dataIndex: "caseId",
-				key: "id"
-			},
-	
-			{
-				title: "Name",
-				dataIndex: "name",
-				key: "name"
-			},
-	
-			{
-				title: "Gender",
-				dataIndex: "gender",
-				key: "gender"
-			},
-	
-			{
-				title: "Age",
-				dataIndex: "age",
-				key: "age"
-			},
-	
-			{
-				title: "Update Report",
-				key: "updatereportbtn",
-				dataIndex: "update",
-				render: () => (
-					<Button type="primary" onClick={showModal}>
-						Update Report
-					</Button>
-				)
-			}
-		];
-		// console.log(userData);	
+	const columns = [
+		{
+			title: "#",
+			dataIndex: "index",
+			key: "index"
+		},
+		{
+			title: "ID",
+			dataIndex: "caseId",
+			key: "id"
+		},
+
+		{
+			title: "Name",
+			dataIndex: "name",
+			key: "name"
+		},
+
+		{
+			title: "Gender",
+			dataIndex: "gender",
+			key: "gender"
+		},
+
+		{
+			title: "Age",
+			dataIndex: "age",
+			key: "age"
+		},
+
+		{
+			title: "Update Report",
+			key: "updatereportbtn",
+			dataIndex: "update",
+			render: () => (
+				<Button type="primary" onClick={showModal}>
+					Update Report
+				</Button>
+			)
+		}
+	];
+	// console.log(userData);
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);
@@ -94,7 +117,7 @@ const UpdateDailyReport = props => {
 					const res = await getadmittedPatientsService(
 						userData[0].id
 					);
-					number=res.data.totalResults;
+					number = res.data.totalResults;
 					console.log(number);
 					setpatients(res.data.patients);
 					setIsLoading(false);
@@ -105,23 +128,22 @@ const UpdateDailyReport = props => {
 			}
 		})();
 	}, [refresh]);
-	
-	
+
 	const onFinish = async values => {
 		setIsLoading(true);
 		console.log(values);
 		try {
-			const rawdata={
-				pid:patients.key,
-				report:{
-					patientstatus:values.patientstatus,
-					reportresult:values.reportresult,
+			const rawdata = {
+				pid: patients.key,
+				report: {
+					patientstatus: values.patientstatus,
+					reportresult: values.reportresult,
 					testcheck: values.testcheck,
-					rate:values.rate,
-					comment: values.comment 
+					rate: values.rate,
+					comment: values.comment
 				}
-			}
-			const res = await addReportService(userData[0].id,rawdata);
+			};
+			const res = await addReportService(userData[0].id, rawdata);
 			if (res.error) {
 				_notification("error", "Error", res.message);
 			} else if (res.message === "success") {
@@ -154,7 +176,7 @@ const UpdateDailyReport = props => {
 				<Col span={8}>
 					<Statistic
 						title="Number of Patients Admitted"
-						value={number} 
+						value={number}
 						valueStyle={{ color: "#008db9" }}
 					/>
 				</Col>
@@ -210,99 +232,99 @@ const UpdateDailyReport = props => {
 			>
 				{rowData ? (
 					<>
-					<Row>
-					<Col span={4}>Name</Col>
-					<Col span={6}>{rowData.name}</Col>
-					<Col span={6}>ID</Col>
-					<Col span={8}>{rowData.caseId}</Col>
-				</Row>
-				<Row>
-					<Col span={4}>Gender</Col>
-					<Col span={6}>{rowData.gender}</Col>
-					<Col span={6}>Age</Col>
-					<Col span={8}>{rowData.age}</Col>
-				</Row>
-				<Row>
-					<Col span={4}>Relative Ph.</Col>
-					<Col span={6}> {`+91-${rowData.phone}`}</Col>
-					<Col span={6}>District</Col>
-					<Col span={8}>{rowData.district}</Col>
-				</Row>
-				<Row>
-					<Col span={6}>Patient Address</Col>
-					<Col span={8}>{rowData.address}</Col>
-				</Row>
-				<Form
-					form={form}
-					name="update_patient_report"
-					className="login-form"
-					onFinish={onFinish}
-					initialValues={{ remember: true
-					}}
-				>
-					<Row>
-						<Col xl={12} lg={12} md={12} sm={12}>
-							<Form.Item
-								name="patientstatus"
-								label="Patient Status"
-							>
-								<Select placeholder="select status">
-									<Option value="hospitalised">
-										Hospitalised
-									</Option>
-									<Option value="discharged">Discharged</Option>
-								</Select>
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row gutter={[16, 16]}>
-						<Col xl={12} lg={12} md={12} sm={12}>
-							<Form.Item
-								name="testcheck"
-								label="Test Performed Today:"
-							>
-								<Select
-									defaultValue="No"
-									
-								>
-									<Option value="No">No</Option>
-									<Option value="Yes">Yes</Option>
-								</Select>
-							</Form.Item>
-						</Col>
-						<Col xl={12} lg={12} md={12} sm={12}>
-							<Form.Item
-								name="reportresult"
-								label="Report Result:"
-							>
-								<Select
-									placeholder="select"
-								>
-									<Option value="Negative">Negative</Option>
-									<Option value="Positive">Positive</Option>
-								</Select>
-							</Form.Item>
-						</Col>
-					</Row>
-					<Form.Item name="rate" label="Rate the patient">
-						<Rate />
-					</Form.Item>
-					<Form.Item name="comment" label="Doctor's Comment">
-						<TextArea rows={4} />
-					</Form.Item>
-					<Form.Item>
-						<Button
-							type="primary"
-							htmlType="submit"
-							className="login-form-button"
-							onClick={handleOk}
+						<Row>
+							<Col span={4}>Name</Col>
+							<Col span={6}>{rowData.name}</Col>
+							<Col span={6}>ID</Col>
+							<Col span={8}>{rowData.caseId}</Col>
+						</Row>
+						<Row>
+							<Col span={4}>Gender</Col>
+							<Col span={6}>{rowData.gender}</Col>
+							<Col span={6}>Age</Col>
+							<Col span={8}>{rowData.age}</Col>
+						</Row>
+						<Row>
+							<Col span={4}>Relative Ph.</Col>
+							<Col span={6}> {`+91-${rowData.phone}`}</Col>
+							<Col span={6}>District</Col>
+							<Col span={8}>{rowData.district}</Col>
+						</Row>
+						<Row>
+							<Col span={6}>Patient Address</Col>
+							<Col span={8}>{rowData.address}</Col>
+						</Row>
+						<Form
+							form={form}
+							name="update_patient_report"
+							className="login-form"
+							onFinish={onFinish}
+							initialValues={{ remember: true }}
 						>
-							Submit
-						</Button>
-					</Form.Item>
-				</Form>
-				</>
-				) :null}
+							<Row>
+								<Col xl={12} lg={12} md={12} sm={12}>
+									<Form.Item
+										name="patientstatus"
+										label="Patient Status"
+									>
+										<Select placeholder="select status">
+											<Option value="hospitalised">
+												Hospitalised
+											</Option>
+											<Option value="discharged">
+												Discharged
+											</Option>
+										</Select>
+									</Form.Item>
+								</Col>
+							</Row>
+							<Row gutter={[16, 16]}>
+								<Col xl={12} lg={12} md={12} sm={12}>
+									<Form.Item
+										name="testcheck"
+										label="Test Performed Today:"
+									>
+										<Select defaultValue="No">
+											<Option value="No">No</Option>
+											<Option value="Yes">Yes</Option>
+										</Select>
+									</Form.Item>
+								</Col>
+								<Col xl={12} lg={12} md={12} sm={12}>
+									<Form.Item
+										name="reportresult"
+										label="Report Result:"
+									>
+										<Select placeholder="select">
+											<Option value="Negative">
+												Negative
+											</Option>
+											<Option value="Positive">
+												Positive
+											</Option>
+										</Select>
+									</Form.Item>
+								</Col>
+							</Row>
+							<Form.Item name="rate" label="Rate the patient">
+								<Rate />
+							</Form.Item>
+							<Form.Item name="comment" label="Doctor's Comment">
+								<TextArea rows={4} />
+							</Form.Item>
+							<Form.Item>
+								<Button
+									type="primary"
+									htmlType="submit"
+									className="login-form-button"
+									onClick={handleOk}
+								>
+									Submit
+								</Button>
+							</Form.Item>
+						</Form>
+					</>
+				) : null}
 			</Modal>
 		</div>
 	);

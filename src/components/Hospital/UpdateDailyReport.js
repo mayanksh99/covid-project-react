@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
 import {
-Table,Statistic,Row,Col,Button,Input,Modal,Select,Rate,Form} from "antd";
+	Table,
+	Statistic,
+	Row,
+	Col,
+	Button,
+	Input,
+	Modal,
+	Select,
+	Rate,
+	Form
+} from "antd";
 import { _notification, getRole } from "../../utils/_helper";
 import PageTitle from "../common/PageTitle";
 import {
@@ -55,7 +65,10 @@ const UpdateDailyReport = props => {
 		setIsLoading(true);
 		try {
 			let params = { search: val };
-			const res = await searchAdmittedPatientsService(userData[0].id,params);
+			const res = await searchAdmittedPatientsService(
+				userData[0].id,
+				params
+			);
 			setpatients(res.data.patients);
 			setIsLoading(false);
 		} catch (err) {
@@ -74,7 +87,7 @@ const UpdateDailyReport = props => {
 				testReport: values.reportresult,
 				rating: values.rate,
 				comment: values.comment
-				// patientstatus: values.patientstatus,		
+				// patientstatus: values.patientstatus,
 			};
 			console.log(rawdata);
 			const res = await addReportService(userData[0].id, rawdata);
@@ -87,7 +100,7 @@ const UpdateDailyReport = props => {
 					"Report added successfully"
 				);
 				setRefresh(!refresh);
-				
+
 				form.setFieldsValue({
 					// patientstatus: "",
 					testPerformed: "",
@@ -103,7 +116,7 @@ const UpdateDailyReport = props => {
 			setIsLoading(false);
 		}
 	};
-	
+
 	const data = patients
 		? patients.map((pat, i) => {
 				const {
@@ -131,8 +144,8 @@ const UpdateDailyReport = props => {
 				};
 		  })
 		: null;
-		  console.log(patients);
-		  console.log(data);
+	console.log(patients);
+	console.log(data);
 	const columns = [
 		{
 			title: "#",

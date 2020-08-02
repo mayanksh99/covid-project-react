@@ -27,6 +27,8 @@ export const ADD_HOSPITAL = "/hospitals"; //POST
 export const GET_AMBULANCES = "/ambulances"; //GET
 export const GET_AMBULANCE_OPERATOR = "/ambulances/operator"; //GET
 export const ADD_AMBULANCE_OPERATOR = "/ambulances/operator"; //POST
+export const DEL_AMBULANCE = "/ambulances/delete"; //DEL
+export const UPDATE_AMBULANCE = "/ambulances/update"; //PUT
 
 /******************DOCTOR ROUTES********************/
 export const ATTEND_PATIENT = "/doctors/patients/attend"; //POST

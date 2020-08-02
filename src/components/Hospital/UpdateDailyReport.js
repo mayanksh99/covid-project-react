@@ -53,7 +53,6 @@ const UpdateDailyReport = props => {
 						userData[0].id
 					);
 					setNumber(res.data.totalResults);
-					console.log(number);
 					setpatients(res.data.patients);
 					setIsLoading(false);
 					console.log(res);
@@ -92,7 +91,7 @@ const UpdateDailyReport = props => {
 				comment: values.comment
 				// patientstatus: values.patientstatus,
 			};
-			console.log(rawdata);
+			// console.log(rawdata);
 			const res = await addReportService(userData[0].id, rawdata);
 			if (res.error) {
 				_notification("error", "Error", res.message);
@@ -146,8 +145,6 @@ const UpdateDailyReport = props => {
 				};
 		  })
 		: null;
-	console.log(patients);
-	console.log(data);
 	const columns = [
 		{
 			title: "#",
@@ -252,26 +249,26 @@ const UpdateDailyReport = props => {
 					<>
 						<Row>
 							<Col span={4}>Name</Col>
-							<Col span={6}>{rowData.name}</Col>
-							<Col span={6}>ID</Col>
+							<Col span={7}>{rowData.name}</Col>
+							<Col span={5}>ID</Col>
 							<Col span={8}>{rowData.caseId}</Col>
 						</Row>
 						<Row>
 							<Col span={4}>Gender</Col>
-							<Col span={6}>{rowData.gender}</Col>
-							<Col span={6}>Age</Col>
+							<Col span={7}>{rowData.gender}</Col>
+							<Col span={5}>Age</Col>
 							<Col span={8}>{rowData.age}</Col>
 						</Row>
 						<Row>
 							<Col span={4}>Ph. Number</Col>
-							<Col span={6}> {`+91-${rowData.phone}`}</Col>
-							<Col span={6}>District</Col>
+							<Col span={7}> {`+91-${rowData.phone}`}</Col>
+							<Col span={5}>District</Col>
 							<Col span={8}>{rowData.district}</Col>
 						</Row>
 						<Row>
 							<Col span={4}>E-mail</Col>
-							<Col span={6}> {rowData.email}</Col>
-							<Col span={6}>Patient Address</Col>
+							<Col span={7}> {rowData.email}</Col>
+							<Col span={5}>Patient Address</Col>
 							<Col span={8}>{rowData.address}</Col>
 						</Row>
 						<Form
@@ -281,7 +278,7 @@ const UpdateDailyReport = props => {
 							onFinish={onFinish}
 							// initialValues={{ remember: true }}
 						>
-							{/* <Row>
+							<Row>
 								<Col xl={12} lg={12} md={12} sm={12}>
 									<Form.Item
 										name="patientstatus"
@@ -297,7 +294,7 @@ const UpdateDailyReport = props => {
 										</Select>
 									</Form.Item>
 								</Col>
-							</Row> */}
+							</Row>
 							<Row gutter={[16, 16]}>
 								<Col xl={12} lg={12} md={12} sm={12}>
 									<Form.Item

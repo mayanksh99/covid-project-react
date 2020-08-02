@@ -19,14 +19,16 @@ const HospitalAdmin = () => {
 	const [refresh, setRefresh] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [hospitals, setHospitals] = useState(null);
+	const [stats, setStats] = useState(null);
 
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);
 			try {
 				const res = await getHospitalsService();
-				console.log(res.data);
-				setHospitals(res.data);
+				console.log(res);
+				setHospitals(res.data.hospitals);
+				setStats(res.data.stats[0]);
 				setIsLoading(false);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
@@ -170,7 +172,12 @@ const HospitalAdmin = () => {
 	return (
 		<div>
 			<PageTitle title="Hospital" />
-			<HospitalAdminOption refresh={refresh} setRefresh={setRefresh} />
+			<HospitalAdminOption
+				refresh={refresh}
+				setRefresh={setRefresh}
+				stats={stats}
+				loading={isLoading}
+			/>
 			<div>
 				<h3 style={{ fontSize: "16px" }}>List of Hospitals</h3>
 				<div>

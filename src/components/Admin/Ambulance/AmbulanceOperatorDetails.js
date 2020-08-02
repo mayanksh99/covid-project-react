@@ -12,7 +12,8 @@ import {
 	Popconfirm,
 	Tooltip,
 	Input,
-	Select
+	Select,
+	Divider
 } from "antd";
 import AddAmbulance from "./AddAmbulance";
 import PageTitle from "../../common/PageTitle";
@@ -251,9 +252,12 @@ const AmbulanceAdminDetails = props => {
 									className="login-form-button"
 									style={{ float: "right" }}
 									onClick={() => handleModal(true)}
+									block
 								>
 									Add Ambulance
 								</Button>
+								<br />
+								<Divider>OR</Divider>
 							</Skeleton>
 						</Card>
 					</Col>

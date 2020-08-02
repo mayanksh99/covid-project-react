@@ -1,4 +1,11 @@
+export const AMBULANCEUNDER = "/ambulances"; //GET
+export const UPDATESTATUS = "/ambulances/update"; //PUT
+export const CHANGEPASSWORD = "/users/change-pwd"; //POST
+export const ADDAMBULANCE = "/ambulances/add"; //POST
 export const LOGIN = "/users/login"; //POST
+export const START_ATTEND_PATIENT_FOR_AMBULANCE =
+	"/ambulances/patients/attend/"; //POST
+export const ALLOT_AMBULANCE_FOR_PATIENT = "/ambulances/patients/assign/"; //POST
 export const USER_PROFILE = "/users/profile"; //GET
 
 /******************MASTER ADMIN ROUTES********************/

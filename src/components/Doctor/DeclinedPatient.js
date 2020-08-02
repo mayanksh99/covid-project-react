@@ -1,55 +1,32 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
+import { getDeclinedPatientService } from "../../utils/services";
+import { _notification } from "../../utils/_helper";
 import { Button } from "antd";
-import "./style.css";
-import io from "socket.io-client";
-import { AuthContext } from "../../contexts/userContext";
-import { attendPatientService, EndPoint } from "../../utils/services";
 import PatientTable from "./PatientTable";
 
-let socket;
-const PatientExamine = () => {
-	const Data = useContext(AuthContext);
+const DeclinedPatient = () => {
 	const [isVisible, setIsVisible] = useState(false);
-	const [patients, setPatients] = useState(null);
-	const [count, setCount] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
-	const [isModalLoading, setIsModalLoading] = useState(false);
-	const [isBtnLoading, setIsBtnLoading] = useState(false);
+	const [patients, setPatients] = useState(null);
 	const [patientData, setPatientData] = useState(null);
 	const [refresh, setRefresh] = useState(false);
 
 	useEffect(() => {
-		setIsLoading(true);
-		socket = io(EndPoint);
-		socket.on("PATIENTS_POOL_FOR_DOCTOR", res => {
-			setPatients(res.patients);
-			setCount(res.remainingPatients);
-			setIsLoading(false);
-		});
-		socket.emit("patientsPoolForDoctor", { token: Data.token });
-		return () => {
-			socket.off();
-		};
-	}, [Data.token]);
+		(async () => {
+			setIsLoading(true);
+			try {
+				const res = await getDeclinedPatientService();
+				setPatients(res.data);
+				setIsLoading(false);
+			} catch (err) {
+				_notification("warning", "Error", err.message);
+			}
+		})();
+	}, [refresh]);
 
 	const attendPatient = async data => {
-		setIsBtnLoading(true);
-		setIsModalLoading(true);
+		setPatientData(data);
 		showModal(true);
-		try {
-			let res = await attendPatientService(data.key);
-			if (res.error) {
-				showModal(false);
-			} else if (res.message === "success") {
-				setPatientData(data);
-			}
-			setIsModalLoading(false);
-		} catch (error) {
-			if (error.error) {
-				showModal(false);
-			}
-		}
-		setIsBtnLoading(false);
 	};
 
 	const showModal = value => {
@@ -85,7 +62,6 @@ const PatientExamine = () => {
 					type="primary"
 					className="login-form-button"
 					onClick={() => attendPatient(data)}
-					loading={isBtnLoading}
 				>
 					Examine
 				</Button>
@@ -123,10 +99,10 @@ const PatientExamine = () => {
 
 	return (
 		<PatientTable
-			pageTitle="Examine Patients"
-			statTitle="Number of patients left to examine"
-			tableTitle="List of Patients to Examine"
-			count={count}
+			pageTitle="Declined Patients"
+			statTitle="Number of declined patients"
+			tableTitle="List of Declined Patients"
+			count={patients ? patients.length : 0}
 			isLoading={isLoading}
 			tableColumns={tableColumns}
 			data={data}
@@ -135,10 +111,9 @@ const PatientExamine = () => {
 			patientData={patientData}
 			refresh={refresh}
 			setRefresh={setRefresh}
-			parent="Examine"
-			modalLoading={isModalLoading}
+			parent="Declined"
 		/>
 	);
 };
 
-export default PatientExamine;
+export default DeclinedPatient;

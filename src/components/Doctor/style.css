@@ -44,10 +44,6 @@
 	display: flex;
 	justify-content: flex-start;
 }
-.DoctorEditProfile-btn {
-	font-weight: 300;
-	border-radius: 0px;
-}
 @media (min-width: 719px) {
 	.DoctorEditProfile-btn {
 		width: 265px;

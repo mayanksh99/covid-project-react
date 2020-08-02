@@ -263,7 +263,7 @@ const Dashboard = props => {
 								/>
 								<PrivateRoute
 									exact
-									path="/doctorprofile/edit"
+									path="/editprofile/:id"
 									component={DoctorEditProfile}
 									role="doctor"
 									data={userData[0]}

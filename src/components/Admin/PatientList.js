@@ -13,7 +13,6 @@ import {
 	Row
 } from "antd";
 import PageTitle from "./../common/PageTitle";
-// import { UserOutlined, UploadOutlined } from "@ant-design/icons";
 import { _notification } from "../../utils/_helper";
 import { addPatientService } from "../../utils/services";
 

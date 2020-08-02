@@ -14,7 +14,9 @@ import {
 	ATTEND_PATIENT,
 	ASSIGN_LEVEL,
 	UNASSIGNED_PATIENT,
-	DECLINED_PATIENT
+	DECLINED_PATIENT,
+	USER_PROFILE,
+	UPDATE_PROFILE
 } from "./routes";
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
@@ -50,6 +52,20 @@ export const loginService = async (role, data) => {
 	}
 };
 
+export const getProfileService = async () => {
+	setUserToken();
+	try {
+		const response = await axios.get(USER_PROFILE);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		console.log(err.response);
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
 /******************MASTER ADMIN SERVICES********************/
 
 export const addPatientService = async data => {
@@ -61,8 +77,9 @@ export const addPatientService = async data => {
 			}
 		};
 		const response = await axios.post(ADD_PATIENT, data, config);
-		if (response.status === 200 && response.data.error === false)
+		if (response.status === 200 && response.data.error === false) {
 			return response.data;
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -73,8 +90,9 @@ export const getAdminsService = async () => {
 	setUserToken();
 	try {
 		const response = await axios.get(GET_ADMINS);
-		if (response.status === 200 && response.data.error === false)
+		if (response.status === 200 && response.data.error === false) {
 			return response.data;
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -85,8 +103,9 @@ export const addAdminService = async data => {
 	setUserToken();
 	try {
 		const response = await axios.post(ADD_ADMIN, data);
-		if (response.status === 200 && response.data.error === false)
+		if (response.status === 200 && response.data.error === false) {
 			return response.data;
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -97,8 +116,9 @@ export const delByAdminService = async (role, id) => {
 	setUserToken();
 	try {
 		const response = await axios.delete(`${DEL_BY_ADMIN}/${role}/${id}`);
-		if (response.status === 200 && response.data.error === false)
+		if (response.status === 200 && response.data.error === false) {
 			return response.data;
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -111,8 +131,9 @@ export const getDoctorsService = async () => {
 	setUserToken();
 	try {
 		const response = await axios.get(GET_DOCTORS);
-		if (response.status === 200 && response.data.error === false)
+		if (response.status === 200 && response.data.error === false) {
 			return response.data;
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -123,8 +144,9 @@ export const addDoctorService = async data => {
 	setUserToken();
 	try {
 		const response = await axios.post(ADD_DOCTOR, data);
-		if (response.status === 200 && response.data.error === false)
+		if (response.status === 200 && response.data.error === false) {
 			return response.data;
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -137,8 +159,9 @@ export const getHospitalsService = async () => {
 	setUserToken();
 	try {
 		const response = await axios.get(GET_HOSPITALS);
-		if (response.status === 200 && response.data.error === false)
+		if (response.status === 200 && response.data.error === false) {
 			return response.data;
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -149,8 +172,9 @@ export const addHospitalService = async data => {
 	setUserToken();
 	try {
 		const response = await axios.post(ADD_HOSPITAL, data);
-		if (response.status === 200 && response.data.error === false)
+		if (response.status === 200 && response.data.error === false) {
 			return response.data;
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -163,8 +187,9 @@ export const getAmbOperatorService = async () => {
 	setUserToken();
 	try {
 		const response = await axios.get(GET_AMBULANCE_OPERATOR);
-		if (response.status === 200 && response.data.error === false)
+		if (response.status === 200 && response.data.error === false) {
 			return response.data;
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -175,8 +200,9 @@ export const addAmbOperatorService = async data => {
 	setUserToken();
 	try {
 		const response = await axios.post(ADD_AMBULANCE_OPERATOR, data);
-		if (response.status === 200 && response.data.error === false)
+		if (response.status === 200 && response.data.error === false) {
 			return response.data;
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -189,8 +215,9 @@ export const attendPatientService = async id => {
 	setUserToken();
 	try {
 		const response = await axios.post(`${ATTEND_PATIENT}/${id}`);
-		if (response.status === 200 && response.data.error === false)
+		if (response.status === 200 && response.data.error === false) {
 			return response.data;
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -205,7 +232,6 @@ export const assignLevelService = async (id, data) => {
 			return response.data;
 		} else return response.data;
 	} catch (err) {
-		console.log(err.response);
 		if (err.response) throw err.response.data;
 		else throw err.message;
 	}
@@ -219,7 +245,6 @@ export const getUnassignedPatientService = async () => {
 			return response.data;
 		} else return response.data;
 	} catch (err) {
-		console.log(err.response);
 		if (err.response) throw err.response.data;
 		else throw err.message;
 	}
@@ -233,7 +258,19 @@ export const getDeclinedPatientService = async () => {
 			return response.data;
 		} else return response.data;
 	} catch (err) {
-		console.log(err.response);
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const updateProfileService = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.put(`${UPDATE_PROFILE}/${id}`, data);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
 	}

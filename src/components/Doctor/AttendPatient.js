@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { Modal, Button, Row, Col, Select, Input, Form, Checkbox } from "antd";
+import {
+	Modal,
+	Button,
+	Row,
+	Col,
+	Select,
+	Input,
+	Form,
+	Checkbox,
+	Skeleton
+} from "antd";
 import { assignLevelService } from "../../utils/services";
 import { _notification } from "../../utils/_helper";
 
@@ -12,7 +22,8 @@ const AttendPatient = ({
 	patientData,
 	refresh,
 	setRefresh,
-	parent
+	parent,
+	modalLoading
 }) => {
 	const [form] = Form.useForm();
 	const [isLoading, setIsLoading] = useState(false);
@@ -86,111 +97,137 @@ const AttendPatient = ({
 				width={800}
 				footer={null}
 			>
-				{patientData ? (
-					<>
-						<Row>
-							<Col span={4} className="PatientExamine-heading">
-								Name
-							</Col>
-							<Col span={6}>{patientData.name}</Col>
-							<Col span={6} className="PatientExamine-heading">
-								ID
-							</Col>
-							<Col span={8}>{patientData.caseId}</Col>
-						</Row>
-						<Row>
-							<Col span={4} className="PatientExamine-heading">
-								Gender
-							</Col>
-							<Col span={6}>{patientData.gender}</Col>
-							<Col span={6} className="PatientExamine-heading">
-								Age
-							</Col>
-							<Col span={8}>{patientData.age} years</Col>
-						</Row>
-						<Row>
-							<Col span={4} className="PatientExamine-heading">
-								Phone
-							</Col>
-							<Col span={6}>+91-{patientData.phone}</Col>
-							<Col span={6} className="PatientExamine-heading">
-								Lab Name
-							</Col>
-							<Col span={8}>{patientData.lab}</Col>
-						</Row>
-						<Row>
-							<Col span={4} className="PatientExamine-heading">
-								District
-							</Col>
-							<Col span={6}>{patientData.district}</Col>
-							<Col span={6} className="PatientExamine-heading">
-								Patient Address
-							</Col>
-							<Col span={8}>{patientData.address}</Col>
-						</Row>
-					</>
-				) : null}
-				<Form
-					form={form}
-					// layout="vertical"
-					name="examine-form"
-					onFinish={onFinish}
-				>
-					<Row gutter={[16, 16]}>
-						<Col xl={12} lg={12} md={12} sm={24} xs={24}>
-							<Form.Item
-								name="level"
-								label="Severity Level"
-								rules={[
-									{
-										required: !check,
-										message: "Please input case id!"
-									}
-								]}
-							>
-								<Select
-									placeholder="select level"
-									disabled={check}
+				<Skeleton loading={modalLoading} active>
+					{patientData ? (
+						<>
+							<Row>
+								<Col
+									span={4}
+									className="PatientExamine-heading"
 								>
-									<Option value="L1">L1</Option>
-									<Option value="L2">L2</Option>
-									<Option value="L3">L3</Option>
-								</Select>
-							</Form.Item>
-						</Col>
-						{parent !== "Declined" ? (
+									Name
+								</Col>
+								<Col span={6}>{patientData.name}</Col>
+								<Col
+									span={6}
+									className="PatientExamine-heading"
+								>
+									ID
+								</Col>
+								<Col span={8}>{patientData.caseId}</Col>
+							</Row>
+							<Row>
+								<Col
+									span={4}
+									className="PatientExamine-heading"
+								>
+									Gender
+								</Col>
+								<Col span={6}>{patientData.gender}</Col>
+								<Col
+									span={6}
+									className="PatientExamine-heading"
+								>
+									Age
+								</Col>
+								<Col span={8}>{patientData.age} years</Col>
+							</Row>
+							<Row>
+								<Col
+									span={4}
+									className="PatientExamine-heading"
+								>
+									Phone
+								</Col>
+								<Col span={6}>+91-{patientData.phone}</Col>
+								<Col
+									span={6}
+									className="PatientExamine-heading"
+								>
+									Lab Name
+								</Col>
+								<Col span={8}>{patientData.lab}</Col>
+							</Row>
+							<Row>
+								<Col
+									span={4}
+									className="PatientExamine-heading"
+								>
+									District
+								</Col>
+								<Col span={6}>{patientData.district}</Col>
+								<Col
+									span={6}
+									className="PatientExamine-heading"
+								>
+									Patient Address
+								</Col>
+								<Col span={8}>{patientData.address}</Col>
+							</Row>
+						</>
+					) : null}
+					<Form
+						form={form}
+						// layout="vertical"
+						name="examine-form"
+						onFinish={onFinish}
+					>
+						<Row gutter={[16, 16]}>
 							<Col xl={12} lg={12} md={12} sm={24} xs={24}>
 								<Form.Item
-									name="isDeclined"
-									// label="Declined to come?"
+									name="level"
+									label="Severity Level"
+									rules={[
+										{
+											required: !check,
+											message: "Please input case id!"
+										}
+									]}
 								>
-									<Checkbox
-										checked={check}
-										onChange={e => handleCheck(e)}
+									<Select
+										placeholder="select level"
+										disabled={check}
 									>
-										Declined to come?
-									</Checkbox>
+										<Option value="l1">L1</Option>
+										<Option value="l2">L2</Option>
+										<Option value="l3">L3</Option>
+									</Select>
 								</Form.Item>
 							</Col>
-						) : null}
-					</Row>
+							{parent !== "Declined" ? (
+								<Col xl={12} lg={12} md={12} sm={24} xs={24}>
+									<Form.Item
+										name="isDeclined"
+										// label="Declined to come?"
+									>
+										<Checkbox
+											checked={check}
+											onChange={e => handleCheck(e)}
+										>
+											Declined to come?
+										</Checkbox>
+									</Form.Item>
+								</Col>
+							) : null}
+						</Row>
 
-					<Form.Item name="comment" label="Doctor's Comment">
-						<TextArea rows={4} />
-					</Form.Item>
+						<Form.Item name="comment" label="Doctor's Comment">
+							<TextArea rows={4} />
+						</Form.Item>
 
-					<Form.Item>
-						<Button
-							type="primary"
-							htmlType="submit"
-							className="login-form-button"
-							style={{ float: "right" }}
-							loading={isLoading}
-						>
-							Submit
-						</Button>
-					</Form.Item>
-				</Form>
+						<Form.Item>
+							<Button
+								type="primary"
+								htmlType="submit"
+								className="login-form-button"
+								style={{ float: "right" }}
+								loading={isLoading}
+							>
+								Submit
+							</Button>
+						</Form.Item>
+					</Form>
+				</Skeleton>
 			</Modal>
 		</>
 	);

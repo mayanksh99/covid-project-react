@@ -14,7 +14,9 @@ import {
 	GET_HOSPITALS,
 	ADD_HOSPITAL,
 	GET_AMBULANCE_OPERATOR,
-	ADD_AMBULANCE_OPERATOR
+	ADD_AMBULANCE_OPERATOR,
+	START_ATTEND_PATIENT_FOR_AMBULANCE,
+	ALLOT_AMBULANCE_FOR_PATIENT
 } from "./routes";
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
@@ -50,9 +52,37 @@ export const loginService = async (role, data) => {
 };
 /*************Get Ambulance Under Operator**********/
 export async function getAllAmbulanceUnder(id) {
+	setUserToken();
 	try {
-		setUserToken();
-		const response = await axios.get(`${AMBULANCEUNDER}/${id}`);
+		const config = {
+			params: {
+				aoid: `${id}`,
+				perPage: 20
+			}
+		};
+		const response = await axios.get(AMBULANCEUNDER, config);
+		if (response.status === 200 && response.data.error === false) {
+			return {
+				res: response.data
+			};
+		}
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+}
+
+export async function getAllAvailableAmbulanceUnder(id) {
+	setUserToken();
+	try {
+		const config = {
+			params: {
+				aoid: `${id}`,
+				status: "available",
+				perPage: 20
+			}
+		};
+		const response = await axios.get(AMBULANCEUNDER, config);
 		if (response.status === 200 && response.data.error === false) {
 			return {
 				res: response.data
@@ -122,17 +152,8 @@ export const delByAdminService = async (role, id) => {
 /*******************Update Ambulance status*******************/
 
 export async function updateStatus(newStatus, id) {
-	// let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
-	// if (AUTH_TOKEN.token !== "") {
-	// 	if (AUTH_TOKEN.token.includes("Logout")) {
-	// 		localStorage.clear();
-	// 		window.location.push("/login");
-	// 	}
-	// 	axios.defaults.headers.common["x-auth-token"] =
-	// 		"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMTMzZTJiMTgxOTM2MWUxMDE2Y2U5MiIsIm5hbWUiOiJSb290IEFtYnVsYW5jZSBBZG1pbiIsImVtYWlsIjoid2FkaW5pMjgzM0BleHBsb3JheGIuY29tIiwicm9sZSI6ImFkbWluIiwicGVybWlzc2lvbnMiOlsiYW1idWxhbmNlIl0sImlhdCI6MTU5NTA5NzAyMH0.D_ipFqsNflrZLwc2_GrS8fQ_-8M6zsgc8vMSxuezvD4";
-	// }
+	setUserToken();
 	try {
-		setUserToken();
 		const response = await axios.put(`${UPDATESTATUS}/${id}`, {
 			status: `${newStatus}`
 		});
@@ -220,6 +241,38 @@ export async function addAmbulance(values, id) {
 		else throw err.message;
 	}
 }
+
+/**********ALLOT AMBULANCE SERVICE**************/
+
+export const startAttentPatientForAmbulance = async id => {
+	setUserToken();
+	try {
+		const response = await axios.post(
+			`${START_ATTEND_PATIENT_FOR_AMBULANCE}${id}`,
+			null
+		);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const allotAmbulanceForPatient = async (ambId, patientId) => {
+	setUserToken();
+	try {
+		const response = await axios.post(
+			`${ALLOT_AMBULANCE_FOR_PATIENT}${ambId}/${patientId}`,
+			null
+		);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
 
 export const addHospitalService = async data => {
 	setUserToken();

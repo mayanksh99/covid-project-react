@@ -25,7 +25,19 @@ const AmbulanceStatus = () => {
 	const showModal = e => {
 		setIsVisible(true);
 	};
-
+	useEffect(() => {
+		(async () => {
+			setIsLoading(true);
+			try {
+				const res = await getAllAmbulanceUnder(userData[0].id);
+				setAmbulance(res.res.data.ambulances);
+				setIsLoading(false);
+			} catch (err) {
+				setIsLoading(false);
+				_notification("warning", "Error", err.message);
+			}
+		})();
+	}, [refresh]);
 	const handleOk = async () => {
 		setIsSpinning(true);
 		try {
@@ -61,7 +73,8 @@ const AmbulanceStatus = () => {
 					key: amb._id,
 					status: [amb.status],
 					phoneNumber: `+91-${amb.driver.contact}`,
-					vehicleNo: amb.vehicleNo
+					vehicleNo: amb.vehicleNo,
+					driverName: amb.driver.name
 				};
 		  })
 		: null;
@@ -70,6 +83,11 @@ const AmbulanceStatus = () => {
 			title: "#",
 			dataIndex: "index",
 			key: "index"
+		},
+		{
+			title: "Driver's Name",
+			dataIndex: "driverName",
+			key: "driverName"
 		},
 		{
 			title: "Vehicle number",
@@ -114,19 +132,6 @@ const AmbulanceStatus = () => {
 			)
 		}
 	];
-
-	useEffect(() => {
-		(async () => {
-			setIsLoading(true);
-			try {
-				const res = await getAllAmbulanceUnder(userData[0].id);
-				setAmbulance(res.res.data);
-				setIsLoading(false);
-			} catch (err) {
-				_notification("warning", "Error", err.message);
-			}
-		})();
-	}, [refresh]);
 
 	return (
 		<div className="container">
@@ -213,21 +218,19 @@ const AmbulanceStatus = () => {
 						</Col>
 						<Col span={24}>
 							<Select
-								defaultValue={
-									rowData === null ? "" : rowData.status
-								}
+								defaultValue="Select"
 								onChange={handleChange}
 								style={{ width: "100%" }}
 							>
-								<Option value="available">available</Option>
-								<Option value="onDuty">onDuty</Option>
-								<Option value="disable">disable</Option>
+								<Option value="available">Available</Option>
+								<Option value="onDuty">On-Duty</Option>
+								<Option value="disabled">Disable</Option>
 							</Select>
 						</Col>
 					</Row>
 					<Row style={{ marginTop: "25px" }}>
 						<Button
-							key="submit"
+							htmlType="submit"
 							type="primary"
 							onClick={handleOk}
 							block

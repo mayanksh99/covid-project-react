@@ -1,22 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
 import {
-	Table,
-	Statistic,
-	Row,
-	Col,
-	Button,
-	Input,
-	Modal,
-	Select,
-	Rate,
-	Form
-} from "antd";
+Table,Statistic,Row,Col,Button,Input,Modal,Select,Rate,Form} from "antd";
 import { _notification, getRole } from "../../utils/_helper";
 import PageTitle from "../common/PageTitle";
 import {
 	addReportService,
-	getadmittedPatientsService
+	getadmittedPatientsService,
+	searchAdmittedPatientsService
 } from "../../utils/services";
 
 const UpdateDailyReport = props => {
@@ -24,7 +15,6 @@ const UpdateDailyReport = props => {
 	const { Option } = Select;
 	const { TextArea, Search } = Input;
 	const [isVisible, setIsVisible] = useState(false);
-	const [setSelectedOption] = useState("");
 	const [rowData, setrowData] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [patients, setpatients] = useState(null);
@@ -34,7 +24,6 @@ const UpdateDailyReport = props => {
 	const showModal = () => {
 		setIsVisible(!isVisible);
 	};
-
 	const handleOk = () => {
 		setIsVisible(!isVisible);
 	};
@@ -42,6 +31,79 @@ const UpdateDailyReport = props => {
 		setIsVisible(!isVisible);
 	};
 
+	useEffect(() => {
+		(async () => {
+			setIsLoading(true);
+			try {
+				if (userData) {
+					const res = await getadmittedPatientsService(
+						userData[0].id
+					);
+					number = res.data.totalResults;
+					console.log(number);
+					setpatients(res.data.patients);
+					setIsLoading(false);
+					console.log(res);
+				}
+			} catch (err) {
+				_notification("warning", "Error", err.message);
+			}
+		})();
+	}, [refresh]);
+
+	const handleQuery = async val => {
+		setIsLoading(true);
+		try {
+			let params = { search: val };
+			const res = await searchAdmittedPatientsService(userData[0].id,params);
+			setpatients(res.data.patients);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
+
+	const onFinish = async values => {
+		setIsLoading(true);
+		console.log(values);
+		try {
+			const rawdata = {
+				pid: rowData.key,
+				testPerformed: values.testcheck,
+				testReport: values.reportresult,
+				rating: values.rate,
+				comment: values.comment
+				// patientstatus: values.patientstatus,		
+			};
+			console.log(rawdata);
+			const res = await addReportService(userData[0].id, rawdata);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification(
+					"success",
+					"Success",
+					"Report added successfully"
+				);
+				setRefresh(!refresh);
+				
+				form.setFieldsValue({
+					// patientstatus: "",
+					testPerformed: "",
+					testreport: "",
+					rating: "",
+					comment: ""
+				});
+				showModal();
+			}
+			setIsLoading(false);
+		} catch (err) {
+			_notification("error", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
+	
 	const data = patients
 		? patients.map((pat, i) => {
 				const {
@@ -52,7 +114,8 @@ const UpdateDailyReport = props => {
 					phone,
 					address,
 					district,
-					caseId
+					caseId,
+					email
 				} = pat;
 				return {
 					index: ++i,
@@ -63,10 +126,13 @@ const UpdateDailyReport = props => {
 					phone,
 					address,
 					district,
-					caseId
+					caseId,
+					email
 				};
 		  })
 		: null;
+		  console.log(patients);
+		  console.log(data);
 	const columns = [
 		{
 			title: "#",
@@ -108,70 +174,9 @@ const UpdateDailyReport = props => {
 			)
 		}
 	];
-	// console.log(userData);
-	useEffect(() => {
-		(async () => {
-			setIsLoading(true);
-			try {
-				if (userData) {
-					const res = await getadmittedPatientsService(
-						userData[0].id
-					);
-					number = res.data.totalResults;
-					console.log(number);
-					setpatients(res.data.patients);
-					setIsLoading(false);
-					console.log(res);
-				}
-			} catch (err) {
-				_notification("warning", "Error", err.message);
-			}
-		})();
-	}, [refresh]);
-
-	const onFinish = async values => {
-		setIsLoading(true);
-		console.log(values);
-		try {
-			const rawdata = {
-				pid: patients.key,
-				report: {
-					patientstatus: values.patientstatus,
-					reportresult: values.reportresult,
-					testcheck: values.testcheck,
-					rate: values.rate,
-					comment: values.comment
-				}
-			};
-			const res = await addReportService(userData[0].id, rawdata);
-			if (res.error) {
-				_notification("error", "Error", res.message);
-			} else if (res.message === "success") {
-				_notification(
-					"success",
-					"Success",
-					"Report added successfully"
-				);
-				props.setRefresh(!props.refresh);
-				props.handleModal(false);
-				form.setFieldsValue({
-					patientstatus: "",
-					testcheck: "",
-					reportresult: "",
-					rate: "",
-					comment: ""
-				});
-			}
-			setIsLoading(false);
-		} catch (err) {
-			_notification("error", "Error", err.message);
-			setIsLoading(false);
-		}
-	};
 	return (
 		<div style={{ padding: "10px 30px" }}>
 			<PageTitle title="Update Report" />
-
 			<Row>
 				<Col span={8}>
 					<Statistic
@@ -181,10 +186,13 @@ const UpdateDailyReport = props => {
 					/>
 				</Col>
 				<Col span={8}>
-					<Search
-						placeholder="Search Patients"
-						onSearch={value => console.log(value)}
-						style={{ width: 200 }}
+					<Input.Search
+						className="input-field"
+						type="text"
+						style={{ width: 200, marginBottom: 12 }}
+						placeholder="Search-patients"
+						allowClear
+						onSearch={value => handleQuery(value)}
 					/>
 				</Col>
 			</Row>
@@ -224,11 +232,6 @@ const UpdateDailyReport = props => {
 				onCancel={handleCancel}
 				width={800}
 				footer={null}
-				// footer={[
-				// 	<Button key="submit" type="primary" onClick={handleOk}>
-				// 		Submit
-				// 	</Button>
-				// ]}
 			>
 				{rowData ? (
 					<>
@@ -245,12 +248,14 @@ const UpdateDailyReport = props => {
 							<Col span={8}>{rowData.age}</Col>
 						</Row>
 						<Row>
-							<Col span={4}>Relative Ph.</Col>
+							<Col span={4}>Ph. Number</Col>
 							<Col span={6}> {`+91-${rowData.phone}`}</Col>
 							<Col span={6}>District</Col>
 							<Col span={8}>{rowData.district}</Col>
 						</Row>
 						<Row>
+							<Col span={4}>E-mail</Col>
+							<Col span={6}> {rowData.email}</Col>
 							<Col span={6}>Patient Address</Col>
 							<Col span={8}>{rowData.address}</Col>
 						</Row>
@@ -259,9 +264,9 @@ const UpdateDailyReport = props => {
 							name="update_patient_report"
 							className="login-form"
 							onFinish={onFinish}
-							initialValues={{ remember: true }}
+							// initialValues={{ remember: true }}
 						>
-							<Row>
+							{/* <Row>
 								<Col xl={12} lg={12} md={12} sm={12}>
 									<Form.Item
 										name="patientstatus"
@@ -277,7 +282,7 @@ const UpdateDailyReport = props => {
 										</Select>
 									</Form.Item>
 								</Col>
-							</Row>
+							</Row> */}
 							<Row gutter={[16, 16]}>
 								<Col xl={12} lg={12} md={12} sm={12}>
 									<Form.Item

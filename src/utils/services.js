@@ -475,3 +475,15 @@ export const addReportService = async (id, data) => {
 		else throw err.message;
 	}
 };
+export const searchAdmittedPatientsService = async (id,params) => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_ADMITTED_PATIENTS}/${id}`, { params });
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};

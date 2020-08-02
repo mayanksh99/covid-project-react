@@ -70,7 +70,7 @@ export async function getAllAmbulanceUnder(id) {
 			return {
 				res: response.data
 			};
-		}
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -92,7 +92,7 @@ export async function getAllAvailableAmbulanceUnder(id) {
 			return {
 				res: response.data
 			};
-		}
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -166,7 +166,7 @@ export async function updateStatus(newStatus, id) {
 			return {
 				res: response.data
 			};
-		}
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -181,6 +181,7 @@ export const getDoctorsService = async () => {
 		const response = await axios.get(GET_DOCTORS);
 		if (response.status === 200 && response.data.error === false)
 			return response.data;
+		else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -193,6 +194,7 @@ export const addDoctorService = async data => {
 		const response = await axios.post(ADD_DOCTOR, data);
 		if (response.status === 200 && response.data.error === false)
 			return response.data;
+		else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -209,7 +211,7 @@ export async function changePassword(values) {
 			return {
 				res: response.data
 			};
-		}
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -240,7 +242,7 @@ export async function addAmbulance(values, id) {
 			return {
 				res: response.data
 			};
-		}
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -258,6 +260,7 @@ export const startAttentPatientForAmbulance = async id => {
 		);
 		if (response.status === 200 && response.data.error === false)
 			return response.data;
+		else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
@@ -273,6 +276,7 @@ export const allotAmbulanceForPatient = async (ambId, patientId) => {
 		);
 		if (response.status === 200 && response.data.error === false)
 			return response.data;
+		else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;

@@ -6,10 +6,11 @@ import {
 	Col,
 	Table,
 	Tag,
-	Select,
 	Button,
 	Statistic,
-	Skeleton
+	Skeleton,
+	Popconfirm,
+	Tooltip
 } from "antd";
 import AddAmbulance from "./AddAmbulance";
 import PageTitle from "./../../common/PageTitle";
@@ -18,8 +19,8 @@ import {
 	getOperatorAmbService,
 	searchAmbOperatorService
 } from "../../../utils/services";
-
-const { Option } = Select;
+import { EditOutlined } from "@ant-design/icons";
+import AmbulanceUpdate from "./AmbulanceUpdate";
 
 const AmbulanceAdminDetails = props => {
 	const [showModal, setShowModal] = useState(false);
@@ -27,6 +28,9 @@ const AmbulanceAdminDetails = props => {
 	const [ambulances, setAmbulances] = useState(null);
 	const [operator, setOperator] = useState(null);
 	const [count, setCount] = useState(null);
+	const [showUpdateModal, setShowUpdateModal] = useState(false);
+	const [ambulanceData, setAmbulanceData] = useState(null);
+	const [refresh, setRefresh] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -42,7 +46,7 @@ const AmbulanceAdminDetails = props => {
 				setIsLoading(false);
 			}
 		})();
-	}, [props.match.params.id]);
+	}, [props.match.params.id, refresh]);
 
 	useEffect(() => {
 		(async () => {
@@ -50,7 +54,6 @@ const AmbulanceAdminDetails = props => {
 			try {
 				let params = { aoid: props.match.params.id };
 				const res = await searchAmbOperatorService(params);
-				console.log(res.data.operators[0]);
 				setOperator(res.data.operators[0]);
 				setIsLoading(false);
 			} catch (err) {
@@ -63,6 +66,29 @@ const AmbulanceAdminDetails = props => {
 	const handleModal = value => {
 		setShowModal(value);
 	};
+
+	const handleUpdateModal = (value, data) => {
+		setShowUpdateModal(value);
+		setAmbulanceData(data);
+	};
+
+	// const handleDelete = async value => {
+	// 	try {
+	// 		const res = await delAmbulanceService(value.key);
+	// 		if (res.error) {
+	// 			_notification("error", "Error", res.message);
+	// 		} else if (res.message === "success") {
+	// 			_notification(
+	// 				"success",
+	// 				"Success",
+	// 				"Ambulance deleted successfully"
+	// 			);
+	// 			// setRefresh(!refresh);
+	// 		}
+	// 	} catch (err) {
+	// 		_notification("warning", "Error", err.message);
+	// 	}
+	// };
 
 	const columns = [
 		{
@@ -80,6 +106,7 @@ const AmbulanceAdminDetails = props => {
 						<Tag color="green">{status}</Tag>
 					)}
 					{status === "onDuty" && <Tag color="orange">{status}</Tag>}
+					{status === "disabled" && <Tag color="red">{status}</Tag>}
 				</>
 			)
 		},
@@ -94,19 +121,25 @@ const AmbulanceAdminDetails = props => {
 			key: "contact"
 		},
 		{
+			title: "Pincode",
+			dataIndex: "pincode",
+			key: "pincode"
+		},
+		{
 			title: "Action",
-			dataIndex: "action",
 			key: "action",
 			render: action => (
 				<>
-					<Select
-						placeholder="select status"
-						defaultValue={action[1]}
-					>
-						<Option value="available">Available</Option>
-						<Option value="onDuty">On duty</Option>
-						<Option value="disable">Disable</Option>
-					</Select>
+					<Tooltip title="Edit password">
+						<Popconfirm
+							title="Do you want to update ambulance?"
+							onConfirm={() => handleUpdateModal(true, action)}
+							okText="Yes"
+							cancelText="No"
+						>
+							<EditOutlined style={{ color: "#F4B400" }} />
+						</Popconfirm>
+					</Tooltip>
 				</>
 			)
 		}
@@ -122,8 +155,7 @@ const AmbulanceAdminDetails = props => {
 					status,
 					pincode,
 					contact,
-					name,
-					action: [_id, status]
+					name
 				};
 		  })
 		: null;
@@ -268,6 +300,13 @@ const AmbulanceAdminDetails = props => {
 				</Row>
 			</div>
 			<AddAmbulance visible={showModal} handleModal={handleModal} />
+			<AmbulanceUpdate
+				visible={showUpdateModal}
+				handleModal={handleUpdateModal}
+				data={ambulanceData}
+				refresh={refresh}
+				setRefresh={setRefresh}
+			/>
 		</div>
 	);
 };

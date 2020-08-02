@@ -29,8 +29,9 @@ const UpdateDailyReport = props => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [patients, setpatients] = useState(null);
 	const [refresh, setRefresh] = useState(false);
+	const [testcheck,settestcheck]=useState("");
+	const [number, setNumber] = useState("");
 	const [form] = Form.useForm();
-	let number;
 	const showModal = () => {
 		setIsVisible(!isVisible);
 	};
@@ -40,7 +41,9 @@ const UpdateDailyReport = props => {
 	const handleCancel = () => {
 		setIsVisible(!isVisible);
 	};
-
+	const handleChange=(val) =>{
+		settestcheck(val);
+	}
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);
@@ -49,7 +52,7 @@ const UpdateDailyReport = props => {
 					const res = await getadmittedPatientsService(
 						userData[0].id
 					);
-					number = res.data.totalResults;
+					setNumber(res.data.totalResults);
 					console.log(number);
 					setpatients(res.data.patients);
 					setIsLoading(false);
@@ -83,7 +86,7 @@ const UpdateDailyReport = props => {
 		try {
 			const rawdata = {
 				pid: rowData.key,
-				testPerformed: values.testcheck,
+				testPerformed: testcheck,
 				testReport: values.reportresult,
 				rating: values.rate,
 				comment: values.comment
@@ -104,11 +107,11 @@ const UpdateDailyReport = props => {
 				form.setFieldsValue({
 					// patientstatus: "",
 					testPerformed: "",
-					testreport: "",
+					testReport: "",
 					rating: "",
 					comment: ""
 				});
-				showModal();
+				
 			}
 			setIsLoading(false);
 		} catch (err) {
@@ -302,7 +305,7 @@ const UpdateDailyReport = props => {
 										name="testcheck"
 										label="Test Performed Today:"
 									>
-										<Select defaultValue="No">
+										<Select defaultValue="No" onChange={handleChange}>
 											<Option value="No">No</Option>
 											<Option value="Yes">Yes</Option>
 										</Select>

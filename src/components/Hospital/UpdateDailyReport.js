@@ -29,7 +29,7 @@ const UpdateDailyReport = props => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [patients, setpatients] = useState(null);
 	const [refresh, setRefresh] = useState(false);
-	const [testcheck,settestcheck]=useState("");
+	const [testcheck, settestcheck] = useState("");
 	const [number, setNumber] = useState("");
 	const [form] = Form.useForm();
 	const showModal = () => {
@@ -41,9 +41,9 @@ const UpdateDailyReport = props => {
 	const handleCancel = () => {
 		setIsVisible(!isVisible);
 	};
-	const handleChange=(val) =>{
+	const handleChange = val => {
 		settestcheck(val);
-	}
+	};
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);
@@ -111,7 +111,6 @@ const UpdateDailyReport = props => {
 					rating: "",
 					comment: ""
 				});
-				
 			}
 			setIsLoading(false);
 		} catch (err) {
@@ -305,7 +304,10 @@ const UpdateDailyReport = props => {
 										name="testcheck"
 										label="Test Performed Today:"
 									>
-										<Select defaultValue="No" onChange={handleChange}>
+										<Select
+											defaultValue="No"
+											onChange={handleChange}
+										>
 											<Option value="No">No</Option>
 											<Option value="Yes">Yes</Option>
 										</Select>

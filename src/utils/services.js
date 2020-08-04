@@ -184,6 +184,18 @@ export const addHospitalService = async data => {
 	}
 };
 
+export const getHospitalByParamsServices = async params => {
+	try {
+		const response = await axios.get(GET_HOSPITALS, { params });
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
 /******************AMBULANCE ADMIN SERVICES********************/
 
 export const getAmbOperatorService = async () => {

@@ -19,6 +19,8 @@ import {
 	ALLOT_AMBULANCE_FOR_PATIENT,
 	ATTEND_PATIENT,
 	ASSIGN_LEVEL,
+	ADD_REPORT,
+	GET_ADMITTED_PATIENTS,
 	UNASSIGNED_PATIENT,
 	DECLINED_PATIENT,
 	USER_PROFILE,
@@ -30,7 +32,6 @@ import {
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 export const EndPoint = "https://covid-project-gzb.herokuapp.com";
-
 axios.defaults.baseURL = BASE_URL;
 
 function setUserToken() {
@@ -471,6 +472,44 @@ export const updateProfileService = async (id, data) => {
 	setUserToken();
 	try {
 		const response = await axios.put(`${UPDATE_PROFILE}/${id}`, data);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+/*******************HOSPITAL SERVICES ******************/
+export const getadmittedPatientsService = async id => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_ADMITTED_PATIENTS}/${id}`);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const addReportService = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.post(`${ADD_REPORT}/${id}`, data);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+export const searchAdmittedPatientsService = async (id, params) => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_ADMITTED_PATIENTS}/${id}`, {
+			params
+		});
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

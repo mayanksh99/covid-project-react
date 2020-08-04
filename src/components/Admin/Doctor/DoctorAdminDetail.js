@@ -58,7 +58,6 @@ const DoctorDetail = () => {
 	return (
 		<div>
 			<PageTitle title="Doctor" />
-			<DoctorAdminOption />
 			<div>
 				<h3 style={{ fontSize: "16px" }}>Detail of Doctor</h3>
 				<Row gutter={[16, 16]}>

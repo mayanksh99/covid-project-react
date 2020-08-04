@@ -5,7 +5,7 @@ import AssignAmbulance from "../components/Ambulance/AssignAmbulance";
 import AmbulanceStatus from "../components/Ambulance/AmbulanceStatus";
 import AssignBed from "../components/Hospital/AssignBed";
 import UpdateDailyReport from "../components/Hospital/UpdateDailyReport";
-// import DoctorProfile from "../components/Doctor/DoctorProfile";
+import DoctorProfile from "../components/Doctor/DoctorProfile";
 import AmbAdminProfile from "../components/Ambulance/AmbAdminProfile";
 import {
 	AppstoreOutlined,
@@ -13,7 +13,8 @@ import {
 	CheckOutlined,
 	UsergroupAddOutlined,
 	UserSwitchOutlined,
-	BookOutlined
+	BookOutlined,
+	UserOutlined
 } from "@ant-design/icons";
 import Icon from "@ant-design/icons";
 import AmbulanceAdmin from "../components/Admin/Ambulance/AmbulanceAdmin";
@@ -21,6 +22,8 @@ import HospitalAdmin from "./../components/Admin/Hospital/HospitalAdmin";
 import DoctorAdmin from "./../components/Admin/Doctor/DoctorAdmin";
 import AdminList from "./../components/Admin/AdminList";
 import PatientList from "./../components/Admin/PatientList";
+import UnassignedPatients from "./../components/Doctor/UnassignedPatients";
+import DeclinedPatient from "./../components/Doctor/DeclinedPatient";
 
 export const BedSvg = () => (
 	<svg fill="currentColor" viewBox="0 0 640 512" height="1em" width="1em">
@@ -104,15 +107,6 @@ let routes = [
 		icon: BookOutlined,
 		role: "hospital"
 	},
-	// {
-	// 	path: "/doctorprofile",
-	// 	exact: true,
-	// 	component: DoctorProfile,
-	// 	name: "Doctor Profile",
-	// 	key: "DoctorProfile",
-	// 	icon: UserOutlined,
-	// 	role: "doctor"
-	// },
 	{
 		path: "/patientexamine",
 		exact: true,
@@ -120,6 +114,33 @@ let routes = [
 		component: PatientExamine,
 		key: "PatientExamine",
 		icon: MedicineBoxOutlined,
+		role: "doctor"
+	},
+	{
+		path: "/unassignedpatient",
+		exact: true,
+		name: "Unassigned Patient",
+		component: UnassignedPatients,
+		key: "UnassignedPatients",
+		icon: MedicineBoxOutlined,
+		role: "doctor"
+	},
+	{
+		path: "/declinedpatient",
+		exact: true,
+		name: "Declined Patient",
+		component: DeclinedPatient,
+		key: "DeclinedPatient",
+		icon: MedicineBoxOutlined,
+		role: "doctor"
+	},
+	{
+		path: "/doctorprofile",
+		exact: true,
+		component: DoctorProfile,
+		name: "Doctor Profile",
+		key: "DoctorProfile",
+		icon: UserOutlined,
 		role: "doctor"
 	},
 	{

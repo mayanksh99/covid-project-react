@@ -10,10 +10,15 @@ import {
 	GET_HOSPITALS,
 	ADD_HOSPITAL,
 	GET_AMBULANCE_OPERATOR,
-	ADD_AMBULANCE_OPERATOR
+	ADD_AMBULANCE_OPERATOR,
+	ATTEND_PATIENT,
+	ASSIGN_LEVEL,
+	UNASSIGNED_PATIENT,
+	DECLINED_PATIENT
 } from "./routes";
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
+export const EndPoint = "https://covid-project-gzb.herokuapp.com";
 
 axios.defaults.baseURL = BASE_URL;
 
@@ -173,6 +178,62 @@ export const addAmbOperatorService = async data => {
 		if (response.status === 200 && response.data.error === false)
 			return response.data;
 	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+/******************DOCTOR SERVICES********************/
+
+export const attendPatientService = async id => {
+	setUserToken();
+	try {
+		const response = await axios.post(`${ATTEND_PATIENT}/${id}`);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const assignLevelService = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.post(`${ASSIGN_LEVEL}/${id}`, data);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		console.log(err.response);
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getUnassignedPatientService = async () => {
+	setUserToken();
+	try {
+		const response = await axios.get(UNASSIGNED_PATIENT);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		console.log(err.response);
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getDeclinedPatientService = async () => {
+	setUserToken();
+	try {
+		const response = await axios.get(DECLINED_PATIENT);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		console.log(err.response);
 		if (err.response) throw err.response.data;
 		else throw err.message;
 	}

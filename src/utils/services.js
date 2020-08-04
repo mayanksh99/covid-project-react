@@ -27,7 +27,10 @@ import {
 	UPDATE_PROFILE,
 	GET_AMBULANCES,
 	DEL_AMBULANCE,
-	UPDATE_AMBULANCE
+	UPDATE_AMBULANCE,
+	GET_PATIENT_BY_HOSPITAL,
+	UPDATE_HOSPITAL,
+	ADD_PATIENT_REPORT
 } from "./routes";
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
@@ -312,6 +315,73 @@ export const addHospitalService = async data => {
 	setUserToken();
 	try {
 		const response = await axios.post(ADD_HOSPITAL, data);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getHospitalByParamsServices = async params => {
+	setUserToken();
+	try {
+		const response = await axios.get(GET_HOSPITALS, { params });
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getPatientByHospitalService = async id => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_PATIENT_BY_HOSPITAL}/${id}`);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getPatientByHospitalParamService = async (id, params) => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_PATIENT_BY_HOSPITAL}/${id}`, {
+			params
+		});
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const updateHospitalService = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.put(`${UPDATE_HOSPITAL}/${id}`, data);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const addPatientReportService = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.post(`${ADD_PATIENT_REPORT}/${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

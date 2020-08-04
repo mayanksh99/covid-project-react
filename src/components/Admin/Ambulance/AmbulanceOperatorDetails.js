@@ -10,10 +10,13 @@ import {
 	Statistic,
 	Skeleton,
 	Popconfirm,
-	Tooltip
+	Tooltip,
+	Input,
+	Select,
+	Divider
 } from "antd";
 import AddAmbulance from "./AddAmbulance";
-import PageTitle from "./../../common/PageTitle";
+import PageTitle from "../../common/PageTitle";
 import { _notification } from "../../../utils/_helper";
 import {
 	getOperatorAmbService,
@@ -21,6 +24,8 @@ import {
 } from "../../../utils/services";
 import { EditOutlined } from "@ant-design/icons";
 import AmbulanceUpdate from "./AmbulanceUpdate";
+
+const { Option } = Select;
 
 const AmbulanceAdminDetails = props => {
 	const [showModal, setShowModal] = useState(false);
@@ -31,6 +36,8 @@ const AmbulanceAdminDetails = props => {
 	const [showUpdateModal, setShowUpdateModal] = useState(false);
 	const [ambulanceData, setAmbulanceData] = useState(null);
 	const [refresh, setRefresh] = useState(false);
+	const [status, setStatus] = useState(null);
+	const [search, setSearch] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -72,23 +79,37 @@ const AmbulanceAdminDetails = props => {
 		setAmbulanceData(data);
 	};
 
-	// const handleDelete = async value => {
-	// 	try {
-	// 		const res = await delAmbulanceService(value.key);
-	// 		if (res.error) {
-	// 			_notification("error", "Error", res.message);
-	// 		} else if (res.message === "success") {
-	// 			_notification(
-	// 				"success",
-	// 				"Success",
-	// 				"Ambulance deleted successfully"
-	// 			);
-	// 			// setRefresh(!refresh);
-	// 		}
-	// 	} catch (err) {
-	// 		_notification("warning", "Error", err.message);
-	// 	}
-	// };
+	const handleQuery = async val => {
+		setIsLoading(true);
+		setSearch(val);
+		try {
+			let params = {
+				aoid: props.match.params.id,
+				search: val,
+				status
+			};
+			const res = await getOperatorAmbService(params);
+			setAmbulances(res.data.ambulances);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
+
+	const handleStatus = async val => {
+		setIsLoading(true);
+		setStatus(val);
+		try {
+			let params = { aoid: props.match.params.id, status: val, search };
+			const res = await getOperatorAmbService(params);
+			setAmbulances(res.data.ambulances);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
 
 	const columns = [
 		{
@@ -163,7 +184,6 @@ const AmbulanceAdminDetails = props => {
 	return (
 		<div>
 			<PageTitle title="Ambulance" />
-
 			<AmbulanceAdminOption />
 			<div>
 				<h3 style={{ fontSize: "16px" }}>
@@ -232,9 +252,12 @@ const AmbulanceAdminDetails = props => {
 									className="login-form-button"
 									style={{ float: "right" }}
 									onClick={() => handleModal(true)}
+									block
 								>
 									Add Ambulance
 								</Button>
+								<br />
+								<Divider>OR</Divider>
 							</Skeleton>
 						</Card>
 					</Col>
@@ -271,6 +294,37 @@ const AmbulanceAdminDetails = props => {
 								/>
 							</Col>
 						</Row>
+						<Row>
+							<Col span={12}>
+								<Input.Search
+									className="input-field"
+									type="text"
+									style={{ width: 200, marginBottom: 12 }}
+									placeholder="Search"
+									allowClear
+									onSearch={value => handleQuery(value)}
+								/>
+							</Col>
+							<Col span={12} style={{ float: "right" }}>
+								<div style={{ float: "right" }}>
+									<Select
+										placeholder="select status"
+										onChange={handleStatus}
+										allowClear
+										className="input-field"
+									>
+										<Option value="available">
+											Avaliable
+										</Option>
+										<Option value="onDuty">On Duty</Option>
+										<Option value="disabled">
+											Disabled
+										</Option>
+									</Select>
+								</div>
+							</Col>
+						</Row>
+
 						<Card>
 							<p
 								style={{

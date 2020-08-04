@@ -151,7 +151,7 @@ const AmbulanceAdminDetails = props => {
 			key: "action",
 			render: action => (
 				<>
-					<Tooltip title="Edit password">
+					<Tooltip title="Update">
 						<Popconfirm
 							title="Do you want to update ambulance?"
 							onConfirm={() => handleUpdateModal(true, action)}

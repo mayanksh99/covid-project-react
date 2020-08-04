@@ -9,7 +9,10 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import DoctorAdminOption from "./DoctorAdminOption";
-import { getDoctorsService } from "../../../utils/services";
+import {
+	getDoctorsService,
+	searchDoctorService
+} from "../../../utils/services";
 import { _notification } from "../../../utils/_helper";
 import { delByAdminService } from "./../../../utils/services";
 
@@ -30,6 +33,19 @@ const DoctorAdmin = () => {
 			}
 		})();
 	}, [refresh]);
+
+	const handleQuery = async val => {
+		setIsLoading(true);
+		try {
+			let params = { search: val };
+			const res = await searchDoctorService(params);
+			setDoctors(res.data);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
 
 	const handleDelete = async id => {
 		try {
@@ -55,18 +71,18 @@ const DoctorAdmin = () => {
 			dataIndex: "index",
 			key: "index"
 		},
+
+		{
+			title: "Name",
+			dataIndex: "name",
+			key: "name",
+			render: name => <Link to="/doctordetails/sdvsdvsd">{name}</Link>
+		},
 		{
 			title: "ID",
 			dataIndex: "empId",
 			key: "empId"
 		},
-		{
-			title: "Name",
-			dataIndex: "name",
-			key: "name"
-			// render: name => <Link to="/doctordetails/sdvsdvsd">{name}</Link>
-		},
-
 		// {
 		// 	title: "Age",
 		// 	dataIndex: "age",
@@ -166,6 +182,7 @@ const DoctorAdmin = () => {
 							style={{ width: 200, marginBottom: 12 }}
 							placeholder="Search"
 							allowClear
+							onSearch={value => handleQuery(value)}
 						/>
 					</Col>
 					<Card

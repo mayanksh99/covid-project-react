@@ -15,6 +15,7 @@ export const ADD_DOCTOR = "/doctors"; //POST
 /******************HOSPITAL ADMIN ROUTES********************/
 export const GET_HOSPITALS = "/hospitals"; //GET
 export const ADD_HOSPITAL = "/hospitals"; //POST
+export const GET_PATIENT_BY_HOSPITAL = "/hospitals/patients/admitted"; //GET
 
 /******************AMBULANCE ADMIN ROUTES********************/
 export const GET_AMBULANCES = "/ambulances"; //GET

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Statistic, Button, Skeleton } from "antd";
+import { Row, Col, Button, Skeleton } from "antd";
 import AddHospitalAdmin from "./AddHospitalAdmin";
 import PageStats from "../../common/PageStats";
 

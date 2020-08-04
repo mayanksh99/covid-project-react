@@ -6,12 +6,13 @@ import { _notification } from "../../../utils/_helper";
 import { getHospitalByParamsServices } from "../../../utils/services";
 import PageStats from "../../common/PageStats";
 import ProfileDetails from "../../common/ProfileDetails";
+import { getPatientByHospitalService } from "./../../../utils/services";
 
 const HospitalDetails = props => {
-	const [showBedChange, setShowBedChange] = useState(false);
+	const [patients, setPatients] = useState(null);
 	const [showModal, setShowModal] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [details, setDetails] = useState(false);
+	const [details, setDetails] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -20,7 +21,23 @@ const HospitalDetails = props => {
 				let params = { hid: props.match.params.id };
 				const res = await getHospitalByParamsServices(params);
 				setDetails(res.data.hospitals[0]);
-				// setCount(res.data.ambulanceCount);
+				setIsLoading(false);
+			} catch (err) {
+				_notification("warning", "Error", err.message);
+				setIsLoading(false);
+			}
+		})();
+	}, [props.match.params.id]);
+
+	useEffect(() => {
+		(async () => {
+			setIsLoading(true);
+			try {
+				const res = await getPatientByHospitalService(
+					props.match.params.id
+				);
+				console.log(res);
+				setPatients(res.data.patients);
 				setIsLoading(false);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
@@ -35,14 +52,9 @@ const HospitalDetails = props => {
 
 	const columns = [
 		{
-			title: "#",
-			dataIndex: "key",
-			key: "key"
-		},
-		{
 			title: "Id",
-			dataIndex: "id",
-			key: "id"
+			dataIndex: "caseId",
+			key: "caseId"
 		},
 		{
 			title: "Name",
@@ -53,6 +65,11 @@ const HospitalDetails = props => {
 			title: "Gender",
 			dataIndex: "gender",
 			key: "gender"
+		},
+		{
+			title: "Age",
+			dataIndex: "age",
+			key: "age"
 		},
 		{
 			title: "Action",
@@ -72,32 +89,36 @@ const HospitalDetails = props => {
 		}
 	];
 
-	const data = [
-		{
-			key: "1",
-			id: "P2548535",
-			name: "Corona Pidit",
-			gender: "Male",
-			age: 30,
-			action: "Detail"
-		},
-		{
-			key: "2",
-			id: "P2548535",
-			name: "Corona Pidit",
-			gender: "Female",
-			age: 30,
-			action: "Detail"
-		},
-		{
-			key: "3",
-			id: "P2548535",
-			name: "Corona Pidit",
-			gender: "Male",
-			age: 30,
-			action: "Detail"
-		}
-	];
+	const data = patients
+		? patients.map((patient, id) => {
+				const {
+					_id,
+					address,
+					age,
+					caseId,
+					district,
+					email,
+					gender,
+					name,
+					phone,
+					relative
+				} = patient;
+				return {
+					index: ++id,
+					key: _id,
+					name,
+					caseId,
+					phone,
+					gender,
+					email,
+					address,
+					age,
+					district,
+					relativeEmail: relative.email,
+					relativePhone: relative.phone
+				};
+		  })
+		: null;
 	return (
 		<div>
 			<PageTitle title="Hospital" />
@@ -152,9 +173,6 @@ const HospitalDetails = props => {
 												type="primary"
 												className="login-form-button"
 												block
-												onClick={() =>
-													setShowBedChange(true)
-												}
 											>
 												Edit Profile
 											</Button>

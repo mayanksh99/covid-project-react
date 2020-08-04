@@ -275,6 +275,7 @@ const HospitalDetails = props => {
 				visible={showModal}
 				handleModal={handleModal}
 				patientData={patientData}
+				hid={details ? details._id : null}
 			/>
 			<UpdateProfile
 				visible={showProfile}

@@ -68,8 +68,8 @@ let routes = [
 		name: "Amb-Admin Profile",
 		component: AmbAdminProfile,
 		key: "amb-admin-profile",
-		icon: AmbulanceSvg
-		/*icon: UserOutlined*/
+		icon: UserOutlined,
+		role: "ambulanceoperator"
 	},
 	{
 		path: "/assignambulance",

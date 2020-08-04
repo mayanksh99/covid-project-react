@@ -1,4 +1,11 @@
+export const AMBULANCEUNDER = "/ambulances"; //GET
+export const UPDATESTATUS = "/ambulances/update"; //PUT
+export const CHANGEPASSWORD = "/users/change-pwd"; //POST
+export const ADDAMBULANCE = "/ambulances/add"; //POST
 export const LOGIN = "/users/login"; //POST
+export const START_ATTEND_PATIENT_FOR_AMBULANCE =
+	"/ambulances/patients/attend/"; //POST
+export const ALLOT_AMBULANCE_FOR_PATIENT = "/ambulances/patients/assign/"; //POST
 export const USER_PROFILE = "/users/profile"; //GET
 
 /******************MASTER ADMIN ROUTES********************/
@@ -29,6 +36,11 @@ export const UPDATE_AMBULANCE = "/ambulances/update"; //PUT
 /******************DOCTOR ROUTES********************/
 export const ATTEND_PATIENT = "/doctors/patients/attend"; //POST
 export const ASSIGN_LEVEL = "/doctors/patients/level"; //POST
+
+/******************HOSPITAL ROUTES***********************/
+export const GET_ADMITTED_PATIENTS = "/hospitals/patients/admitted"; //GET
+export const ADD_REPORT = "hospitals/report"; //POST
+
 export const UNASSIGNED_PATIENT = "/doctors/patients/unassigned"; //GET
 export const DECLINED_PATIENT = "/doctors/patients/declined"; //GET
 export const UPDATE_PROFILE = "/doctors"; //POST

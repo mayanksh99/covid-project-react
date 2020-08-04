@@ -185,6 +185,7 @@ export const addHospitalService = async data => {
 };
 
 export const getHospitalByParamsServices = async params => {
+	setUserToken();
 	try {
 		const response = await axios.get(GET_HOSPITALS, { params });
 		if (response.status === 200 && response.data.error === false) {

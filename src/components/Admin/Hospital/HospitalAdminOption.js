@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Statistic, Button, Skeleton } from "antd";
 import AddHospitalAdmin from "./AddHospitalAdmin";
+import PageStats from "../../common/PageStats";
 
 const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 	const [showModal, setShowModal] = useState(false);
@@ -25,17 +26,13 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 											sm={6}
 											xs={24}
 										>
-											<Statistic
+											<PageStats
 												title="Total beds"
 												value={
 													stats.total_l1 +
 													stats.total_l2 +
 													stats.total_l3
 												}
-												valueStyle={{
-													color: "#005ea5",
-													fontWeight: 600
-												}}
 											/>
 										</Col>
 										<Col
@@ -45,13 +42,9 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 											sm={6}
 											xs={24}
 										>
-											<Statistic
+											<PageStats
 												title="Total L1 beds"
 												value={stats.total_l1}
-												valueStyle={{
-													color: "#005ea5",
-													fontWeight: 600
-												}}
 											/>
 										</Col>
 										<Col
@@ -61,13 +54,9 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 											sm={6}
 											xs={24}
 										>
-											<Statistic
+											<PageStats
 												title="Total L2 beds"
 												value={stats.total_l2}
-												valueStyle={{
-													color: "#005ea5",
-													fontWeight: 600
-												}}
 											/>
 										</Col>
 										<Col
@@ -77,13 +66,9 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 											sm={6}
 											xs={24}
 										>
-											<Statistic
+											<PageStats
 												title="Total L3 beds"
 												value={stats.total_l3}
-												valueStyle={{
-													color: "#005ea5",
-													fontWeight: 600
-												}}
 											/>
 										</Col>
 									</Row>
@@ -97,17 +82,13 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 											sm={6}
 											xs={24}
 										>
-											<Statistic
+											<PageStats
 												title="Available beds"
 												value={
 													stats.available_l1 +
 													stats.available_l2 +
 													stats.available_l3
 												}
-												valueStyle={{
-													color: "#005ea5",
-													fontWeight: 600
-												}}
 											/>
 										</Col>
 										<Col
@@ -117,13 +98,9 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 											sm={6}
 											xs={24}
 										>
-											<Statistic
-												title="Avaliable L1 beds"
+											<PageStats
+												title="Available L1 beds"
 												value={stats.available_l1}
-												valueStyle={{
-													color: "#005ea5",
-													fontWeight: 600
-												}}
 											/>
 										</Col>
 										<Col
@@ -133,13 +110,9 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 											sm={6}
 											xs={24}
 										>
-											<Statistic
+											<PageStats
 												title="Available L2 beds"
 												value={stats.available_l2}
-												valueStyle={{
-													color: "#005ea5",
-													fontWeight: 600
-												}}
 											/>
 										</Col>
 										<Col
@@ -149,13 +122,9 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 											sm={6}
 											xs={24}
 										>
-											<Statistic
+											<PageStats
 												title="Available L3 beds"
 												value={stats.available_l3}
-												valueStyle={{
-													color: "#005ea5",
-													fontWeight: 600
-												}}
 											/>
 										</Col>
 									</Row>

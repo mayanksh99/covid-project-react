@@ -106,7 +106,9 @@ const HospitalAdmin = () => {
 			title: "Name",
 			dataIndex: "name",
 			key: "name",
-			render: name => <Link to="/hospitaldetails/sdvsdvsd">{name}</Link>
+			render: name => (
+				<Link to={`/hospitaldetails/${name[0]}`}>{name[1]}</Link>
+			)
 		},
 		{
 			title: "Contact No.",
@@ -178,7 +180,7 @@ const HospitalAdmin = () => {
 				return {
 					index: ++id,
 					key: _id,
-					name,
+					name: [_id, name],
 					contact,
 					address,
 					cat: category.toUpperCase(),

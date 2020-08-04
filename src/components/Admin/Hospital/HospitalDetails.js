@@ -1,12 +1,33 @@
-import React, { useState } from "react";
-import { Row, Col, Card, Button, Table, Statistic, Form, Input } from "antd";
-// import { BedSvg } from "./../../../utils/_routes";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Card, Button, Table, Skeleton } from "antd";
 import UpdatePatientReport from "./UpdatePatientReport";
 import PageTitle from "./../../common/PageTitle";
+import { _notification } from "../../../utils/_helper";
+import { getHospitalByParamsServices } from "../../../utils/services";
+import PageStats from "../../common/PageStats";
+import ProfileDetails from "../../common/ProfileDetails";
 
-const HospitalDetails = () => {
+const HospitalDetails = props => {
 	const [showBedChange, setShowBedChange] = useState(false);
 	const [showModal, setShowModal] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [details, setDetails] = useState(false);
+
+	useEffect(() => {
+		(async () => {
+			setIsLoading(true);
+			try {
+				let params = { hid: props.match.params.id };
+				const res = await getHospitalByParamsServices(params);
+				setDetails(res.data.hospitals[0]);
+				// setCount(res.data.ambulanceCount);
+				setIsLoading(false);
+			} catch (err) {
+				_notification("warning", "Error", err.message);
+				setIsLoading(false);
+			}
+		})();
+	}, [props.match.params.id]);
 
 	const handleModal = value => {
 		setShowModal(value);
@@ -84,157 +105,89 @@ const HospitalDetails = () => {
 				<h3 style={{ fontSize: "16px" }}>Detail of Hospital</h3>
 				<Row gutter={[16, 16]}>
 					<Col xs={24} sm={24} md={4} lg={6}>
-						<Card>
-							<div>
-								<p
-									style={{
-										fontSize: "18px",
-										color: "#008DB9",
-										fontWeight: 700
-									}}
-								>
-									Hospital's Information
-								</p>
+						<Skeleton loading={isLoading} active>
+							{details ? (
+								<Card>
+									<div>
+										<p
+											style={{
+												fontSize: "18px",
+												color: "#008DB9",
+												fontWeight: 700
+											}}
+										>
+											Hospital's Information
+										</p>
 
-								<p>
-									<span className="profile-data-label">
-										Name
-									</span>
-									<br />
-									<span className="profile-data">
-										ITS Hospital
-									</span>
-								</p>
-								<p>
-									<span className="profile-data-label">
-										Phone No.
-									</span>
-									<br />
-									<span className="profile-data">
-										+91-9654231546
-									</span>
-								</p>
-								<p>
-									<span className="profile-data-label">
-										Address
-									</span>
-									<br />
-									<span className="profile-data">
-										KIET Group of Institution
-									</span>
-								</p>
-								<p>
-									<span className="profile-data-label">
-										Email
-									</span>
-									<br />
-									<span className="profile-data">
-										its.hospital@gmail.com
-									</span>
-								</p>
-								<p>
-									<span className="profile-data-label">
-										Category
-									</span>
-									<br />
-									<span className="profile-data">L2</span>
-								</p>
-								<p>
-									<span className="profile-data-label">
-										Total beds
-									</span>
-									<br />
-									<span className="profile-data">1051</span>
-								</p>
-								<Col span={24}>
-									<Button
-										type="primary"
-										className="login-form-button"
-										block
-										onClick={() => setShowBedChange(true)}
-									>
-										Change Total Beds
-									</Button>
-								</Col>
-							</div>
-							<br />
-
-							{showBedChange ? (
-								<Form
-									layout="vertical"
-									name="normal_login"
-									className="login-form"
-									initialValues={{ remember: true }}
-								>
-									<Row gutter={[16, 16]}>
-										<Col span={12}>
-											<Form.Item
-												name="name"
-												rules={[
-													{
-														required: true,
-														message:
-															"Please input name!"
-													}
-												]}
+										<ProfileDetails
+											label="Name"
+											data={details.name}
+										/>
+										<ProfileDetails
+											label="Phone No."
+											data={details.contact}
+										/>
+										<ProfileDetails
+											label="Address"
+											data={details.address}
+										/>
+										<ProfileDetails
+											label="Email"
+											data={details.email}
+										/>
+										<ProfileDetails
+											label="Category"
+											data={details.category.toUpperCase()}
+										/>
+										<ProfileDetails
+											label="Total beds"
+											data={
+												details.availableBeds +
+												details.occupiedBeds +
+												details.reservedBeds
+											}
+										/>
+										<Col span={24}>
+											<Button
+												type="primary"
+												className="login-form-button"
+												block
+												onClick={() =>
+													setShowBedChange(true)
+												}
 											>
-												<Input
-													className="input-field mt-10"
-													placeholder="Total beds"
-													// prefix={<BedSvg />}
-												/>
-											</Form.Item>
+												Edit Profile
+											</Button>
 										</Col>
-										<Col span={12}>
-											<Form.Item>
-												<Button
-													type="primary"
-													htmlType="submit"
-													className="login-form-button"
-													block
-												>
-													Submit
-												</Button>
-											</Form.Item>
-										</Col>
-									</Row>
-								</Form>
+									</div>
+								</Card>
 							) : null}
-						</Card>
+						</Skeleton>
 					</Col>
 					<Col xs={24} sm={24} md={20} lg={18}>
-						<Row gutter={[16, 16]}>
-							<Col xl={8} lg={8} md={8} sm={24} xs={24}>
-								<Statistic
-									title="Available bed"
-									value={113}
-									valueStyle={{
-										color: "#005ea5",
-										fontWeight: 600
-									}}
-								/>
-							</Col>
-							<Col xl={8} lg={8} md={8} sm={24} xs={24}>
-								<Statistic
-									title="Occupied bed"
-									value={13}
-									valueStyle={{
-										color: "#005ea5",
-										fontWeight: 600
-									}}
-								/>
-							</Col>
-							<Col xl={8} lg={8} md={8} sm={24} xs={24}>
-								<Statistic
-									title="Reserved bed"
-									value={13}
-									valueStyle={{
-										color: "#005ea5",
-										fontWeight: 600
-									}}
-								/>
-							</Col>
-						</Row>
+						{details ? (
+							<Row gutter={[16, 16]}>
+								<Col xl={8} lg={8} md={8} sm={24} xs={24}>
+									<PageStats
+										title="Available bed"
+										value={details.availableBeds}
+									/>
+								</Col>
+								<Col xl={8} lg={8} md={8} sm={24} xs={24}>
+									<PageStats
+										title="Occupied bed"
+										value={details.occupiedBeds}
+									/>
+								</Col>
+								<Col xl={8} lg={8} md={8} sm={24} xs={24}>
+									<PageStats
+										title="Reserved bed"
+										value={details.reservedBeds}
+									/>
+								</Col>
+							</Row>
+						) : null}
+
 						<Card>
 							<p
 								style={{

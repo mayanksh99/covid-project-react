@@ -211,6 +211,21 @@ export const getPatientByHospitalService = async id => {
 	}
 };
 
+export const getPatientByHospitalParamService = async (id, params) => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_PATIENT_BY_HOSPITAL}/${id}`, {
+			params
+		});
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
 /******************AMBULANCE ADMIN SERVICES********************/
 
 export const getAmbOperatorService = async () => {

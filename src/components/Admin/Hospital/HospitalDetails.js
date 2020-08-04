@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Card, Button, Table, Skeleton } from "antd";
+import { Row, Col, Card, Button, Table, Skeleton, Input } from "antd";
 import UpdatePatientReport from "./UpdatePatientReport";
 import PageTitle from "./../../common/PageTitle";
 import { _notification } from "../../../utils/_helper";
-import { getHospitalByParamsServices } from "../../../utils/services";
+import {
+	getHospitalByParamsServices,
+	getPatientByHospitalParamService
+} from "../../../utils/services";
 import PageStats from "../../common/PageStats";
 import ProfileDetails from "../../common/ProfileDetails";
 import { getPatientByHospitalService } from "./../../../utils/services";
@@ -36,7 +39,6 @@ const HospitalDetails = props => {
 				const res = await getPatientByHospitalService(
 					props.match.params.id
 				);
-				console.log(res);
 				setPatients(res.data.patients);
 				setIsLoading(false);
 			} catch (err) {
@@ -48,6 +50,22 @@ const HospitalDetails = props => {
 
 	const handleModal = value => {
 		setShowModal(value);
+	};
+
+	const handleQuery = async val => {
+		setIsLoading(true);
+		try {
+			let params = { search: val };
+			const res = await getPatientByHospitalParamService(
+				props.match.params.id,
+				params
+			);
+			setPatients(res.data.patients);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
 	};
 
 	const columns = [
@@ -205,6 +223,18 @@ const HospitalDetails = props => {
 								</Col>
 							</Row>
 						) : null}
+						<Row>
+							<Col span={12}>
+								<Input.Search
+									className="input-field"
+									type="text"
+									style={{ width: 200, marginBottom: 12 }}
+									placeholder="Search"
+									allowClear
+									onSearch={value => handleQuery(value)}
+								/>
+							</Col>
+						</Row>
 
 						<Card>
 							<p
@@ -227,6 +257,7 @@ const HospitalDetails = props => {
 									columns={columns}
 									dataSource={data}
 									pagination={{ position: ["bottomCenter"] }}
+									loading={isLoading}
 								/>
 							</div>
 						</Card>

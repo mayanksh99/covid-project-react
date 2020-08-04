@@ -10,12 +10,16 @@ import {
 import PageStats from "../../common/PageStats";
 import ProfileDetails from "../../common/ProfileDetails";
 import { getPatientByHospitalService } from "./../../../utils/services";
+import UpdateProfile from "./UpdateProfile";
 
 const HospitalDetails = props => {
 	const [patients, setPatients] = useState(null);
 	const [showModal, setShowModal] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [details, setDetails] = useState(null);
+	const [patientData, setPatientData] = useState(null);
+	const [showProfile, setShowProfile] = useState(false);
+	const [refresh, setRefresh] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -30,7 +34,7 @@ const HospitalDetails = props => {
 				setIsLoading(false);
 			}
 		})();
-	}, [props.match.params.id]);
+	}, [props.match.params.id, refresh]);
 
 	useEffect(() => {
 		(async () => {
@@ -48,7 +52,8 @@ const HospitalDetails = props => {
 		})();
 	}, [props.match.params.id]);
 
-	const handleModal = value => {
+	const handleModal = (value, data) => {
+		setPatientData(data);
 		setShowModal(value);
 	};
 
@@ -91,14 +96,13 @@ const HospitalDetails = props => {
 		},
 		{
 			title: "Action",
-			dataIndex: "action",
 			key: "action",
-			render: () => (
+			render: data => (
 				<>
 					<Button
 						type="primary"
 						className="login-form-button ambulance-button"
-						onClick={() => handleModal(true)}
+						onClick={() => handleModal(true, data)}
 					>
 						Update Report
 					</Button>
@@ -191,6 +195,9 @@ const HospitalDetails = props => {
 												type="primary"
 												className="login-form-button"
 												block
+												onClick={() =>
+													setShowProfile(true)
+												}
 											>
 												Edit Profile
 											</Button>
@@ -267,6 +274,14 @@ const HospitalDetails = props => {
 			<UpdatePatientReport
 				visible={showModal}
 				handleModal={handleModal}
+				patientData={patientData}
+			/>
+			<UpdateProfile
+				visible={showProfile}
+				handleModal={setShowProfile}
+				details={details}
+				refresh={refresh}
+				setRefresh={setRefresh}
 			/>
 		</div>
 	);

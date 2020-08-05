@@ -20,10 +20,11 @@ import {
 	searchAdmittedPatientsService
 } from "../../utils/services";
 
+const { Option } = Select;
+const { TextArea } = Input;
+
 const UpdateDailyReport = props => {
 	const userData = useState(getRole());
-	const { Option } = Select;
-	const { TextArea, Search } = Input;
 	const [isVisible, setIsVisible] = useState(false);
 	const [rowData, setrowData] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
@@ -61,7 +62,7 @@ const UpdateDailyReport = props => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [refresh]);
+	}, [refresh,userData]);
 
 	const handleQuery = async val => {
 		setIsLoading(true);
@@ -81,7 +82,6 @@ const UpdateDailyReport = props => {
 
 	const onFinish = async values => {
 		setIsLoading(true);
-		console.log(values);
 		try {
 			const rawdata = {
 				pid: rowData.key,
@@ -211,12 +211,12 @@ const UpdateDailyReport = props => {
 
 			<Table
 				size="middle"
+				loading={isLoading}
 				title={() => "List of Patients"}
 				columns={columns}
 				bordered={true}
 				dataSource={data}
 				pagination={{ position: ["none", "bottomCenter"] }}
-				loading={isLoading}
 				onRow={(record, rowIndex) => {
 					return {
 						onClick: event => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getRole, _notification } from "./../../utils/_helper";
-import { Row, Col, Form, Input, Button, Modal } from "antd";
+import { Row, Col, Form, Input, Button, Modal, Upload } from "antd";
 import { Spin } from "antd";
 import { changePassword, addAmbulance } from "../../utils/services";
 import PageTitle from "../common/PageTitle";
@@ -8,12 +8,16 @@ import {
 	PushpinOutlined,
 	PhoneOutlined,
 	UserOutlined,
-	NumberOutlined
+	NumberOutlined,
+	UploadOutlined
 } from "@ant-design/icons";
 import "./style.css";
 
 const AmbAdminProfile = () => {
+	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
+	console.log(AUTH_TOKEN);
 	const userData = useState(getRole());
+	console.log(userData);
 	const [form1] = Form.useForm();
 	const [form2] = Form.useForm();
 	const [isVisible, setIsVisible] = useState(false);
@@ -47,6 +51,28 @@ const AmbAdminProfile = () => {
 		} catch (err) {
 			setIsSpinning(false);
 			_notification("warning", "Error", err.message);
+		}
+	};
+
+	const props = {
+		name: "file",
+		action: `https://covid-project-gzb.herokuapp.com/api/v1/ambulances/bulk/${userData[0].id}`,
+		headers: {
+			"x-auth-token": `${AUTH_TOKEN.token}`
+		},
+		onChange(info) {
+			// if (info.file.status !== "uploading") {
+			// 	console.log(info.file, info.fileList);
+			// }
+			if (info.file.status === "done") {
+				_notification("success", "Error", "Successfully uploaded !");
+			} else if (info.file.status === "error") {
+				_notification(
+					"error",
+					"Error",
+					"Upload failed. Please try again later !"
+				);
+			}
 		}
 	};
 
@@ -220,7 +246,14 @@ const AmbAdminProfile = () => {
 						style={{ width: "15%" }}
 					>
 						Add Ambulance
-					</Button>
+					</Button>{" "}
+					or add in bulk via{" "}
+					<Upload accept=".csv" {...props}>
+						<Button>
+							<UploadOutlined />
+							Upload CSV
+						</Button>
+					</Upload>
 				</div>
 			</Spin>
 

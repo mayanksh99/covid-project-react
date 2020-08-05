@@ -20,6 +20,7 @@ export const GET_DOCTORS = "/doctors"; //GET
 export const ADD_DOCTOR = "/doctors"; //POST
 export const DOCTOR_PROFILE = "/doctors/profile"; //GET
 export const PATIENT_UNDER_DOCTOR = "/doctors/patients/examined"; //GET
+export const UPDATE_DOCTOR = "/doctors"; //PUT
 
 /******************HOSPITAL ADMIN ROUTES********************/
 export const GET_HOSPITALS = "/hospitals"; //GET

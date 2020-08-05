@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PageTitle from "../../common/PageTitle";
-import { Row, Col, Card, Table, Avatar, Skeleton } from "antd";
+import { Row, Col, Card, Table, Avatar, Skeleton, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import {
 	getDoctorProfileService,
@@ -8,14 +8,17 @@ import {
 	getExaminedPatientService
 } from "../../../utils/services";
 import { _notification } from "../../../utils/_helper";
-import ProfileDetails from "./../../common/ProfileDetails";
+import ProfileDetails from "../../common/ProfileDetails";
 import PageStats from "../../common/PageStats";
+import UpdateDoctorProfile from "./UpdateDoctorProfile";
 
 const DoctorDetail = props => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [detail, setDetail] = useState(null);
 	const [count, setCount] = useState(null);
 	const [patients, setPatients] = useState(null);
+	const [showModal, setShowModal] = useState(false);
+	const [refresh, setRefresh] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -44,7 +47,7 @@ const DoctorDetail = props => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [props.match.params.id]);
+	}, [props.match.params.id, refresh]);
 
 	useEffect(() => {
 		(async () => {
@@ -60,6 +63,10 @@ const DoctorDetail = props => {
 			}
 		})();
 	}, [props.match.params.id]);
+
+	const handleModal = value => {
+		setShowModal(value);
+	};
 
 	const columns = [
 		{
@@ -187,14 +194,16 @@ const DoctorDetail = props => {
 										/>
 									</>
 								) : null}
-								{/* <Button
-								type="primary"
-								className="login-form-button"
-								style={{ float: "right" }}
-								// onClick={() => handleModal(true)}
-							>
-								
-							</Button> */}
+								<Col span={24}>
+									<Button
+										type="primary"
+										className="login-form-button"
+										block
+										onClick={() => handleModal(true)}
+									>
+										Edit Profile
+									</Button>
+								</Col>
 							</Skeleton>
 						</Card>
 					</Col>
@@ -249,7 +258,15 @@ const DoctorDetail = props => {
 					</Col>
 				</Row>
 			</div>
-			{/* <AddAmbulance visible={showModal} handleModal={handleModal} /> */}
+			<UpdateDoctorProfile
+				visible={showModal}
+				handleModal={handleModal}
+				detail={detail}
+				loading={isLoading}
+				did={props.match.params.id}
+				refresh={refresh}
+				setRefresh={setRefresh}
+			/>
 		</div>
 	);
 };

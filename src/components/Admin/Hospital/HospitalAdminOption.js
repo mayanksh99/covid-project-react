@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Skeleton } from "antd";
-import AddHospitalAdmin from "./AddHospitalAdmin";
+import AddHospital from "./AddHospital";
 import PageStats from "../../common/PageStats";
 
 const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
@@ -145,7 +145,7 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 					</Col>
 				</Row>
 			</Skeleton>
-			<AddHospitalAdmin
+			<AddHospital
 				visible={showModal}
 				handleModal={handleModal}
 				refresh={refresh}

@@ -1,8 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Button, Modal, Table, Statistic, Row, Col, Select, Spin } from "antd";
+import {
+	Button,
+	Modal,
+	Table,
+	Statistic,
+	Row,
+	Col,
+	Select,
+	Spin,
+	Typography
+} from "antd";
 import io from "socket.io-client";
 import { getRole } from "./../../utils/_helper";
-import { EditOutlined } from "@ant-design/icons";
 import PageTitle from "../common/PageTitle";
 import { _notification } from "../../utils/_helper";
 import { AuthContext } from "../../contexts/userContext";
@@ -10,12 +19,13 @@ import {
 	getAllAvailableAmbulanceUnder,
 	getAllAmbulanceUnder,
 	startAttentPatientForAmbulance,
-	allotAmbulanceForPatient
+	allotAmbulanceForPatient,
+	updateAmb
 } from "../../utils/services";
 import "./style.css";
 
 const AssignAmbulance = () => {
-	// let socket;
+	const { Paragraph } = Typography;
 	const userData = useState(getRole());
 	const Data = useContext(AuthContext);
 	const [patient, setPatient] = useState(null);
@@ -24,18 +34,25 @@ const AssignAmbulance = () => {
 	const [isSpinning, setIsSpinning] = useState(false);
 	const { Option } = Select;
 	const [isVisible, setIsVisible] = useState(false);
-	const [rowData, setRowData] = useState(null);
+	const [refresh, setRefresh] = useState(false);
+	const [modalData, setModalData] = useState(null);
 	const [ambulance, setAmbulance] = useState(null);
-	const [selectedId, setSelectedId] = useState("");
-	const [totalAmbulance, setTotalAmbulance] = useState("");
+	const [selectedId, setSelectedId] = useState(null);
+	const [totalAmbulance, setTotalAmbulance] = useState(null);
 	const [options, setOptions] = useState(null);
 	const [assignSpin, setAssignSpin] = useState(false);
+	const [driverDetails, setDriverDetails] = useState(null);
+	const [newDriverName, setNewDriverName] = useState(null);
+	const [newDriverPhone, setNewDriverPhone] = useState(null);
+	// const [showUpdateButton, setShowUpdateButton] = useState(null);
 
 	const handleChange = value => {
 		setSelectedId(value);
 	};
 
 	const handleCancel = () => {
+		setSelectedId(null);
+		setRefresh(!refresh);
 		setIsVisible(!isVisible);
 	};
 
@@ -56,10 +73,12 @@ const AssignAmbulance = () => {
 			try {
 				const res = await allotAmbulanceForPatient(
 					selectedId,
-					rowData.key
+					modalData.key
 				);
 				if (res.message === "success" && res.error === false) {
+					setRefresh(!refresh);
 					setAssignSpin(false);
+					setSelectedId(null);
 					setIsVisible(!isVisible);
 					_notification(
 						"success",
@@ -74,10 +93,11 @@ const AssignAmbulance = () => {
 		})();
 	};
 
-	const showModal = async () => {
+	const showModal = async data => {
+		setModalData(data);
 		setIsSpinning(true);
 		try {
-			const res = await startAttentPatientForAmbulance(rowData.key);
+			const res = await startAttentPatientForAmbulance(data.key);
 			if (res.message === "success" && res.error === false) {
 				setIsSpinning(false);
 				setIsVisible(!isVisible);
@@ -88,6 +108,70 @@ const AssignAmbulance = () => {
 		}
 	};
 
+	const updateAmbulance = async () => {
+		setAssignSpin(true);
+		const updatedData = {
+			name: newDriverName,
+			contact: newDriverPhone
+		};
+		try {
+			const res = await updateAmb(updatedData, driverDetails[0]._id);
+			console.log(res);
+			if (res.res.message === "success" && res.res.error === false) {
+				setAssignSpin(false);
+				_notification(
+					"success",
+					"Error",
+					"Details updated successfully !"
+				);
+			}
+		} catch (err) {
+			setAssignSpin(false);
+			_notification("warning", "Error", err.message);
+		}
+	};
+
+	const handleNameChange = str => {
+		setNewDriverName(str);
+	};
+
+	const handlePhoneChange = str => {
+		setNewDriverPhone(str);
+	};
+
+	useEffect(() => {
+		setDriverDetails(
+			selectedId !== null
+				? ambulance
+					? ambulance.filter(amb => amb._id === selectedId)
+					: null
+				: null
+		);
+	}, [selectedId]);
+	useEffect(() => {
+		setNewDriverName(driverDetails ? driverDetails[0].driver.name : null);
+		setNewDriverPhone(
+			driverDetails ? driverDetails[0].driver.contact : null
+		);
+	}, [driverDetails]);
+
+	// useEffect(() => {
+	// 	console.log(driverDetails);
+	// 	console.log(newDriverName);
+	// 	console.log(newDriverPhone);
+
+	// 	setShowUpdateButton(
+	// 		(driverDetails
+	// 			? driverDetails[0].driver.name
+	// 			: null !== newDriverName) &&
+	// 			(driverDetails
+	// 				? driverDetails[0].driver.contact
+	// 				: null !== newDriverPhone) ? (
+	// 			<Button>Update</Button>
+	// 		) : null
+	// 	);
+	// }, []);
+	// console.log(showUpdateButton);
 	const data = patient
 		? patient.map((patient, i) => {
 				return {
@@ -130,8 +214,8 @@ const AssignAmbulance = () => {
 		{
 			title: "Action",
 			key: "assign",
-			render: () => (
-				<Button type="primary" onClick={showModal}>
+			render: data => (
+				<Button type="primary" onClick={() => showModal(data)}>
 					Assign ambulance
 				</Button>
 			)
@@ -148,20 +232,21 @@ const AssignAmbulance = () => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, []);
+	}, [refresh]);
 
 	useEffect(() => {
 		(async () => {
 			try {
 				const res = await getAllAvailableAmbulanceUnder(userData[0].id);
 				setAmbulance(res.res.data.ambulances);
+
 				setAvailableAmbulance(res.res.data.totalResults);
 			} catch (err) {
 				setIsLoading(false);
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, []);
+	}, [refresh]);
 
 	useEffect(() => {
 		setOptions(
@@ -173,7 +258,7 @@ const AssignAmbulance = () => {
 				  ))
 				: null
 		);
-	}, [ambulance]);
+	}, [ambulance, refresh]);
 
 	return (
 		<div className="container">
@@ -195,13 +280,6 @@ const AssignAmbulance = () => {
 					columns={tableColumns}
 					dataSource={data}
 					pagination={{ position: ["none", "bottomCenter"] }}
-					onRow={(record, rowIndex) => {
-						return {
-							onClick: event => {
-								setRowData(record);
-							}
-						};
-					}}
 				/>
 			</Spin>
 			<Modal
@@ -210,39 +288,50 @@ const AssignAmbulance = () => {
 						Patient Details
 					</h3>
 				}
+				destroyOnClose={true}
 				visible={isVisible}
 				onCancel={handleCancel}
 				width={800}
 				centered
 				footer={null}
 			>
-				<Spin tip="Assigning Ambulance..." spinning={assignSpin}>
+				<Spin tip="Processing Details..." spinning={assignSpin}>
 					<Row>
 						<Col span={4}>Name</Col>
-						<Col span={6}>{rowData ? rowData.name : null}</Col>
+						<Col span={6}>{modalData ? modalData.name : null}</Col>
 						<Col span={6}>ID</Col>
-						<Col span={8}>{rowData ? rowData.caseid : null}</Col>
+						<Col span={8}>
+							{modalData ? modalData.caseid : null}
+						</Col>
 					</Row>
 					<Row>
 						<Col span={4}>Gender</Col>
-						<Col span={6}>{rowData ? rowData.gender : null}</Col>
+						<Col span={6}>
+							{modalData ? modalData.gender : null}
+						</Col>
 						<Col span={6}>Age</Col>
-						<Col span={8}>{rowData ? rowData.age : null} yrs</Col>
+						<Col span={8}>
+							{modalData ? modalData.age : null} yrs
+						</Col>
 					</Row>
 					<Row>
 						<Col span={4}>Phone</Col>
-						<Col span={6}>{rowData ? rowData.phone : null}</Col>
+						<Col span={6}>{modalData ? modalData.phone : null}</Col>
 						<Col span={6}>Hospital Address</Col>
 						<Col span={8}>
-							{rowData ? rowData.hospitalName : null},{" "}
-							{rowData ? rowData.hospitalAddress : null}
+							{modalData ? modalData.hospitalName : null},{" "}
+							{modalData ? modalData.hospitalAddress : null}
 						</Col>
 					</Row>
 					<Row>
 						<Col span={4}>District</Col>
-						<Col span={6}>{rowData ? rowData.district : null}</Col>
+						<Col span={6}>
+							{modalData ? modalData.district : null}
+						</Col>
 						<Col span={6}>Patient Address</Col>
-						<Col span={8}>{rowData ? rowData.address : null}</Col>
+						<Col span={8}>
+							{modalData ? modalData.address : null}
+						</Col>
 					</Row>
 					<Row className="second-segment">
 						<Col span={6}>Assign Ambulance</Col>
@@ -256,25 +345,30 @@ const AssignAmbulance = () => {
 							</Select>
 						</Col>
 					</Row>
-					<Row>
+					<Row style={{ marginTop: "17px" }}>
 						<Col span={6}>Driver Name</Col>
 						<Col className="ml-11">
-							Dayanand Tiwari
-							<EditOutlined
-								className="ml-11"
-								style={{ cursor: "pointer" }}
-							/>
+							<Paragraph
+								editable={{ onChange: handleNameChange }}
+							>
+								{`${newDriverName ? newDriverName : ""}`}
+							</Paragraph>
 						</Col>
 					</Row>
 					<Row>
 						<Col span={6}>Driver Phone</Col>
 						<Col className="ml-11">
-							+91-xxxxxxxxxx
-							<EditOutlined
-								className="ml-11"
-								style={{ cursor: "pointer" }}
-							/>
+							<Paragraph
+								editable={{ onChange: handlePhoneChange }}
+							>
+								{`${newDriverPhone ? newDriverPhone : ""}`}
+							</Paragraph>
 						</Col>
+					</Row>
+					<Row>
+						<Button type="primary" onClick={updateAmbulance}>
+							Update
+						</Button>
 					</Row>
 					<Row
 						style={{

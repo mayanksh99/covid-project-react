@@ -38,7 +38,6 @@ import {
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 export const EndPoint = "https://covid-project-gzb.herokuapp.com";
 axios.defaults.baseURL = BASE_URL;
-
 function setUserToken() {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
 	if (AUTH_TOKEN.token !== "") {
@@ -73,7 +72,7 @@ export async function getAllAmbulanceUnder(id) {
 		const config = {
 			params: {
 				aoid: `${id}`,
-				perPage: 20
+				perPage: 200
 			}
 		};
 		const response = await axios.get(AMBULANCEUNDER, config);
@@ -95,7 +94,7 @@ export async function getAllAvailableAmbulanceUnder(id) {
 			params: {
 				aoid: `${id}`,
 				status: "available",
-				perPage: 20
+				perPage: 200
 			}
 		};
 		const response = await axios.get(AMBULANCEUNDER, config);
@@ -191,6 +190,21 @@ export async function updateStatus(newStatus, id) {
 		const response = await axios.put(`${UPDATESTATUS}/${id}`, {
 			status: `${newStatus}`
 		});
+		if (response.status === 200 && response.data.error === false) {
+			return {
+				res: response.data
+			};
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+}
+
+export async function updateAmb(data, id) {
+	setUserToken();
+	try {
+		const response = await axios.put(`${UPDATESTATUS}/${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return {
 				res: response.data

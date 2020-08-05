@@ -48,7 +48,7 @@ const AssignAmbulance = () => {
 			setIsLoading(false);
 		});
 		socket.emit("patientsPoolForAmbulance", { token: Data.token });
-	}, [EndPoint]);
+	}, [EndPoint, Data.token]);
 
 	const handleOk = () => {
 		setAssignSpin(true);
@@ -148,7 +148,7 @@ const AssignAmbulance = () => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, []);
+	}, [userData]);
 
 	useEffect(() => {
 		(async () => {
@@ -161,7 +161,7 @@ const AssignAmbulance = () => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, []);
+	}, [userData]);
 
 	useEffect(() => {
 		setOptions(

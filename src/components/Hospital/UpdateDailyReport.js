@@ -62,7 +62,7 @@ const UpdateDailyReport = props => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [refresh,userData]);
+	}, [refresh, userData]);
 
 	const handleQuery = async val => {
 		setIsLoading(true);

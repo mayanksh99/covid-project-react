@@ -1,54 +1,63 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Skeleton, Form, Input, Button, Radio, InputNumber } from "antd";
+import { Modal, Skeleton, Form, Input, InputNumber, Button } from "antd";
 import { _notification } from "../../../utils/_helper";
-import { updateHospitalService } from "../../../utils/services";
+import { updateDoctorService } from "../../../utils/services";
 
-const UpdateProfile = props => {
+const { TextArea } = Input;
+
+const UpdateDoctorProfile = ({
+	visible,
+	handleModal,
+	detail,
+	loading,
+	did,
+	refresh,
+	setRefresh
+}) => {
 	const [form] = Form.useForm();
 	const [isLoading, setIsLoading] = useState(false);
-	const [isBtnLoading, setIsBtnLoading] = useState(false);
 
 	useEffect(() => {
-		setIsLoading(true);
-		if (props.details) {
+		if (detail) {
+			let { name, age, about, contact, address, hospital } = detail;
 			form.setFieldsValue({
-				name: props.details.name,
-				totalBeds: props.details.totalBeds,
-				address: props.details.address,
-				contact: props.details.contact,
-				category: props.details.category
+				name,
+				age,
+				address,
+				about,
+				contact,
+				hospital
 			});
-			setIsLoading(false);
 		}
-	}, [props.details, form]);
+	}, [detail, form]);
 
 	const onFinish = async values => {
-		setIsBtnLoading(true);
+		setIsLoading(true);
 		try {
-			const res = await updateHospitalService(props.details._id, values);
+			const formData = new FormData();
+			formData.append("name", values.name);
+			formData.append("age", values.age);
+			formData.append("contact", values.contact);
+			formData.append("address", values.address);
+			formData.append("hospital", values.hospital);
+			formData.append("about", values.about);
+			const res = await updateDoctorService(did, formData);
 			if (res.error) {
 				_notification("error", "Error", res.message);
-				setIsBtnLoading(false);
+				setIsLoading(false);
 			} else if (res.message === "success") {
 				_notification(
 					"success",
 					"Success",
-					"Hospital update successfully"
+					"Profile update successfully"
 				);
-				props.setRefresh(!props.refresh);
-				props.handleModal(false);
-				form.setFieldsValue({
-					name: "",
-					contact: "",
-					address: "",
-					totalBeds: "",
-					category: ""
-				});
 			}
-			setIsBtnLoading(false);
+			setRefresh(!refresh);
+			handleModal(false);
+			setIsLoading(false);
 		} catch (err) {
 			_notification("error", "Error", err.message);
-			setIsBtnLoading(false);
+			setIsLoading(false);
 		}
 	};
 
@@ -66,13 +75,13 @@ const UpdateProfile = props => {
 						Update Hospital
 					</h3>
 				}
-				visible={props.visible}
-				onCancel={() => props.handleModal(!props.visible)}
+				visible={visible}
+				onCancel={() => handleModal(!visible)}
 				footer={null}
 				width={400}
 				style={{ top: 50 }}
 			>
-				<Skeleton loading={isLoading} active>
+				<Skeleton loading={loading} active>
 					<Form
 						form={form}
 						layout="vertical"
@@ -96,22 +105,28 @@ const UpdateProfile = props => {
 								placeholder="Enter name"
 							/>
 						</Form.Item>
+
 						<Form.Item
-							name="category"
-							label="Category"
+							name="age"
+							label="Age"
 							rules={[
 								{
 									required: true,
-									message: "Please select category!"
+									message: "Please input age!"
 								}
 							]}
 						>
-							<Radio.Group>
-								<Radio value="l1">L1</Radio>
-								<Radio value="l2">L2</Radio>
-								<Radio value="l3">L3</Radio>
-							</Radio.Group>
+							<InputNumber
+								style={{ width: "100%" }}
+								className="input-field"
+								placeholder="Enter age"
+							/>
 						</Form.Item>
+
+						<Form.Item name="about" label="About me">
+							<TextArea rows={4} />
+						</Form.Item>
+
 						<Form.Item
 							name="address"
 							label="Address"
@@ -143,20 +158,20 @@ const UpdateProfile = props => {
 								placeholder="Enter contact no."
 							/>
 						</Form.Item>
+
 						<Form.Item
-							name="totalBeds"
-							label="Total Beds"
+							name="hospital"
+							label="Hospital"
 							rules={[
 								{
 									required: true,
-									message: "Please input total beds!"
+									message: "Please input hospital!"
 								}
 							]}
 						>
-							<InputNumber
-								style={{ width: "100%" }}
+							<Input
 								className="input-field"
-								placeholder="Enter beds"
+								placeholder="Enter hospital"
 							/>
 						</Form.Item>
 
@@ -166,7 +181,7 @@ const UpdateProfile = props => {
 								htmlType="submit"
 								className="login-form-button"
 								block
-								loading={isBtnLoading}
+								loading={isLoading}
 							>
 								Submit
 							</Button>
@@ -178,4 +193,4 @@ const UpdateProfile = props => {
 	);
 };
 
-export default UpdateProfile;
+export default UpdateDoctorProfile;

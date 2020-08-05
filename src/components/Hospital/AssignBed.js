@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
-import {
-	Table,
-	Statistic,
-	Row,
-	Col,
-	Button,
-	Input,
-	Modal,
-	Form,
-	Spin
-} from "antd";
+import { Table, Statistic, Row, Col, Button, Input, Modal, Form } from "antd";
 import PageTitle from "../common/PageTitle";
 import {
 	getPatientDetails,
@@ -29,7 +19,7 @@ const AssignBed = () => {
 	const [number, setNumber] = useState("");
 	const [form] = Form.useForm();
 	// const [isSpinning, setIsSpinning] = useState(false);
-	const [assignSpin, setAssignSpin] = useState(false);
+	// const [assignSpin, setAssignSpin] = useState(false);
 	//const EndPoint = "https://covid-project-gzb.herokuapp.com";
 	useEffect(() => {
 		(async () => {
@@ -39,14 +29,13 @@ const AssignBed = () => {
 				const res = await getPatientDetails(userData[0].id);
 				setNumber(res.data.totalResults);
 				setPatients(res.data.patients);
-				console.log(res);
 				setIsLoading(false);
 				// setIsSpinning(false);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [refresh]);
+	}, [refresh, userData]);
 
 	const showModal = () => {
 		setIsVisible(!isVisible);

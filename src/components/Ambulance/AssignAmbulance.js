@@ -65,7 +65,7 @@ const AssignAmbulance = () => {
 			setIsLoading(false);
 		});
 		socket.emit("patientsPoolForAmbulance", { token: Data.token });
-	}, [EndPoint]);
+	}, [EndPoint, Data.token]);
 
 	const handleOk = () => {
 		setAssignSpin(true);
@@ -147,7 +147,7 @@ const AssignAmbulance = () => {
 					: null
 				: null
 		);
-	}, [selectedId]);
+	}, [selectedId, ambulance]);
 	useEffect(() => {
 		setNewDriverName(driverDetails ? driverDetails[0].driver.name : null);
 		setNewDriverPhone(
@@ -232,7 +232,7 @@ const AssignAmbulance = () => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [refresh]);
+	}, [userData, refresh]);
 
 	useEffect(() => {
 		(async () => {
@@ -246,7 +246,7 @@ const AssignAmbulance = () => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [refresh]);
+	}, [userData, refresh]);
 
 	useEffect(() => {
 		setOptions(

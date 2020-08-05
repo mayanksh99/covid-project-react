@@ -13,6 +13,7 @@ const AddAmbulanceAdmin = props => {
 			const res = await addAmbOperatorService(values);
 			if (res.error) {
 				_notification("error", "Error", res.message);
+				setIsLoading(false);
 			} else if (res.message === "success") {
 				_notification(
 					"success",
@@ -76,7 +77,7 @@ const AddAmbulanceAdmin = props => {
 						/>
 					</Form.Item>
 					<Form.Item
-						name="phone"
+						name="contact"
 						label="Phone"
 						rules={[
 							{

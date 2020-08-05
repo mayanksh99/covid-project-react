@@ -37,7 +37,7 @@ const AmbulanceStatus = () => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [refresh]);
+	}, [refresh, userData]);
 	const handleOk = async () => {
 		setIsSpinning(true);
 		try {

@@ -24,7 +24,7 @@ import HospitalAdmin from "./../Admin/Hospital/HospitalAdmin";
 import DoctorAdmin from "./../Admin/Doctor/DoctorAdmin";
 import AdminList from "./../Admin/AdminList";
 import PatientList from "./../Admin/PatientList";
-import DoctorDetail from "../Admin/Doctor/DoctorAdminDetail";
+import DoctorDetail from "../Admin/Doctor/DoctorDetail";
 import DoctorEditProfile from "../Doctor/DoctorEditProfile";
 import UnassignedPatients from "../Doctor/UnassignedPatients";
 import DeclinedPatient from "./../Doctor/DeclinedPatient";

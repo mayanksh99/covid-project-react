@@ -14,7 +14,9 @@ import {
 	ATTEND_PATIENT,
 	ASSIGN_LEVEL,
 	UNASSIGNED_PATIENT,
-	DECLINED_PATIENT
+	DECLINED_PATIENT,
+	GET_PATIENT_DETAILS,
+	ASSIGN_BED
 } from "./routes";
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
@@ -234,6 +236,45 @@ export const getDeclinedPatientService = async () => {
 		} else return response.data;
 	} catch (err) {
 		console.log(err.response);
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+/**************************HOSPITAL SERVICES**************/
+
+export async function getPatientDetails(id) {
+	try {
+		setUserToken();
+		const response = await axios.get(`${GET_PATIENT_DETAILS}/${id}`);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+}
+
+export const assignPatientBed = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.post(`${ASSIGN_BED}/${id}`, data);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const searchPatients = async (id, params) => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_PATIENT_DETAILS}/${id}`, {
+			params
+		});
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
 	}

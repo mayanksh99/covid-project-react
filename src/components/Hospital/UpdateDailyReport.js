@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
 import {
 	Table,
@@ -11,12 +11,15 @@ import {
 	Select,
 	Rate
 } from "antd";
-// import { AudioOutlined } from "@ant-design/icons";
+
 import PageTitle from "../common/PageTitle";
 
 const { Option } = Select;
 const { TextArea } = Input;
+
 const UpdateDailyReport = () => {
+	const [isLoading, setIsLoading] = useState(false);
+
 	const [isVisible, setIsVisible] = useState(false);
 	const [setSelectedOption] = useState("");
 
@@ -36,15 +39,6 @@ const UpdateDailyReport = () => {
 		setIsVisible(!isVisible);
 	};
 	const { Search } = Input;
-
-	// const suffix = (
-	// 	<AudioOutlined
-	// 		style={{
-	// 			fontSize: 16,
-	// 			color: "#1890ff"
-	// 		}}
-	// 	/>
-	// );
 
 	const columns = [
 		{
@@ -81,13 +75,11 @@ const UpdateDailyReport = () => {
 			)
 		}
 	];
-
 	const data = [];
 
-	for (let i = 0; i < 7; i++) {
+	for (let i = 0; i < 8; i++) {
 		data.push({
 			key: i,
-			id: `${i}`,
 			name: `Edward King ${i}`,
 			severity: "L2",
 			gender: `Male`,
@@ -127,6 +119,7 @@ const UpdateDailyReport = () => {
 
 			<Table
 				size="middle"
+				loading={isLoading}
 				title={() => "List of Patients"}
 				columns={columns}
 				bordered={true}

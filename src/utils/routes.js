@@ -22,15 +22,31 @@ export const ADD_DOCTOR = "/doctors"; //POST
 /******************HOSPITAL ADMIN ROUTES********************/
 export const GET_HOSPITALS = "/hospitals"; //GET
 export const ADD_HOSPITAL = "/hospitals"; //POST
+export const GET_PATIENT_BY_HOSPITAL = "/hospitals/patients/admitted"; //GET
+export const UPDATE_HOSPITAL = "/hospitals"; //PUT
+export const ADD_PATIENT_REPORT = "/hospitals/report"; //POST
 
 /******************AMBULANCE ADMIN ROUTES********************/
 export const GET_AMBULANCES = "/ambulances"; //GET
 export const GET_AMBULANCE_OPERATOR = "/ambulances/operator"; //GET
 export const ADD_AMBULANCE_OPERATOR = "/ambulances/operator"; //POST
+export const DEL_AMBULANCE = "/ambulances/delete"; //DEL
+export const UPDATE_AMBULANCE = "/ambulances/update"; //PUT
 
 /******************DOCTOR ROUTES********************/
 export const ATTEND_PATIENT = "/doctors/patients/attend"; //POST
 export const ASSIGN_LEVEL = "/doctors/patients/level"; //POST
+export const UPDATE_PROFILE = "/doctors"; //POST
+
+/******************HOSPITAL ROUTES***********************/
+export const GET_ADMITTED_PATIENTS = "/hospitals/patients/admitted"; //GET
+export const ADD_REPORT = "hospitals/report"; //POST
+
 export const UNASSIGNED_PATIENT = "/doctors/patients/unassigned"; //GET
 export const DECLINED_PATIENT = "/doctors/patients/declined"; //GET
-export const UPDATE_PROFILE = "/doctors"; //POST
+
+/********************HOSPITAL ROUTES***************/
+
+export const GET_PATIENT_DETAILS = "/hospitals/patients/alloted"; //GET
+export const ASSIGN_BED = "/hospitals/admit"; //POST
+

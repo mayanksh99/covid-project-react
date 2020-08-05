@@ -19,16 +19,24 @@ import {
 	ALLOT_AMBULANCE_FOR_PATIENT,
 	ATTEND_PATIENT,
 	ASSIGN_LEVEL,
+	ADD_REPORT,
+	GET_ADMITTED_PATIENTS,
 	UNASSIGNED_PATIENT,
 	DECLINED_PATIENT,
+	GET_PATIENT_DETAILS,
+	ASSIGN_BED,
 	USER_PROFILE,
 	UPDATE_PROFILE,
-	GET_AMBULANCES
+	GET_AMBULANCES,
+	DEL_AMBULANCE,
+	UPDATE_AMBULANCE,
+	GET_PATIENT_BY_HOSPITAL,
+	UPDATE_HOSPITAL,
+	ADD_PATIENT_REPORT
 } from "./routes";
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 export const EndPoint = "https://covid-project-gzb.herokuapp.com";
-
 axios.defaults.baseURL = BASE_URL;
 function setUserToken() {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
@@ -236,6 +244,19 @@ export const addDoctorService = async data => {
 	}
 };
 
+export const searchDoctorService = async params => {
+	setUserToken();
+	try {
+		const response = await axios.get(GET_DOCTORS, { params });
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
 /*********************Change user password********************/
 
 export async function changePassword(values) {
@@ -332,6 +353,73 @@ export const addHospitalService = async data => {
 	}
 };
 
+export const getHospitalByParamsServices = async params => {
+	setUserToken();
+	try {
+		const response = await axios.get(GET_HOSPITALS, { params });
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getPatientByHospitalService = async id => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_PATIENT_BY_HOSPITAL}/${id}`);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getPatientByHospitalParamService = async (id, params) => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_PATIENT_BY_HOSPITAL}/${id}`, {
+			params
+		});
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const updateHospitalService = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.put(`${UPDATE_HOSPITAL}/${id}`, data);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const addPatientReportService = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.post(`${ADD_PATIENT_REPORT}/${id}`, data);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
 /******************AMBULANCE ADMIN SERVICES********************/
 
 export const getAmbOperatorService = async () => {
@@ -390,6 +478,32 @@ export const getOperatorAmbService = async params => {
 	setUserToken();
 	try {
 		const response = await axios.get(GET_AMBULANCES, { params });
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const delAmbulanceService = async id => {
+	setUserToken();
+	try {
+		const response = await axios.del(`${DEL_AMBULANCE}/${id}`);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const updateAmbulanceService = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.put(`${UPDATE_AMBULANCE}/${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -460,6 +574,83 @@ export const updateProfileService = async (id, data) => {
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+/*******************HOSPITAL SERVICES ******************/
+export const getadmittedPatientsService = async id => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_ADMITTED_PATIENTS}/${id}`);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const addReportService = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.post(`${ADD_REPORT}/${id}`, data);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+export const searchAdmittedPatientsService = async (id, params) => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_ADMITTED_PATIENTS}/${id}`, {
+			params
+		});
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+/**************************HOSPITAL SERVICES**************/
+
+export async function getPatientDetails(id) {
+	try {
+		setUserToken();
+		const response = await axios.get(`${GET_PATIENT_DETAILS}/${id}`);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+}
+
+export const assignPatientBed = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.post(`${ASSIGN_BED}/${id}`, data);
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const searchPatients = async (id, params) => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_PATIENT_DETAILS}/${id}`, {
+			params
+		});
+		if (response.status === 200 && response.data.error === false)
+			return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;

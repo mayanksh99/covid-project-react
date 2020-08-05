@@ -6,18 +6,24 @@ import {
 	Col,
 	Table,
 	Tag,
-	Select,
 	Button,
 	Statistic,
-	Skeleton
+	Skeleton,
+	Popconfirm,
+	Tooltip,
+	Input,
+	Select,
+	Divider
 } from "antd";
 import AddAmbulance from "./AddAmbulance";
-import PageTitle from "./../../common/PageTitle";
+import PageTitle from "../../common/PageTitle";
 import { _notification } from "../../../utils/_helper";
 import {
 	getOperatorAmbService,
 	searchAmbOperatorService
 } from "../../../utils/services";
+import { EditOutlined } from "@ant-design/icons";
+import AmbulanceUpdate from "./AmbulanceUpdate";
 
 const { Option } = Select;
 
@@ -27,6 +33,11 @@ const AmbulanceAdminDetails = props => {
 	const [ambulances, setAmbulances] = useState(null);
 	const [operator, setOperator] = useState(null);
 	const [count, setCount] = useState(null);
+	const [showUpdateModal, setShowUpdateModal] = useState(false);
+	const [ambulanceData, setAmbulanceData] = useState(null);
+	const [refresh, setRefresh] = useState(false);
+	const [status, setStatus] = useState(null);
+	const [search, setSearch] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -42,7 +53,7 @@ const AmbulanceAdminDetails = props => {
 				setIsLoading(false);
 			}
 		})();
-	}, [props.match.params.id]);
+	}, [props.match.params.id, refresh]);
 
 	useEffect(() => {
 		(async () => {
@@ -50,7 +61,6 @@ const AmbulanceAdminDetails = props => {
 			try {
 				let params = { aoid: props.match.params.id };
 				const res = await searchAmbOperatorService(params);
-				console.log(res.data.operators[0]);
 				setOperator(res.data.operators[0]);
 				setIsLoading(false);
 			} catch (err) {
@@ -62,6 +72,43 @@ const AmbulanceAdminDetails = props => {
 
 	const handleModal = value => {
 		setShowModal(value);
+	};
+
+	const handleUpdateModal = (value, data) => {
+		setShowUpdateModal(value);
+		setAmbulanceData(data);
+	};
+
+	const handleQuery = async val => {
+		setIsLoading(true);
+		setSearch(val);
+		try {
+			let params = {
+				aoid: props.match.params.id,
+				search: val,
+				status
+			};
+			const res = await getOperatorAmbService(params);
+			setAmbulances(res.data.ambulances);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
+
+	const handleStatus = async val => {
+		setIsLoading(true);
+		setStatus(val);
+		try {
+			let params = { aoid: props.match.params.id, status: val, search };
+			const res = await getOperatorAmbService(params);
+			setAmbulances(res.data.ambulances);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
 	};
 
 	const columns = [
@@ -80,6 +127,7 @@ const AmbulanceAdminDetails = props => {
 						<Tag color="green">{status}</Tag>
 					)}
 					{status === "onDuty" && <Tag color="orange">{status}</Tag>}
+					{status === "disabled" && <Tag color="red">{status}</Tag>}
 				</>
 			)
 		},
@@ -94,19 +142,25 @@ const AmbulanceAdminDetails = props => {
 			key: "contact"
 		},
 		{
+			title: "Pincode",
+			dataIndex: "pincode",
+			key: "pincode"
+		},
+		{
 			title: "Action",
-			dataIndex: "action",
 			key: "action",
 			render: action => (
 				<>
-					<Select
-						placeholder="select status"
-						defaultValue={action[1]}
-					>
-						<Option value="available">Available</Option>
-						<Option value="onDuty">On duty</Option>
-						<Option value="disable">Disable</Option>
-					</Select>
+					<Tooltip title="Update">
+						<Popconfirm
+							title="Do you want to update ambulance?"
+							onConfirm={() => handleUpdateModal(true, action)}
+							okText="Yes"
+							cancelText="No"
+						>
+							<EditOutlined style={{ color: "#F4B400" }} />
+						</Popconfirm>
+					</Tooltip>
 				</>
 			)
 		}
@@ -122,8 +176,7 @@ const AmbulanceAdminDetails = props => {
 					status,
 					pincode,
 					contact,
-					name,
-					action: [_id, status]
+					name
 				};
 		  })
 		: null;
@@ -131,7 +184,6 @@ const AmbulanceAdminDetails = props => {
 	return (
 		<div>
 			<PageTitle title="Ambulance" />
-
 			<AmbulanceAdminOption />
 			<div>
 				<h3 style={{ fontSize: "16px" }}>
@@ -200,9 +252,12 @@ const AmbulanceAdminDetails = props => {
 									className="login-form-button"
 									style={{ float: "right" }}
 									onClick={() => handleModal(true)}
+									block
 								>
 									Add Ambulance
 								</Button>
+								<br />
+								<Divider>OR</Divider>
 							</Skeleton>
 						</Card>
 					</Col>
@@ -239,6 +294,37 @@ const AmbulanceAdminDetails = props => {
 								/>
 							</Col>
 						</Row>
+						<Row>
+							<Col span={12}>
+								<Input.Search
+									className="input-field"
+									type="text"
+									style={{ width: 200, marginBottom: 12 }}
+									placeholder="Search"
+									allowClear
+									onSearch={value => handleQuery(value)}
+								/>
+							</Col>
+							<Col span={12} style={{ float: "right" }}>
+								<div style={{ float: "right" }}>
+									<Select
+										placeholder="select status"
+										onChange={handleStatus}
+										allowClear
+										className="input-field"
+									>
+										<Option value="available">
+											Avaliable
+										</Option>
+										<Option value="onDuty">On Duty</Option>
+										<Option value="disabled">
+											Disabled
+										</Option>
+									</Select>
+								</div>
+							</Col>
+						</Row>
+
 						<Card>
 							<p
 								style={{
@@ -268,6 +354,13 @@ const AmbulanceAdminDetails = props => {
 				</Row>
 			</div>
 			<AddAmbulance visible={showModal} handleModal={handleModal} />
+			<AmbulanceUpdate
+				visible={showUpdateModal}
+				handleModal={handleUpdateModal}
+				data={ambulanceData}
+				refresh={refresh}
+				setRefresh={setRefresh}
+			/>
 		</div>
 	);
 };

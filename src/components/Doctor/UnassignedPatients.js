@@ -17,7 +17,6 @@ const UnassignedPatients = () => {
 			setIsLoading(true);
 			try {
 				const res = await getUnassignedPatientService();
-				console.log(res);
 				setPatients(res.data);
 				setIsLoading(false);
 			} catch (err) {

@@ -13,6 +13,7 @@ const PatientExamine = () => {
 	const [patients, setPatients] = useState(null);
 	const [count, setCount] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isModalLoading, setIsModalLoading] = useState(false);
 	const [isBtnLoading, setIsBtnLoading] = useState(false);
 	const [patientData, setPatientData] = useState(null);
 	const [refresh, setRefresh] = useState(false);
@@ -29,15 +30,25 @@ const PatientExamine = () => {
 		return () => {
 			socket.off();
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [EndPoint]);
+	}, [Data.token]);
 
 	const attendPatient = async data => {
-		// setIsBtnLoading(true);
-		let res = await attendPatientService(data.key);
-		console.log(res);
-		setPatientData(data);
+		setIsBtnLoading(true);
+		setIsModalLoading(true);
 		showModal(true);
+		try {
+			let res = await attendPatientService(data.key);
+			if (res.error) {
+				showModal(false);
+			} else if (res.message === "success") {
+				setPatientData(data);
+			}
+			setIsModalLoading(false);
+		} catch (error) {
+			if (error.error) {
+				showModal(false);
+			}
+		}
 		setIsBtnLoading(false);
 	};
 
@@ -125,6 +136,7 @@ const PatientExamine = () => {
 			refresh={refresh}
 			setRefresh={setRefresh}
 			parent="Examine"
+			modalLoading={isModalLoading}
 		/>
 	);
 };

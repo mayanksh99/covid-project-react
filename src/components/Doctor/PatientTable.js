@@ -16,7 +16,8 @@ const PatientTable = ({
 	tableTitle,
 	refresh,
 	setRefresh,
-	parent
+	parent,
+	modalLoading
 }) => {
 	return (
 		<div>
@@ -46,6 +47,7 @@ const PatientTable = ({
 				refresh={refresh}
 				setRefresh={setRefresh}
 				parent={parent}
+				modalLoading={modalLoading}
 			/>
 		</div>
 	);

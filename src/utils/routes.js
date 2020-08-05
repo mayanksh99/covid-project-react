@@ -18,6 +18,8 @@ export const DEL_BY_ADMIN = "/users"; //DELETE
 /******************DOCTOR ADMIN ROUTES********************/
 export const GET_DOCTORS = "/doctors"; //GET
 export const ADD_DOCTOR = "/doctors"; //POST
+export const DOCTOR_PROFILE = "/doctors/profile"; //GET
+export const PATIENT_UNDER_DOCTOR = "/doctors/patients/examined"; //GET
 
 /******************HOSPITAL ADMIN ROUTES********************/
 export const GET_HOSPITALS = "/hospitals"; //GET
@@ -36,11 +38,10 @@ export const UPDATE_AMBULANCE = "/ambulances/update"; //PUT
 /******************DOCTOR ROUTES********************/
 export const ATTEND_PATIENT = "/doctors/patients/attend"; //POST
 export const ASSIGN_LEVEL = "/doctors/patients/level"; //POST
+export const UNASSIGNED_PATIENT = "/doctors/patients/unassigned"; //GET
+export const DECLINED_PATIENT = "/doctors/patients/declined"; //GET
+export const UPDATE_PROFILE = "/doctors"; //POST
 
 /******************HOSPITAL ROUTES***********************/
 export const GET_ADMITTED_PATIENTS = "/hospitals/patients/admitted"; //GET
 export const ADD_REPORT = "hospitals/report"; //POST
-
-export const UNASSIGNED_PATIENT = "/doctors/patients/unassigned"; //GET
-export const DECLINED_PATIENT = "/doctors/patients/declined"; //GET
-export const UPDATE_PROFILE = "/doctors"; //POST

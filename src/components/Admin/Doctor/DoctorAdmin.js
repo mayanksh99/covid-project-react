@@ -78,7 +78,9 @@ const DoctorAdmin = () => {
 			title: "Name",
 			dataIndex: "name",
 			key: "name",
-			render: name => <Link to="/doctordetails/sdvsdvsd">{name}</Link>
+			render: name => (
+				<Link to={`/doctordetails/${name[0]}`}>{name[1]}</Link>
+			)
 		},
 		{
 			title: "ID",
@@ -151,7 +153,7 @@ const DoctorAdmin = () => {
 				return {
 					index: ++id,
 					key: _id,
-					name,
+					name: [_id, name],
 					hospital,
 					contact,
 					age,

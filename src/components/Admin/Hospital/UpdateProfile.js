@@ -28,6 +28,7 @@ const UpdateProfile = props => {
 			const res = await updateHospitalService(props.details._id, values);
 			if (res.error) {
 				_notification("error", "Error", res.message);
+				setIsBtnLoading(false);
 			} else if (res.message === "success") {
 				_notification(
 					"success",
@@ -47,7 +48,7 @@ const UpdateProfile = props => {
 			setIsBtnLoading(false);
 		} catch (err) {
 			_notification("error", "Error", err.message);
-			setIsLoading(false);
+			setIsBtnLoading(false);
 		}
 	};
 

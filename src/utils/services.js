@@ -702,3 +702,16 @@ export const searchPatients = async (id, params) => {
 		else throw err.message;
 	}
 };
+
+export const getHospitalProfileService = async id => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_HOSPITALS}/${id}`);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};

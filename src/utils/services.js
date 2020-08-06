@@ -35,7 +35,8 @@ import {
 	ADD_PATIENT_REPORT,
 	DOCTOR_PROFILE,
 	PATIENT_UNDER_DOCTOR,
-	UPDATE_DOCTOR
+	UPDATE_DOCTOR,
+	DISCHARGE_PATIENT
 } from "./routes";
 
 const BASE_URL = "https://5e68fce93217.ngrok.io/api/v1";
@@ -655,6 +656,18 @@ export const searchAdmittedPatientsService = async (id, params) => {
 		const response = await axios.get(`${GET_ADMITTED_PATIENTS}/${id}`, {
 			params
 		});
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+export const dischargePatientService = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.post(`${DISCHARGE_PATIENT}${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

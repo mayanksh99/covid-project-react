@@ -41,6 +41,7 @@ export const GET_ADMITTED_PATIENTS = "/hospitals/patients/admitted"; //GET
 export const ADD_REPORT = "hospitals/report"; //POST
 export const GET_PATIENT_DETAILS = "/hospitals/patients/alloted"; //GET
 export const ASSIGN_BED = "/hospitals/admit"; //POST
+export const DISCHARGE_PATIENT = "/hospitals/discharge/"; //POST
 
 /******************AMBULANCE ROUTES********************/
 

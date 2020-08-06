@@ -11,7 +11,7 @@ const { Option } = Select;
 
 const AssignAmbulanceModal = props => {
 	const [form] = Form.useForm();
-	const userData = useState(getRole());
+	const [userData] = useState(getRole());
 	const [options, setOptions] = useState(null);
 	const [assignSpin, setAssignSpin] = useState(false);
 	const [selectedId, setSelectedId] = useState(null);
@@ -22,7 +22,7 @@ const AssignAmbulanceModal = props => {
 		setAssignSpin(true);
 		(async () => {
 			try {
-				const res = await getAllAvailableAmbulanceUnder(userData[0].id);
+				const res = await getAllAvailableAmbulanceUnder(userData.id);
 				setAvailableAmbulance(res.data.ambulances);
 				setAssignSpin(false);
 			} catch (err) {
@@ -30,8 +30,7 @@ const AssignAmbulanceModal = props => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [userData]);
 
 	useEffect(() => {
 		setOptions(

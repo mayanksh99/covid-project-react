@@ -39,7 +39,7 @@ import {
 	DISCHARGE_PATIENT
 } from "./routes";
 
-const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
+const BASE_URL = "https://5e68fce93217.ngrok.io/api/v1";
 export const EndPoint = "https://covid-project-gzb.herokuapp.com";
 
 axios.defaults.baseURL = BASE_URL;

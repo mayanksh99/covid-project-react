@@ -15,9 +15,7 @@ import "./style.css";
 
 const AmbAdminProfile = () => {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
-	console.log(AUTH_TOKEN);
 	const userData = useState(getRole());
-	console.log(userData);
 	const [form1] = Form.useForm();
 	const [form2] = Form.useForm();
 	const [isVisible, setIsVisible] = useState(false);
@@ -31,7 +29,6 @@ const AmbAdminProfile = () => {
 		};
 		try {
 			const res = await changePassword(pwdDetails);
-			console.log(res);
 			if (res.res.error) {
 				setIsSpinning(false);
 				_notification("error", "Error", res.res.message);
@@ -86,7 +83,6 @@ const AmbAdminProfile = () => {
 		};
 		try {
 			const res = await addAmbulance(ambDetails, userData[0].id);
-			console.log(res);
 			if (res.res.error) {
 				setIsAmbAdding(false);
 				_notification("error", "Error", res.res.message);

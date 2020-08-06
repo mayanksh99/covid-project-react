@@ -6,7 +6,7 @@ import AmbulanceStatus from "../components/Ambulance/AmbulanceStatus";
 import AssignBed from "../components/Hospital/AssignBed";
 import UpdateDailyReport from "../components/Hospital/UpdateDailyReport";
 import DoctorProfile from "../components/Doctor/DoctorProfile";
-import AmbAdminProfile from "../components/Ambulance/AmbAdminProfile";
+import AmbOperatorProfile from "../components/Ambulance/AmbOperatorProfile";
 import {
 	AppstoreOutlined,
 	MedicineBoxOutlined,
@@ -62,15 +62,7 @@ let routes = [
 		key: "dashboard",
 		icon: AppstoreOutlined
 	},
-	{
-		path: "/amb-admin-Profile",
-		exact: true,
-		name: "Amb-Admin Profile",
-		component: AmbAdminProfile,
-		key: "amb-admin-profile",
-		icon: UserOutlined,
-		role: "ambulanceoperator"
-	},
+
 	{
 		path: "/assignambulance",
 		exact: true,
@@ -87,6 +79,15 @@ let routes = [
 		name: "Ambulance Status",
 		key: "AmbulanceStatus",
 		icon: CheckOutlined,
+		role: "ambulanceoperator"
+	},
+	{
+		path: "/amb-admin-Profile",
+		exact: true,
+		name: "Profile",
+		component: AmbOperatorProfile,
+		key: "profile",
+		icon: UserOutlined,
 		role: "ambulanceoperator"
 	},
 	{

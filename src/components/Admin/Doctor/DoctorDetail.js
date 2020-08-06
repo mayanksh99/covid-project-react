@@ -55,7 +55,6 @@ const DoctorDetail = props => {
 			try {
 				const params = { did: props.match.params.id };
 				const res = await getExaminedPatientService(params);
-				console.log(res);
 				setPatients(res.data);
 				setIsLoading(false);
 			} catch (err) {

@@ -40,7 +40,9 @@ import {
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 export const EndPoint = "https://covid-project-gzb.herokuapp.com";
+
 axios.defaults.baseURL = BASE_URL;
+
 function setUserToken() {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
 	if (AUTH_TOKEN.token !== "") {
@@ -74,15 +76,12 @@ export async function getAllAmbulanceUnder(id) {
 	try {
 		const config = {
 			params: {
-				aoid: `${id}`,
-				perPage: 200
+				aoid: `${id}`
 			}
 		};
 		const response = await axios.get(AMBULANCEUNDER, config);
 		if (response.status === 200 && response.data.error === false) {
-			return {
-				res: response.data
-			};
+			return response.data;
 		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
@@ -96,15 +95,12 @@ export async function getAllAvailableAmbulanceUnder(id) {
 		const config = {
 			params: {
 				aoid: `${id}`,
-				status: "available",
-				perPage: 200
+				status: "available"
 			}
 		};
 		const response = await axios.get(AMBULANCEUNDER, config);
 		if (response.status === 200 && response.data.error === false) {
-			return {
-				res: response.data
-			};
+			return response.data;
 		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
@@ -217,14 +213,12 @@ export async function updateStatus(newStatus, id) {
 	}
 }
 
-export async function updateAmb(data, id) {
+export async function updateAmb(id, data) {
 	setUserToken();
 	try {
 		const response = await axios.put(`${UPDATESTATUS}/${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
-			return {
-				res: response.data
-			};
+			return response.data;
 		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
@@ -367,8 +361,7 @@ export const startAttentPatientForAmbulance = async id => {
 	setUserToken();
 	try {
 		const response = await axios.post(
-			`${START_ATTEND_PATIENT_FOR_AMBULANCE}${id}`,
-			null
+			`${START_ATTEND_PATIENT_FOR_AMBULANCE}${id}`
 		);
 		if (response.status === 200 && response.data.error === false)
 			return response.data;

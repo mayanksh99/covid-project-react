@@ -9,7 +9,6 @@ import {
 	Input,
 	Modal,
 	Select,
-	Rate,
 	Form
 } from "antd";
 import { _notification, getRole } from "../../utils/_helper";
@@ -63,6 +62,7 @@ const UpdateDailyReport = () => {
 			}
 			setIsLoading(false);
 		})();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const handleQuery = async val => {

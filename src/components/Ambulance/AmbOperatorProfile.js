@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getRole, _notification } from "./../../utils/_helper";
+import { getRole, _notification } from "../../utils/_helper";
 import { Row, Col, Form, Input, Button, Modal, Upload } from "antd";
 import { Spin } from "antd";
 import { changePassword, addAmbulance } from "../../utils/services";

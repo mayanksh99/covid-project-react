@@ -26,6 +26,7 @@ const UpdatePatientReport = props => {
 			const res = await addPatientReportService(props.hid, data);
 			if (res.error) {
 				_notification("error", "Error", res.message);
+				setIsLoading(false);
 			} else if (res.message === "success") {
 				_notification(
 					"success",

@@ -13,11 +13,12 @@ const AddHospitalAdmin = props => {
 			const res = await addHospitalService(values);
 			if (res.error) {
 				_notification("error", "Error", res.message);
+				setIsLoading(false);
 			} else if (res.message === "success") {
 				_notification(
 					"success",
 					"Success",
-					"Doctor added successfully"
+					"Hospital added successfully"
 				);
 				props.setRefresh(!props.refresh);
 				props.handleModal(false);

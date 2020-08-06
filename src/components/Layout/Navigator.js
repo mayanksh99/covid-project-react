@@ -13,7 +13,7 @@ import PrivateRoute from "./PrivateRoute";
 import AmbulanceOperatorDetails from "../Admin/Ambulance/AmbulanceOperatorDetails";
 import HospitalDetails from "./../Admin/Hospital/HospitalDetails";
 import PatientExamine from "./../Doctor/PatientExamine";
-import AmbAdminProfile from "./../Ambulance/AmbAdminProfile";
+import AmbOperatorProfile from "./../Ambulance/AmbOperatorProfile";
 import AssignAmbulance from "./../Ambulance/AssignAmbulance";
 import AmbulanceStatus from "./../Ambulance/AmbulanceStatus";
 import AssignBed from "./../Hospital/AssignBed";
@@ -24,7 +24,7 @@ import HospitalAdmin from "./../Admin/Hospital/HospitalAdmin";
 import DoctorAdmin from "./../Admin/Doctor/DoctorAdmin";
 import AdminList from "./../Admin/AdminList";
 import PatientList from "./../Admin/PatientList";
-import DoctorDetail from "../Admin/Doctor/DoctorAdminDetail";
+import DoctorDetail from "../Admin/Doctor/DoctorDetail";
 import DoctorEditProfile from "../Doctor/DoctorEditProfile";
 import UnassignedPatients from "../Doctor/UnassignedPatients";
 import DeclinedPatient from "./../Doctor/DeclinedPatient";
@@ -156,7 +156,7 @@ const Dashboard = props => {
 								<PrivateRoute
 									exact
 									path="/amb-admin-Profile"
-									component={AmbAdminProfile}
+									component={AmbOperatorProfile}
 									role="ambulanceoperator"
 									data={userData[0]}
 								/>

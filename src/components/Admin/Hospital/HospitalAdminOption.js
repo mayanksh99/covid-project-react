@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Skeleton } from "antd";
-import AddHospitalAdmin from "./AddHospitalAdmin";
+import AddHospital from "./AddHospital";
 import PageStats from "../../common/PageStats";
 
 const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
@@ -13,8 +13,8 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 	return (
 		<>
 			<Skeleton loading={isLoading} active>
-				{stats ? (
-					<Row gutter={[16, 16]}>
+				<Row gutter={[16, 16]}>
+					{stats ? (
 						<Col xl={20} lg={20} md={20} sm={24} xs={24}>
 							<Row gutter={[16, 16]}>
 								<Col xl={24} lg={24} md={24} sm={24} xs={12}>
@@ -131,21 +131,21 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 								</Col>
 							</Row>
 						</Col>
-						<Col xl={4} lg={4} md={4} sm={24} xs={24}>
-							<div>
-								<Button
-									type="primary"
-									className="login-form-button"
-									onClick={handleModal}
-								>
-									Add Hospital
-								</Button>
-							</div>
-						</Col>
-					</Row>
-				) : null}
+					) : null}
+					<Col xl={4} lg={4} md={4} sm={24} xs={24}>
+						<div>
+							<Button
+								type="primary"
+								className="login-form-button"
+								onClick={handleModal}
+							>
+								Add Hospital
+							</Button>
+						</div>
+					</Col>
+				</Row>
 			</Skeleton>
-			<AddHospitalAdmin
+			<AddHospital
 				visible={showModal}
 				handleModal={handleModal}
 				refresh={refresh}

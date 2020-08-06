@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import AmbulanceAdminOption from "./AmbulanceAdminOption";
 import {
 	Card,
 	Row,
@@ -184,7 +183,6 @@ const AmbulanceAdminDetails = props => {
 	return (
 		<div>
 			<PageTitle title="Ambulance" />
-			<AmbulanceAdminOption />
 			<div>
 				<h3 style={{ fontSize: "16px" }}>
 					Detail of Ambulance Operator

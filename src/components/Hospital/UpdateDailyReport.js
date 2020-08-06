@@ -41,6 +41,15 @@ const UpdateDailyReport = () => {
 	};
 	const handleCancel = () => {
 		setIsVisible(false);
+		form.setFieldsValue({
+			testcheck: null,
+			reportresult: null,
+			rate: null,
+			comment: null,
+			type: null,
+			patientstatus: null
+		});
+		setPatientStatus(null);
 	};
 
 	const handleStatusChange = value => {
@@ -82,7 +91,7 @@ const UpdateDailyReport = () => {
 	};
 
 	const onFinish = async values => {
-		// console.log(values);
+		console.log(values);
 		if (values.patientstatus === "discharged") {
 			try {
 				setModalSpin(true);
@@ -109,6 +118,15 @@ const UpdateDailyReport = () => {
 					setRefresh(!refresh);
 					setModalSpin(false);
 					setIsVisible(false);
+					form.setFieldsValue({
+						testcheck: "",
+						reportresult: "",
+						rate: "",
+						comment: "",
+						type: "",
+						patientstatus: null
+					});
+					setPatientStatus(null);
 				}
 				console.log(response);
 			} catch (err) {
@@ -121,7 +139,7 @@ const UpdateDailyReport = () => {
 				const rawdata = {
 					pid: rowData.key,
 					testPerformed: values.testcheck,
-					testReport: values.reportresult,
+					testReport: values.reportresult ? values.reportresult : "",
 					rating: values.rate,
 					comment: values.comment
 				};
@@ -133,11 +151,20 @@ const UpdateDailyReport = () => {
 					_notification(
 						"success",
 						"Success",
-						"Report added successfully"
+						"Report updated successfully"
 					);
 					setRefresh(!refresh);
 					setModalSpin(false);
 					setIsVisible(false);
+					form.setFieldsValue({
+						testcheck: "",
+						reportresult: "",
+						rate: "",
+						comment: "",
+						type: "",
+						patientstatus: null
+					});
+					setPatientStatus(null);
 				}
 			} catch (err) {
 				_notification("error", "Error", err.message);

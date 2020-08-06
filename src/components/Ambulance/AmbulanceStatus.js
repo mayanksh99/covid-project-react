@@ -1,84 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { getRole } from "./../../utils/_helper";
-import { Spin } from "antd";
-import { Button, Modal, Table, Row, Col, Select, Tag } from "antd";
+import { Button, Table, Tag } from "antd";
 import PageTitle from "../common/PageTitle";
 import { _notification } from "../../utils/_helper";
-import { getAllAmbulanceUnder, updateStatus } from "../../utils/services";
+import { getAllAmbulanceUnder } from "../../utils/services";
 import "./style.css";
+import AmbulanceStatusModal from "./AmbulanceStatusModal";
 
 const AmbulanceStatus = () => {
 	const userData = useState(getRole());
-	const { Option } = Select;
 	const [isLoading, setIsLoading] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
-	const [newStatus, setNewStatus] = useState("");
-	const [rowData, setrowData] = useState(null);
+	const [modalData, setModalData] = useState(null);
 	const [ambulance, setAmbulance] = useState(null);
 	const [refresh, setRefresh] = useState(false);
-	const [isSpinning, setIsSpinning] = useState(false);
 
-	const handleChange = value => {
-		setNewStatus(value);
-	};
-
-	const showModal = e => {
-		setIsVisible(true);
-	};
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);
 			try {
 				const res = await getAllAmbulanceUnder(userData[0].id);
-				setAmbulance(res.res.data.ambulances);
+				setAmbulance(res.data.ambulances);
 				setIsLoading(false);
 			} catch (err) {
 				setIsLoading(false);
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, []);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [refresh]);
 
-	const handleOk = async () => {
-		setIsSpinning(true);
-		try {
-			const res = await updateStatus(newStatus, rowData.key);
-			console.log(res);
-			if (res.res.error) {
-				setIsSpinning(false);
-				_notification("error", "Error", res.res.message);
-			} else if (res.res.message === "success") {
-				setIsSpinning(false);
-				setIsVisible(false);
-				setRefresh(!refresh);
-				_notification(
-					"success",
-					"Success",
-					"status updated successfully"
-				);
-			}
-		} catch (err) {
-			setIsSpinning(false);
-			_notification("warning", "Error", err.message);
-		}
+	const handleCancel = value => {
+		setIsVisible(value);
 	};
 
-	const handleCancel = () => {
-		setIsVisible(!isVisible);
+	const handleModal = data => {
+		setModalData(data);
+		handleCancel(true);
 	};
 
-	const data = ambulance
-		? ambulance.map((amb, i) => {
-				return {
-					index: ++i,
-					key: amb._id,
-					status: [amb.status],
-					phoneNumber: `+91-${amb.driver.contact}`,
-					vehicleNo: amb.vehicleNo,
-					driverName: amb.driver.name
-				};
-		  })
-		: null;
 	const tableColumns = [
 		{
 			title: "#",
@@ -124,123 +84,46 @@ const AmbulanceStatus = () => {
 		},
 		{
 			title: "Action",
-			dataIndex: "action",
 			key: "changeStatusButton",
-			render: () => (
-				<Button type="primary" onClick={showModal}>
+			render: data => (
+				<Button type="primary" onClick={() => handleModal(data)}>
 					Change Status
 				</Button>
 			)
 		}
 	];
 
+	const data = ambulance
+		? ambulance.map((amb, i) => {
+				return {
+					index: ++i,
+					key: amb._id,
+					status: [amb.status],
+					phoneNumber: `+91-${amb.driver.contact}`,
+					vehicleNo: amb.vehicleNo,
+					driverName: amb.driver.name
+				};
+		  })
+		: null;
+
 	return (
 		<div className="container">
 			<PageTitle title="Ambulance Status" />
-
 			<Table
 				loading={isLoading}
-				size="middle"
 				title={() => "List of Ambulance"}
-				showHeader={true}
-				closable={true}
-				bordered={true}
+				bordered={false}
 				columns={tableColumns}
 				dataSource={data}
-				pagination={{ position: ["none", "bottomCenter"] }}
-				onRow={(record, rowIndex) => {
-					return {
-						onClick: event => {
-							setrowData(record);
-						}
-					};
-				}}
+				pagination={{ position: ["bottomCenter"] }}
 			/>
-			<Modal
-				title={
-					<h3
-						style={{
-							color: "#fff",
-							marginBottom: "-3px",
-							textAlign: "center"
-						}}
-					>
-						Change Status
-					</h3>
-				}
-				width={300}
-				visible={isVisible}
-				style={{ top: 150 }}
-				onCancel={handleCancel}
-				footer={null}
-			>
-				<Spin tip="Updating status..." spinning={isSpinning}>
-					<Row>
-						<Col span={24} className="pl-11">
-							Vehicle number
-						</Col>
-						<Col span={24} className="status-modal-field">
-							{rowData === null ? "" : rowData.vehicleNo}
-						</Col>
-					</Row>
-					<Row>
-						<Col span={24} className="pl-11 mt-15">
-							Current status
-						</Col>
-						<Col span={24}>
-							{rowData === null
-								? ""
-								: rowData.status.map(status => {
-										let color = "";
-										if (status === "available") {
-											color = "green";
-										} else if (status === "onDuty") {
-											color = "orange";
-										} else color = "red";
-										return (
-											<Tag
-												color={color}
-												key={status}
-												style={{
-													width: "100%",
-													padding: "2px 4px 2px 11px",
-													fontSize: "15px"
-												}}
-											>
-												{status.toUpperCase()}
-											</Tag>
-										);
-								  })}
-						</Col>
-					</Row>
-					<Row>
-						<Col span={24} className="pl-11 mt-15">
-							New status
-						</Col>
-						<Col span={24}>
-							<Select
-								defaultValue="Select"
-								onChange={handleChange}
-								style={{ width: "100%" }}
-							>
-								<Option value="available">Available</Option>
-								<Option value="onDuty">On-Duty</Option>
-								<Option value="disabled">Disable</Option>
-							</Select>
-						</Col>
-					</Row>
-					<Row style={{ marginTop: "25px" }}>
-						<Button
-							htmlType="submit"
-							type="primary"
-							onClick={handleOk}
-							block
-						>
-							Submit
-						</Button>
-					</Row>
-				</Spin>
-			</Modal>
+			<AmbulanceStatusModal
+				isVisible={isVisible}
+				handleCancel={handleCancel}
+				detail={modalData}
+				refresh={refresh}
+				setRefresh={setRefresh}
+			/>
 		</div>
 	);
 };

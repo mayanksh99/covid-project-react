@@ -196,16 +196,14 @@ export const searchAdminsService = async params => {
 
 /*******************Update Ambulance status*******************/
 
-export async function updateStatus(newStatus, id) {
+export async function updateAmbulanceStatus(id, newStatus) {
 	setUserToken();
 	try {
 		const response = await axios.put(`${UPDATESTATUS}/${id}`, {
 			status: `${newStatus}`
 		});
 		if (response.status === 200 && response.data.error === false) {
-			return {
-				res: response.data
-			};
+			return response.data;
 		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;

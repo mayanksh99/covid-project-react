@@ -51,7 +51,7 @@ const UpdateDailyReport = () => {
 		});
 		setPatientStatus(null);
 	};
-
+	console.log(userData);
 	const handleStatusChange = value => {
 		setPatientStatus(value);
 	};
@@ -79,7 +79,7 @@ const UpdateDailyReport = () => {
 		try {
 			let params = { search: val };
 			const res = await searchAdmittedPatientsService(
-				userData[0].id,
+				userData.id,
 				params
 			);
 			setpatients(res.data.patients);
@@ -100,7 +100,7 @@ const UpdateDailyReport = () => {
 					type: values.type
 				};
 				const response = await dischargePatientService(
-					userData[0].id,
+					userData.id,
 					rawdata
 				);
 				if (response.error) {
@@ -143,7 +143,7 @@ const UpdateDailyReport = () => {
 					rating: values.rate,
 					comment: values.comment
 				};
-				const res = await addReportService(userData[0].id, rawdata);
+				const res = await addReportService(userData.id, rawdata);
 				if (res.error) {
 					_notification("error", "Error", res.message);
 					setModalSpin(false);

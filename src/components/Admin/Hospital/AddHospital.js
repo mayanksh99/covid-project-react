@@ -18,7 +18,7 @@ const AddHospitalAdmin = props => {
 				_notification(
 					"success",
 					"Success",
-					"Doctor added successfully"
+					"Hospital added successfully"
 				);
 				props.setRefresh(!props.refresh);
 				props.handleModal(false);

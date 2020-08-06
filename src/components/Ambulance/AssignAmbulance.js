@@ -15,7 +15,7 @@ import PageStats from "./../common/PageStats";
 
 const AssignAmbulance = () => {
 	const Data = useContext(AuthContext);
-	const userData = useState(getRole());
+	const [userData] = useState(getRole());
 	const [patient, setPatient] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSpinning, setIsSpinning] = useState(false);
@@ -60,15 +60,14 @@ const AssignAmbulance = () => {
 	useEffect(() => {
 		(async () => {
 			try {
-				const res = await getAllAmbulanceUnder(userData[0].id);
+				const res = await getAllAmbulanceUnder(userData.id);
 				setTotalAmbulance(res.data.ambulanceCount);
 			} catch (err) {
 				setIsLoading(false);
 				_notification("warning", "Error", err.message);
 			}
 		})();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [userData]);
 
 	const tableColumns = [
 		{

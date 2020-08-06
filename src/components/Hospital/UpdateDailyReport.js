@@ -23,7 +23,7 @@ const { Option } = Select;
 const { TextArea } = Input;
 
 const UpdateDailyReport = () => {
-	const userData = useState(getRole());
+	const [userData] = useState(getRole());
 	const [isVisible, setIsVisible] = useState(false);
 	const [rowData, setrowData] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +54,7 @@ const UpdateDailyReport = () => {
 		(async () => {
 			setIsLoading(true);
 			try {
-				const res = await getadmittedPatientsService(userData[0].id);
+				const res = await getadmittedPatientsService(userData.id);
 				setNumber(res.data.totalResults);
 				setpatients(res.data.patients);
 			} catch (err) {
@@ -62,8 +62,7 @@ const UpdateDailyReport = () => {
 			}
 			setIsLoading(false);
 		})();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [userData]);
 
 	const handleQuery = async val => {
 		setIsLoading(true);

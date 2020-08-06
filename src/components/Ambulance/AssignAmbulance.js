@@ -295,7 +295,7 @@ const AssignAmbulance = () => {
 				centered
 				footer={null}
 			>
-				<Spin tip="Processing Details..." spinning={assignSpin}>
+				<Spin tip="Processing..." spinning={assignSpin}>
 					<Row>
 						<Col span={4}>Name</Col>
 						<Col span={6}>{modalData ? modalData.name : null}</Col>

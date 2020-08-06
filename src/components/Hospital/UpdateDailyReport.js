@@ -23,14 +23,15 @@ import {
 const { Option } = Select;
 const { TextArea } = Input;
 
-const UpdateDailyReport = props => {
+const UpdateDailyReport = () => {
 	const userData = useState(getRole());
 	const [isVisible, setIsVisible] = useState(false);
 	const [rowData, setrowData] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [patients, setpatients] = useState(null);
 	const [refresh, setRefresh] = useState(false);
-	const [testcheck, settestcheck] = useState("");
+	const [testcheck, settestcheck] = useState(null);
+	const [patientStatus, setPatientStatus] = useState(null);
 	const [number, setNumber] = useState("");
 	const [form] = Form.useForm();
 	const showModal = () => {
@@ -42,6 +43,11 @@ const UpdateDailyReport = props => {
 	const handleCancel = () => {
 		setIsVisible(!isVisible);
 	};
+
+	const handleStatusChange = value => {
+		setPatientStatus(value);
+	};
+
 	const handleChange = val => {
 		settestcheck(val);
 	};
@@ -49,20 +55,15 @@ const UpdateDailyReport = props => {
 		(async () => {
 			setIsLoading(true);
 			try {
-				if (userData) {
-					const res = await getadmittedPatientsService(
-						userData[0].id
-					);
-					setNumber(res.data.totalResults);
-					setpatients(res.data.patients);
-					setIsLoading(false);
-					console.log(res);
-				}
+				const res = await getadmittedPatientsService(userData[0].id);
+				setNumber(res.data.totalResults);
+				setpatients(res.data.patients);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
 			}
+			setIsLoading(false);
 		})();
-	}, [refresh,userData]);
+	}, []);
 
 	const handleQuery = async val => {
 		setIsLoading(true);
@@ -81,7 +82,7 @@ const UpdateDailyReport = props => {
 	};
 
 	const onFinish = async values => {
-		setIsLoading(true);
+		// setIsLoading(true);
 		try {
 			const rawdata = {
 				pid: rowData.key,
@@ -89,9 +90,7 @@ const UpdateDailyReport = props => {
 				testReport: values.reportresult,
 				rating: values.rate,
 				comment: values.comment
-				// patientstatus: values.patientstatus,
 			};
-			// console.log(rawdata);
 			const res = await addReportService(userData[0].id, rawdata);
 			if (res.error) {
 				_notification("error", "Error", res.message);
@@ -102,19 +101,16 @@ const UpdateDailyReport = props => {
 					"Report added successfully"
 				);
 				setRefresh(!refresh);
-
 				form.setFieldsValue({
-					// patientstatus: "",
 					testPerformed: "",
 					testReport: "",
 					rating: "",
 					comment: ""
 				});
+				// setIsLoading(false);
 			}
-			setIsLoading(false);
 		} catch (err) {
 			_notification("error", "Error", err.message);
-			setIsLoading(false);
 		}
 	};
 
@@ -145,6 +141,41 @@ const UpdateDailyReport = props => {
 				};
 		  })
 		: null;
+
+	const showReportResult =
+		testcheck === null || testcheck === "no" ? null : (
+			<Form.Item
+				name="reportresult"
+				initialValue="positive"
+				label="Report Result:"
+			>
+				<Select placeholder="select">
+					<Option value="negative">negative</Option>
+					<Option value="positive">positive</Option>
+				</Select>
+			</Form.Item>
+		);
+
+	const showPatientRating =
+		patientStatus === null || patientStatus === "discharged" ? null : (
+			<Form.Item name="rate" label="Rate the patient">
+				<Select placeholder="select">
+					<Option value="Undetermined">Undetermined</Option>
+					<Option value="Good">Good</Option>
+					<Option value="Fair">Fair</Option>
+					<Option value="Critical">Critical</Option>
+					<Option value="Serious">Serious</Option>
+				</Select>
+			</Form.Item>
+		);
+
+	const showDoctorComment =
+		patientStatus === null || patientStatus === "discharged" ? null : (
+			<Form.Item name="comment" label="Doctor's Comment">
+				<TextArea rows={4} />
+			</Form.Item>
+		);
+
 	const columns = [
 		{
 			title: "#",
@@ -276,7 +307,6 @@ const UpdateDailyReport = props => {
 							name="update_patient_report"
 							className="login-form"
 							onFinish={onFinish}
-							// initialValues={{ remember: true }}
 						>
 							<Row>
 								<Col xl={12} lg={12} md={12} sm={12}>
@@ -284,7 +314,10 @@ const UpdateDailyReport = props => {
 										name="patientstatus"
 										label="Patient Status"
 									>
-										<Select placeholder="select status">
+										<Select
+											placeholder="select status"
+											onChange={handleStatusChange}
+										>
 											<Option value="hospitalised">
 												Hospitalised
 											</Option>
@@ -299,39 +332,20 @@ const UpdateDailyReport = props => {
 								<Col xl={12} lg={12} md={12} sm={12}>
 									<Form.Item
 										name="testcheck"
+										initialValue="no"
 										label="Test Performed Today:"
 									>
-										<Select
-											defaultValue="No"
-											onChange={handleChange}
-										>
-											<Option value="No">No</Option>
-											<Option value="Yes">Yes</Option>
+										<Select onChange={handleChange}>
+											<Option value="no">No</Option>
+											<Option value="yes">Yes</Option>
 										</Select>
 									</Form.Item>
 								</Col>
-								<Col xl={12} lg={12} md={12} sm={12}>
-									<Form.Item
-										name="reportresult"
-										label="Report Result:"
-									>
-										<Select placeholder="select">
-											<Option value="Negative">
-												Negative
-											</Option>
-											<Option value="Positive">
-												Positive
-											</Option>
-										</Select>
-									</Form.Item>
-								</Col>
+								{showReportResult}
+								<Col xl={12} lg={12} md={12} sm={12}></Col>
 							</Row>
-							<Form.Item name="rate" label="Rate the patient">
-								<Rate />
-							</Form.Item>
-							<Form.Item name="comment" label="Doctor's Comment">
-								<TextArea rows={4} />
-							</Form.Item>
+							{showPatientRating}
+							{showDoctorComment}
 							<Form.Item>
 								<Button
 									type="primary"

@@ -27,26 +27,23 @@ const AssignBed = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [rowData, setrowData] = useState(null);
 	const [number, setNumber] = useState("");
+	const [modalSpin, setModalSpin] = useState(false);
 	const [form] = Form.useForm();
-	// const [isSpinning, setIsSpinning] = useState(false);
-	const [assignSpin, setAssignSpin] = useState(false);
-	//const EndPoint = "https://covid-project-gzb.herokuapp.com";
+	console.log(userData);
 	useEffect(() => {
 		(async () => {
-			// setIsSpinning(true);
 			setIsLoading(true);
 			try {
 				const res = await getPatientDetails(userData[0].id);
+				console.log(res);
 				setNumber(res.data.totalResults);
 				setPatients(res.data.patients);
-				console.log(res);
 				setIsLoading(false);
-				// setIsSpinning(false);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [refresh]);
+	}, []);
 
 	const showModal = () => {
 		setIsVisible(!isVisible);
@@ -61,35 +58,28 @@ const AssignBed = () => {
 	};
 
 	const onFinish = async values => {
-		// setIsSpinning(true);
-		setIsLoading(true);
-		console.log(values);
+		setModalSpin(true);
 		try {
 			const rawdata = {
 				pid: rowData.key,
 				bed: values.bed
 			};
-			console.log(rawdata);
 			const res = await assignPatientBed(userData[0].id, rawdata);
 			if (res.error) {
 				_notification("error", "Error", res.message);
 			} else if (res.message === "success") {
+				setRefresh(!refresh);
 				_notification(
 					"success",
 					"Success",
-					"Bed assigned successfully"
+					"Bed was assigned successfully !"
 				);
-				setRefresh(!refresh);
-
-				form.setFieldsValue({
-					bed: ""
-				});
+				setIsVisible(!isVisible);
 			}
-			setIsLoading(false);
-			// setIsSpinning(false);
+			setModalSpin(false);
 		} catch (err) {
 			_notification("error", "Error", err.message);
-			setIsLoading(false);
+			setModalSpin(false);
 		}
 	};
 
@@ -120,11 +110,11 @@ const AssignBed = () => {
 					district: patient.district,
 					caseId: patient.caseId,
 					email: patient.email
+					// ambulanceAlloted:
 				};
 		  })
 		: null;
-	//console.log(patient.history);
-	//console.log(data);
+
 	const columns = [
 		{
 			title: "Name",
@@ -162,16 +152,13 @@ const AssignBed = () => {
 
 	return (
 		<div style={{ padding: "10px 30px" }}>
-			{/* <Spin tip="Attending Patient..." spinning={isSpinning}> */}
 			<PageTitle title="Assign Beds" />
-
 			<Row>
 				<Col span={8}>
 					<Statistic
 						title="Number of Beds available"
 						value={45}
 						suffix={`/${100}`}
-						valueStyle={{ color: "#008db9" }}
 					/>
 				</Col>
 
@@ -179,7 +166,6 @@ const AssignBed = () => {
 					<Statistic
 						title="Total Unattended Patients"
 						value={number}
-						valueStyle={{ color: "#008db9" }}
 					/>
 				</Col>
 
@@ -211,12 +197,12 @@ const AssignBed = () => {
 					};
 				}}
 			/>
-			{/* </Spin> */}
 
 			<Modal
 				title="Patient Details"
 				visible={isVisible}
 				centered
+				destroyOnClose={true}
 				onCancel={handleCancel}
 				width={800}
 				footer={[
@@ -229,48 +215,52 @@ const AssignBed = () => {
 					</Button>
 				]}
 			>
-				{/* /* <Spin tip="Assigning Ambulance..." spinning={assignSpin}>  */}
-				{rowData ? (
-					<>
-						<Row>
-							<Col span={4}>Name</Col>
-							<Col span={6}>{rowData.name}</Col>
-							<Col span={6}>ID</Col>
-							<Col span={8}>{rowData.key}</Col>
-						</Row>
-						<Row>
-							<Col span={4}>Gender</Col>
-							<Col span={6}>{rowData.gender}</Col>
-							<Col span={6}>Age</Col>
-							<Col span={8}>{rowData.age}</Col>
-						</Row>
-						<Row>
-							<Col span={4}>Relative Ph.</Col>
-							<Col span={6}>{`+91-${rowData.phone}`}</Col>
-							<Col span={6}>Severity</Col>
-							<Col span={8}>{rowData.severity}</Col>
-						</Row>
-						<Row>
-							<Col span={4}>District</Col>
-							<Col span={6}>{rowData.district}</Col>
-							<Col span={6}>Patient Address</Col>
-							<Col span={8}>{rowData.address}</Col>
-						</Row>
-						<Form form={form} name="assign-bed" onFinish={onFinish}>
+				<Spin tip="Assigning Bed..." spinning={modalSpin}>
+					{rowData ? (
+						<>
 							<Row>
-								<Form.Item
-									name="bed"
-									label="Enter Room/Bed no:"
-								>
-									<Col span={16}>
-										<Input placeholder="room/bed no" />
-									</Col>
-								</Form.Item>
+								<Col span={4}>Name</Col>
+								<Col span={6}>{rowData.name}</Col>
+								<Col span={6}>ID</Col>
+								<Col span={8}>{rowData.key}</Col>
 							</Row>
-						</Form>
-					</>
-				) : null}
-				{/* </Spin> */}
+							<Row>
+								<Col span={4}>Gender</Col>
+								<Col span={6}>{rowData.gender}</Col>
+								<Col span={6}>Age</Col>
+								<Col span={8}>{rowData.age}</Col>
+							</Row>
+							<Row>
+								<Col span={4}>Relative Ph.</Col>
+								<Col span={6}>{`+91-${rowData.phone}`}</Col>
+								<Col span={6}>Severity</Col>
+								<Col span={8}>{rowData.severity}</Col>
+							</Row>
+							<Row>
+								<Col span={4}>District</Col>
+								<Col span={6}>{rowData.district}</Col>
+								<Col span={6}>Patient Address</Col>
+								<Col span={8}>{rowData.address}</Col>
+							</Row>
+							<Form
+								form={form}
+								name="assign-bed"
+								onFinish={onFinish}
+							>
+								<Row>
+									<Form.Item
+										name="bed"
+										label="Enter Room/Bed no:"
+									>
+										<Col span={16}>
+											<Input placeholder="room/bed no" />
+										</Col>
+									</Form.Item>
+								</Row>
+							</Form>
+						</>
+					) : null}
+				</Spin>
 			</Modal>
 		</div>
 	);

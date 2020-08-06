@@ -38,6 +38,7 @@ import {
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 export const EndPoint = "https://covid-project-gzb.herokuapp.com";
 axios.defaults.baseURL = BASE_URL;
+
 function setUserToken() {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
 	if (AUTH_TOKEN.token !== "") {
@@ -651,6 +652,19 @@ export const searchPatients = async (id, params) => {
 		});
 		if (response.status === 200 && response.data.error === false)
 			return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getHospitalProfileService = async id => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_HOSPITALS}/${id}`);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
 	} catch (err) {
 		if (err.response) throw err.response.data;
 		else throw err.message;

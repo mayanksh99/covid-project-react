@@ -351,7 +351,13 @@ const AmbulanceAdminDetails = props => {
 					</Col>
 				</Row>
 			</div>
-			<AddAmbulance visible={showModal} handleModal={handleModal} />
+			{/* <AddAmbulance
+				visible={showModal}
+				handleModal={handleModal}
+				refresh={refresh}
+				setRefresh={setRefresh}
+				aoid={props.match.params.id}
+			/> */}
 			<AmbulanceUpdate
 				visible={showUpdateModal}
 				handleModal={handleUpdateModal}

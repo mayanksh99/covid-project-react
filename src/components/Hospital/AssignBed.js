@@ -102,9 +102,9 @@ const AssignBed = () => {
 					<Button
 						type="primary"
 						onClick={() => handleModal(data)}
-						disabled={data.history.hasOwnProperty(
-							"ambulanceAlloted"
-						)}
+						disabled={
+							!data.history.hasOwnProperty("ambulanceAlloted")
+						}
 					>
 						Assign Bed
 					</Button>

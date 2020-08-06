@@ -36,10 +36,11 @@ import {
 	DOCTOR_PROFILE,
 	PATIENT_UNDER_DOCTOR,
 	UPDATE_DOCTOR,
-	DISCHARGE_PATIENT
+	DISCHARGE_PATIENT,
+	ADD_AMBULANCE
 } from "./routes";
 
-const BASE_URL = "https://5e68fce93217.ngrok.io/api/v1";
+const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 export const EndPoint = "https://covid-project-gzb.herokuapp.com";
 
 axios.defaults.baseURL = BASE_URL;
@@ -551,6 +552,19 @@ export const updateAmbulanceService = async (id, data) => {
 	setUserToken();
 	try {
 		const response = await axios.put(`${UPDATE_AMBULANCE}/${id}`, data);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const addAmbulanceService = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.post(`${ADD_AMBULANCE}/${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

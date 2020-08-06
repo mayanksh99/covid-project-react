@@ -49,4 +49,3 @@ export const DECLINED_PATIENT = "/doctors/patients/declined"; //GET
 
 export const GET_PATIENT_DETAILS = "/hospitals/patients/alloted"; //GET
 export const ASSIGN_BED = "/hospitals/admit"; //POST
-

@@ -11,8 +11,11 @@ import {
 import { Link } from "react-router-dom";
 import PageTitle from "./../../common/PageTitle";
 import { _notification } from "../../../utils/_helper";
-import { getAmbOperatorService } from "../../../utils/services";
-import { delByAdminService } from "./../../../utils/services";
+import {
+	getAmbOperatorService,
+	searchAmbOperatorService,
+	delByAdminService
+} from "../../../utils/services";
 
 const AmbulanceAdmin = () => {
 	const [refresh, setRefresh] = useState(false);
@@ -24,10 +27,11 @@ const AmbulanceAdmin = () => {
 			setIsLoading(true);
 			try {
 				const res = await getAmbOperatorService();
-				setAmbOperators(res.data);
+				setAmbOperators(res.data.operators);
 				setIsLoading(false);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
+				setIsLoading(false);
 			}
 		})();
 	}, [refresh]);
@@ -50,6 +54,19 @@ const AmbulanceAdmin = () => {
 		}
 	};
 
+	const handleQuery = async val => {
+		setIsLoading(true);
+		try {
+			let params = { search: val };
+			const res = await searchAmbOperatorService(params);
+			setAmbOperators(res.data.operators);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
+
 	const columns = [
 		{
 			title: "#",
@@ -58,25 +75,22 @@ const AmbulanceAdmin = () => {
 		},
 		{
 			title: "Name",
-			dataIndex: "name",
-			key: "name",
-			render: name => <Link to="/ambulancedetails/sdvsdvsd">{name}</Link>
+			dataIndex: "detail",
+			key: "detail",
+			render: detail => (
+				<Link to={`/ambulancedetails/${detail[1]}`}>{detail[0]}</Link>
+			)
 		},
-		// {
-		// 	title: "Phone",
-		// 	dataIndex: "phone",
-		// 	key: "phone"
-		// },
+		{
+			title: "Contact",
+			dataIndex: "contact",
+			key: "contact"
+		},
 		{
 			title: "Email",
 			dataIndex: "email",
 			key: "email"
 		},
-		// {
-		// 	title: "Count",
-		// 	dataIndex: "count",
-		// 	key: "count"
-		// },
 		{
 			title: "Action",
 			dataIndex: "action",
@@ -128,11 +142,12 @@ const AmbulanceAdmin = () => {
 
 	const data = ambOperators
 		? ambOperators.map((operator, id) => {
-				const { _id, name, email } = operator;
+				const { _id, name, email, contact } = operator;
 				return {
 					index: ++id,
 					key: _id,
-					name,
+					detail: [name, _id],
+					contact,
 					email,
 					action: _id
 				};
@@ -153,6 +168,7 @@ const AmbulanceAdmin = () => {
 							style={{ width: 200, marginBottom: 12 }}
 							placeholder="Search"
 							allowClear
+							onSearch={value => handleQuery(value)}
 						/>
 					</Col>
 					<Card

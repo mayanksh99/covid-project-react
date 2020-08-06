@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Col, Input, Card, Table, Popconfirm, Tooltip, Divider } from "antd";
+import {
+	Col,
+	Input,
+	Card,
+	Table,
+	Popconfirm,
+	Tooltip,
+	Divider,
+	Row,
+	Select
+} from "antd";
 import { Link } from "react-router-dom";
 import PageTitle from "./../../common/PageTitle";
 import {
@@ -11,22 +21,28 @@ import {
 import HospitalAdminOption from "./HospitalAdminOption";
 import {
 	getHospitalsService,
-	delByAdminService
+	delByAdminService,
+	getHospitalByParamsServices
 } from "../../../utils/services";
 import { _notification } from "../../../utils/_helper";
+
+const { Option } = Select;
 
 const HospitalAdmin = () => {
 	const [refresh, setRefresh] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [hospitals, setHospitals] = useState(null);
+	const [stats, setStats] = useState(null);
+	const [search, setSearch] = useState(null);
+	const [category, setCategory] = useState(null);
 
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);
 			try {
 				const res = await getHospitalsService();
-				console.log(res.data);
-				setHospitals(res.data);
+				setHospitals(res.data.hospitals);
+				setStats(res.data.stats[0]);
 				setIsLoading(false);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
@@ -52,6 +68,34 @@ const HospitalAdmin = () => {
 		}
 	};
 
+	const handleQuery = async val => {
+		setIsLoading(true);
+		setSearch(val);
+		try {
+			let params = { search: val, category };
+			const res = await getHospitalByParamsServices(params);
+			setHospitals(res.data.hospitals);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
+
+	const handleCategory = async val => {
+		setIsLoading(true);
+		setCategory(val);
+		try {
+			let params = { category: val, search };
+			const res = await getHospitalByParamsServices(params);
+			setHospitals(res.data.hospitals);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
+
 	const columns = [
 		{
 			title: "#",
@@ -60,10 +104,10 @@ const HospitalAdmin = () => {
 		},
 		{
 			title: "Name",
-			dataIndex: "detail",
-			key: "detail",
-			render: detail => (
-				<Link to="/hospitaldetails/sdvsdvsd">{detail.name}</Link>
+			dataIndex: "name",
+			key: "name",
+			render: name => (
+				<Link to={`/hospitaldetails/${name[0]}`}>{name[1]}</Link>
 			)
 		},
 		{
@@ -78,8 +122,8 @@ const HospitalAdmin = () => {
 		},
 		{
 			title: "Category",
-			dataIndex: "category",
-			key: "category"
+			dataIndex: "cat",
+			key: "cat"
 		},
 		{
 			title: "Action",
@@ -132,57 +176,56 @@ const HospitalAdmin = () => {
 
 	const data = hospitals
 		? hospitals.map((hospital, id) => {
-				const {
-					_id,
-					name,
-					contact,
-					address,
-					category,
-					email,
-					availableBeds,
-					occupiedBeds,
-					reservedBeds,
-					totalBeds
-				} = hospital;
+				const { _id, name, contact, address, category } = hospital;
 				return {
 					index: ++id,
 					key: _id,
-					name,
+					name: [_id, name],
 					contact,
 					address,
-					category,
-					action: _id,
-					detail: {
-						_id,
-						name,
-						contact,
-						address,
-						category,
-						email,
-						availableBeds,
-						occupiedBeds,
-						reservedBeds,
-						totalBeds
-					}
+					cat: category.toUpperCase(),
+					action: _id
 				};
 		  })
 		: null;
 	return (
 		<div>
 			<PageTitle title="Hospital" />
-			<HospitalAdminOption refresh={refresh} setRefresh={setRefresh} />
+			<HospitalAdminOption
+				refresh={refresh}
+				setRefresh={setRefresh}
+				stats={stats}
+				loading={isLoading}
+			/>
 			<div>
 				<h3 style={{ fontSize: "16px" }}>List of Hospitals</h3>
 				<div>
-					<Col span={6}>
-						<Input.Search
-							className="input-field"
-							type="text"
-							style={{ width: 200, marginBottom: 12 }}
-							placeholder="Search"
-							allowClear
-						/>
-					</Col>
+					<Row>
+						<Col span={12}>
+							<Input.Search
+								className="input-field"
+								type="text"
+								style={{ width: 200, marginBottom: 12 }}
+								placeholder="Search"
+								allowClear
+								onSearch={value => handleQuery(value)}
+							/>
+						</Col>
+						<Col span={12} style={{ float: "right" }}>
+							<div style={{ float: "right" }}>
+								<Select
+									placeholder="select category"
+									onChange={handleCategory}
+									allowClear
+									className="input-field"
+								>
+									<Option value="l1">L1</Option>
+									<Option value="l2">L2</Option>
+									<Option value="l3">L3</Option>
+								</Select>
+							</div>
+						</Col>
+					</Row>
 					<Card
 						style={{ padding: 0, width: "100%", overflowX: "auto" }}
 					>

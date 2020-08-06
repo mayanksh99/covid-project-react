@@ -108,9 +108,9 @@ const AddHospitalAdmin = props => {
 						]}
 					>
 						<Radio.Group>
-							<Radio value="L1">L1</Radio>
-							<Radio value="L2">L2</Radio>
-							<Radio value="L3">L3</Radio>
+							<Radio value="l1">L1</Radio>
+							<Radio value="l2">L2</Radio>
+							<Radio value="l3">L3</Radio>
 						</Radio.Group>
 					</Form.Item>
 

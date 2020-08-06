@@ -15,7 +15,8 @@ import PageTitle from "../common/PageTitle";
 import {
 	getPatientDetails,
 	assignPatientBed,
-	searchPatients
+	searchPatients,
+	getHospitalByParamsServices	
 } from "../../utils/services";
 import { _notification, getRole } from "../../utils/_helper";
 
@@ -27,9 +28,11 @@ const AssignBed = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [rowData, setrowData] = useState(null);
 	const [number, setNumber] = useState("");
+	const [details, setDetails] = useState(null);
+	const [hospital, setHospital] = useState("");
 	const [form] = Form.useForm();
 	// const [isSpinning, setIsSpinning] = useState(false);
-	const [assignSpin, setAssignSpin] = useState(false);
+	//const [assignSpin, setAssignSpin] = useState(false);
 	//const EndPoint = "https://covid-project-gzb.herokuapp.com";
 	useEffect(() => {
 		(async () => {
@@ -37,13 +40,29 @@ const AssignBed = () => {
 			setIsLoading(true);
 			try {
 				const res = await getPatientDetails(userData[0].id);
-				setNumber(res.data.totalResults);
+				setNumber(res.data.patients.length);
 				setPatients(res.data.patients);
+				setHospital(res.data.patients[0].history.hospitalAlloted.hospital)
 				console.log(res);
 				setIsLoading(false);
 				// setIsSpinning(false);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
+			}
+		})();
+	}, [userData,refresh]);
+
+	useEffect(() => {
+		(async () => {
+			setIsLoading(true);
+			try {
+				let params = { hid: hospital };
+				const res = await getHospitalByParamsServices(params);
+				console.log(res);
+				setIsLoading(false);
+			} catch (err) {
+				_notification("warning", "Error", err.message);
+				setIsLoading(false);
 			}
 		})();
 	}, [refresh]);
@@ -63,7 +82,7 @@ const AssignBed = () => {
 	const onFinish = async values => {
 		// setIsSpinning(true);
 		setIsLoading(true);
-		console.log(values);
+		// console.log(values);
 		try {
 			const rawdata = {
 				pid: rowData.key,

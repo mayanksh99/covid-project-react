@@ -10,7 +10,7 @@ import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getRole } from "./../../utils/_helper";
 import routes from "../../utils/_routes";
 import PrivateRoute from "./PrivateRoute";
-import AmbulanceAdminDetails from "../Admin/Ambulance/AmbulanceAdminDetails";
+import AmbulanceOperatorDetails from "../Admin/Ambulance/AmbulanceOperatorDetails";
 import HospitalDetails from "./../Admin/Hospital/HospitalDetails";
 import PatientExamine from "./../Doctor/PatientExamine";
 import AmbAdminProfile from "./../Ambulance/AmbAdminProfile";
@@ -240,7 +240,7 @@ const Dashboard = props => {
 								<PrivateRoute
 									exact
 									path="/ambulancedetails/:id"
-									component={AmbulanceAdminDetails}
+									component={AmbulanceOperatorDetails}
 									role="admin"
 									permission={["master", "ambulance"]}
 									data={userData[0]}
@@ -263,7 +263,7 @@ const Dashboard = props => {
 								/>
 								<PrivateRoute
 									exact
-									path="/doctorprofile/edit"
+									path="/editprofile/:id"
 									component={DoctorEditProfile}
 									role="doctor"
 									data={userData[0]}

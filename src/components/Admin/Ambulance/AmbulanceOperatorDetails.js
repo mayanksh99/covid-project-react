@@ -329,9 +329,7 @@ const AmbulanceAdminDetails = props => {
 										<Option value="disabled">
 											Disabled
 										</Option>
-										<Option value="removed">
-											Removed
-										</Option>
+										<Option value="removed">Removed</Option>
 									</Select>
 								</div>
 							</Col>

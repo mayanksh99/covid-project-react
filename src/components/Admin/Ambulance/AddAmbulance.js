@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Modal, Form, Input, InputNumber } from "antd";
-import { Button } from "antd";
+import { Button, Modal, Form, Input, InputNumber } from "antd";
 import { _notification } from "../../../utils/_helper";
 import { addAmbulanceService } from "../../../utils/services";
 
 const AddAmbulance = props => {
 	const [form] = Form.useForm();
-	const [isLoading, setIsLoading] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const onFinish = async values => {
 		setIsLoading(true);

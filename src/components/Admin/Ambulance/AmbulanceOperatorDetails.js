@@ -123,10 +123,11 @@ const AmbulanceAdminDetails = props => {
 			render: status => (
 				<>
 					{status === "available" && (
-						<Tag color="green">{status}</Tag>
+						<Tag color="green">Available</Tag>
 					)}
-					{status === "onDuty" && <Tag color="orange">{status}</Tag>}
-					{status === "disabled" && <Tag color="red">{status}</Tag>}
+					{status === "onDuty" && <Tag color="orange">On Duty</Tag>}
+					{status === "disabled" && <Tag color="red">Disabled</Tag>}
+					{status === "removed" && <Tag color="red">Removed</Tag>}
 				</>
 			)
 		},
@@ -273,7 +274,7 @@ const AmbulanceAdminDetails = props => {
 							</Col>
 							<Col xl={6} lg={6} md={12} sm={12} xs={24}>
 								<Statistic
-									title="On duty"
+									title="On Duty"
 									value={count ? count.onDuty : 0}
 									valueStyle={{
 										color: "#005ea5",
@@ -283,8 +284,18 @@ const AmbulanceAdminDetails = props => {
 							</Col>
 							<Col xl={6} lg={6} md={12} sm={12} xs={24}>
 								<Statistic
-									title="Disable"
+									title="Disabled"
 									value={count ? count.disabled : 0}
+									valueStyle={{
+										color: "#005ea5",
+										fontWeight: 600
+									}}
+								/>
+							</Col>
+							<Col xl={6} lg={6} md={12} sm={12} xs={24}>
+								<Statistic
+									title="Removed"
+									value={count ? count.removed : 0}
 									valueStyle={{
 										color: "#005ea5",
 										fontWeight: 600
@@ -317,6 +328,9 @@ const AmbulanceAdminDetails = props => {
 										<Option value="onDuty">On Duty</Option>
 										<Option value="disabled">
 											Disabled
+										</Option>
+										<Option value="removed">
+											Removed
 										</Option>
 									</Select>
 								</div>

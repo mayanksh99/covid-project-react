@@ -141,6 +141,7 @@ const AmbulanceUpdate = props => {
 								<Option value="available">Avaliable</Option>
 								<Option value="onDuty">On Duty</Option>
 								<Option value="disabled">Disabled</Option>
+								<Option value="removed">Removed</Option>
 							</Select>
 						</Form.Item>
 

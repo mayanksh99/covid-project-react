@@ -91,6 +91,16 @@ const AssignAmbulance = () => {
 			key: "address"
 		},
 		{
+			title: "Hospital Name",
+			dataIndex: "hospitalName",
+			key: "hospitalName"
+		},
+		{
+			title: "Hospital Address",
+			dataIndex: "hospitalAddress",
+			key: "hospitalAddress"
+		},
+		{
 			title: "Action",
 			key: "assign",
 			render: data => (

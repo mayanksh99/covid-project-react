@@ -72,15 +72,19 @@ const AssignBed = () => {
 
 	const columns = [
 		{
+			title: "#",
+			dataIndex: "index",
+			key: "index"
+		},
+		{
+			title: "ID",
+			dataIndex: "caseId",
+			key: "caseId"
+		},
+		{
 			title: "Name",
 			dataIndex: "name",
 			key: "name"
-		},
-
-		{
-			title: "Severity",
-			dataIndex: "severity",
-			key: "severity"
 		},
 		{
 			title: "Gender",

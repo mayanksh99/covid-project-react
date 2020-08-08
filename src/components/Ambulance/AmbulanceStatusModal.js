@@ -122,7 +122,7 @@ const AmbulanceStatusModal = ({
 							>
 								<Option value="available">Available</Option>
 								<Option value="onDuty">On Duty</Option>
-								<Option value="disabled">Disables</Option>
+								<Option value="disabled">Disabled</Option>
 								<Option value="removed">Removed</Option>
 							</Select>
 						</Form.Item>

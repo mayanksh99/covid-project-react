@@ -117,6 +117,11 @@ const AdminList = () => {
 			key: "email"
 		},
 		{
+			title: "Contact",
+			dataIndex: "contact",
+			key: "contact"
+		},
+		{
 			title: "Permissions",
 			dataIndex: "permissions",
 			key: "permissions",
@@ -183,13 +188,14 @@ const AdminList = () => {
 
 	const data = admins
 		? admins.map((admin, i) => {
-				const { _id, name, email, permissions } = admin;
+				const { _id, name, email, permissions, contact } = admin;
 				return {
 					index: ++i,
 					key: _id,
 					name,
 					email,
 					permissions,
+					contact: contact ? contact : "",
 					action: _id
 				};
 		  })

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Spin, Row, Form, Col, Input } from "antd";
-import { _notification } from "../../utils/_helper";
+import { getRole, _notification } from "../../utils/_helper";
 import { assignPatientBed } from "../../utils/services";
-import { getRole } from "./../../utils/_helper";
 
 const PatientDetail = ({
 	isVisible,

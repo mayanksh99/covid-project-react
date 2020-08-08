@@ -12,7 +12,7 @@ import PatientDetail from "./PatientDetail";
 import PageStats from "./../common/PageStats";
 
 const AssignBed = () => {
-	const userData = useState(getRole());
+	const [userData] = useState(getRole());
 	const [profile, setProfile] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [Patients, setPatients] = useState(null);
@@ -24,7 +24,7 @@ const AssignBed = () => {
 		(async () => {
 			setIsLoading(true);
 			try {
-				const res = await getPatientDetails(userData[0].id);
+				const res = await getPatientDetails(userData.id);
 				setNumber(res.data.totalResults);
 				setPatients(res.data.patients);
 				setIsLoading(false);
@@ -32,8 +32,7 @@ const AssignBed = () => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [userData]);
 
 	useEffect(() => {
 		(async () => {

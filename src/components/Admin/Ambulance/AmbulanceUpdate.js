@@ -29,6 +29,7 @@ const AmbulanceUpdate = props => {
 			const res = await updateAmbulanceService(props.data.key, values);
 			if (res.error) {
 				_notification("error", "Error", res.message);
+				setIsBtnLoading(false);
 			} else if (res.message === "success") {
 				_notification(
 					"success",
@@ -47,7 +48,7 @@ const AmbulanceUpdate = props => {
 			setIsBtnLoading(false);
 		} catch (err) {
 			_notification("error", "Error", err.message);
-			setIsLoading(false);
+			setIsBtnLoading(false);
 		}
 	};
 

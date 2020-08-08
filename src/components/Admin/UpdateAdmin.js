@@ -32,7 +32,7 @@ const UpdateAdmin = props => {
 			} else {
 				data = { ...values };
 			}
-			const res = await updateAdminService(props.data._id, data);
+			const res = await updateAdminService(props.data.key, data);
 			if (res.error) {
 				_notification("error", "Error", res.message);
 			} else if (res.message === "success") {

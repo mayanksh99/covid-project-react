@@ -37,7 +37,8 @@ import {
 	PATIENT_UNDER_DOCTOR,
 	UPDATE_DOCTOR,
 	DISCHARGE_PATIENT,
-	ADD_AMBULANCE
+	ADD_AMBULANCE,
+	GET_PATIENT
 } from "./routes";
 
 const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
@@ -135,6 +136,19 @@ export const addPatientService = async data => {
 			}
 		};
 		const response = await axios.post(ADD_PATIENT, data, config);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getPatientsService = async params => {
+	setUserToken();
+	try {
+		const response = await axios.get(GET_PATIENT, { params });
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -280,10 +294,12 @@ export const getDoctorProfileService = async id => {
 	}
 };
 
-export const getExaminedPatientService = async params => {
+export const getPatientUnderDoctorService = async (status, params) => {
 	setUserToken();
 	try {
-		const response = await axios.get(PATIENT_UNDER_DOCTOR, { params });
+		const response = await axios.get(`${PATIENT_UNDER_DOCTOR}/${status}`, {
+			params
+		});
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

@@ -60,6 +60,7 @@ const AttendPatient = ({
 					level: "",
 					comment: ""
 				});
+				setCheck(false);
 			}
 			setIsLoading(false);
 		} catch (err) {

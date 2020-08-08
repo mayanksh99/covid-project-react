@@ -121,8 +121,9 @@ const AmbulanceStatusModal = ({
 								style={{ width: "100%" }}
 							>
 								<Option value="available">Available</Option>
-								<Option value="onDuty">On-Duty</Option>
-								<Option value="disabled">Disable</Option>
+								<Option value="onDuty">On Duty</Option>
+								<Option value="disabled">Disabled</Option>
+								<Option value="removed">Removed</Option>
 							</Select>
 						</Form.Item>
 

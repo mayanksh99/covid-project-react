@@ -228,7 +228,7 @@ const AdminList = () => {
 						<Col span={12} style={{ float: "right" }}>
 							<div style={{ float: "right" }}>
 								<Select
-									placeholder="select status"
+									placeholder="Select Permissions"
 									onChange={handlePermission}
 									allowClear
 									className="input-field"

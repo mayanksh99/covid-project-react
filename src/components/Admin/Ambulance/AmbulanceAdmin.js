@@ -159,7 +159,9 @@ const AmbulanceAdmin = () => {
 			<PageTitle title="Ambulance" />
 			<AmbulanceAdminOption refresh={refresh} setRefresh={setRefresh} />
 			<div className="table-wrapper-card">
-				<h3 style={{ fontSize: "16px" }}>List of Ambulance Operator</h3>
+				<h3 style={{ fontSize: "16px" }}>
+					List of Ambulance Operators
+				</h3>
 				<div>
 					<Col span={6}>
 						<Input.Search

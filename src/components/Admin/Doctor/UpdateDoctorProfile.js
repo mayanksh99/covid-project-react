@@ -72,7 +72,7 @@ const UpdateDoctorProfile = ({
 							color: "#fff"
 						}}
 					>
-						Update Hospital
+						Update Doctor
 					</h3>
 				}
 				visible={visible}

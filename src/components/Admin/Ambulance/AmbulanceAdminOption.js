@@ -47,18 +47,19 @@ const AmbulanceAdminOption = ({ refresh, setRefresh }) => {
 				</Col>
 				<Col xl={5} lg={5} md={12} sm={12} xs={24}>
 					<Statistic
-						title="On duty"
+						title="On Duty"
 						value={count ? count.onDuty : 0}
 						valueStyle={{ color: "#005ea5", fontWeight: 600 }}
 					/>
 				</Col>
 				<Col xl={5} lg={5} md={12} sm={12} xs={24}>
 					<Statistic
-						title="Disable"
+						title="Disabled"
 						value={count ? count.disabled : 0}
 						valueStyle={{ color: "#005ea5", fontWeight: 600 }}
 					/>
 				</Col>
+
 				<Col xl={4} lg={4} md={24} sm={24} xs={24}>
 					<Button
 						type="primary"
@@ -67,6 +68,14 @@ const AmbulanceAdminOption = ({ refresh, setRefresh }) => {
 					>
 						Add Operator
 					</Button>
+				</Col>
+
+				<Col xl={5} lg={5} md={12} sm={12} xs={24}>
+					<Statistic
+						title="Removed"
+						value={count ? count.removed : 0}
+						valueStyle={{ color: "#005ea5", fontWeight: 600 }}
+					/>
 				</Col>
 			</Row>
 			<AddAmbulanceOperator

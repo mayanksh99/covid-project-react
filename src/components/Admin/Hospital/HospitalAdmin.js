@@ -59,7 +59,7 @@ const HospitalAdmin = () => {
 				_notification(
 					"success",
 					"Success",
-					"Doctor deleted successfully"
+					"Hospital deleted successfully"
 				);
 				setRefresh(!refresh);
 			}

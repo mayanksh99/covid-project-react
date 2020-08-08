@@ -88,7 +88,22 @@ const HospitalDetails = props => {
 	};
 
 	const handleCategory = async value => {
-		if (value === "occupied") setRefresh(!refresh);
+		if (value === "occupied") {
+			setCategory(value);
+			setIsLoading(true);
+			try {
+				let params = { search };
+				const res = await getPatientByHospitalParamService(
+					props.match.params.id,
+					params
+				);
+				setPatients(res.data.patients);
+				setIsLoading(false);
+			} catch (err) {
+				_notification("warning", "Error", err.message);
+				setIsLoading(false);
+			}
+		}
 		if (value === "reserved") {
 			setCategory(value);
 			setIsLoading(true);

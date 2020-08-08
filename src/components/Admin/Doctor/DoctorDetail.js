@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PageTitle from "../../common/PageTitle";
-import {
-	Row,
-	Col,
-	Card,
-	Table,
-	Avatar,
-	Skeleton,
-	Button,
-	Input,
-	Select
-} from "antd";
+import { Row, Col, Card, Table, Avatar, Skeleton, Button, Select } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import {
 	getDoctorProfileService,

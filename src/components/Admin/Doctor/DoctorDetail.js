@@ -200,38 +200,60 @@ const DoctorDetail = props => {
 								<br />
 								{detail ? (
 									<>
-										<ProfileDetails
-											label="Name"
-											data={detail.name}
-										/>
-										<ProfileDetails
-											label="Employee ID"
-											data={detail.empId}
-										/>
-										<ProfileDetails
-											label="Age"
-											data={detail.age}
-										/>
-										<ProfileDetails
-											label="Gender"
-											data={detail.gender}
-										/>
-										<ProfileDetails
-											label="Contact No."
-											data={detail.contact}
-										/>
-										<ProfileDetails
-											label="Email"
-											data={detail.email}
-										/>
-										<ProfileDetails
-											label="Address"
-											data={detail.address}
-										/>
-										<ProfileDetails
-											label="Hospital"
-											data={detail.hospital}
-										/>
+										{detail.name && (
+											<ProfileDetails
+												label="Name"
+												data={detail.name}
+											/>
+										)}
+										{detail.empId && (
+											<ProfileDetails
+												label="Employee ID"
+												data={detail.empId}
+											/>
+										)}
+										{detail.age && (
+											<ProfileDetails
+												label="Age"
+												data={detail.age}
+											/>
+										)}
+										{detail.gender && (
+											<ProfileDetails
+												label="Gender"
+												data={detail.gender}
+											/>
+										)}
+										{detail.contact && (
+											<ProfileDetails
+												label="Contact No."
+												data={detail.contact}
+											/>
+										)}
+										{detail.email && (
+											<ProfileDetails
+												label="Email"
+												data={detail.email}
+											/>
+										)}
+										{detail.address && (
+											<ProfileDetails
+												label="Address"
+												data={detail.address}
+											/>
+										)}
+										{detail.hospital && (
+											<ProfileDetails
+												label="Hospital"
+												data={detail.hospital}
+											/>
+										)}
+										{detail.about && (
+											<ProfileDetails
+												label="About"
+												data={detail.about}
+											/>
+										)}
 									</>
 								) : null}
 								<Col span={24}>

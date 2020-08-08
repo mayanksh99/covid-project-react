@@ -23,6 +23,7 @@ import {
 } from "../../../utils/services";
 import { EditOutlined } from "@ant-design/icons";
 import AmbulanceUpdate from "./AmbulanceUpdate";
+import AmbulanceOperatorUpdate from "./AmbulanceOperatorUpdate";
 
 const { Option } = Select;
 
@@ -33,8 +34,10 @@ const AmbulanceAdminDetails = props => {
 	const [operator, setOperator] = useState(null);
 	const [count, setCount] = useState(null);
 	const [showUpdateModal, setShowUpdateModal] = useState(false);
+	const [operatorUpdate, setOperatorUpdate] = useState(false);
 	const [ambulanceData, setAmbulanceData] = useState(null);
 	const [refresh, setRefresh] = useState(false);
+	const [refreshProfile, setRefreshProfile] = useState(false);
 	const [status, setStatus] = useState(null);
 	const [search, setSearch] = useState(null);
 
@@ -67,7 +70,7 @@ const AmbulanceAdminDetails = props => {
 				setIsLoading(false);
 			}
 		})();
-	}, [props.match.params.id]);
+	}, [props.match.params.id, refreshProfile]);
 
 	const handleModal = value => {
 		setShowModal(value);
@@ -108,6 +111,10 @@ const AmbulanceAdminDetails = props => {
 			_notification("warning", "Error", err.message);
 			setIsLoading(false);
 		}
+	};
+
+	const handleOperatorModal = value => {
+		setOperatorUpdate(value);
 	};
 
 	const columns = [
@@ -250,6 +257,16 @@ const AmbulanceAdminDetails = props => {
 									type="primary"
 									className="login-form-button"
 									style={{ float: "right" }}
+									onClick={() => handleOperatorModal(true)}
+									block
+								>
+									Edit profile
+								</Button>
+								<br />
+								<Button
+									type="primary"
+									className="login-form-button"
+									style={{ float: "right" }}
 									onClick={() => handleModal(true)}
 									block
 								>
@@ -376,6 +393,13 @@ const AmbulanceAdminDetails = props => {
 				data={ambulanceData}
 				refresh={refresh}
 				setRefresh={setRefresh}
+			/>
+			<AmbulanceOperatorUpdate
+				visible={operatorUpdate}
+				handleModal={handleOperatorModal}
+				data={operator}
+				refresh={refreshProfile}
+				setRefresh={setRefreshProfile}
 			/>
 		</div>
 	);

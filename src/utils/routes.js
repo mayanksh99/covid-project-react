@@ -29,6 +29,7 @@ export const GET_AMBULANCE_OPERATOR = "/ambulances/operator"; //GET
 export const ADD_AMBULANCE_OPERATOR = "/ambulances/operator"; //POST
 export const DEL_AMBULANCE = "/ambulances/delete"; //DEL
 export const UPDATE_AMBULANCE = "/ambulances/update"; //PUT
+export const UPDATE_OPERATOR = "/ambulances/operator"; //PUT
 export const ADD_AMBULANCE = "/ambulances/add"; //POST
 
 /******************DOCTOR ROUTES********************/

@@ -232,7 +232,7 @@ const PatientList = () => {
 								rules={[
 									{
 										type: "email",
-										required: true,
+										// required: true,
 										message: "Please input email!"
 									}
 								]}
@@ -266,7 +266,7 @@ const PatientList = () => {
 								rules={[
 									{
 										type: "email",
-										required: true,
+										// required: true,
 										message: "Please input email id!"
 									}
 								]}

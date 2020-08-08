@@ -8,6 +8,7 @@ export const GET_PATIENT = "/admins/patients"; //GET
 export const GET_ADMINS = "/admins"; //GET
 export const ADD_ADMIN = "/admins"; //POST
 export const DEL_BY_ADMIN = "/users"; //DELETE
+export const UPDATE_ADMIN = "/admins/"; //PUT
 
 /******************DOCTOR ADMIN ROUTES********************/
 export const GET_DOCTORS = "/doctors"; //GET

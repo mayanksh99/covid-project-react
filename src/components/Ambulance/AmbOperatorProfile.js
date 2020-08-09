@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getRole, _notification } from "../../utils/_helper";
-import { Row, Col, Form, Input, Button, Modal, Upload } from "antd";
+import { Row, Col, Form, Input, Button, Modal, Upload, Table } from "antd";
 import { Spin } from "antd";
 import { changePassword, addAmbulance } from "../../utils/services";
 import PageTitle from "../common/PageTitle";
@@ -21,6 +21,9 @@ const AmbAdminProfile = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [isSpinning, setIsSpinning] = useState(false);
 	const [isAmbAdding, setIsAmbAdding] = useState(false);
+	const [isResultsVisible, setIsResultsVisible] = useState(false);
+	const [bulkUploadDetails, setBulkUploadDetails] = useState(false);
+	const [data, setData] = useState(null);
 	const onFinish = async values => {
 		setIsSpinning(true);
 		const pwdDetails = {
@@ -50,7 +53,7 @@ const AmbAdminProfile = () => {
 			_notification("warning", "Error", err.message);
 		}
 	};
-
+	let i = 1;
 	const props = {
 		name: "file",
 		action: `https://covid-project-gzb.herokuapp.com/api/v1/ambulances/bulk/${userData[0].id}`,
@@ -58,11 +61,32 @@ const AmbAdminProfile = () => {
 			"x-auth-token": `${AUTH_TOKEN.token}`
 		},
 		onChange(info) {
-			// if (info.file.status !== "uploading") {
-			// 	console.log(info.file, info.fileList);
-			// }
 			if (info.file.status === "done") {
-				_notification("success", "Error", "Successfully uploaded !");
+				console.log(info.file.response);
+				if (info.file.response.data.invalidAmbulances.length === 0) {
+					_notification(
+						"success",
+						"Success",
+						"All vehicles were added successfully !"
+					);
+				} else {
+					setData(
+						info.file.response.data.invalidAmbulances.map(amb => {
+							return {
+								key: i++,
+								vehicleNo: amb.Ambulance,
+								reason: amb.error
+							};
+						})
+					);
+					setBulkUploadDetails(info.file.response.data);
+					_notification(
+						"error",
+						"Attention !",
+						"Ambulance addition failed. Please Check !"
+					);
+					setIsResultsVisible(true);
+				}
 			} else if (info.file.status === "error") {
 				_notification(
 					"error",
@@ -111,9 +135,31 @@ const AmbAdminProfile = () => {
 		setIsVisible(!isVisible);
 	};
 
+	const closeResults = () => {
+		setIsResultsVisible(false);
+	};
+
 	const handleCancel = () => {
 		setIsVisible(!isVisible);
 	};
+
+	const tableColumns = [
+		{
+			title: "#",
+			dataIndex: "key",
+			key: "key"
+		},
+		{
+			title: "Vehicle Number",
+			dataIndex: "vehicleNo",
+			key: "vehicleNo"
+		},
+		{
+			title: "Reason",
+			dataIndex: "reason",
+			key: "reason"
+		}
+	];
 
 	return (
 		<div>
@@ -134,7 +180,6 @@ const AmbAdminProfile = () => {
 				<div style={{ marginTop: "50px" }}>
 					<PageTitle title="Change Password" />
 				</div>
-
 				<Form name="register" onFinish={onFinish} form={form1}>
 					<Row>
 						<Col span={4}>Current Password</Col>
@@ -252,7 +297,6 @@ const AmbAdminProfile = () => {
 					</Upload>
 				</div>
 			</Spin>
-
 			<Modal
 				title={
 					<h3
@@ -339,7 +383,6 @@ const AmbAdminProfile = () => {
 								prefix={<PushpinOutlined />}
 							/>
 						</Form.Item>
-
 						<Form.Item>
 							<Button
 								type="primary"
@@ -352,6 +395,46 @@ const AmbAdminProfile = () => {
 						</Form.Item>
 					</Form>
 				</Spin>
+			</Modal>
+			{/*Ambulance Bulk Addition Modal*/}
+			<Modal
+				title={
+					<h3
+						style={{
+							textAlign: "center",
+							marginBottom: "-3px",
+							color: "#fff"
+						}}
+					>
+						Invalid Ambulances
+					</h3>
+				}
+				visible={isResultsVisible}
+				onCancel={closeResults}
+				footer={null}
+				centered={true}
+			>
+				<Row>
+					<Col span={12}>
+						Ambulance added : {`${bulkUploadDetails.totalAdded}`}
+					</Col>
+					<Col span={12}>
+						Ambulance failed : {`${bulkUploadDetails.totalFailed}`}
+					</Col>
+				</Row>
+				<Table
+					bordered={true}
+					columns={tableColumns}
+					dataSource={data ? data : null}
+					pagination={{ position: ["bottomCenter"], pageSize: "7" }}
+				></Table>
+				<Button
+					type="primary"
+					className="login-form-button"
+					onClick={closeResults}
+				>
+					Ok
+				</Button>
 			</Modal>
 		</div>
 	);

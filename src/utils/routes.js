@@ -4,15 +4,17 @@ export const USER_PROFILE = "/users/profile"; //GET
 /******************MASTER ADMIN ROUTES********************/
 
 export const ADD_PATIENT = "/admins/patients"; //POST
+export const GET_PATIENT = "/admins/patients"; //GET
 export const GET_ADMINS = "/admins"; //GET
 export const ADD_ADMIN = "/admins"; //POST
 export const DEL_BY_ADMIN = "/users"; //DELETE
+export const UPDATE_ADMIN = "/admins/"; //PUT
 
 /******************DOCTOR ADMIN ROUTES********************/
 export const GET_DOCTORS = "/doctors"; //GET
 export const ADD_DOCTOR = "/doctors"; //POST
 export const DOCTOR_PROFILE = "/doctors/profile"; //GET
-export const PATIENT_UNDER_DOCTOR = "/doctors/patients/examined"; //GET
+export const PATIENT_UNDER_DOCTOR = "/doctors/patients"; //GET
 export const UPDATE_DOCTOR = "/doctors"; //PUT
 
 /******************HOSPITAL ADMIN ROUTES********************/
@@ -28,6 +30,7 @@ export const GET_AMBULANCE_OPERATOR = "/ambulances/operator"; //GET
 export const ADD_AMBULANCE_OPERATOR = "/ambulances/operator"; //POST
 export const DEL_AMBULANCE = "/ambulances/delete"; //DEL
 export const UPDATE_AMBULANCE = "/ambulances/update"; //PUT
+export const UPDATE_OPERATOR = "/ambulances/operator"; //PUT
 export const ADD_AMBULANCE = "/ambulances/add"; //POST
 
 /******************DOCTOR ROUTES********************/

@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Card, Button, Table, Skeleton, Input } from "antd";
+import { Row, Col, Card, Button, Table, Skeleton, Input, Select } from "antd";
 import UpdatePatientReport from "./UpdatePatientReport";
 import PageTitle from "./../../common/PageTitle";
 import { _notification } from "../../../utils/_helper";
 import {
+	getPatientByHospitalService,
 	getHospitalByParamsServices,
-	getPatientByHospitalParamService
+	getPatientByHospitalParamService,
+	getAllotedPatientService
 } from "../../../utils/services";
 import PageStats from "../../common/PageStats";
 import ProfileDetails from "../../common/ProfileDetails";
-import { getPatientByHospitalService } from "./../../../utils/services";
 import UpdateProfile from "./UpdateProfile";
+
+const { Option } = Select;
 
 const HospitalDetails = props => {
 	const [patients, setPatients] = useState(null);
@@ -21,6 +24,8 @@ const HospitalDetails = props => {
 	const [showProfile, setShowProfile] = useState(false);
 	const [refresh, setRefresh] = useState(false);
 	const [refreshPatients, setRefreshPatients] = useState(false);
+	const [category, setCategory] = useState("occupied");
+	const [search, setSearch] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -60,17 +65,61 @@ const HospitalDetails = props => {
 
 	const handleQuery = async val => {
 		setIsLoading(true);
+		setSearch(val);
 		try {
 			let params = { search: val };
-			const res = await getPatientByHospitalParamService(
-				props.match.params.id,
-				params
-			);
-			setPatients(res.data.patients);
+			if (category === "occupied") {
+				const res = await getPatientByHospitalParamService(
+					props.match.params.id,
+					params
+				);
+				setPatients(res.data.patients);
+			} else if (category === "reserved") {
+				const res = await getAllotedPatientService(
+					props.match.params.id,
+					params
+				);
+				setPatients(res.data.patients);
+			}
 			setIsLoading(false);
 		} catch (err) {
 			_notification("warning", "Error", err.message);
 			setIsLoading(false);
+		}
+	};
+
+	const handleCategory = async value => {
+		if (value === "occupied") {
+			setCategory(value);
+			setIsLoading(true);
+			try {
+				let params = { search };
+				const res = await getPatientByHospitalParamService(
+					props.match.params.id,
+					params
+				);
+				setPatients(res.data.patients);
+				setIsLoading(false);
+			} catch (err) {
+				_notification("warning", "Error", err.message);
+				setIsLoading(false);
+			}
+		}
+		if (value === "reserved") {
+			setCategory(value);
+			setIsLoading(true);
+			try {
+				let params = { search };
+				const res = await getAllotedPatientService(
+					props.match.params.id,
+					params
+				);
+				setPatients(res.data.patients);
+				setIsLoading(false);
+			} catch (err) {
+				_notification("warning", "Error", err.message);
+				setIsLoading(false);
+			}
 		}
 	};
 
@@ -241,6 +290,24 @@ const HospitalDetails = props => {
 									allowClear
 									onSearch={value => handleQuery(value)}
 								/>
+							</Col>
+
+							<Col span={12}>
+								<div style={{ float: "right" }}>
+									<Select
+										defaultValue={category}
+										placeholder="select category"
+										onChange={handleCategory}
+										className="input-field"
+									>
+										<Option value="reserved">
+											Reserved beds
+										</Option>
+										<Option value="occupied">
+											Occupied beds
+										</Option>
+									</Select>
+								</div>
 							</Col>
 						</Row>
 

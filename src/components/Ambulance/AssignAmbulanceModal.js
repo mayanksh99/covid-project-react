@@ -17,6 +17,7 @@ const AssignAmbulanceModal = props => {
 	const [selectedId, setSelectedId] = useState(null);
 	const [availableAmbulance, setAvailableAmbulance] = useState(null);
 	const [driverDetails, setDriverDetails] = useState(null);
+	const [refresh, setRefresh] = useState(false);
 
 	useEffect(() => {
 		setAssignSpin(true);
@@ -42,7 +43,7 @@ const AssignAmbulanceModal = props => {
 				  ))
 				: null
 		);
-	}, [availableAmbulance]);
+	}, [availableAmbulance, refresh]);
 
 	const handleChange = value => {
 		setSelectedId(value);
@@ -71,6 +72,7 @@ const AssignAmbulanceModal = props => {
 			if (res.message === "success" && res.error === false) {
 				setAssignSpin(false);
 				setSelectedId(null);
+				setRefresh(!refresh);
 				props.handleCancel(false);
 				_notification(
 					"success",

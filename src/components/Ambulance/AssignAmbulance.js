@@ -35,6 +35,9 @@ const AssignAmbulance = () => {
 			setIsLoading(false);
 		});
 		socket.emit("patientsPoolForAmbulance", { token: Data.token });
+		return () => {
+			socket.off();
+		};
 	}, [Data.token]);
 
 	const attendPatient = async data => {

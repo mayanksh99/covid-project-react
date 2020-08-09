@@ -19,6 +19,7 @@ const AssignBed = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [number, setNumber] = useState(0);
 	const [modalData, setModalData] = useState(false);
+	const [refresh, setRefresh] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -180,6 +181,8 @@ const AssignBed = () => {
 				isVisible={isVisible}
 				handleCancel={handleCancel}
 				detail={modalData}
+				refresh={refresh}
+				setRefresh={setRefresh}
 			/>
 		</div>
 	);

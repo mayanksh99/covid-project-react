@@ -344,15 +344,15 @@ const HospitalDetails = props => {
 				handleModal={handleModal}
 				patientData={patientData}
 				hid={details ? details._id : null}
-				refresh={refresh}
-				setRefresh={setRefresh}
+				refresh={refreshPatients}
+				setRefresh={setRefreshPatients}
 			/>
 			<UpdateProfile
 				visible={showProfile}
 				handleModal={setShowProfile}
 				details={details}
-				refresh={refreshPatients}
-				setRefresh={setRefreshPatients}
+				refresh={refresh}
+				setRefresh={setRefresh}
 			/>
 		</div>
 	);

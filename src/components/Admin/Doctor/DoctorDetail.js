@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import PageTitle from "../../common/PageTitle";
-import { Row, Col, Card, Table, Avatar, Skeleton, Button } from "antd";
+import { Row, Col, Card, Table, Avatar, Skeleton, Button, Select } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import {
 	getDoctorProfileService,
 	searchDoctorService,
-	getExaminedPatientService
+	getPatientUnderDoctorService
 } from "../../../utils/services";
 import { _notification } from "../../../utils/_helper";
 import ProfileDetails from "../../common/ProfileDetails";
 import PageStats from "../../common/PageStats";
 import UpdateDoctorProfile from "./UpdateDoctorProfile";
+
+const { Option } = Select;
 
 const DoctorDetail = props => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +21,7 @@ const DoctorDetail = props => {
 	const [patients, setPatients] = useState(null);
 	const [showModal, setShowModal] = useState(false);
 	const [refresh, setRefresh] = useState(false);
+	const [status, setStatus] = useState("examined");
 
 	useEffect(() => {
 		(async () => {
@@ -54,17 +57,45 @@ const DoctorDetail = props => {
 			setIsLoading(true);
 			try {
 				const params = { did: props.match.params.id };
-				const res = await getExaminedPatientService(params);
+				const res = await getPatientUnderDoctorService(status, params);
 				setPatients(res.data);
 				setIsLoading(false);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [props.match.params.id]);
+	}, [props.match.params.id, status]);
 
 	const handleModal = value => {
 		setShowModal(value);
+	};
+
+	// const handleQuery = async val => {
+	// 	setIsLoading(true);
+	// 	setSearch(val);
+	// 	try {
+	// 		let params = { search: val, status, did: props.match.params.id };
+	// 		const res = await getPatientsService(params);
+	// 		setPatients(res.data);
+	// 		setIsLoading(false);
+	// 	} catch (err) {
+	// 		_notification("warning", "Error", err.message);
+	// 		setIsLoading(false);
+	// 	}
+	// };
+
+	const handleStatus = async val => {
+		// setIsLoading(true);
+		setStatus(val);
+		// try {
+		// 	let params = { did: props.match.params.id };
+		// 	const res = await getPatientsService(params);
+		// 	setPatients(res.data);
+		// 	setIsLoading(false);
+		// } catch (err) {
+		// 	_notification("warning", "Error", err.message);
+		// 	setIsLoading(false);
+		// }
 	};
 
 	const columns = [
@@ -159,38 +190,60 @@ const DoctorDetail = props => {
 								<br />
 								{detail ? (
 									<>
-										<ProfileDetails
-											label="Name"
-											data={detail.name}
-										/>
-										<ProfileDetails
-											label="Employee ID"
-											data={detail.empId}
-										/>
-										<ProfileDetails
-											label="Age"
-											data={detail.age}
-										/>
-										<ProfileDetails
-											label="Gender"
-											data={detail.gender}
-										/>
-										<ProfileDetails
-											label="Contact No."
-											data={detail.contact}
-										/>
-										<ProfileDetails
-											label="Email"
-											data={detail.email}
-										/>
-										<ProfileDetails
-											label="Address"
-											data={detail.address}
-										/>
-										<ProfileDetails
-											label="Hospital"
-											data={detail.hospital}
-										/>
+										{detail.name && (
+											<ProfileDetails
+												label="Name"
+												data={detail.name}
+											/>
+										)}
+										{detail.empId && (
+											<ProfileDetails
+												label="Employee ID"
+												data={detail.empId}
+											/>
+										)}
+										{detail.age && (
+											<ProfileDetails
+												label="Age"
+												data={detail.age}
+											/>
+										)}
+										{detail.gender && (
+											<ProfileDetails
+												label="Gender"
+												data={detail.gender}
+											/>
+										)}
+										{detail.contact && (
+											<ProfileDetails
+												label="Contact No."
+												data={detail.contact}
+											/>
+										)}
+										{detail.email && (
+											<ProfileDetails
+												label="Email"
+												data={detail.email}
+											/>
+										)}
+										{detail.address && (
+											<ProfileDetails
+												label="Address"
+												data={detail.address}
+											/>
+										)}
+										{detail.hospital && (
+											<ProfileDetails
+												label="Hospital"
+												data={detail.hospital}
+											/>
+										)}
+										{detail.about && (
+											<ProfileDetails
+												label="About"
+												data={detail.about}
+											/>
+										)}
 									</>
 								) : null}
 								<Col span={24}>
@@ -217,7 +270,7 @@ const DoctorDetail = props => {
 								</Col>
 								<Col xl={8} lg={8} md={8} sm={24} xs={24}>
 									<PageStats
-										title="Unexamined"
+										title="Unassigned"
 										value={count.unexamined}
 									/>
 								</Col>
@@ -229,6 +282,28 @@ const DoctorDetail = props => {
 								</Col>
 							</Row>
 						) : null}
+						<Row>
+							<Col span={24}>
+								<div style={{ float: "right" }}>
+									<Select
+										placeholder="select status"
+										defaultValue={status}
+										onChange={handleStatus}
+										className="input-field"
+									>
+										<Option value="examined">
+											Examined
+										</Option>
+										<Option value="unassigned">
+											Unassigned
+										</Option>
+										<Option value="declined">
+											Declined
+										</Option>
+									</Select>
+								</div>
+							</Col>
+						</Row>
 						<Card>
 							<p
 								style={{

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
 	Col,
-	Statistic,
 	Row,
 	Card,
 	Table,
@@ -27,16 +26,20 @@ import {
 	searchAdminsService
 } from "./../../utils/services";
 import { _notification } from "../../utils/_helper";
+import UpdateAdmin from "./UpdateAdmin";
+import PageStats from "./../common/PageStats";
 
 const { Option } = Select;
 
 const AdminList = () => {
 	const [action] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 	const [admins, setAdmins] = useState(null);
 	const [refresh, setRefresh] = useState(false);
 	const [permission, setPermission] = useState(null);
 	const [search, setSearch] = useState(null);
+	const [profileData, setProfileData] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -100,6 +103,11 @@ const AdminList = () => {
 		}
 	};
 
+	const handleModal = (val, data) => {
+		setProfileData(data);
+		setShowModal(val);
+	};
+
 	const columns = [
 		{
 			title: "#",
@@ -108,8 +116,12 @@ const AdminList = () => {
 		},
 		{
 			title: "Name",
-			dataIndex: "name",
-			key: "name"
+			key: "data",
+			render: data => (
+				<Link to="#" onClick={() => handleModal(true, data)}>
+					{data.name}
+				</Link>
+			)
 		},
 		{
 			title: "Email",
@@ -199,13 +211,9 @@ const AdminList = () => {
 		<>
 			<PageTitle title="Admin" />
 			<Col xl={6} lg={6} md={6} sm={6} xs={24}>
-				<Statistic
+				<PageStats
 					title="Total admins"
 					value={admins ? admins.length : 0}
-					valueStyle={{
-						color: "#005ea5",
-						fontWeight: 600
-					}}
 				/>
 			</Col>
 			<br />
@@ -268,6 +276,13 @@ const AdminList = () => {
 					</Card>
 				</Col>
 			</Row>
+			<UpdateAdmin
+				visible={showModal}
+				handleModal={setShowModal}
+				data={profileData}
+				refresh={refresh}
+				setRefresh={setRefresh}
+			/>
 		</>
 	);
 };

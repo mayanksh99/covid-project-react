@@ -60,6 +60,7 @@ const AttendPatient = ({
 					level: "",
 					comment: ""
 				});
+				setCheck(false);
 			}
 			setIsLoading(false);
 		} catch (err) {
@@ -180,7 +181,12 @@ const AttendPatient = ({
 									rules={[
 										{
 											required: !check,
-											message: "Please fill details !"
+
+
+
+
+											message: "Please assign severity level!"
+
 										}
 									]}
 								>
@@ -196,10 +202,7 @@ const AttendPatient = ({
 							</Col>
 							{parent !== "Declined" ? (
 								<Col xl={12} lg={12} md={12} sm={24} xs={24}>
-									<Form.Item
-										name="isDeclined"
-										// label="Declined to come?"
-									>
+									<Form.Item name="isDeclined">
 										<Checkbox
 											checked={check}
 											onChange={e => handleCheck(e)}

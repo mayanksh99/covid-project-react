@@ -33,7 +33,7 @@ const AssignBed = () => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [userData]);
+	}, [userData, refresh]);
 
 	useEffect(() => {
 		(async () => {

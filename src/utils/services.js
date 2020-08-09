@@ -40,8 +40,8 @@ import {
 	ADD_AMBULANCE
 } from "./routes";
 
-const BASE_URL = "https://c2614deb9f12.ngrok.io/api/v1";
-export const EndPoint = "https://c2614deb9f12.ngrok.io";
+const BASE_URL = "https://covid-project-gzb.herokuapp.com//api/v1";
+export const EndPoint = "https://covid-project-gzb.herokuapp.com/";
 
 axios.defaults.baseURL = BASE_URL;
 

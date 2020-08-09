@@ -113,7 +113,18 @@ const UpdatePatientReport = props => {
 					</h3>
 				}
 				visible={props.visible}
-				onCancel={() => props.handleModal(!props.visible)}
+				onCancel={() => {
+					props.handleModal(!props.visible);
+					form.setFieldsValue({
+						type: null,
+						testcheck: null,
+						reportresult: null,
+						rate: null,
+						comment: null,
+						patientstatus: null
+					});
+					setPatientStatus(null);
+				}}
 				footer={null}
 				width={600}
 				style={{ top: 10 }}

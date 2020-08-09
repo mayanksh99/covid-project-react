@@ -17,7 +17,6 @@ const AssignAmbulanceModal = props => {
 	const [selectedId, setSelectedId] = useState(null);
 	const [availableAmbulance, setAvailableAmbulance] = useState(null);
 	const [driverDetails, setDriverDetails] = useState(null);
-	const [refresh, setRefresh] = useState(false);
 
 	useEffect(() => {
 		setAssignSpin(true);
@@ -31,7 +30,7 @@ const AssignAmbulanceModal = props => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [userData]);
+	}, [userData, props.refresh]);
 
 	useEffect(() => {
 		setOptions(
@@ -43,7 +42,7 @@ const AssignAmbulanceModal = props => {
 				  ))
 				: null
 		);
-	}, [availableAmbulance, refresh]);
+	}, [availableAmbulance]);
 
 	const handleChange = value => {
 		setSelectedId(value);
@@ -72,7 +71,10 @@ const AssignAmbulanceModal = props => {
 			if (res.message === "success" && res.error === false) {
 				setAssignSpin(false);
 				setSelectedId(null);
-				setRefresh(!refresh);
+				form.setFieldsValue({
+					vehicleNo: null
+				});
+				props.setRefresh(!props.refresh);
 				props.handleCancel(false);
 				_notification(
 					"success",
@@ -96,7 +98,13 @@ const AssignAmbulanceModal = props => {
 				}
 				destroyOnClose={true}
 				visible={props.isVisible}
-				onCancel={() => props.handleCancel(false)}
+				onCancel={() => {
+					props.handleCancel(false);
+					form.setFieldsValue({
+						vehicleNo: null
+					});
+					setSelectedId(null);
+				}}
 				width={800}
 				centered
 				footer={null}

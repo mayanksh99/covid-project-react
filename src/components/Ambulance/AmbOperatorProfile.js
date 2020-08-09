@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { getRole, _notification } from "../../utils/_helper";
-import { Row, Col, Form, Input, Button, Modal, Upload, Table } from "antd";
+import { Row, Col, Form, Input, Button, Modal, Upload } from "antd";
 import { Spin } from "antd";
 import { changePassword, addAmbulance } from "../../utils/services";
 import PageTitle from "../common/PageTitle";
+import AddBulkResponseModal from "../../utils/_helper";
 import {
 	PushpinOutlined,
 	PhoneOutlined,
@@ -62,7 +63,6 @@ const AmbAdminProfile = () => {
 		},
 		onChange(info) {
 			if (info.file.status === "done") {
-				console.log(info.file.response);
 				if (info.file.response.data.invalidAmbulances.length === 0) {
 					_notification(
 						"success",
@@ -396,46 +396,15 @@ const AmbAdminProfile = () => {
 					</Form>
 				</Spin>
 			</Modal>
-			{/*Ambulance Bulk Addition Modal*/}
-			<Modal
-				title={
-					<h3
-						style={{
-							textAlign: "center",
-							marginBottom: "-3px",
-							color: "#fff"
-						}}
-					>
-						Invalid Ambulances
-					</h3>
-				}
-				visible={isResultsVisible}
-				onCancel={closeResults}
-				footer={null}
-				centered={true}
-			>
-				<Row>
-					<Col span={12}>
-						Ambulance added : {`${bulkUploadDetails.totalAdded}`}
-					</Col>
-					<Col span={12}>
-						Ambulance failed : {`${bulkUploadDetails.totalFailed}`}
-					</Col>
-				</Row>
-				<Table
-					bordered={true}
-					columns={tableColumns}
-					dataSource={data ? data : null}
-					pagination={{ position: ["bottomCenter"], pageSize: "7" }}
-				></Table>
-				<Button
-					type="primary"
-					className="login-form-button"
-					onClick={closeResults}
-				>
-					Ok
-				</Button>
-			</Modal>
+			<AddBulkResponseModal
+				isResultsVisible={isResultsVisible}
+				closeResults={closeResults}
+				tableColumns={tableColumns}
+				data={data}
+				bulkUploadDetails={bulkUploadDetails}
+				title={"Invalid Ambulances"}
+				whatIsBeingAdded={"Ambulance"}
+			/>
 		</div>
 	);
 };

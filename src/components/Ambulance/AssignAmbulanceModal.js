@@ -30,7 +30,7 @@ const AssignAmbulanceModal = props => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [userData]);
+	}, [userData, props.refresh]);
 
 	useEffect(() => {
 		setOptions(
@@ -71,6 +71,10 @@ const AssignAmbulanceModal = props => {
 			if (res.message === "success" && res.error === false) {
 				setAssignSpin(false);
 				setSelectedId(null);
+				form.setFieldsValue({
+					vehicleNo: null
+				});
+				props.setRefresh(!props.refresh);
 				props.handleCancel(false);
 				_notification(
 					"success",
@@ -94,7 +98,13 @@ const AssignAmbulanceModal = props => {
 				}
 				destroyOnClose={true}
 				visible={props.isVisible}
-				onCancel={() => props.handleCancel(false)}
+				onCancel={() => {
+					props.handleCancel(false);
+					form.setFieldsValue({
+						vehicleNo: null
+					});
+					setSelectedId(null);
+				}}
 				width={800}
 				centered
 				footer={null}

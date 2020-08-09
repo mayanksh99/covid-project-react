@@ -22,6 +22,7 @@ const AssignAmbulance = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [modalData, setModalData] = useState(null);
 	const [totalAmbulance, setTotalAmbulance] = useState(null);
+	const [refresh, setRefresh] = useState(false);
 
 	const handleCancel = value => {
 		setIsVisible(value);
@@ -35,7 +36,10 @@ const AssignAmbulance = () => {
 			setIsLoading(false);
 		});
 		socket.emit("patientsPoolForAmbulance", { token: Data.token });
-	}, [Data.token]);
+		return () => {
+			socket.off();
+		};
+	}, [Data.token, refresh]);
 
 	const attendPatient = async data => {
 		setModalData(data);
@@ -67,7 +71,7 @@ const AssignAmbulance = () => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [userData]);
+	}, [userData, refresh]);
 
 	const tableColumns = [
 		{
@@ -157,6 +161,8 @@ const AssignAmbulance = () => {
 				isVisible={isVisible}
 				handleCancel={handleCancel}
 				modalData={modalData}
+				refresh={refresh}
+				setRefresh={setRefresh}
 			/>
 		</div>
 	);

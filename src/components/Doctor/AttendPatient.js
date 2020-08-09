@@ -182,11 +182,8 @@ const AttendPatient = ({
 										{
 											required: !check,
 
-
-
-
-											message: "Please assign severity level!"
-
+											message:
+												"Please assign severity level!"
 										}
 									]}
 								>

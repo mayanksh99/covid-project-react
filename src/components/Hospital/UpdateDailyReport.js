@@ -119,11 +119,11 @@ const UpdateDailyReport = () => {
 					setModalSpin(false);
 					setIsVisible(false);
 					form.setFieldsValue({
-						testcheck: "",
-						reportresult: "",
-						rate: "",
-						comment: "",
-						type: "",
+						testcheck: null,
+						reportresult: null,
+						rate: null,
+						comment: null,
+						type: null,
 						patientstatus: null
 					});
 					setPatientStatus(null);
@@ -157,11 +157,11 @@ const UpdateDailyReport = () => {
 					setModalSpin(false);
 					setIsVisible(false);
 					form.setFieldsValue({
-						testcheck: "",
-						reportresult: "",
-						rate: "",
-						comment: "",
-						type: "",
+						testcheck: null,
+						reportresult: null,
+						rate: null,
+						comment: null,
+						type: null,
 						patientstatus: null
 					});
 					setPatientStatus(null);

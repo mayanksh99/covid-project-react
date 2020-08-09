@@ -17,6 +17,7 @@ const AddAdmin = ({ refresh, setRefresh }) => {
 				data = {
 					name: values.name,
 					email: values.email,
+					contact: values.contact,
 					permissions: ["master"]
 				};
 			} else {
@@ -90,6 +91,21 @@ const AddAdmin = ({ refresh, setRefresh }) => {
 							className="input-field"
 							placeholder="Enter email"
 							// prefix={<MailOutlined />}
+						/>
+					</Form.Item>
+					<Form.Item
+						name="contact"
+						label="Contact No."
+						rules={[
+							{
+								message: "Please input contact no.!"
+							}
+						]}
+					>
+						<Input
+							className="input-field"
+							placeholder="Enter contact number"
+							// prefix={<UserOutlined />}
 						/>
 					</Form.Item>
 					<Form.Item

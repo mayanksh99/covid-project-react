@@ -180,7 +180,7 @@ const AttendPatient = ({
 									rules={[
 										{
 											required: !check,
-											message: "Please input case id!"
+											message: "Please fill details !"
 										}
 									]}
 								>

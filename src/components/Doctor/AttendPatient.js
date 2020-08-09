@@ -181,7 +181,9 @@ const AttendPatient = ({
 									rules={[
 										{
 											required: !check,
-											message: "Please severity level!"
+
+											message:
+												"Please assign severity level!"
 										}
 									]}
 								>

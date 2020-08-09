@@ -23,6 +23,7 @@ const HospitalDetails = props => {
 	const [patientData, setPatientData] = useState(null);
 	const [showProfile, setShowProfile] = useState(false);
 	const [refresh, setRefresh] = useState(false);
+	const [refreshPatients, setRefreshPatients] = useState(false);
 	const [category, setCategory] = useState("occupied");
 	const [search, setSearch] = useState(null);
 
@@ -55,7 +56,7 @@ const HospitalDetails = props => {
 				setIsLoading(false);
 			}
 		})();
-	}, [props.match.params.id, refresh]);
+	}, [props.match.params.id, refreshPatients]);
 
 	const handleModal = (value, data) => {
 		setPatientData(data);
@@ -343,6 +344,8 @@ const HospitalDetails = props => {
 				handleModal={handleModal}
 				patientData={patientData}
 				hid={details ? details._id : null}
+				refresh={refreshPatients}
+				setRefresh={setRefreshPatients}
 			/>
 			<UpdateProfile
 				visible={showProfile}

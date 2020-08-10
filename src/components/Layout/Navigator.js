@@ -5,7 +5,7 @@ import {
 	BrowserRouter as Router,
 	Link
 } from "react-router-dom";
-import { Layout, Menu,Modal,Button } from "antd";
+import { Layout, Menu, Modal, Button } from "antd";
 import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getRole } from "./../../utils/_helper";
 import routes from "../../utils/_routes";
@@ -35,20 +35,18 @@ const Dashboard = props => {
 	const userData = useState(getRole());
 	const [isVisible, setIsVisible] = useState(false);
 
-	// const handleOk = () => 
+	// const handleOk = () =>
 	// 						{
 	// 							setIsVisible(!isVisible);
 	// 						};
 
-	const handleCancel = () => 
-							{
-								setIsVisible(!isVisible);
-							};
+	const handleCancel = () => {
+		setIsVisible(!isVisible);
+	};
 
-	const showModal = () => 
-							{
-								setIsVisible(!isVisible);
-							};
+	const showModal = () => {
+		setIsVisible(!isVisible);
+	};
 
 	return (
 		<>
@@ -103,10 +101,7 @@ const Dashboard = props => {
 								return 0;
 							})}
 
-							<Menu.Item
-								key={"signout"}
-								onClick={showModal}
-							>
+							<Menu.Item key={"signout"} onClick={showModal}>
 								<LockOutlined />
 								<span>Sign Out</span>
 							</Menu.Item>
@@ -302,24 +297,32 @@ const Dashboard = props => {
 			</Router>
 
 			<Modal
-				
-				title="Patient Details"
+				title={
+					<h3
+						style={{
+							textAlign: "center",
+							marginBottom: "-3px",
+							color: "#fff"
+						}}
+					>
+						Warning!
+					</h3>
+				}
 				visible={isVisible}
 				centered
 				onCancel={handleCancel}
-				width={800}
+				width={400}
 				footer={[
-						<Button key="submit" 
-								type="primary" 
-								onClick={() => {
-									localStorage.clear();
-									props.history.push("/login");
-								}}
-						>
-						
-							Sign Out
-						
-						</Button>
+					<Button
+						key="submit"
+						type="primary"
+						onClick={() => {
+							localStorage.clear();
+							props.history.push("/login");
+						}}
+					>
+						Sign Out
+					</Button>
 				]}
 			>
 				<p>Do You want to SignOut</p>

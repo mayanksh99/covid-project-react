@@ -1,24 +1,15 @@
 import React, { useState } from "react";
 import { getRole, _notification } from "../../utils/_helper";
-import { Row, Col, Form, Input, Button, Modal } from "antd";
+import { Row, Col, Form, Input, Button } from "antd";
 import { Spin } from "antd";
-import { changePassword, addAmbulance } from "../../utils/services";
+import { changePassword } from "../../utils/services";
 import PageTitle from "../common/PageTitle";
-import {
-	PushpinOutlined,
-	PhoneOutlined,
-	UserOutlined,
-	NumberOutlined
-} from "@ant-design/icons";
 import "./style.css";
 
 const AmbAdminProfile = () => {
 	const userData = useState(getRole());
 	const [form1] = Form.useForm();
-	const [form2] = Form.useForm();
-	const [isVisible, setIsVisible] = useState(false);
 	const [isSpinning, setIsSpinning] = useState(false);
-	const [isAmbAdding, setIsAmbAdding] = useState(false);
 	const onFinish = async values => {
 		setIsSpinning(true);
 		const pwdDetails = {
@@ -47,48 +38,6 @@ const AmbAdminProfile = () => {
 			setIsSpinning(false);
 			_notification("warning", "Error", err.message);
 		}
-	};
-
-	const add = async values => {
-		setIsAmbAdding(true);
-		const ambDetails = {
-			vehicleNo: values.vehiclenumber,
-			pincode: values.areapin,
-			name: values.drivername,
-			contact: values.driverphone
-		};
-		try {
-			const res = await addAmbulance(ambDetails, userData[0].id);
-			if (res.res.error) {
-				setIsAmbAdding(false);
-				_notification("error", "Error", res.res.message);
-			} else if (res.res.message === "success") {
-				form2.setFieldsValue({
-					vehiclenumber: "",
-					drivername: "",
-					driverphone: "",
-					areapin: ""
-				});
-				setIsAmbAdding(false);
-				setIsVisible(false);
-				_notification(
-					"success",
-					"Success",
-					"Ambulance added successfully"
-				);
-			}
-		} catch (err) {
-			setIsAmbAdding(false);
-			_notification("warning", "Error", err.message);
-		}
-	};
-
-	const showModal = () => {
-		setIsVisible(!isVisible);
-	};
-
-	const handleCancel = () => {
-		setIsVisible(!isVisible);
 	};
 
 	return (
@@ -210,115 +159,7 @@ const AmbAdminProfile = () => {
 						Change Password
 					</Button>
 				</Form>
-				<div style={{ marginTop: "20px" }}>
-					<Button
-						type="primary"
-						onClick={showModal}
-						style={{ width: "15%" }}
-					>
-						Add Ambulance
-					</Button>
-				</div>
 			</Spin>
-			<Modal
-				title={
-					<h3
-						style={{
-							textAlign: "center",
-							marginBottom: "-3px",
-							color: "#fff"
-						}}
-					>
-						Add Ambulance
-					</h3>
-				}
-				visible={isVisible}
-				onCancel={handleCancel}
-				footer={null}
-				width={400}
-			>
-				<Spin tip="Adding Ambulance..." spinning={isAmbAdding}>
-					<Form
-						layout="vertical"
-						name="normal_login"
-						form={form2}
-						onFinish={add}
-						className="login-form"
-						initialValues={{ remember: true }}
-					>
-						<Form.Item
-							name="vehiclenumber"
-							label="Vehicle Number"
-							rules={[
-								{
-									required: true,
-									message: "Please input vehicle number!"
-								}
-							]}
-						>
-							<Input
-								placeholder="Enter vehicle number"
-								prefix={<NumberOutlined />}
-							/>
-						</Form.Item>
-						<Form.Item
-							name="drivername"
-							label="Driver Name"
-							rules={[
-								{
-									required: true,
-									message: "Please input driver name!"
-								}
-							]}
-						>
-							<Input
-								placeholder="Enter driver name"
-								prefix={<UserOutlined />}
-							/>
-						</Form.Item>
-						<Form.Item
-							name="driverphone"
-							label="Driver Phone No."
-							rules={[
-								{
-									required: true,
-									message: "Please input driver phone no.!"
-								}
-							]}
-						>
-							<Input
-								placeholder="Enter driver phone no."
-								prefix={<PhoneOutlined />}
-							/>
-						</Form.Item>
-						<Form.Item
-							name="areapin"
-							label="Area Pin"
-							rules={[
-								{
-									required: true,
-									message: "Please input area pin!"
-								}
-							]}
-						>
-							<Input
-								placeholder="Enter area pin"
-								prefix={<PushpinOutlined />}
-							/>
-						</Form.Item>
-						<Form.Item>
-							<Button
-								type="primary"
-								htmlType="submit"
-								className="login-form-button"
-								block
-							>
-								Submit
-							</Button>
-						</Form.Item>
-					</Form>
-				</Spin>
-			</Modal>
 		</div>
 	);
 };

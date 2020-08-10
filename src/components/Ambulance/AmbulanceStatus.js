@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { getRole } from "./../../utils/_helper";
-import { Button, Table, Tag, Statistic, Col, Row, Upload, Select } from "antd";
+import {
+	Button,
+	Table,
+	Tag,
+	Statistic,
+	Col,
+	Row,
+	Upload,
+	Select,
+	Form
+} from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import PageTitle from "../common/PageTitle";
 import { _notification } from "../../utils/_helper";
 import {
 	getAllAmbulanceUnder,
-	getOperatorAmbService
+	getOperatorAmbService,
+	addAmbulance
 } from "../../utils/services";
 import "./style.css";
 import AmbulanceStatusModal from "./AmbulanceStatusModal";
+import AddAmbulanceModal from "./AddAmbulanceModal";
 import AddBulkResponseModal from "../../utils/_helper";
 
 const AmbulanceStatus = () => {
@@ -21,10 +33,13 @@ const AmbulanceStatus = () => {
 	const [bulkData, setBulkData] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
+	const [isAddAmbVisible, setIsAddAmbVisible] = useState(false);
 	const [modalData, setModalData] = useState(null);
 	const [ambulance, setAmbulance] = useState(null);
+	const [isAmbAdding, setIsAmbAdding] = useState(false);
 	const [count, setCount] = useState(null);
 	const [refresh, setRefresh] = useState(false);
+	const [form2] = Form.useForm();
 
 	useEffect(() => {
 		(async () => {
@@ -50,6 +65,10 @@ const AmbulanceStatus = () => {
 		setIsResultsVisible(false);
 	};
 
+	const showModal = () => {
+		setIsAddAmbVisible(!isAddAmbVisible);
+	};
+
 	const handleModal = data => {
 		setModalData(data);
 		handleCancel(true);
@@ -65,6 +84,40 @@ const AmbulanceStatus = () => {
 		} catch (err) {
 			_notification("warning", "Error", err.message);
 			setIsLoading(false);
+		}
+	};
+
+	const add = async values => {
+		setIsAmbAdding(true);
+		const ambDetails = {
+			vehicleNo: values.vehiclenumber,
+			pincode: values.areapin,
+			name: values.drivername,
+			contact: values.driverphone
+		};
+		try {
+			const res = await addAmbulance(ambDetails, userData[0].id);
+			if (res.res.error) {
+				setIsAmbAdding(false);
+				_notification("error", "Error", res.res.message);
+			} else if (res.res.message === "success") {
+				form2.setFieldsValue({
+					vehiclenumber: null,
+					drivername: null,
+					driverphone: null,
+					areapin: null
+				});
+				setIsAmbAdding(false);
+				setIsAddAmbVisible(false);
+				_notification(
+					"success",
+					"Success",
+					"Ambulance added successfully"
+				);
+			}
+		} catch (err) {
+			setIsAmbAdding(false);
+			_notification("warning", "Error", err.message);
 		}
 	};
 
@@ -256,6 +309,7 @@ const AmbulanceStatus = () => {
 									<Button
 										type="primary"
 										className="login-form-button"
+										onClick={showModal}
 									>
 										Add Ambulance
 									</Button>
@@ -325,6 +379,12 @@ const AmbulanceStatus = () => {
 				bulkUploadDetails={bulkUploadDetails}
 				title={"Invalid Ambulances"}
 				whatIsBeingAdded={"Ambulance"}
+			/>
+			<AddAmbulanceModal
+				isVisible={isAddAmbVisible}
+				setIsVisible={setIsAddAmbVisible}
+				isAmbAdding={isAmbAdding}
+				add={add}
 			/>
 		</div>
 	);

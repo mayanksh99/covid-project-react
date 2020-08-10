@@ -1,49 +1,100 @@
 import React, { useState } from "react";
-import { Modal, Row, Col, Form, Button, Select, Rate, Input } from "antd";
+import { Modal, Row, Col, Form, Button, Select, Input } from "antd";
 import ProfileDetails from "../../common/ProfileDetails";
 import { _notification } from "../../../utils/_helper";
-import { addPatientReportService } from "../../../utils/services";
+import {
+	addPatientReportService,
+	dischargePatientService
+} from "../../../utils/services";
 
 const { Option } = Select;
 const { TextArea } = Input;
-const rate = ["Undetermined", "Good", "Fair", "Serious", "Critical"];
 
 const UpdatePatientReport = props => {
 	const [form] = Form.useForm();
 	const [isLoading, setIsLoading] = useState(false);
 	const [performed, setPerformed] = useState(null);
+	const [patientStatus, setPatientStatus] = useState(null);
+
+	const handleStatusChange = value => {
+		setPatientStatus(value);
+	};
 
 	const onFinish = async values => {
 		setIsLoading(true);
-		try {
-			const data = {
-				pid: props.patientData.key,
-				testPerformed: values.testPerformed,
-				testReport: values.testReport,
-				rating: rate[values.rating],
-				comment: values.comment
-			};
-			const res = await addPatientReportService(props.hid, data);
-			if (res.error) {
-				_notification("error", "Error", res.message);
-			} else if (res.message === "success") {
-				_notification(
-					"success",
-					"Success",
-					"Report update successfully"
-				);
-				props.handleModal(false);
-				form.setFieldsValue({
-					testPerformed: "",
-					rating: "",
-					testReport: "",
-					comment: ""
-				});
+		if (patientStatus === "hospitalised") {
+			try {
+				const data = {
+					pid: props.patientData.key,
+					testPerformed: values.testPerformed,
+					testReport: values.testReport ? values.testReport : "",
+					rating: values.rate,
+					comment: values.comment
+				};
+
+				const res = await addPatientReportService(props.hid, data);
+				if (res.error) {
+					_notification("error", "Error", res.message);
+					setIsLoading(false);
+				} else if (res.message === "success") {
+					_notification(
+						"success",
+						"Success",
+						"Report update successfully"
+					);
+					props.handleModal(false);
+					form.setFieldsValue({
+						testPerformed: null,
+						rate: null,
+						testReport: null,
+						comment: null,
+						patientstatus: null,
+						type: null
+					});
+					setPatientStatus(null);
+				}
+				setIsLoading(false);
+			} catch (err) {
+				_notification("error", "Error", err.message);
+				setIsLoading(false);
 			}
-			setIsLoading(false);
-		} catch (err) {
-			_notification("error", "Error", err.message);
-			setIsLoading(false);
+		} else {
+			try {
+				setIsLoading(true);
+				const data = {
+					pid: props.patientData.key,
+					type: values.type
+				};
+				const response = await dischargePatientService(props.hid, data);
+				if (response.error) {
+					_notification("error", "Error", response.message);
+					setIsLoading(false);
+				} else if (
+					response.message === "success" &&
+					response.error === false
+				) {
+					_notification(
+						"success",
+						"Success",
+						"Patient is successfully discharged !"
+					);
+					props.setRefresh(!props.refresh);
+					form.setFieldsValue({
+						type: null,
+						testcheck: null,
+						reportresult: null,
+						rate: null,
+						comment: null,
+						patientstatus: null
+					});
+					setPatientStatus(null);
+					props.handleModal(false);
+					setIsLoading(false);
+				}
+			} catch (err) {
+				_notification("error", "Error", err.message);
+				setIsLoading(false);
+			}
 		}
 	};
 
@@ -62,7 +113,18 @@ const UpdatePatientReport = props => {
 					</h3>
 				}
 				visible={props.visible}
-				onCancel={() => props.handleModal(!props.visible)}
+				onCancel={() => {
+					props.handleModal(!props.visible);
+					form.setFieldsValue({
+						type: null,
+						testcheck: null,
+						reportresult: null,
+						rate: null,
+						comment: null,
+						patientstatus: null
+					});
+					setPatientStatus(null);
+				}}
 				footer={null}
 				width={600}
 				style={{ top: 10 }}
@@ -114,80 +176,161 @@ const UpdatePatientReport = props => {
 							<Row gutter={[16, 16]}>
 								<Col xl={12} lg={12} md={12} sm={12}>
 									<Form.Item
-										name="rating"
-										label="Rate the patient"
+										name="patientstatus"
+										label="Patient Status"
 										rules={[
 											{
 												required: true,
-												message: "Please select rating!"
-											}
-										]}
-									>
-										<Rate tooltips={rate} />
-									</Form.Item>
-								</Col>
-							</Row>
-							<Row gutter={[16, 16]}>
-								<Col xl={12} lg={12} md={12} sm={12}>
-									<Form.Item
-										name="testPerformed"
-										label="Test Performed Today"
-										rules={[
-											{
-												required: true,
-												message: "Please select!"
+												message: "Please fill details!"
 											}
 										]}
 									>
 										<Select
 											placeholder="select status"
-											onChange={e => setPerformed(e)}
+											onChange={handleStatusChange}
 										>
-											<Option value="yes">Yes</Option>
-											<Option value="no">No</Option>
+											<Option value="hospitalised">
+												Hospitalised
+											</Option>
+											<Option value="discharged">
+												Discharged
+											</Option>
 										</Select>
 									</Form.Item>
 								</Col>
-								{performed === "yes" ? (
-									<Col xl={12} lg={12} md={12} sm={12}>
-										<Form.Item
-											name="testReport"
-											label="Test Result"
-											rules={[
-												{
-													required:
-														performed === "yes"
-															? true
-															: false,
-													message: "Please select!"
-												}
-											]}
-										>
-											<Select placeholder="select status">
-												<Option value="positive">
-													Positive
-												</Option>
-												<Option value="negative">
-													Negative
-												</Option>
-											</Select>
-										</Form.Item>
-									</Col>
-								) : null}
 							</Row>
-							<Form.Item
-								name="comment"
-								label="Doctor's Comment"
-								rules={[
-									{
-										required: true,
-										message: "Please input comment!"
-									}
-								]}
-							>
-								<TextArea rows={4} />
-							</Form.Item>
-
+							{patientStatus === null ? null : patientStatus ===
+							  "hospitalised" ? (
+								<>
+									<Row gutter={[16, 16]}>
+										<Col xl={12} lg={12} md={12} sm={12}>
+											<Form.Item
+												name="rate"
+												label="Rate the patient"
+												rules={[
+													{
+														required: true,
+														message:
+															"Please fill details!"
+													}
+												]}
+											>
+												<Select placeholder="select">
+													<Option value="Undetermined">
+														Undetermined
+													</Option>
+													<Option value="Good">
+														Good
+													</Option>
+													<Option value="Fair">
+														Fair
+													</Option>
+													<Option value="Critical">
+														Critical
+													</Option>
+													<Option value="Serious">
+														Serious
+													</Option>
+												</Select>
+											</Form.Item>
+										</Col>
+									</Row>
+									<Row gutter={[16, 16]}>
+										<Col xl={12} lg={12} md={12} sm={12}>
+											<Form.Item
+												name="testPerformed"
+												label="Test Performed Today"
+												rules={[
+													{
+														required: true,
+														message:
+															"Please select!"
+													}
+												]}
+											>
+												<Select
+													placeholder="select status"
+													onChange={e =>
+														setPerformed(e)
+													}
+												>
+													<Option value="yes">
+														Yes
+													</Option>
+													<Option value="no">
+														No
+													</Option>
+												</Select>
+											</Form.Item>
+										</Col>
+										{performed === "yes" ? (
+											<Col
+												xl={12}
+												lg={12}
+												md={12}
+												sm={12}
+											>
+												<Form.Item
+													name="testReport"
+													label="Test Result"
+													rules={[
+														{
+															required:
+																performed ===
+																"yes"
+																	? true
+																	: false,
+															message:
+																"Please select!"
+														}
+													]}
+												>
+													<Select placeholder="select status">
+														<Option value="positive">
+															Positive
+														</Option>
+														<Option value="negative">
+															Negative
+														</Option>
+													</Select>
+												</Form.Item>
+											</Col>
+										) : null}
+									</Row>
+									<Form.Item
+										name="comment"
+										label="Doctor's Comment"
+										rules={[
+											{
+												required: true,
+												message: "Please input comment!"
+											}
+										]}
+									>
+										<TextArea rows={4} />
+									</Form.Item>
+								</>
+							) : (
+								<Form.Item
+									name="type"
+									label="Status of Patient"
+									rules={[
+										{
+											required: true,
+											message: "Please fill details!"
+										}
+									]}
+								>
+									<Select placeholder="select">
+										<Option value="deceased">
+											Deceased
+										</Option>
+										<Option value="recovered">
+											Recovered
+										</Option>
+									</Select>
+								</Form.Item>
+							)}
 							<Form.Item>
 								<Button
 									type="primary"

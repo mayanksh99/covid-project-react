@@ -1,33 +1,52 @@
-import React, { useState } from "react";
-import { Button, Modal, Form, Input, InputNumber } from "antd";
-import { _notification } from "../../../utils/_helper";
-import { addAmbulanceService } from "../../../utils/services";
+import React, { useState, useEffect } from "react";
+import { Modal, Form, Input, Button, Select } from "antd";
+import { _notification } from "../../utils/_helper";
+import { updateAdminService } from "./../../utils/services";
 
-const AddAmbulance = props => {
+const { Option } = Select;
+
+const UpdateAdmin = props => {
 	const [form] = Form.useForm();
 	const [isLoading, setIsLoading] = useState(false);
+
+	useEffect(() => {
+		if (props.data) {
+			form.setFieldsValue({
+				name: props.data.name,
+				permissions: props.data.permissions
+			});
+		}
+	}, [props.data, form]);
+
+	console.log(props.data);
 
 	const onFinish = async values => {
 		setIsLoading(true);
 		try {
-			const res = await addAmbulanceService(props.aoid, values);
+			let data;
+			if (values.permissions.includes("master")) {
+				data = {
+					name: values.name,
+					permissions: ["master"]
+				};
+			} else {
+				data = { ...values };
+			}
+			const res = await updateAdminService(props.data.key, data);
 			if (res.error) {
 				_notification("error", "Error", res.message);
-				setIsLoading(false);
 			} else if (res.message === "success") {
 				_notification(
 					"success",
 					"Success",
-					"Ambulance added successfully"
+					"Admin update successfully"
 				);
-				props.setRefresh(!props.refresh);
-				props.handleModal(false);
 				form.setFieldsValue({
 					name: "",
-					contact: "",
-					vehicleNo: "",
-					pincode: ""
+					permissions: []
 				});
+				props.setRefresh(!props.refresh);
+				props.handleModal(false);
 			}
 			setIsLoading(false);
 		} catch (err) {
@@ -37,7 +56,7 @@ const AddAmbulance = props => {
 	};
 
 	return (
-		<div>
+		<>
 			<Modal
 				title={
 					<h3
@@ -47,7 +66,7 @@ const AddAmbulance = props => {
 							color: "#fff"
 						}}
 					>
-						Add Ambulance
+						Update Admin
 					</h3>
 				}
 				visible={props.visible}
@@ -65,67 +84,37 @@ const AddAmbulance = props => {
 					onFinish={onFinish}
 				>
 					<Form.Item
-						name="vehicleNo"
-						label="Vehicle No."
-						rules={[
-							{
-								required: true,
-								message: "Please input vehicle no.!"
-							}
-						]}
-					>
-						<Input
-							className="input-field"
-							placeholder="Enter vehicle no."
-						/>
-					</Form.Item>
-					<Form.Item
 						name="name"
-						label="Driver Name"
+						label="Name"
 						rules={[
 							{
 								required: true,
-								message: "Please input driver name!"
+								message: "Please input name!"
 							}
 						]}
 					>
 						<Input
 							className="input-field"
-							placeholder="Enter driver name"
+							placeholder="Enter name"
 						/>
 					</Form.Item>
 					<Form.Item
-						name="contact"
-						label="Driver Contact No."
+						name="permissions"
+						label="Permissions"
 						rules={[
 							{
 								required: true,
-								message: "Please input driver contact no.!"
+								message: "Please select permission!"
 							}
 						]}
 					>
-						<Input
-							className="input-field"
-							placeholder="Enter driver contact no."
-						/>
+						<Select placeholder="Select permission" mode="multiple">
+							<Option value="master">Master</Option>
+							<Option value="doctor">Doctor</Option>
+							<Option value="hospital">Hospital</Option>
+							<Option value="ambulance">Ambulance</Option>
+						</Select>
 					</Form.Item>
-					<Form.Item
-						name="pincode"
-						label="Pin code"
-						rules={[
-							{
-								required: true,
-								message: "Please input pincode!"
-							}
-						]}
-					>
-						<InputNumber
-							className="input-field"
-							placeholder="Enter pincode"
-							style={{ width: "100%" }}
-						/>
-					</Form.Item>
-
 					<Form.Item>
 						<Button
 							type="primary"
@@ -139,8 +128,8 @@ const AddAmbulance = props => {
 					</Form.Item>
 				</Form>
 			</Modal>
-		</div>
+		</>
 	);
 };
 
-export default AddAmbulance;
+export default UpdateAdmin;

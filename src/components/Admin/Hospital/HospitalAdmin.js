@@ -59,7 +59,7 @@ const HospitalAdmin = () => {
 				_notification(
 					"success",
 					"Success",
-					"Doctor deleted successfully"
+					"Hospital deleted successfully"
 				);
 				setRefresh(!refresh);
 			}
@@ -211,7 +211,7 @@ const HospitalAdmin = () => {
 								onSearch={value => handleQuery(value)}
 							/>
 						</Col>
-						<Col span={12} style={{ float: "right" }}>
+						<Col span={12}>
 							<div style={{ float: "right" }}>
 								<Select
 									placeholder="select category"

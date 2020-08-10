@@ -1,9 +1,10 @@
 import React from "react";
 import { Statistic } from "antd";
 
-const PageStats = ({ title, value }) => {
+const PageStats = ({ title, value, ...rest }) => {
 	return (
 		<Statistic
+			{...rest}
 			title={title}
 			value={value}
 			valueStyle={{

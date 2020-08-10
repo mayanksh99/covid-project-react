@@ -11,10 +11,10 @@ import { Link } from "react-router-dom";
 import DoctorAdminOption from "./DoctorAdminOption";
 import {
 	getDoctorsService,
-	searchDoctorService
+	searchDoctorService,
+	delByAdminService
 } from "../../../utils/services";
 import { _notification } from "../../../utils/_helper";
-import { delByAdminService } from "./../../../utils/services";
 
 const DoctorAdmin = () => {
 	const [refresh, setRefresh] = useState(false);
@@ -34,19 +34,6 @@ const DoctorAdmin = () => {
 		})();
 	}, [refresh]);
 
-	const handleQuery = async val => {
-		setIsLoading(true);
-		try {
-			let params = { search: val };
-			const res = await searchDoctorService(params);
-			setDoctors(res.data);
-			setIsLoading(false);
-		} catch (err) {
-			_notification("warning", "Error", err.message);
-			setIsLoading(false);
-		}
-	};
-
 	const handleDelete = async id => {
 		try {
 			const res = await delByAdminService("doctor", id);
@@ -65,6 +52,21 @@ const DoctorAdmin = () => {
 		}
 	};
 
+	const handleQuery = async val => {
+		setIsLoading(true);
+		try {
+			let params = {
+				search: val
+			};
+			const res = await searchDoctorService(params);
+			setDoctors(res.data);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
+
 	const columns = [
 		{
 			title: "#",
@@ -76,18 +78,15 @@ const DoctorAdmin = () => {
 			title: "Name",
 			dataIndex: "name",
 			key: "name",
-			render: name => <Link to="/doctordetails/sdvsdvsd">{name}</Link>
+			render: name => (
+				<Link to={`/doctordetails/${name[0]}`}>{name[1]}</Link>
+			)
 		},
 		{
 			title: "ID",
 			dataIndex: "empId",
 			key: "empId"
 		},
-		// {
-		// 	title: "Age",
-		// 	dataIndex: "age",
-		// 	key: "age"
-		// },
 		{
 			title: "Contact",
 			dataIndex: "contact",
@@ -154,7 +153,7 @@ const DoctorAdmin = () => {
 				return {
 					index: ++id,
 					key: _id,
-					name,
+					name: [_id, name],
 					hospital,
 					contact,
 					age,

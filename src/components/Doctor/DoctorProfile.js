@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Button, Card, Skeleton } from "antd";
+import { Row, Col, Button, Card, Skeleton, Avatar } from "antd";
 import PageTitle from "../common/PageTitle";
 import "./style.css";
 import { _notification } from "../../utils/_helper";
 import { getProfileService } from "./../../utils/services";
 import { Link } from "react-router-dom";
+import { UserOutlined } from "@ant-design/icons";
 
 const DoctorProfile = () => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +33,17 @@ const DoctorProfile = () => {
 						<div className="DoctorProfile-content">
 							<Row className="image-section">
 								<div className="DoctorProfile-img">
-									<img src={data.image} alt="profilepic" />
+									{data.image ? (
+										<img
+											src={data.image}
+											alt="profilepic"
+										/>
+									) : (
+										<Avatar
+											size={72}
+											icon={<UserOutlined />}
+										/>
+									)}
 								</div>
 							</Row>
 							<div className="Doctor-details">

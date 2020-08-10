@@ -9,38 +9,53 @@ import {
 	Input,
 	Modal,
 	Select,
-	Rate,
-	Form
+	Form,
+	Spin
 } from "antd";
 import { _notification, getRole } from "../../utils/_helper";
 import PageTitle from "../common/PageTitle";
 import {
 	addReportService,
 	getadmittedPatientsService,
-	searchAdmittedPatientsService
+	searchAdmittedPatientsService,
+	dischargePatientService
 } from "../../utils/services";
 
-const UpdateDailyReport = props => {
-	const userData = useState(getRole());
-	const { Option } = Select;
-	const { TextArea, Search } = Input;
+const { Option } = Select;
+const { TextArea } = Input;
+
+const UpdateDailyReport = () => {
+	const [userData] = useState(getRole());
 	const [isVisible, setIsVisible] = useState(false);
 	const [rowData, setrowData] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [patients, setpatients] = useState(null);
 	const [refresh, setRefresh] = useState(false);
-	const [testcheck, settestcheck] = useState("");
+	const [testcheck, settestcheck] = useState(null);
+	const [patientStatus, setPatientStatus] = useState(null);
 	const [number, setNumber] = useState("");
+	const [modalSpin, setModalSpin] = useState(false);
 	const [form] = Form.useForm();
 	const showModal = () => {
-		setIsVisible(!isVisible);
-	};
-	const handleOk = () => {
-		setIsVisible(!isVisible);
+		setIsVisible(true);
 	};
 	const handleCancel = () => {
-		setIsVisible(!isVisible);
+		setIsVisible(false);
+		form.setFieldsValue({
+			testcheck: null,
+			reportresult: null,
+			rate: null,
+			comment: null,
+			type: null,
+			patientstatus: null
+		});
+		setPatientStatus(null);
 	};
+	console.log(userData);
+	const handleStatusChange = value => {
+		setPatientStatus(value);
+	};
+
 	const handleChange = val => {
 		settestcheck(val);
 	};
@@ -48,19 +63,15 @@ const UpdateDailyReport = props => {
 		(async () => {
 			setIsLoading(true);
 			try {
-				if (userData) {
-					const res = await getadmittedPatientsService(
-						userData[0].id
-					);
-					setNumber(res.data.totalResults);
-					setpatients(res.data.patients);
-					setIsLoading(false);
-					console.log(res);
-				}
+				const res = await getadmittedPatientsService(userData.id);
+				setNumber(res.data.totalResults);
+				setpatients(res.data.patients);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
 			}
+			setIsLoading(false);
 		})();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [refresh]);
 
 	const handleQuery = async val => {
@@ -68,7 +79,7 @@ const UpdateDailyReport = props => {
 		try {
 			let params = { search: val };
 			const res = await searchAdmittedPatientsService(
-				userData[0].id,
+				userData.id,
 				params
 			);
 			setpatients(res.data.patients);
@@ -80,41 +91,85 @@ const UpdateDailyReport = props => {
 	};
 
 	const onFinish = async values => {
-		setIsLoading(true);
 		console.log(values);
-		try {
-			const rawdata = {
-				pid: rowData.key,
-				testPerformed: testcheck,
-				testReport: values.reportresult,
-				rating: values.rate,
-				comment: values.comment
-				// patientstatus: values.patientstatus,
-			};
-			// console.log(rawdata);
-			const res = await addReportService(userData[0].id, rawdata);
-			if (res.error) {
-				_notification("error", "Error", res.message);
-			} else if (res.message === "success") {
-				_notification(
-					"success",
-					"Success",
-					"Report added successfully"
+		if (values.patientstatus === "discharged") {
+			try {
+				setModalSpin(true);
+				const rawdata = {
+					pid: rowData.key,
+					type: values.type
+				};
+				const response = await dischargePatientService(
+					userData.id,
+					rawdata
 				);
-				setRefresh(!refresh);
-
-				form.setFieldsValue({
-					// patientstatus: "",
-					testPerformed: "",
-					testReport: "",
-					rating: "",
-					comment: ""
-				});
+				if (response.error) {
+					_notification("error", "Error", response.message);
+					setModalSpin(false);
+				} else if (
+					response.message === "success" &&
+					response.error === false
+				) {
+					_notification(
+						"success",
+						"Success",
+						"Patient is successfully discharged !"
+					);
+					setRefresh(!refresh);
+					setModalSpin(false);
+					setIsVisible(false);
+					form.setFieldsValue({
+						testcheck: null,
+						reportresult: null,
+						rate: null,
+						comment: null,
+						type: null,
+						patientstatus: null
+					});
+					setPatientStatus(null);
+				}
+				console.log(response);
+			} catch (err) {
+				_notification("error", "Error", err.message);
+				setModalSpin(false);
 			}
-			setIsLoading(false);
-		} catch (err) {
-			_notification("error", "Error", err.message);
-			setIsLoading(false);
+		} else if (values.patientstatus === "hospitalised") {
+			try {
+				setModalSpin(true);
+				const rawdata = {
+					pid: rowData.key,
+					testPerformed: values.testcheck,
+					testReport: values.reportresult ? values.reportresult : "",
+					rating: values.rate,
+					comment: values.comment
+				};
+				const res = await addReportService(userData.id, rawdata);
+				if (res.error) {
+					_notification("error", "Error", res.message);
+					setModalSpin(false);
+				} else if (res.message === "success") {
+					_notification(
+						"success",
+						"Success",
+						"Report updated successfully"
+					);
+					setRefresh(!refresh);
+					setModalSpin(false);
+					setIsVisible(false);
+					form.setFieldsValue({
+						testcheck: null,
+						reportresult: null,
+						rate: null,
+						comment: null,
+						type: null,
+						patientstatus: null
+					});
+					setPatientStatus(null);
+				}
+			} catch (err) {
+				_notification("error", "Error", err.message);
+				setModalSpin(false);
+			}
 		}
 	};
 
@@ -145,6 +200,103 @@ const UpdateDailyReport = props => {
 				};
 		  })
 		: null;
+
+	const showTestPerformed =
+		patientStatus === null || patientStatus === "discharged" ? null : (
+			<Form.Item
+				name="testcheck"
+				initialValue="no"
+				label="Test Performed Today:"
+				rules={[
+					{
+						required: true,
+						message: "Please fill details!"
+					}
+				]}
+			>
+				<Select onChange={handleChange}>
+					<Option value="no">No</Option>
+					<Option value="yes">Yes</Option>
+				</Select>
+			</Form.Item>
+		);
+
+	const showReportResult =
+		patientStatus === "discharged" ||
+		patientStatus === null ? null : testcheck === null ||
+		  testcheck === "no" ? null : (
+			<Form.Item
+				name="reportresult"
+				initialValue="positive"
+				label="Report Result:"
+				rules={[
+					{
+						required: true,
+						message: "Please fill details!"
+					}
+				]}
+			>
+				<Select placeholder="select">
+					<Option value="negative">negative</Option>
+					<Option value="positive">positive</Option>
+				</Select>
+			</Form.Item>
+		);
+
+	const showPatientRating =
+		patientStatus === null ? null : patientStatus === "discharged" ? (
+			<Form.Item
+				name="type"
+				label="Status of Patient"
+				rules={[
+					{
+						required: true,
+						message: "Please fill details!"
+					}
+				]}
+			>
+				<Select placeholder="select">
+					<Option value="deceased">Deceased</Option>
+					<Option value="recovered">Recovered</Option>
+				</Select>
+			</Form.Item>
+		) : (
+			<Form.Item
+				name="rate"
+				label="Rate the patient"
+				rules={[
+					{
+						required: true,
+						message: "Please fill details!"
+					}
+				]}
+			>
+				<Select placeholder="select">
+					<Option value="Undetermined">Undetermined</Option>
+					<Option value="Good">Good</Option>
+					<Option value="Fair">Fair</Option>
+					<Option value="Critical">Critical</Option>
+					<Option value="Serious">Serious</Option>
+				</Select>
+			</Form.Item>
+		);
+
+	const showDoctorComment =
+		patientStatus === null || patientStatus === "discharged" ? null : (
+			<Form.Item
+				name="comment"
+				label="Doctor's Comment"
+				rules={[
+					{
+						required: true,
+						message: "Please fill details!"
+					}
+				]}
+			>
+				<TextArea rows={4} />
+			</Form.Item>
+		);
+
 	const columns = [
 		{
 			title: "#",
@@ -240,111 +392,96 @@ const UpdateDailyReport = props => {
 					</h3>
 				}
 				visible={isVisible}
+				destroyOnClose={true}
 				centered
 				onCancel={handleCancel}
 				width={800}
 				footer={null}
 			>
-				{rowData ? (
-					<>
-						<Row>
-							<Col span={4}>Name</Col>
-							<Col span={7}>{rowData.name}</Col>
-							<Col span={5}>ID</Col>
-							<Col span={8}>{rowData.caseId}</Col>
-						</Row>
-						<Row>
-							<Col span={4}>Gender</Col>
-							<Col span={7}>{rowData.gender}</Col>
-							<Col span={5}>Age</Col>
-							<Col span={8}>{rowData.age}</Col>
-						</Row>
-						<Row>
-							<Col span={4}>Ph. Number</Col>
-							<Col span={7}> {`+91-${rowData.phone}`}</Col>
-							<Col span={5}>District</Col>
-							<Col span={8}>{rowData.district}</Col>
-						</Row>
-						<Row>
-							<Col span={4}>E-mail</Col>
-							<Col span={7}> {rowData.email}</Col>
-							<Col span={5}>Patient Address</Col>
-							<Col span={8}>{rowData.address}</Col>
-						</Row>
-						<Form
-							form={form}
-							name="update_patient_report"
-							className="login-form"
-							onFinish={onFinish}
-							// initialValues={{ remember: true }}
-						>
+				<Spin spinning={modalSpin} tip="Processing...">
+					{rowData ? (
+						<>
 							<Row>
-								<Col xl={12} lg={12} md={12} sm={12}>
-									<Form.Item
-										name="patientstatus"
-										label="Patient Status"
-									>
-										<Select placeholder="select status">
-											<Option value="hospitalised">
-												Hospitalised
-											</Option>
-											<Option value="discharged">
-												Discharged
-											</Option>
-										</Select>
-									</Form.Item>
-								</Col>
+								<Col span={4}>Name</Col>
+								<Col span={7}>{rowData.name}</Col>
+								<Col span={5}>ID</Col>
+								<Col span={8}>{rowData.caseId}</Col>
 							</Row>
-							<Row gutter={[16, 16]}>
-								<Col xl={12} lg={12} md={12} sm={12}>
-									<Form.Item
-										name="testcheck"
-										label="Test Performed Today:"
-									>
-										<Select
-											defaultValue="No"
-											onChange={handleChange}
+							<Row>
+								<Col span={4}>Gender</Col>
+								<Col span={7}>{rowData.gender}</Col>
+								<Col span={5}>Age</Col>
+								<Col span={8}>{rowData.age}</Col>
+							</Row>
+							<Row>
+								<Col span={4}>Ph. Number</Col>
+								<Col span={7}> {`+91-${rowData.phone}`}</Col>
+								<Col span={5}>District</Col>
+								<Col span={8}>{rowData.district}</Col>
+							</Row>
+							<Row>
+								<Col span={4}>E-mail</Col>
+								<Col span={7}> {rowData.email}</Col>
+								<Col span={5}>Patient Address</Col>
+								<Col span={8}>{rowData.address}</Col>
+							</Row>
+							<Form
+								form={form}
+								name="update_patient_report"
+								className="login-form"
+								onFinish={onFinish}
+							>
+								<Row>
+									<Col xl={12} lg={12} md={12} sm={12}>
+										<Form.Item
+											name="patientstatus"
+											label="Patient Status"
+											rules={[
+												{
+													required: true,
+													message:
+														"Please fill details!"
+												}
+											]}
 										>
-											<Option value="No">No</Option>
-											<Option value="Yes">Yes</Option>
-										</Select>
-									</Form.Item>
-								</Col>
-								<Col xl={12} lg={12} md={12} sm={12}>
-									<Form.Item
-										name="reportresult"
-										label="Report Result:"
+											<Select
+												placeholder="select status"
+												onChange={handleStatusChange}
+											>
+												<Option value="hospitalised">
+													Hospitalised
+												</Option>
+												<Option value="discharged">
+													Discharged
+												</Option>
+											</Select>
+										</Form.Item>
+									</Col>
+								</Row>
+
+								<Row gutter={[16, 16]}>
+									<Col xl={12} lg={12} md={12} sm={12}>
+										{showTestPerformed}
+									</Col>
+									<Col xl={12} lg={12} md={12} sm={12}>
+										{showReportResult}
+									</Col>
+								</Row>
+								{showPatientRating}
+								{showDoctorComment}
+								<Form.Item>
+									<Button
+										type="primary"
+										htmlType="submit"
+										className="login-form-button"
 									>
-										<Select placeholder="select">
-											<Option value="Negative">
-												Negative
-											</Option>
-											<Option value="Positive">
-												Positive
-											</Option>
-										</Select>
-									</Form.Item>
-								</Col>
-							</Row>
-							<Form.Item name="rate" label="Rate the patient">
-								<Rate />
-							</Form.Item>
-							<Form.Item name="comment" label="Doctor's Comment">
-								<TextArea rows={4} />
-							</Form.Item>
-							<Form.Item>
-								<Button
-									type="primary"
-									htmlType="submit"
-									className="login-form-button"
-									onClick={handleOk}
-								>
-									Submit
-								</Button>
-							</Form.Item>
-						</Form>
-					</>
-				) : null}
+										Submit
+									</Button>
+								</Form.Item>
+							</Form>
+						</>
+					) : null}
+				</Spin>
 			</Modal>
 		</div>
 	);

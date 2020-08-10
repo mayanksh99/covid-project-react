@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
 	Col,
-	Statistic,
 	Row,
 	Card,
 	Table,
 	Popconfirm,
 	Tooltip,
 	Divider,
-	Tag
+	Tag,
+	Input,
+	Select
 } from "antd";
 import {
 	CloseCircleOutlined,
@@ -19,14 +20,26 @@ import {
 } from "@ant-design/icons";
 import PageTitle from "./../common/PageTitle";
 import AddAdmin from "./AddAdmin";
-import { getAdminsService, delByAdminService } from "./../../utils/services";
+import {
+	getAdminsService,
+	delByAdminService,
+	searchAdminsService
+} from "./../../utils/services";
 import { _notification } from "../../utils/_helper";
+import UpdateAdmin from "./UpdateAdmin";
+import PageStats from "./../common/PageStats";
+
+const { Option } = Select;
 
 const AdminList = () => {
 	const [action] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 	const [admins, setAdmins] = useState(null);
 	const [refresh, setRefresh] = useState(false);
+	const [permission, setPermission] = useState(null);
+	const [search, setSearch] = useState(null);
+	const [profileData, setProfileData] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -59,6 +72,42 @@ const AdminList = () => {
 		}
 	};
 
+	const handleQuery = async val => {
+		setIsLoading(true);
+		setSearch(val);
+		try {
+			let params = {
+				search: val,
+				permission
+			};
+			const res = await searchAdminsService(params);
+			setAdmins(res.data);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
+
+	const handlePermission = async val => {
+		setIsLoading(true);
+		setPermission(val);
+		try {
+			let params = { permission: val, search };
+			const res = await searchAdminsService(params);
+			setAdmins(res.data);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
+
+	const handleModal = (val, data) => {
+		setProfileData(data);
+		setShowModal(val);
+	};
+
 	const columns = [
 		{
 			title: "#",
@@ -67,13 +116,22 @@ const AdminList = () => {
 		},
 		{
 			title: "Name",
-			dataIndex: "name",
-			key: "name"
+			key: "data",
+			render: data => (
+				<Link to="#" onClick={() => handleModal(true, data)}>
+					{data.name}
+				</Link>
+			)
 		},
 		{
 			title: "Email",
 			dataIndex: "email",
 			key: "email"
+		},
+		{
+			title: "Contact",
+			dataIndex: "contact",
+			key: "contact"
 		},
 		{
 			title: "Permissions",
@@ -142,13 +200,14 @@ const AdminList = () => {
 
 	const data = admins
 		? admins.map((admin, i) => {
-				const { _id, name, email, permissions } = admin;
+				const { _id, name, email, permissions, contact } = admin;
 				return {
 					index: ++i,
 					key: _id,
 					name,
 					email,
 					permissions,
+					contact: contact ? contact : "",
 					action: _id
 				};
 		  })
@@ -158,13 +217,9 @@ const AdminList = () => {
 		<>
 			<PageTitle title="Admin" />
 			<Col xl={6} lg={6} md={6} sm={6} xs={24}>
-				<Statistic
+				<PageStats
 					title="Total admins"
 					value={admins ? admins.length : 0}
-					valueStyle={{
-						color: "#005ea5",
-						fontWeight: 600
-					}}
 				/>
 			</Col>
 			<br />
@@ -173,6 +228,33 @@ const AdminList = () => {
 					<AddAdmin refresh={refresh} setRefresh={setRefresh} />
 				</Col>
 				<Col xs={24} sm={24} md={24} lg={16} xl={18}>
+					<Row>
+						<Col span={12}>
+							<Input.Search
+								className="input-field"
+								type="text"
+								style={{ width: 200, marginBottom: 12 }}
+								placeholder="Search"
+								allowClear
+								onSearch={value => handleQuery(value)}
+							/>
+						</Col>
+						<Col span={12} style={{ float: "right" }}>
+							<div style={{ float: "right" }}>
+								<Select
+									placeholder="Select Permissions"
+									onChange={handlePermission}
+									allowClear
+									className="input-field"
+								>
+									<Option value="master">Master</Option>
+									<Option value="doctor">Doctor</Option>
+									<Option value="hospital">Hospital</Option>
+									<Option value="ambulance">Ambulance</Option>
+								</Select>
+							</div>
+						</Col>
+					</Row>
 					<Card>
 						<p
 							style={{
@@ -200,6 +282,13 @@ const AdminList = () => {
 					</Card>
 				</Col>
 			</Row>
+			<UpdateAdmin
+				visible={showModal}
+				handleModal={setShowModal}
+				data={profileData}
+				refresh={refresh}
+				setRefresh={setRefresh}
+			/>
 		</>
 	);
 };

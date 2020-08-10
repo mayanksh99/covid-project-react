@@ -5,7 +5,7 @@ import {
 	BrowserRouter as Router,
 	Link
 } from "react-router-dom";
-import { Layout, Menu } from "antd";
+import { Layout, Menu,Modal,Button } from "antd";
 import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getRole } from "./../../utils/_helper";
 import routes from "../../utils/_routes";
@@ -13,7 +13,7 @@ import PrivateRoute from "./PrivateRoute";
 import AmbulanceOperatorDetails from "../Admin/Ambulance/AmbulanceOperatorDetails";
 import HospitalDetails from "./../Admin/Hospital/HospitalDetails";
 import PatientExamine from "./../Doctor/PatientExamine";
-import AmbAdminProfile from "./../Ambulance/AmbAdminProfile";
+import AmbOperatorProfile from "./../Ambulance/AmbOperatorProfile";
 import AssignAmbulance from "./../Ambulance/AssignAmbulance";
 import AmbulanceStatus from "./../Ambulance/AmbulanceStatus";
 import AssignBed from "./../Hospital/AssignBed";
@@ -24,7 +24,7 @@ import HospitalAdmin from "./../Admin/Hospital/HospitalAdmin";
 import DoctorAdmin from "./../Admin/Doctor/DoctorAdmin";
 import AdminList from "./../Admin/AdminList";
 import PatientList from "./../Admin/PatientList";
-import DoctorDetail from "../Admin/Doctor/DoctorAdminDetail";
+import DoctorDetail from "../Admin/Doctor/DoctorDetail";
 import DoctorEditProfile from "../Doctor/DoctorEditProfile";
 import UnassignedPatients from "../Doctor/UnassignedPatients";
 import DeclinedPatient from "./../Doctor/DeclinedPatient";
@@ -33,6 +33,22 @@ const { Content, Sider } = Layout;
 const Dashboard = props => {
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const userData = useState(getRole());
+	const [isVisible, setIsVisible] = useState(false);
+
+	// const handleOk = () => 
+	// 						{
+	// 							setIsVisible(!isVisible);
+	// 						};
+
+	const handleCancel = () => 
+							{
+								setIsVisible(!isVisible);
+							};
+
+	const showModal = () => 
+							{
+								setIsVisible(!isVisible);
+							};
 
 	return (
 		<>
@@ -89,10 +105,7 @@ const Dashboard = props => {
 
 							<Menu.Item
 								key={"signout"}
-								onClick={() => {
-									localStorage.clear();
-									props.history.push("/login");
-								}}
+								onClick={showModal}
 							>
 								<LockOutlined />
 								<span>Sign Out</span>
@@ -156,7 +169,7 @@ const Dashboard = props => {
 								<PrivateRoute
 									exact
 									path="/amb-admin-Profile"
-									component={AmbAdminProfile}
+									component={AmbOperatorProfile}
 									role="ambulanceoperator"
 									data={userData[0]}
 								/>
@@ -287,6 +300,30 @@ const Dashboard = props => {
 					</Layout>
 				</Layout>
 			</Router>
+
+			<Modal
+				
+				title="Patient Details"
+				visible={isVisible}
+				centered
+				onCancel={handleCancel}
+				width={800}
+				footer={[
+						<Button key="submit" 
+								type="primary" 
+								onClick={() => {
+									localStorage.clear();
+									props.history.push("/login");
+								}}
+						>
+						
+							Sign Out
+						
+						</Button>
+				]}
+			>
+				<p>Do You want to SignOut</p>
+			</Modal>
 		</>
 	);
 };

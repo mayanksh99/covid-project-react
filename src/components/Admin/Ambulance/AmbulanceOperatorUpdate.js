@@ -1,16 +1,25 @@
-import React, { useState } from "react";
-import { Button, Modal, Form, Input, InputNumber } from "antd";
+import React, { useState, useEffect } from "react";
+import { Form, Input, Button, Modal, InputNumber } from "antd";
 import { _notification } from "../../../utils/_helper";
-import { addAmbulanceService } from "../../../utils/services";
+import { updateOperatorService } from "../../../utils/services";
 
-const AddAmbulance = props => {
+const AmbulanceAdminChangePass = props => {
 	const [form] = Form.useForm();
 	const [isLoading, setIsLoading] = useState(false);
+
+	useEffect(() => {
+		if (props.data) {
+			form.setFieldsValue({
+				name: props.data.name,
+				contact: props.data.contact
+			});
+		}
+	}, [props.data, form]);
 
 	const onFinish = async values => {
 		setIsLoading(true);
 		try {
-			const res = await addAmbulanceService(props.aoid, values);
+			const res = await updateOperatorService(props.data._id, values);
 			if (res.error) {
 				_notification("error", "Error", res.message);
 				setIsLoading(false);
@@ -18,15 +27,13 @@ const AddAmbulance = props => {
 				_notification(
 					"success",
 					"Success",
-					"Ambulance added successfully"
+					"Profile update successfully"
 				);
 				props.setRefresh(!props.refresh);
 				props.handleModal(false);
 				form.setFieldsValue({
 					name: "",
-					contact: "",
-					vehicleNo: "",
-					pincode: ""
+					contact: ""
 				});
 			}
 			setIsLoading(false);
@@ -37,7 +44,7 @@ const AddAmbulance = props => {
 	};
 
 	return (
-		<div>
+		<>
 			<Modal
 				title={
 					<h3
@@ -47,11 +54,11 @@ const AddAmbulance = props => {
 							color: "#fff"
 						}}
 					>
-						Add Ambulance
+						Update Profile
 					</h3>
 				}
 				visible={props.visible}
-				onCancel={() => props.handleModal(false)}
+				onCancel={() => props.handleModal(!props.visible)}
 				footer={null}
 				width={400}
 				style={{ top: 50 }}
@@ -59,70 +66,37 @@ const AddAmbulance = props => {
 				<Form
 					form={form}
 					layout="vertical"
-					name="normal_login"
-					className="login-form"
-					initialValues={{ remember: true }}
+					name="operator_form"
 					onFinish={onFinish}
 				>
 					<Form.Item
-						name="vehicleNo"
-						label="Vehicle No."
-						rules={[
-							{
-								required: true,
-								message: "Please input vehicle no.!"
-							}
-						]}
-					>
-						<Input
-							className="input-field"
-							placeholder="Enter vehicle no."
-						/>
-					</Form.Item>
-					<Form.Item
 						name="name"
-						label="Driver Name"
+						label="Name"
 						rules={[
 							{
 								required: true,
-								message: "Please input driver name!"
+								message: "Please input name!"
 							}
 						]}
 					>
 						<Input
 							className="input-field"
-							placeholder="Enter driver name"
+							placeholder="Enter name"
 						/>
 					</Form.Item>
 					<Form.Item
 						name="contact"
-						label="Driver Contact No."
+						label="Contact No."
 						rules={[
 							{
 								required: true,
-								message: "Please input driver contact no.!"
-							}
-						]}
-					>
-						<Input
-							className="input-field"
-							placeholder="Enter driver contact no."
-						/>
-					</Form.Item>
-					<Form.Item
-						name="pincode"
-						label="Pin code"
-						rules={[
-							{
-								required: true,
-								message: "Please input pincode!"
+								message: "Please input contact no.!"
 							}
 						]}
 					>
 						<InputNumber
 							className="input-field"
-							placeholder="Enter pincode"
-							style={{ width: "100%" }}
+							placeholder="Enter contact no."
 						/>
 					</Form.Item>
 
@@ -139,8 +113,8 @@ const AddAmbulance = props => {
 					</Form.Item>
 				</Form>
 			</Modal>
-		</div>
+		</>
 	);
 };
 
-export default AddAmbulance;
+export default AmbulanceAdminChangePass;

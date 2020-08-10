@@ -120,7 +120,7 @@ const DoctorEditProfile = props => {
 							/>
 						</Form.Item>
 
-						<Form.Item
+						{/* <Form.Item
 							name="empId"
 							label="Employee ID"
 							rules={[
@@ -135,7 +135,7 @@ const DoctorEditProfile = props => {
 								placeholder="Enter id"
 								// prefix={<UserOutlined />}
 							/>
-						</Form.Item>
+						</Form.Item> */}
 
 						<Form.Item
 							name="age"

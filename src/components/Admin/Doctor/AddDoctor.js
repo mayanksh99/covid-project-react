@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Form, Input, Button, Radio, InputNumber } from "antd";
-import { addDoctorService } from "./../../../utils/services";
+import { addDoctorService } from "../../../utils/services";
 import { _notification } from "../../../utils/_helper";
 
 const AddDoctorAdmin = props => {

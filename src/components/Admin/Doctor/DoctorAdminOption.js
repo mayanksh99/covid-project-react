@@ -117,7 +117,7 @@ const DoctorAdminOption = ({ count, refresh, setRefresh }) => {
 				</Col>
 				<Col xl={6} lg={6} md={8} sm={24} xs={24}>
 					<Upload accept=".csv" {...props}>
-						<Button>
+						<Button className="mt-10">
 							<UploadOutlined />
 							Upload CSV
 						</Button>

@@ -10,7 +10,8 @@ import {
 	// Upload,
 	// message,
 	DatePicker,
-	Row
+	Row,
+	Table
 } from "antd";
 import PageTitle from "./../common/PageTitle";
 import { _notification } from "../../utils/_helper";
@@ -110,8 +111,8 @@ const PatientList = () => {
 		<>
 			<PageTitle title="Add Patient" />
 			<br />
-			<div className="patient-form-wrapper">
-				<Col xl={10} lg={10} md={14} sm={24} xs={24}>
+			<Row gutter={[16, 16]}>
+				<Col xl={8} lg={8} md={14} sm={24} xs={24}>
 					<Card>
 						<p
 							style={{
@@ -340,7 +341,34 @@ const PatientList = () => {
 						</Form>
 					</Card>
 				</Col>
-			</div>
+				<Col xl={16} lg={16} md={14} sm={24} xs={24}>
+					<Card>
+						<p
+							style={{
+								fontSize: "18px",
+								color: "#008DB9",
+								fontWeight: 700
+							}}
+						>
+							List of Patients
+						</p>
+						<div
+							style={{
+								padding: 0,
+								width: "100%",
+								overflowX: "auto"
+							}}
+						>
+							<Table
+								// columns={columns}
+								// dataSource={data}
+								pagination={{ position: ["bottomCenter"] }}
+								loading={isLoading}
+							/>
+						</div>
+					</Card>
+				</Col>
+			</Row>
 		</>
 	);
 };

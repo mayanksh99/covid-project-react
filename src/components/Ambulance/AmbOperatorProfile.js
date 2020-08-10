@@ -16,7 +16,7 @@ import "./style.css";
 
 const AmbAdminProfile = () => {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
-	const userData = useState(getRole());
+	const [userData] = useState(getRole());
 	const [form1] = Form.useForm();
 	const [form2] = Form.useForm();
 	const [isVisible, setIsVisible] = useState(false);
@@ -57,7 +57,7 @@ const AmbAdminProfile = () => {
 	let i = 1;
 	const props = {
 		name: "file",
-		action: `https://covid-project-gzb.herokuapp.com/api/v1/ambulances/bulk/${userData[0].id}`,
+		action: `https://covid-project-gzb.herokuapp.com/api/v1/ambulances/bulk/${userData.id}`,
 		headers: {
 			"x-auth-token": `${AUTH_TOKEN.token}`
 		},
@@ -106,7 +106,7 @@ const AmbAdminProfile = () => {
 			contact: values.driverphone
 		};
 		try {
-			const res = await addAmbulance(ambDetails, userData[0].id);
+			const res = await addAmbulance(ambDetails, userData.id);
 			if (res.res.error) {
 				setIsAmbAdding(false);
 				_notification("error", "Error", res.res.message);
@@ -167,15 +167,15 @@ const AmbAdminProfile = () => {
 				<PageTitle title="Profile" />
 				<Row>
 					<Col span={3}>Name</Col>
-					<Col>{userData ? userData[0].name : null}</Col>
+					<Col>{userData ? userData.name : null}</Col>
 				</Row>
 				<Row>
 					<Col span={3}>Email</Col>
-					<Col>{userData ? userData[0].email : null}</Col>
+					<Col>{userData ? userData.email : null}</Col>
 				</Row>
 				<Row>
 					<Col span={3}>ID</Col>
-					<Col>{userData ? userData[0].id : null}</Col>
+					<Col>{userData ? userData.id : null}</Col>
 				</Row>
 				<div style={{ marginTop: "50px" }}>
 					<PageTitle title="Change Password" />

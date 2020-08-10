@@ -112,7 +112,7 @@ let routes = [
 	{
 		path: "/hospitalprofile",
 		exact: true,
-		component:HospitalProfile,
+		component: HospitalProfile,
 		name: "Profile",
 		key: "HospitalProfile",
 		icon: UserOutlined,

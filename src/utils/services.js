@@ -753,7 +753,10 @@ export const dischargePatientService = async (id, data) => {
 export const updateHospitalProfileService = async (id, data) => {
 	setUserToken();
 	try {
-		const response = await axios.put(`${HOSPITAL_UPDATE_PROFILE}/${id}`, data);
+		const response = await axios.put(
+			`${HOSPITAL_UPDATE_PROFILE}/${id}`,
+			data
+		);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

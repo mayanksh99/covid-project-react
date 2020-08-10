@@ -18,6 +18,7 @@ import AssignAmbulance from "./../Ambulance/AssignAmbulance";
 import AmbulanceStatus from "./../Ambulance/AmbulanceStatus";
 import AssignBed from "./../Hospital/AssignBed";
 import UpdateDailyReport from "./../Hospital/UpdateDailyReport";
+import HospitalProfile from  "./../Hospital/HospitalProfile";
 import DoctorProfile from "./../Doctor/DoctorProfile";
 import AmbulanceAdmin from "./../Admin/Ambulance/AmbulanceAdmin";
 import HospitalAdmin from "./../Admin/Hospital/HospitalAdmin";
@@ -185,6 +186,13 @@ const Dashboard = props => {
 									exact
 									path="/updatedailyreport"
 									component={UpdateDailyReport}
+									data={userData[0]}
+									role="hospital"
+								/>
+								<PrivateRoute
+									exact
+									path="/hospitalprofile"
+									component={HospitalProfile}
 									data={userData[0]}
 									role="hospital"
 								/>

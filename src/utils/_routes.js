@@ -5,6 +5,7 @@ import AssignAmbulance from "../components/Ambulance/AssignAmbulance";
 import AmbulanceStatus from "../components/Ambulance/AmbulanceStatus";
 import AssignBed from "../components/Hospital/AssignBed";
 import UpdateDailyReport from "../components/Hospital/UpdateDailyReport";
+import HospitalProfile from "../components/Hospital/HospitalProfile";
 import DoctorProfile from "../components/Doctor/DoctorProfile";
 import AmbOperatorProfile from "../components/Ambulance/AmbOperatorProfile";
 import {
@@ -106,6 +107,15 @@ let routes = [
 		name: "Update Daily Report",
 		key: "UpdateDailyReport",
 		icon: BookOutlined,
+		role: "hospital"
+	},
+	{
+		path: "/hospitalprofile",
+		exact: true,
+		component:HospitalProfile,
+		name: "Profile",
+		key: "HospitalProfile",
+		icon: UserOutlined,
 		role: "hospital"
 	},
 	{

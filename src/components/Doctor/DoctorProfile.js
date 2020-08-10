@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Button, Card, Skeleton, Avatar,Modal,Form, Input,Checkbox } from "antd";
+import {
+	Row,
+	Col,
+	Button,
+	Card,
+	Skeleton,
+	Avatar,
+	Modal,
+	Form,
+	Input,
+	Checkbox
+} from "antd";
 import PageTitle from "../common/PageTitle";
 import "./style.css";
 import { _notification } from "../../utils/_helper";
-import { getProfileService,changePassword } from "./../../utils/services";
+import { getProfileService, changePassword } from "./../../utils/services";
 import { Link } from "react-router-dom";
 import { UserOutlined, RightOutlined } from "@ant-design/icons";
-
 
 const DoctorProfile = () => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +29,7 @@ const DoctorProfile = () => {
 		setIsVisible(!isVisible);
 	};
 
-	const handleOk = () =>{
+	const handleOk = () => {
 		setIsVisible(!isVisible);
 	};
 
@@ -52,7 +62,7 @@ const DoctorProfile = () => {
 			_notification("warning", "Error", err.message);
 		}
 	};
-	
+
 	const handleCancel = () => {
 		setIsVisible(!isVisible);
 	};
@@ -216,17 +226,16 @@ const DoctorProfile = () => {
 													>
 														Edit Profile
 													</Button>
-													
 												</Link>
 											</Col>
 											<Col md={12} xs={24}>
-											<Button
-														type="primary"
-														className="login-form-button DoctorProfile-btn"
-														onClick={showModal}
-											>
-														Change Password
-											</Button>
+												<Button
+													type="primary"
+													className="login-form-button DoctorProfile-btn"
+													onClick={showModal}
+												>
+													Change Password
+												</Button>
 											</Col>
 										</Row>
 									</div>
@@ -347,18 +356,17 @@ const DoctorProfile = () => {
 						</Col>
 					</Row>
 					<Row>
-					<Col span={18}></Col>
-					<Col span={6}>
-					<Button
-						type="primary"
-						htmlType="submit"
-						style={{ marginTop: "20px", width: "100%"}}
-					>
-						Change Password
-					</Button>
-					</Col>
+						<Col span={18}></Col>
+						<Col span={6}>
+							<Button
+								type="primary"
+								htmlType="submit"
+								style={{ marginTop: "20px", width: "100%" }}
+							>
+								Change Password
+							</Button>
+						</Col>
 					</Row>
-					
 				</Form>
 			</Modal>
 		</>

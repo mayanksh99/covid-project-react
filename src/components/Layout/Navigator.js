@@ -287,7 +287,7 @@ const Dashboard = props => {
 						</Content>
 					</Layout>
 				</Layout>
-				{/* <Footer>
+				<Footer>
 					<Row>
 						<Col span={12}>
 							<img
@@ -305,7 +305,7 @@ const Dashboard = props => {
 							</p>
 						</Col>
 					</Row>
-				</Footer> */}
+				</Footer>
 			</Router>
 		</>
 	);

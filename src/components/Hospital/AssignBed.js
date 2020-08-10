@@ -16,7 +16,7 @@ import {
 	getPatientDetails,
 	assignPatientBed,
 	searchPatients,
-	getHospitalByParamsServices	
+	getHospitalByParamsServices
 } from "../../utils/services";
 import { _notification, getRole } from "../../utils/_helper";
 
@@ -42,7 +42,9 @@ const AssignBed = () => {
 				const res = await getPatientDetails(userData[0].id);
 				setNumber(res.data.patients.length);
 				setPatients(res.data.patients);
-				setHospital(res.data.patients[0].history.hospitalAlloted.hospital)
+				setHospital(
+					res.data.patients[0].history.hospitalAlloted.hospital
+				);
 				console.log(res);
 				setIsLoading(false);
 				// setIsSpinning(false);
@@ -50,7 +52,7 @@ const AssignBed = () => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [userData,refresh]);
+	}, [userData, refresh]);
 
 	useEffect(() => {
 		(async () => {

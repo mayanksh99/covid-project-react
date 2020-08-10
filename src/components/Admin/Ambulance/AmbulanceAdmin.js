@@ -14,7 +14,8 @@ import { _notification } from "../../../utils/_helper";
 import {
 	getAmbOperatorService,
 	searchAmbOperatorService,
-	delByAdminService
+	delByAdminService,
+	resetPwdByAdminService
 } from "../../../utils/services";
 
 const AmbulanceAdmin = () => {
@@ -54,6 +55,20 @@ const AmbulanceAdmin = () => {
 		}
 	};
 
+	const handleResetPassword = async id => {
+		try {
+			const res = await resetPwdByAdminService("ambulanceoperator", id);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification("success", "Success", "Password resetted.");
+				setRefresh(!refresh);
+			}
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+		}
+	};
+
 	const handleQuery = async val => {
 		setIsLoading(true);
 		try {
@@ -75,10 +90,12 @@ const AmbulanceAdmin = () => {
 		},
 		{
 			title: "Name",
-			dataIndex: "detail",
-			key: "detail",
-			render: detail => (
-				<Link to={`/admins/ambulance-operators/${detail[1]}`}>{detail[0]}</Link>
+			dataIndex: "details",
+			key: "details",
+			render: details => (
+				<Link to={`/admins/ambulance-operators/${details._id}`}>
+					{details.name}
+				</Link>
 			)
 		},
 		{
@@ -93,46 +110,74 @@ const AmbulanceAdmin = () => {
 		},
 		{
 			title: "Action",
-			dataIndex: "action",
-			key: "action",
-			render: id => (
+			dataIndex: "actions",
+			key: "actions",
+			render: actions => (
 				<>
 					<Popconfirm
 						title="Do you want to toggle user block?"
-						// onConfirm={() => handleUserRevoke(action[1])}
+						// onConfirm={() => handleUserRevoke(actions._id)}
 						okText="Yes"
 						cancelText="No"
+						disabled={actions.isDeleted}
 					>
-						{id ? (
+						{actions.isBlocked ? (
 							<Tooltip title="Unblock user">
 								<CloseCircleOutlined
-									style={{ color: "#DB4437" }}
+									style={{
+										color: actions.isDeleted
+											? "#000000A6"
+											: "#DB4437"
+									}}
 								/>
 							</Tooltip>
 						) : (
 							<Tooltip title="Block user">
 								<CheckCircleOutlined
-									style={{ color: "#0F9D58" }}
+									style={{
+										color: actions.isDeleted
+											? "#000000A6"
+											: "#0F9D58"
+									}}
 								/>
 							</Tooltip>
 						)}
 					</Popconfirm>
 					<Divider type="vertical" />
-					<Tooltip title="Edit password">
-						<Link to="#">
-							<EditOutlined style={{ color: "#F4B400" }} />
-						</Link>
+					<Tooltip title="Reset password">
+						<Popconfirm
+							title="Are you reset password for this user?"
+							onConfirm={() => handleResetPassword(actions._id)}
+							okText="Yes"
+							cancelText="No"
+							disabled={actions.isDeleted}
+						>
+							<EditOutlined
+								style={{
+									color: actions.isDeleted
+										? "#000000A6"
+										: "#F4B400"
+								}}
+							/>
+						</Popconfirm>
 					</Tooltip>
 
 					<Divider type="vertical" />
 					<Tooltip title="Delete operator">
 						<Popconfirm
 							title="Are you sure delete this user?"
-							onConfirm={() => handleDelete(id)}
+							onConfirm={() => handleDelete(actions._id)}
 							okText="Yes"
 							cancelText="No"
+							disabled={actions.isDeleted}
 						>
-							<DeleteOutlined style={{ color: "#DB4437" }} />
+							<DeleteOutlined
+								style={{
+									color: actions.isDeleted
+										? "#000000A6"
+										: "#DB4437"
+								}}
+							/>
 						</Popconfirm>
 					</Tooltip>
 				</>
@@ -142,14 +187,21 @@ const AmbulanceAdmin = () => {
 
 	const data = ambOperators
 		? ambOperators.map((operator, id) => {
-				const { _id, name, email, contact } = operator;
+				const {
+					_id,
+					name,
+					email,
+					contact,
+					isDeleted,
+					isBlocked
+				} = operator;
 				return {
 					index: ++id,
 					key: _id,
-					detail: [name, _id],
+					details: { name, _id },
 					contact,
 					email,
-					action: _id
+					actions: { _id, isDeleted, isBlocked }
 				};
 		  })
 		: null;

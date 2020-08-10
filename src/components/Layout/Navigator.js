@@ -6,7 +6,7 @@ import {
 	Link
 } from "react-router-dom";
 import "./style.css";
-import { Layout, Menu, Row, Col } from "antd";
+import { Layout, Menu, Row, Col, Modal, Button } from "antd";
 import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getRole } from "./../../utils/_helper";
 import routes from "../../utils/_routes";

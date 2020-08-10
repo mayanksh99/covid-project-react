@@ -90,12 +90,10 @@ const AmbulanceAdmin = () => {
 		},
 		{
 			title: "Name",
-			dataIndex: "details",
-			key: "details",
-			render: details => (
-				<Link to={`/ambulancedetails/${details._id}`}>
-					{details.name}
-				</Link>
+			dataIndex: "detail",
+			key: "detail",
+			render: detail => (
+				<Link to={`/admins/ambulance-operators/${detail[1]}`}>{detail[0]}</Link>
 			)
 		},
 		{

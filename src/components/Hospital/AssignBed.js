@@ -107,7 +107,9 @@ const AssignBed = () => {
 						type="primary"
 						onClick={() => handleModal(data)}
 						disabled={
-							!data.history.hasOwnProperty("ambulanceAlloted")
+							!data.history.hasOwnProperty("ambulanceAlloted") ||
+							(data.history.ambulanceAlloted &&
+								data.history.ambulanceAlloted.ambulance == null)
 						}
 					>
 						Assign Bed

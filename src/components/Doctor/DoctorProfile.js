@@ -217,7 +217,7 @@ const DoctorProfile = () => {
 										<Row className="DoctorProfile-row">
 											<Col md={12} xs={24}>
 												<Link
-													to={`/editprofile/${data._id}`}
+													to={`/doctors/profile/${data._id}`}
 												>
 													<Button
 														type="primary"

@@ -23,7 +23,8 @@ import AddAdmin from "./AddAdmin";
 import {
 	getAdminsService,
 	delByAdminService,
-	searchAdminsService
+	searchAdminsService,
+	resetPwdByAdminService
 } from "./../../utils/services";
 import { _notification } from "../../utils/_helper";
 import UpdateAdmin from "./UpdateAdmin";
@@ -32,7 +33,6 @@ import PageStats from "./../common/PageStats";
 const { Option } = Select;
 
 const AdminList = () => {
-	const [action] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [admins, setAdmins] = useState(null);
@@ -65,6 +65,20 @@ const AdminList = () => {
 					"Success",
 					"Admin deleted successfully"
 				);
+				setRefresh(!refresh);
+			}
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+		}
+	};
+
+	const handleResetPassword = async id => {
+		try {
+			const res = await resetPwdByAdminService("admin", id);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification("success", "Success", "Password resetted.");
 				setRefresh(!refresh);
 			}
 		} catch (err) {
@@ -151,46 +165,74 @@ const AdminList = () => {
 		},
 		{
 			title: "Action",
-			dataIndex: "action",
-			key: "action",
-			render: id => (
+			dataIndex: "actions",
+			key: "actions",
+			render: actions => (
 				<>
 					<Popconfirm
 						title="Do you want to toggle user block?"
-						// onConfirm={() => handleUserRevoke(action[1])}
+						// onConfirm={() => handleUserRevoke(actions._id)}
 						okText="Yes"
 						cancelText="No"
+						disabled={actions.isDeleted}
 					>
-						{action ? (
+						{actions.isBlocked ? (
 							<Tooltip title="Unblock user">
 								<CloseCircleOutlined
-									style={{ color: "#DB4437" }}
+									style={{
+										color: actions.isDeleted
+											? "#000000A6"
+											: "#DB4437"
+									}}
 								/>
 							</Tooltip>
 						) : (
 							<Tooltip title="Block user">
 								<CheckCircleOutlined
-									style={{ color: "#0F9D58" }}
+									style={{
+										color: actions.isDeleted
+											? "#000000A6"
+											: "#0F9D58"
+									}}
 								/>
 							</Tooltip>
 						)}
 					</Popconfirm>
 					<Divider type="vertical" />
-					<Tooltip title="Edit password">
-						<Link to="#">
-							<EditOutlined style={{ color: "#F4B400" }} />
-						</Link>
+					<Tooltip title="Reset Password">
+						<Popconfirm
+							title="Are you reset password for this user?"
+							onConfirm={() => handleResetPassword(actions._id)}
+							okText="Yes"
+							cancelText="No"
+							disabled={actions.isDeleted}
+						>
+							<EditOutlined
+								style={{
+									color: actions.isDeleted
+										? "#000000A6"
+										: "#F4B400"
+								}}
+							/>
+						</Popconfirm>
 					</Tooltip>
 
 					<Divider type="vertical" />
 					<Tooltip title="Delete admin">
 						<Popconfirm
 							title="Are you sure delete this user?"
-							onConfirm={() => handleDelete(id)}
+							onConfirm={() => handleDelete(actions._id)}
 							okText="Yes"
 							cancelText="No"
+							disabled={actions.isDeleted}
 						>
-							<DeleteOutlined style={{ color: "#DB4437" }} />
+							<DeleteOutlined
+								style={{
+									color: actions.isDeleted
+										? "#000000A6"
+										: "#DB4437"
+								}}
+							/>
 						</Popconfirm>
 					</Tooltip>
 				</>
@@ -200,7 +242,15 @@ const AdminList = () => {
 
 	const data = admins
 		? admins.map((admin, i) => {
-				const { _id, name, email, permissions, contact } = admin;
+				const {
+					_id,
+					name,
+					email,
+					permissions,
+					contact,
+					isDeleted,
+					isBlocked
+				} = admin;
 				return {
 					index: ++i,
 					key: _id,
@@ -208,7 +258,7 @@ const AdminList = () => {
 					email,
 					permissions,
 					contact: contact ? contact : "",
-					action: _id
+					actions: { _id, isDeleted, isBlocked }
 				};
 		  })
 		: null;

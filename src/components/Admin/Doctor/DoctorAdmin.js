@@ -79,7 +79,7 @@ const DoctorAdmin = () => {
 			dataIndex: "name",
 			key: "name",
 			render: name => (
-				<Link to={`/doctordetails/${name[0]}`}>{name[1]}</Link>
+				<Link to={`/admins/doctors/${name[0]}`}>{name[1]}</Link>
 			)
 		},
 		{

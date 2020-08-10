@@ -148,56 +148,56 @@ const Dashboard = props => {
 								{/* <Route exact path="/" component={Dashboard} /> */}
 								<PrivateRoute
 									exact
-									path="/patientexamine"
+									path="/doctors/patients/examine"
 									component={PatientExamine}
 									data={userData[0]}
 									role="doctor"
 								/>
 								<PrivateRoute
 									exact
-									path="/amb-admin-Profile"
+									path="/ambulance-operators/profile"
 									component={AmbOperatorProfile}
 									role="ambulanceoperator"
 									data={userData[0]}
 								/>
 								<PrivateRoute
 									exact
-									path="/assignambulance"
+									path="/ambulance-operators/ambulances/assign"
 									component={AssignAmbulance}
 									role="ambulanceoperator"
 									data={userData[0]}
 								/>
 								<PrivateRoute
 									exact
-									path="/ambulancestatus"
+									path="/ambulance-operators/ambulances/status"
 									component={AmbulanceStatus}
 									data={userData[0]}
 									role="ambulanceoperator"
 								/>
 								<PrivateRoute
 									exact
-									path="/assignbed"
+									path="/hospitals/patients/assign-bed"
 									component={AssignBed}
 									data={userData[0]}
 									role="hospital"
 								/>
 								<PrivateRoute
 									exact
-									path="/updatedailyreport"
+									path="/hospitals/patients/update-daily-report"
 									component={UpdateDailyReport}
 									data={userData[0]}
 									role="hospital"
 								/>
 								<PrivateRoute
 									exact
-									path="/doctorprofile"
+									path="/doctors/profile"
 									component={DoctorProfile}
 									data={userData[0]}
 									role="doctor"
 								/>
 								<PrivateRoute
 									exact
-									path="/ambulanceadmin"
+									path="/admins/ambulance-operators"
 									component={AmbulanceAdmin}
 									role="admin"
 									permission={["master", "ambulance"]}
@@ -205,7 +205,7 @@ const Dashboard = props => {
 								/>
 								<PrivateRoute
 									exact
-									path="/hospitaladmin"
+									path="/admins/hospitals"
 									component={HospitalAdmin}
 									role="admin"
 									permission={["master", "hospital"]}
@@ -213,7 +213,7 @@ const Dashboard = props => {
 								/>
 								<PrivateRoute
 									exact
-									path="/doctoradmin"
+									path="/admins/doctors"
 									component={DoctorAdmin}
 									role="admin"
 									permission={["master", "doctor"]}
@@ -221,7 +221,7 @@ const Dashboard = props => {
 								/>
 								<PrivateRoute
 									exact
-									path="/adminlist"
+									path="/admins"
 									component={AdminList}
 									role="admin"
 									permission={["master"]}
@@ -229,7 +229,7 @@ const Dashboard = props => {
 								/>
 								<PrivateRoute
 									exact
-									path="/patientlist"
+									path="/admins/patients"
 									component={PatientList}
 									role="admin"
 									permission={["master"]}
@@ -239,7 +239,7 @@ const Dashboard = props => {
 								<Redirect from="/dashboard" to="/" />
 								<PrivateRoute
 									exact
-									path="/ambulancedetails/:id"
+									path="/admins/ambulance-operators/:id"
 									component={AmbulanceOperatorDetails}
 									role="admin"
 									permission={["master", "ambulance"]}
@@ -247,7 +247,7 @@ const Dashboard = props => {
 								/>
 								<PrivateRoute
 									exact
-									path="/hospitaldetails/:id"
+									path="/admins/hospitals/:id"
 									component={HospitalDetails}
 									role="admin"
 									permission={["master", "hospital"]}
@@ -255,7 +255,7 @@ const Dashboard = props => {
 								/>
 								<PrivateRoute
 									exact
-									path="/doctordetails/:id"
+									path="/admins/doctors/:id"
 									component={DoctorDetail}
 									role="admin"
 									permission={["master", "hospital"]}
@@ -263,21 +263,21 @@ const Dashboard = props => {
 								/>
 								<PrivateRoute
 									exact
-									path="/editprofile/:id"
+									path="/doctors/profiles/:id"
 									component={DoctorEditProfile}
 									role="doctor"
 									data={userData[0]}
 								/>
 								<PrivateRoute
 									exact
-									path="/unassignedpatient"
+									path="/doctors/patients/unassigned"
 									component={UnassignedPatients}
 									role="doctor"
 									data={userData[0]}
 								/>
 								<PrivateRoute
 									exact
-									path="/declinedpatient"
+									path="/doctors/patients/declined"
 									component={DeclinedPatient}
 									role="doctor"
 									data={userData[0]}

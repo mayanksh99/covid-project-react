@@ -10,6 +10,7 @@ export const ADD_ADMIN = "/admins"; //POST
 export const DEL_BY_ADMIN = "/users"; //DELETE
 export const RESET_PWD_BY_ADMIN = "/users/reset-pwd"; // POST
 export const UPDATE_ADMIN = "/admins/"; //PUT
+export const ADD_BULK_PATIENTS = "/admins/patients/bulk"; //POST
 
 /******************DOCTOR ADMIN ROUTES********************/
 export const GET_DOCTORS = "/doctors"; //GET

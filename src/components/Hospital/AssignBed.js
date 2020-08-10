@@ -61,7 +61,7 @@ const AssignBed = () => {
 		setIsLoading(true);
 		try {
 			let params = { search: val };
-			const res = await searchPatients(userData[0].id, params);
+			const res = await searchPatients(userData.id, params);
 			setPatients(res.data.patients);
 			setIsLoading(false);
 		} catch (err) {

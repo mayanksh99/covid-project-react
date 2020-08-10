@@ -1,4 +1,4 @@
-.menu-wrapper {
+/* .menu-wrapper {
 	height: 100%;
 	background-color: #008db9;
 }
@@ -14,9 +14,9 @@
 
 .menu-link {
 	color: #fff !important;
-}
+} */
 
-.sublink {
+/* .sublink {
 	font-size: 16px;
 }
 
@@ -44,4 +44,18 @@
 .menu-icon {
 	font-size: 18px !important;
 	color: #fff !important;
+} */
+
+.footer-wrapper {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.paragraph {
+	font-family: Sen;
+	font-size: 16px;
+	color: #626262;
+	margin-bottom: 0;
 }

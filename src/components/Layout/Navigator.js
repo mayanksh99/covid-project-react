@@ -5,7 +5,8 @@ import {
 	BrowserRouter as Router,
 	Link
 } from "react-router-dom";
-import { Layout, Menu } from "antd";
+import "./style.css";
+import { Layout, Menu, Row, Col } from "antd";
 import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getRole } from "./../../utils/_helper";
 import routes from "../../utils/_routes";
@@ -28,7 +29,7 @@ import DoctorDetail from "../Admin/Doctor/DoctorDetail";
 import DoctorEditProfile from "../Doctor/DoctorEditProfile";
 import UnassignedPatients from "../Doctor/UnassignedPatients";
 import DeclinedPatient from "./../Doctor/DeclinedPatient";
-const { Content, Sider } = Layout;
+const { Content, Sider, Footer } = Layout;
 
 const Dashboard = props => {
 	const [isCollapsed, setIsCollapsed] = useState(false);
@@ -286,6 +287,25 @@ const Dashboard = props => {
 						</Content>
 					</Layout>
 				</Layout>
+				<Footer>
+					<Row>
+						<Col span={12}>
+							<img
+								src="https://raw.githubusercontent.com/dsckiet/resources/master/covidkietdsclogo.png"
+								alt="logo"
+								width="150px"
+							/>
+						</Col>
+						<Col span={12}>
+							<p className="paragraph">
+								&copy; copyright 2020 DSC KIET - Developed by{" "}
+								<a href="https://dsckiet.com">
+									<b>DSC KIET</b>
+								</a>
+							</p>
+						</Col>
+					</Row>
+				</Footer>
 			</Router>
 		</>
 	);

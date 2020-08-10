@@ -10,8 +10,7 @@ import {
 	Upload,
 	// message,
 	DatePicker,
-	Row,
-	Table
+	Row
 } from "antd";
 import PageTitle from "./../common/PageTitle";
 import { UploadOutlined } from "@ant-design/icons";
@@ -19,6 +18,7 @@ import { _notification } from "../../utils/_helper";
 import { addPatientService, BASE_URL } from "../../utils/services";
 import { ADD_BULK_PATIENTS } from "../../utils/routes";
 import AddBulkResponseModal from "../../utils/_helper";
+import Patients from "./Patients";
 
 const PatientList = () => {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
@@ -29,35 +29,6 @@ const PatientList = () => {
 	const [isResultsVisible, setIsResultsVisible] = useState(false);
 	const [data, setData] = useState(null);
 	const [report, setReport] = useState(null);
-	// const [fileList, setFileList] = useState(null);
-	// const uploadProps = {
-	// 	name: "file",
-	// 	action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-	// 	headers: {
-	// 		authorization: "authorization-text"
-	// 	},
-	// 	onChange(info) {
-	// if (info.file.status !== "uploading") {
-	// 	console.log(info.file, info.fileList);
-	// }
-	// if (info.file.status === "done") {
-	// 	message.success(`${info.file.name} file uploaded successfully`);
-	// } else if (info.file.status === "error") {
-	// 	message.error(`${info.file.name} file upload failed.`);
-	// }
-	// 		if (info.file.status === "done") {
-	// 			message.success(`${info.file.name} file uploaded successfully`);
-	// 		} else if (info.file.status === "error") {
-	// 			message.error(`${info.file.name} file upload failed.`);
-	// 		}
-	// 		setFileList(info.fileList);
-	// 	},
-	// 	onRemove(info) {
-	// 		form.setFieldsValue({
-	// 			report: undefined
-	// 		});
-	// 	}
-	// };
 
 	const props = {
 		name: "file",
@@ -79,7 +50,7 @@ const PatientList = () => {
 						info.file.response.data.invalidPatients.map(h => {
 							return {
 								key: h.index + 1,
-								hospital: h.hospital,
+								patient: h.patient,
 								reason: h.error
 							};
 						})
@@ -421,31 +392,7 @@ const PatientList = () => {
 					</Card>
 				</Col>
 				<Col xl={16} lg={16} md={14} sm={24} xs={24}>
-					<Card>
-						<p
-							style={{
-								fontSize: "18px",
-								color: "#008DB9",
-								fontWeight: 700
-							}}
-						>
-							List of Patients
-						</p>
-						<div
-							style={{
-								padding: 0,
-								width: "100%",
-								overflowX: "auto"
-							}}
-						>
-							<Table
-								// columns={columns}
-								// dataSource={data}
-								pagination={{ position: ["bottomCenter"] }}
-								loading={isLoading}
-							/>
-						</div>
-					</Card>
+					<Patients />
 				</Col>
 			</Row>
 			<AddBulkResponseModal

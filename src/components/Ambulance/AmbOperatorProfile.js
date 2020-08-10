@@ -7,7 +7,6 @@ import PageTitle from "../common/PageTitle";
 import "./style.css";
 
 const AmbAdminProfile = () => {
-	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
 	const [userData] = useState(getRole());
 	const [form1] = Form.useForm();
 	const [isSpinning, setIsSpinning] = useState(false);

@@ -93,7 +93,7 @@ const AmbulanceAdmin = () => {
 			dataIndex: "details",
 			key: "details",
 			render: details => (
-				<Link to={`/ambulancedetails/${details._id}`}>
+				<Link to={`/admins/ambulance-operators/${details._id}`}>
 					{details.name}
 				</Link>
 			)

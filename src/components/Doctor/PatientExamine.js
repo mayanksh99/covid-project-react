@@ -20,7 +20,7 @@ const PatientExamine = () => {
 
 	useEffect(() => {
 		setIsLoading(true);
-		socket = io(EndPoint);
+		socket = io(EndPoint, { transports: ["websocket", "polling"] });
 		socket.on("PATIENTS_POOL_FOR_DOCTOR", res => {
 			setPatients(res.patients);
 			setCount(res.remainingPatients);

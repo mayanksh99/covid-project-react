@@ -9,6 +9,7 @@ const Patients = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [patients, setPatients] = useState(null);
 	const [search, setSearch] = useState(null);
+	const [level, setLevel] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -29,7 +30,8 @@ const Patients = () => {
 		setSearch(val);
 		try {
 			let params = {
-				search: val
+				search: val,
+				level
 			};
 			const res = await getPatientsService(params);
 			setPatients(res.data);
@@ -40,19 +42,19 @@ const Patients = () => {
 		}
 	};
 
-	// const handlePermission = async val => {
-	// 	setIsLoading(true);
-	// 	setPermission(val);
-	// 	try {
-	// 		let params = { permission: val, search };
-	// 		const res = await searchAdminsService(params);
-	// 		setAdmins(res.data);
-	// 		setIsLoading(false);
-	// 	} catch (err) {
-	// 		_notification("warning", "Error", err.message);
-	// 		setIsLoading(false);
-	// 	}
-	// };
+	const handleLevel = async val => {
+		setIsLoading(true);
+		setLevel(val);
+		try {
+			let params = { level: val, search };
+			const res = await getPatientsService(params);
+			setPatients(res.data);
+			setIsLoading(false);
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+			setIsLoading(false);
+		}
+	};
 
 	const columns = [
 		{
@@ -139,21 +141,20 @@ const Patients = () => {
 						onSearch={value => handleQuery(value)}
 					/>
 				</Col>
-				{/* <Col span={12} style={{ float: "right" }}>
+				<Col span={12}>
 					<div style={{ float: "right" }}>
 						<Select
-							placeholder="Select Permissions"
-							// onChange={handlePermission}
+							placeholder="Select level"
+							onChange={handleLevel}
 							allowClear
 							className="input-field"
 						>
-							<Option value="master">Master</Option>
-							<Option value="doctor">Doctor</Option>
-							<Option value="hospital">Hospital</Option>
-							<Option value="ambulance">Ambulance</Option>
+							<Option value="l1">L1</Option>
+							<Option value="l2">L2</Option>
+							<Option value="l3">L3</Option>
 						</Select>
 					</div>
-				</Col> */}
+				</Col>
 			</Row>
 			<Card>
 				<p

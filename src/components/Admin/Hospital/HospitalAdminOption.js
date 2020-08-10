@@ -21,7 +21,6 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 		setIsResultsVisible(false);
 	};
 
-	let i = 1;
 	const props = {
 		name: "file",
 		action: `https://covid-project-gzb.herokuapp.com/api/v1/hospitals/bulk`,
@@ -41,7 +40,7 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 					setData(
 						info.file.response.data.invalidHospitals.map(h => {
 							return {
-								key: i++,
+								key: h.index + 1,
 								hospital: h.hospital,
 								reason: h.error
 							};

@@ -61,12 +61,13 @@ const AssignAmbulanceModal = props => {
 		try {
 			const updatedData = {
 				name: values.driverName,
-				contact: values.driverNo
+				phone: values.driverNo
 			};
 			await updateAmb(driverDetails[0]._id, updatedData);
 			const res = await allotAmbulanceForPatient(
 				selectedId,
-				props.modalData.key
+				props.modalData.key,
+				updatedData
 			);
 			if (res.message === "success" && res.error === false) {
 				setAssignSpin(false);

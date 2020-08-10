@@ -20,7 +20,6 @@ const DoctorAdminOption = ({ count, refresh, setRefresh }) => {
 		setIsResultsVisible(false);
 	};
 
-	let i = 1;
 	const props = {
 		name: "file",
 		action: `https://covid-project-gzb.herokuapp.com/api/v1/doctors/bulk`,
@@ -40,7 +39,7 @@ const DoctorAdminOption = ({ count, refresh, setRefresh }) => {
 					setData(
 						info.file.response.data.invalidDoctors.map(doc => {
 							return {
-								key: i++,
+								key: doc.index + 1,
 								doctor: doc.doctor,
 								reason: doc.error
 							};

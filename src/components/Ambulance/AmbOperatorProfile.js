@@ -1,30 +1,24 @@
 import React, { useState } from "react";
 import { getRole, _notification } from "../../utils/_helper";
-import { Row, Col, Form, Input, Button, Modal, Upload } from "antd";
+import { Row, Col, Form, Input, Button, Modal } from "antd";
 import { Spin } from "antd";
 import { changePassword, addAmbulance } from "../../utils/services";
 import PageTitle from "../common/PageTitle";
-import AddBulkResponseModal from "../../utils/_helper";
 import {
 	PushpinOutlined,
 	PhoneOutlined,
 	UserOutlined,
-	NumberOutlined,
-	UploadOutlined
+	NumberOutlined
 } from "@ant-design/icons";
 import "./style.css";
 
 const AmbAdminProfile = () => {
-	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
 	const userData = useState(getRole());
 	const [form1] = Form.useForm();
 	const [form2] = Form.useForm();
 	const [isVisible, setIsVisible] = useState(false);
 	const [isSpinning, setIsSpinning] = useState(false);
 	const [isAmbAdding, setIsAmbAdding] = useState(false);
-	const [isResultsVisible, setIsResultsVisible] = useState(false);
-	const [bulkUploadDetails, setBulkUploadDetails] = useState(false);
-	const [data, setData] = useState(null);
 	const onFinish = async values => {
 		setIsSpinning(true);
 		const pwdDetails = {
@@ -52,48 +46,6 @@ const AmbAdminProfile = () => {
 		} catch (err) {
 			setIsSpinning(false);
 			_notification("warning", "Error", err.message);
-		}
-	};
-	let i = 1;
-	const props = {
-		name: "file",
-		action: `https://covid-project-gzb.herokuapp.com/api/v1/ambulances/bulk/${userData[0].id}`,
-		headers: {
-			"x-auth-token": `${AUTH_TOKEN.token}`
-		},
-		onChange(info) {
-			if (info.file.status === "done") {
-				if (info.file.response.data.invalidAmbulances.length === 0) {
-					_notification(
-						"success",
-						"Success",
-						"All vehicles were added successfully !"
-					);
-				} else {
-					setData(
-						info.file.response.data.invalidAmbulances.map(amb => {
-							return {
-								key: i++,
-								vehicleNo: amb.Ambulance,
-								reason: amb.error
-							};
-						})
-					);
-					setBulkUploadDetails(info.file.response.data);
-					_notification(
-						"error",
-						"Attention !",
-						"Ambulance addition failed. Please Check !"
-					);
-					setIsResultsVisible(true);
-				}
-			} else if (info.file.status === "error") {
-				_notification(
-					"error",
-					"Error",
-					"Upload failed. Please try again later !"
-				);
-			}
 		}
 	};
 
@@ -135,31 +87,9 @@ const AmbAdminProfile = () => {
 		setIsVisible(!isVisible);
 	};
 
-	const closeResults = () => {
-		setIsResultsVisible(false);
-	};
-
 	const handleCancel = () => {
 		setIsVisible(!isVisible);
 	};
-
-	const tableColumns = [
-		{
-			title: "#",
-			dataIndex: "key",
-			key: "key"
-		},
-		{
-			title: "Vehicle Number",
-			dataIndex: "vehicleNo",
-			key: "vehicleNo"
-		},
-		{
-			title: "Reason",
-			dataIndex: "reason",
-			key: "reason"
-		}
-	];
 
 	return (
 		<div>
@@ -287,14 +217,7 @@ const AmbAdminProfile = () => {
 						style={{ width: "15%" }}
 					>
 						Add Ambulance
-					</Button>{" "}
-					or add in bulk via{" "}
-					<Upload accept=".csv" {...props}>
-						<Button>
-							<UploadOutlined />
-							Upload CSV
-						</Button>
-					</Upload>
+					</Button>
 				</div>
 			</Spin>
 			<Modal
@@ -396,15 +319,6 @@ const AmbAdminProfile = () => {
 					</Form>
 				</Spin>
 			</Modal>
-			<AddBulkResponseModal
-				isResultsVisible={isResultsVisible}
-				closeResults={closeResults}
-				tableColumns={tableColumns}
-				data={data}
-				bulkUploadDetails={bulkUploadDetails}
-				title={"Invalid Ambulances"}
-				whatIsBeingAdded={"Ambulance"}
-			/>
 		</div>
 	);
 };

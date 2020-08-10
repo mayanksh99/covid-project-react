@@ -78,7 +78,7 @@ const PatientList = () => {
 						info.file.response.data.invalidPatients.map(h => {
 							return {
 								key: h.index + 1,
-								hospital: h.hospital,
+								patient: h.patient,
 								reason: h.error
 							};
 						})

@@ -57,8 +57,8 @@ const AttendPatient = ({
 				setRefresh(!refresh);
 				showModal(false);
 				form.setFieldsValue({
-					level: "",
-					comment: ""
+					level: null,
+					comment: null
 				});
 				setCheck(false);
 			}
@@ -94,7 +94,14 @@ const AttendPatient = ({
 				}
 				visible={isVisible}
 				centered
-				onCancel={() => showModal(!isVisible)}
+				onCancel={() => {
+					showModal(!isVisible);
+					form.setFieldsValue({
+						level: null,
+						comment: null
+					});
+					setCheck(false);
+				}}
 				width={800}
 				footer={null}
 			>

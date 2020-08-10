@@ -5,6 +5,8 @@ import AddHospital from "./AddHospital";
 import PageStats from "../../common/PageStats";
 import { _notification } from "../../../utils/_helper";
 import AddBulkResponseModal from "../../../utils/_helper";
+import { BASE_URL } from "../../../utils/services";
+import { ADD_BULK_HOSPITALS } from "../../../utils/routes";
 
 const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
@@ -21,10 +23,9 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 		setIsResultsVisible(false);
 	};
 
-	let i = 1;
 	const props = {
 		name: "file",
-		action: `https://covid-project-gzb.herokuapp.com/api/v1/hospitals/bulk`,
+		action: `${BASE_URL}${ADD_BULK_HOSPITALS}`,
 		headers: {
 			"x-auth-token": `${AUTH_TOKEN.token}`
 		},
@@ -41,7 +42,7 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 					setData(
 						info.file.response.data.invalidHospitals.map(h => {
 							return {
-								key: i++,
+								key: h.index + 1,
 								hospital: h.hospital,
 								reason: h.error
 							};

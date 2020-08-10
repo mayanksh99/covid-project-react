@@ -23,10 +23,12 @@ import "./style.css";
 import AmbulanceStatusModal from "./AmbulanceStatusModal";
 import AddAmbulanceModal from "./AddAmbulanceModal";
 import AddBulkResponseModal from "../../utils/_helper";
+import { ADD_BULK_AMBULANCES } from "../../utils/routes";
+import { BASE_URL } from "../../utils/services";
 
 const AmbulanceStatus = () => {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
-	const Option = { Select };
+	const { Option } = Select;
 	const userData = useState(getRole());
 	const [bulkUploadDetails, setBulkUploadDetails] = useState(false);
 	const [isResultsVisible, setIsResultsVisible] = useState(false);
@@ -123,13 +125,13 @@ const AmbulanceStatus = () => {
 
 	const props = {
 		name: "file",
-		action: `https://covid-project-gzb.herokuapp.com/api/v1/ambulances/bulk/${userData[0].id}`,
+		action: `${BASE_URL}${ADD_BULK_AMBULANCES}${userData[0].id}`,
 		headers: {
 			"x-auth-token": `${AUTH_TOKEN.token}`
 		},
 		onChange(info) {
 			if (info.file.status === "done") {
-				console.log(info.file.response);
+				console.log(info.file);
 				if (info.file.response.data.invalidAmbulances.length === 0) {
 					_notification(
 						"success",

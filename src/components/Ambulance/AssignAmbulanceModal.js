@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Modal, Spin, Row, Col, Select, Button, Form, Input } from "antd";
 import { getRole, _notification } from "../../utils/_helper";
 import {
-	updateAmb,
 	getAllAvailableAmbulanceUnder,
 	allotAmbulanceForPatient
 } from "../../utils/services";
@@ -16,7 +15,6 @@ const AssignAmbulanceModal = props => {
 	const [assignSpin, setAssignSpin] = useState(false);
 	const [selectedId, setSelectedId] = useState(null);
 	const [availableAmbulance, setAvailableAmbulance] = useState(null);
-	const [driverDetails, setDriverDetails] = useState(null);
 
 	useEffect(() => {
 		setAssignSpin(true);
@@ -49,7 +47,6 @@ const AssignAmbulanceModal = props => {
 		const details = availableAmbulance
 			? availableAmbulance.filter(amb => amb._id === value)
 			: null;
-		setDriverDetails(details);
 		form.setFieldsValue({
 			driverNo: details[0].driver.contact,
 			driverName: details[0].driver.name
@@ -60,10 +57,9 @@ const AssignAmbulanceModal = props => {
 		setAssignSpin(true);
 		try {
 			const updatedData = {
-				name: values.driverName,
-				phone: values.driverNo
+				driverName: values.driverName,
+				driverPhone: values.driverNo
 			};
-			await updateAmb(driverDetails[0]._id, updatedData);
 			const res = await allotAmbulanceForPatient(
 				selectedId,
 				props.modalData.key,

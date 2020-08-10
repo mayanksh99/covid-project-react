@@ -4,6 +4,8 @@ import { UploadOutlined } from "@ant-design/icons";
 import { _notification } from "../../../utils/_helper";
 import AddBulkResponseModal from "../../../utils/_helper";
 import AddDoctor from "./AddDoctor";
+import { BASE_URL } from "../../../utils/services";
+import { ADD_BULK_DOCTORS } from "../../../utils/routes";
 
 const DoctorAdminOption = ({ count, refresh, setRefresh }) => {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
@@ -22,7 +24,7 @@ const DoctorAdminOption = ({ count, refresh, setRefresh }) => {
 
 	const props = {
 		name: "file",
-		action: `https://covid-project-gzb.herokuapp.com/api/v1/doctors/bulk`,
+		action: `${BASE_URL}${ADD_BULK_DOCTORS}`,
 		headers: {
 			"x-auth-token": `${AUTH_TOKEN.token}`
 		},

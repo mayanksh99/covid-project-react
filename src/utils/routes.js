@@ -40,6 +40,7 @@ export const ASSIGN_LEVEL = "/doctors/patients/level"; //POST
 export const UNASSIGNED_PATIENT = "/doctors/patients/unassigned"; //GET
 export const DECLINED_PATIENT = "/doctors/patients/declined"; //GET
 export const UPDATE_PROFILE = "/doctors"; //POST
+export const ADD_BULK_DOCTORS = "/doctors/bulk"; //POST
 
 /******************HOSPITAL ROUTES***********************/
 export const GET_ADMITTED_PATIENTS = "/hospitals/patients/admitted"; //GET
@@ -47,6 +48,7 @@ export const ADD_REPORT = "hospitals/report"; //POST
 export const GET_PATIENT_DETAILS = "/hospitals/patients/alloted"; //GET
 export const ASSIGN_BED = "/hospitals/admit"; //POST
 export const DISCHARGE_PATIENT = "/hospitals/discharge/"; //POST
+export const ADD_BULK_HOSPITALS = "/hospitals/bulk"; //POST
 
 /******************AMBULANCE ROUTES********************/
 
@@ -57,3 +59,4 @@ export const ADDAMBULANCE = "/ambulances/add"; //POST
 export const START_ATTEND_PATIENT_FOR_AMBULANCE =
 	"/ambulances/patients/attend/"; //POST
 export const ALLOT_AMBULANCE_FOR_PATIENT = "/ambulances/patients/assign/"; //POST
+export const ADD_BULK_AMBULANCES = "/ambulances/bulk/"; //POST

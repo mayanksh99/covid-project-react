@@ -4,6 +4,8 @@ import { UploadOutlined } from "@ant-design/icons";
 import { _notification } from "../../../utils/_helper";
 import AddBulkResponseModal from "../../../utils/_helper";
 import AddDoctor from "./AddDoctor";
+import { BASE_URL } from "../../../utils/services";
+import { ADD_BULK_DOCTORS } from "../../../utils/routes";
 
 const DoctorAdminOption = ({ count, refresh, setRefresh }) => {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
@@ -20,10 +22,9 @@ const DoctorAdminOption = ({ count, refresh, setRefresh }) => {
 		setIsResultsVisible(false);
 	};
 
-	let i = 1;
 	const props = {
 		name: "file",
-		action: `https://covid-project-gzb.herokuapp.com/api/v1/doctors/bulk`,
+		action: `${BASE_URL}${ADD_BULK_DOCTORS}`,
 		headers: {
 			"x-auth-token": `${AUTH_TOKEN.token}`
 		},
@@ -40,7 +41,7 @@ const DoctorAdminOption = ({ count, refresh, setRefresh }) => {
 					setData(
 						info.file.response.data.invalidDoctors.map(doc => {
 							return {
-								key: i++,
+								key: doc.index + 1,
 								doctor: doc.doctor,
 								reason: doc.error
 							};
@@ -117,7 +118,7 @@ const DoctorAdminOption = ({ count, refresh, setRefresh }) => {
 				</Col>
 				<Col xl={6} lg={6} md={8} sm={24} xs={24}>
 					<Upload accept=".csv" {...props}>
-						<Button>
+						<Button className="mt-10">
 							<UploadOutlined />
 							Upload CSV
 						</Button>

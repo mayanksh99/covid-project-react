@@ -22,6 +22,7 @@ const Patients = () => {
 					search
 				};
 				const res = await getPatientsService(params);
+				console.log(res);
 				setPatients(res.data);
 				setIsLoading(false);
 			} catch (err) {
@@ -43,11 +44,6 @@ const Patients = () => {
 	};
 
 	const columns = [
-		{
-			title: "Case ID",
-			dataIndex: "caseId",
-			key: "caseId"
-		},
 		{
 			title: "Name",
 			dataIndex: "name",

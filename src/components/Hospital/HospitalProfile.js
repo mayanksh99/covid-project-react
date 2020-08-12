@@ -49,7 +49,6 @@ const HospitalProfile = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [isBtnLoading, setIsBtnLoading] = useState(false);
 	const [isSpinning, setIsSpinning] = useState(false);
-	const [isupdate, setisupdate] = useState(false);
 	const { Option } = Select;
 	const showModal = () => {
 		setIsVisible(true);
@@ -57,10 +56,6 @@ const HospitalProfile = () => {
 	const handleCancel = () => {
 		setIsVisible(false);
 	};
-	const update = () => {
-		setisupdate(true);
-	};
-
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);

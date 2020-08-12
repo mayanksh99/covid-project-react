@@ -6,16 +6,16 @@ import {
 	Skeleton,
 	Modal,
 	Form,
-    Input,
-    Spin,
-    Select
+	Input,
+	Spin,
+	Select
 } from "antd";
 import PageTitle from "../common/PageTitle";
 import { _notification, getRole } from "../../utils/_helper";
 import {
 	getProfileService,
-    updateHospitalProfileService,
-    changePassword
+	updateHospitalProfileService,
+	changePassword
 } from "./../../utils/services";
 
 const formItemLayout = {
@@ -42,25 +42,25 @@ const tailFormItemLayout = {
 };
 const HospitalProfile = () => {
 	const [userData] = useState(getRole());
-    const [form1] = Form.useForm();
-    const [form2] = Form.useForm();
+	const [form1] = Form.useForm();
+	const [form2] = Form.useForm();
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState(null);
 	const [isVisible, setIsVisible] = useState(false);
-    const [isBtnLoading, setIsBtnLoading] = useState(false);
+	const [isBtnLoading, setIsBtnLoading] = useState(false);
 	const [isSpinning, setIsSpinning] = useState(false);
-	const [isupdate,setisupdate]=useState(false);
-    const { Option } = Select;
+	const [isupdate, setisupdate] = useState(false);
+	const { Option } = Select;
 	const showModal = () => {
 		setIsVisible(true);
 	};
 	const handleCancel = () => {
 		setIsVisible(false);
 	};
-	const update =()=>{
+	const update = () => {
 		setisupdate(true);
-	}
-    
+	};
+
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);
@@ -68,27 +68,27 @@ const HospitalProfile = () => {
 				const res = await getProfileService();
 				//console.log(res);
 				setData(res.data);
-                setIsLoading(false);
+				setIsLoading(false);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-    }, []);
-    
+	}, []);
+
 	useEffect(() => {
 		if (data) {
-            console.log(data);
-			let { name, totalBeds, category, address, contact} = data;
+			console.log(data);
+			let { name, totalBeds, category, address, contact } = data;
 			form1.setFieldsValue({
 				name,
 				totalBeds,
 				category,
 				address,
-                contact,
+				contact
 			});
 		}
-    }, [data, form1]);
-    
+	}, [data, form1]);
+
 	const onFinishprofile = async values => {
 		console.log(values);
 		setIsBtnLoading(true);
@@ -111,28 +111,27 @@ const HospitalProfile = () => {
 					"success",
 					"Success",
 					"Profile update successfully"
-                );
-					(async () => {
-						setIsLoading(true);
-						try {
-							const res = await getProfileService();
-							setData(res.data);
-							setIsLoading(false);
-						} catch (err) {
-							_notification("warning", "Error", err.message);
-						}
-					})();
-                handleCancel();
+				);
+				(async () => {
+					setIsLoading(true);
+					try {
+						const res = await getProfileService();
+						setData(res.data);
+						setIsLoading(false);
+					} catch (err) {
+						_notification("warning", "Error", err.message);
+					}
+				})();
+				handleCancel();
 			}
 			setIsBtnLoading(false);
-        } 
-        catch (err) {
+		} catch (err) {
 			_notification("error", "Error", err.message);
 			setIsLoading(false);
 		}
-    };
-    
-    const onFinishPass = async values => {
+	};
+
+	const onFinishPass = async values => {
 		setIsSpinning(true);
 		const pwdDetails = {
 			oldPassword: values.currPassword,
@@ -144,7 +143,7 @@ const HospitalProfile = () => {
 				setIsSpinning(false);
 				_notification("error", "Error", res.res.message);
 			} else if (res.res.message === "success") {
-                setIsSpinning(false);
+				setIsSpinning(false);
 				form2.setFieldsValue({
 					currPassword: "",
 					newPassword: "",
@@ -161,93 +160,90 @@ const HospitalProfile = () => {
 			setIsSpinning(false);
 			_notification("warning", "Error", err.message);
 		}
-    };
-    
+	};
+
 	return (
-		<Spin tip="In processing..." spinning={isSpinning} size="large">  
+		<Spin tip="In processing..." spinning={isSpinning} size="large">
 			<PageTitle title="Profile" />
 			<Skeleton loading={isLoading} active>
 				{data ? (
-                    <div className="HospitalProfile-container">
-                        <Row >
-                            <Col md={6} xs={12}>
-                                Name
-                            </Col>
-                            <Col md={6} xs={12}>
-                                {data.name}
-                            </Col>
-                            <Col md={6} xs={12}>
-                                Total Beds
-                            </Col>
-                            <Col md={6} xs={12}>
-                                {data.totalBeds}
-                            </Col>
-                        </Row>
-                        <Row >
-                            <Col md={6} xs={12}>
-                                Category
-                            </Col>
-                            <Col md={6} xs={12}>
-                                {data.category}
-                            </Col>
-                            <Col md={6} xs={12}>
-                                Available Beds
-                            </Col>
-                            <Col md={6} xs={12}>
-                                {data.availableBeds}
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={6} xs={12}>
-                                Address
-                            </Col>
-                            <Col md={6} xs={12}>
-                                {data.address}
-                            </Col>
-                            <Col md={6} xs={12}>                          
-                                Occupied Beds
-                            </Col>
-                            <Col md={6} xs={12}>
-                                {data.occupiedBeds}
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={6} xs={12}>
-                                Phone Number
-                            </Col>
-                            <Col md={6} xs={12}>
-                                +91-{data.contact}
-                            </Col>
-                            <Col md={6} xs={12}>
-                                Reserved Beds
-                            </Col>
-                            <Col md={6} xs={12}>
-                                {data.reservedBeds}
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={6} xs={12}>
-                                Email
-                            </Col>
-                            <Col md={6} xs={12}>
-                                {data.email}
-                            </Col>
-                        </Row><br/>
-                        <Row>
-                            <Col md={12} xs={24}>
-                                <Button
-                                    type="primary"
-                                    
-                                    onClick={showModal}
-                                >
-                                    Edit Profile
-                                </Button>
-                            </Col>
-                        </Row>
-                    </div>
-
+					<div className="HospitalProfile-container">
+						<Row>
+							<Col md={6} xs={12}>
+								Name
+							</Col>
+							<Col md={6} xs={12}>
+								{data.name}
+							</Col>
+							<Col md={6} xs={12}>
+								Total Beds
+							</Col>
+							<Col md={6} xs={12}>
+								{data.totalBeds}
+							</Col>
+						</Row>
+						<Row>
+							<Col md={6} xs={12}>
+								Category
+							</Col>
+							<Col md={6} xs={12}>
+								{data.category}
+							</Col>
+							<Col md={6} xs={12}>
+								Available Beds
+							</Col>
+							<Col md={6} xs={12}>
+								{data.availableBeds}
+							</Col>
+						</Row>
+						<Row>
+							<Col md={6} xs={12}>
+								Address
+							</Col>
+							<Col md={6} xs={12}>
+								{data.address}
+							</Col>
+							<Col md={6} xs={12}>
+								Occupied Beds
+							</Col>
+							<Col md={6} xs={12}>
+								{data.occupiedBeds}
+							</Col>
+						</Row>
+						<Row>
+							<Col md={6} xs={12}>
+								Phone Number
+							</Col>
+							<Col md={6} xs={12}>
+								+91-{data.contact}
+							</Col>
+							<Col md={6} xs={12}>
+								Reserved Beds
+							</Col>
+							<Col md={6} xs={12}>
+								{data.reservedBeds}
+							</Col>
+						</Row>
+						<Row>
+							<Col md={6} xs={12}>
+								Email
+							</Col>
+							<Col md={6} xs={12}>
+								{data.email}
+							</Col>
+						</Row>
+						<br />
+						<Row>
+							<Col md={12} xs={24}>
+								<Button type="primary" onClick={showModal}>
+									Edit Profile
+								</Button>
+							</Col>
+						</Row>
+					</div>
 				) : null}
-			</Skeleton><br/>
+			</Skeleton>
+			<br />
 
 			<Modal
 				title={
@@ -285,7 +281,7 @@ const HospitalProfile = () => {
 									}
 								]}
 							>
-								<Input/>
+								<Input />
 							</Form.Item>
 							<Form.Item
 								name="category"
@@ -297,11 +293,11 @@ const HospitalProfile = () => {
 									}
 								]}
 							>
-                                <Select>
-                                    <Option value="l1">l1</Option>
-                                    <Option value="l2">l2</Option>
-                                    <Option value="l3">l3</Option>
-                                </Select>
+								<Select>
+									<Option value="l1">l1</Option>
+									<Option value="l2">l2</Option>
+									<Option value="l3">l3</Option>
+								</Select>
 							</Form.Item>
 							<Form.Item
 								name="address"
@@ -313,7 +309,7 @@ const HospitalProfile = () => {
 									}
 								]}
 							>
-								<Input/>
+								<Input />
 							</Form.Item>
 							<Form.Item
 								name="contact"
@@ -325,7 +321,7 @@ const HospitalProfile = () => {
 									}
 								]}
 							>
-								<Input/>
+								<Input />
 							</Form.Item>
 							<Form.Item
 								name="totalBeds"
@@ -337,15 +333,15 @@ const HospitalProfile = () => {
 									}
 								]}
 							>
-								<Input/>
+								<Input />
 							</Form.Item>
 							<Form.Item {...tailFormItemLayout}>
 								<Button
 									type="primary"
-                                    htmlType="submit"
+									htmlType="submit"
 									className="login-form-button "
 									block
-                                    loading={isBtnLoading}
+									loading={isBtnLoading}
 								>
 									Save
 								</Button>
@@ -355,107 +351,101 @@ const HospitalProfile = () => {
 				</div>
 			</Modal>
 
-            <PageTitle title="Change Password" />
-            <Form name="register" onFinish={onFinishPass} form={form2}>
-					<Row>
-						<Col span={4}>Current Password</Col>
-						<Col span={6}>
-							<Form.Item
-								name="currPassword"
-								rules={[
-									{
-										required: true,
-										message:
-											"Please input your current password!"
+			<PageTitle title="Change Password" />
+			<Form name="register" onFinish={onFinishPass} form={form2}>
+				<Row>
+					<Col span={4}>Current Password</Col>
+					<Col span={6}>
+						<Form.Item
+							name="currPassword"
+							rules={[
+								{
+									required: true,
+									message:
+										"Please input your current password!"
+								}
+							]}
+						>
+							<Input />
+						</Form.Item>
+					</Col>
+				</Row>
+				<Row>
+					<Col span={4}>New Password</Col>
+					<Col span={6}>
+						<Form.Item
+							name="newPassword"
+							dependencies={["currPassword"]}
+							rules={[
+								{
+									required: true,
+									message: "Please enter your new password!"
+								},
+								({ getFieldValue }) => ({
+									validator(rule, value) {
+										if (
+											!value ||
+											(getFieldValue("currPassword") !==
+												value &&
+												value.length >= 6)
+										) {
+											return Promise.resolve();
+										} else if (
+											getFieldValue("currPassword") !==
+												value &&
+											value.length < 6
+										) {
+											return Promise.reject(
+												"Password must be atleast 6 digits long !"
+											);
+										}
+										return Promise.reject(
+											"New and Old password cannot be same"
+										);
 									}
-								]}
-							>
-								<Input />
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row>
-						<Col span={4}>New Password</Col>
-						<Col span={6}>
-							<Form.Item
-								name="newPassword"
-								dependencies={["currPassword"]}
-								rules={[
-									{
-										required: true,
-										message:
-											"Please enter your new password!"
-									},
-									({ getFieldValue }) => ({
-										validator(rule, value) {
-											if (
-												!value ||
-												(getFieldValue(
-													"currPassword"
-												) !== value &&
-													value.length >= 6)
-											) {
-												return Promise.resolve();
-											} else if (
-												getFieldValue(
-													"currPassword"
-												) !== value &&
-												value.length < 6
-											) {
-												return Promise.reject(
-													"Password must be atleast 6 digits long !"
-												);
-											}
-											return Promise.reject(
-												"New and Old password cannot be same"
-											);
+								})
+							]}
+						>
+							<Input.Password />
+						</Form.Item>
+					</Col>
+				</Row>
+				<Row>
+					<Col span={4}>Confirm Password</Col>
+					<Col span={6}>
+						<Form.Item
+							name="conPassword"
+							dependencies={["newPassword"]}
+							rules={[
+								{
+									required: true,
+									message: "Please confirm your password!"
+								},
+								({ getFieldValue }) => ({
+									validator(rule, value) {
+										if (
+											!value ||
+											getFieldValue("newPassword") ===
+												value
+										) {
+											return Promise.resolve();
 										}
-									})
-								]}
-							>
-								<Input.Password />
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row>
-						<Col span={4}>Confirm Password</Col>
-						<Col span={6}>
-							<Form.Item
-								name="conPassword"
-								dependencies={["newPassword"]}
-								rules={[
-									{
-										required: true,
-										message: "Please confirm your password!"
-									},
-									({ getFieldValue }) => ({
-										validator(rule, value) {
-											if (
-												!value ||
-												getFieldValue("newPassword") ===
-													value
-											) {
-												return Promise.resolve();
-											}
-											return Promise.reject(
-												"password that you entered do not match!"
-											);
-										}
-									})
-								]}
-							>
-								<Input.Password />
-							</Form.Item>
-						</Col>
-					</Row>
-					<Button
-						type="primary"
-						htmlType="submit"						
-					>
-						Change Password
-					</Button>
-				</Form>
-            </Spin>
+										return Promise.reject(
+											"password that you entered do not match!"
+										);
+									}
+								})
+							]}
+						>
+							<Input.Password />
+						</Form.Item>
+					</Col>
+				</Row>
+				<Button type="primary" htmlType="submit">
+					Change Password
+				</Button>
+			</Form>
+		</Spin>
 	);
 };
 export default HospitalProfile;

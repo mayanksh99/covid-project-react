@@ -3,23 +3,21 @@ import {
 	Row,
 	Col,
 	Button,
-	Card,
 	Skeleton,
-	Avatar,
 	Modal,
 	Form,
-	Input,
-	InputNumber,
-	Select
+    Input,
+    Spin,
+    Select
 } from "antd";
 import PageTitle from "../common/PageTitle";
 import { _notification, getRole } from "../../utils/_helper";
 import {
 	getProfileService,
-	updateHospitalProfileService
+    updateHospitalProfileService,
+    changePassword
 } from "./../../utils/services";
-import { Link } from "react-router-dom";
-import { UserOutlined } from "@ant-design/icons";
+
 const formItemLayout = {
 	labelCol: {
 		xs: { span: 24 },
@@ -30,47 +28,68 @@ const formItemLayout = {
 		sm: { span: 16 }
 	}
 };
+const tailFormItemLayout = {
+	wrapperCol: {
+		xs: {
+			span: 24,
+			offset: 0
+		},
+		sm: {
+			span: 16,
+			offset: 8
+		}
+	}
+};
 const HospitalProfile = () => {
 	const [userData] = useState(getRole());
-	const [form] = Form.useForm();
+    const [form1] = Form.useForm();
+    const [form2] = Form.useForm();
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState(null);
 	const [isVisible, setIsVisible] = useState(false);
-	const [isBtnLoading, setIsBtnLoading] = useState(false);
+    const [isBtnLoading, setIsBtnLoading] = useState(false);
+	const [isSpinning, setIsSpinning] = useState(false);
+	const [isupdate,setisupdate]=useState(false);
+    const { Option } = Select;
 	const showModal = () => {
 		setIsVisible(true);
 	};
 	const handleCancel = () => {
 		setIsVisible(false);
 	};
+	const update =()=>{
+		setisupdate(true);
+	}
+    
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);
 			try {
 				const res = await getProfileService();
-				console.log(res);
+				//console.log(res);
 				setData(res.data);
-				setIsLoading(false);
+                setIsLoading(false);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, []);
+    }, []);
+    
 	useEffect(() => {
 		if (data) {
-			let { name, totalBeds, category, address, contact } = data;
-			form.setFieldsValue({
+            console.log(data);
+			let { name, totalBeds, category, address, contact} = data;
+			form1.setFieldsValue({
 				name,
 				totalBeds,
 				category,
 				address,
-				contact
-				// email
+                contact,
 			});
 		}
-	}, [data, form]);
-	// console.log(userData.id);
-	const onFinish = async values => {
+    }, [data, form1]);
+    
+	const onFinishprofile = async values => {
 		console.log(values);
 		setIsBtnLoading(true);
 		try {
@@ -80,7 +99,6 @@ const HospitalProfile = () => {
 				address: values.address,
 				contact: values.contact,
 				totalBeds: values.totalBeds
-				// email:values.email
 			};
 			const res = await updateHospitalProfileService(
 				userData.id,
@@ -93,169 +111,144 @@ const HospitalProfile = () => {
 					"success",
 					"Success",
 					"Profile update successfully"
-				);
-				// console.log(res);
-				setData(res.data);
+                );
+					(async () => {
+						setIsLoading(true);
+						try {
+							const res = await getProfileService();
+							setData(res.data);
+							setIsLoading(false);
+						} catch (err) {
+							_notification("warning", "Error", err.message);
+						}
+					})();
+                handleCancel();
 			}
 			setIsBtnLoading(false);
-		} catch (err) {
+        } 
+        catch (err) {
 			_notification("error", "Error", err.message);
 			setIsLoading(false);
 		}
-	};
-
+    };
+    
+    const onFinishPass = async values => {
+		setIsSpinning(true);
+		const pwdDetails = {
+			oldPassword: values.currPassword,
+			newPassword: values.newPassword
+		};
+		try {
+			const res = await changePassword(pwdDetails);
+			if (res.res.error) {
+				setIsSpinning(false);
+				_notification("error", "Error", res.res.message);
+			} else if (res.res.message === "success") {
+                setIsSpinning(false);
+				form2.setFieldsValue({
+					currPassword: "",
+					newPassword: "",
+					conPassword: ""
+				});
+				setIsSpinning(false);
+				_notification(
+					"success",
+					"Success",
+					"Password Changed Successfully"
+				);
+			}
+		} catch (err) {
+			setIsSpinning(false);
+			_notification("warning", "Error", err.message);
+		}
+    };
+    
 	return (
-		<>
+		<Spin tip="In processing..." spinning={isSpinning} size="large">  
 			<PageTitle title="Profile" />
 			<Skeleton loading={isLoading} active>
 				{data ? (
-					<Card>
-						<div className="DoctorProfile-content">
-							<Row className="image-section">
-								<div className="DoctorProfile-img">
-									{data.image ? (
-										<img
-											src={data.image}
-											alt="profilepic"
-										/>
-									) : (
-										<Avatar
-											size={72}
-											icon={<UserOutlined />}
-										/>
-									)}
-								</div>
-							</Row>
-							<div className="Doctor-details">
-								<Row className="DoctorProfile-details-one">
-									<div className="DoctorProfile-list">
-										<Row className="DoctorProfile-row">
-											<Col
-												md={12}
-												xs={24}
-												className="DoctorProfile-heading"
-											>
-												Name
-											</Col>
-											<Col md={12} xs={24}>
-												{data.name}
-											</Col>
-										</Row>
-										<Row className="DoctorProfile-row">
-											<Col
-												md={12}
-												xs={24}
-												className="DoctorProfile-heading"
-											>
-												Category
-											</Col>
-											<Col md={12} xs={24}>
-												{data.category}
-											</Col>
-										</Row>
-										<Row className="DoctorProfile-row">
-											<Col
-												md={12}
-												xs={24}
-												className="DoctorProfile-heading"
-											>
-												Address
-											</Col>
-											<Col md={12} xs={24}>
-												{data.address}
-											</Col>
-										</Row>
-										<Row className="DoctorProfile-row">
-											<Col
-												md={12}
-												xs={24}
-												className="DoctorProfile-heading"
-											>
-												Total Beds
-											</Col>
-											<Col md={12} xs={24}>
-												{data.totalBeds}
-											</Col>
-										</Row>
-										<Row className="DoctorProfile-row">
-											<Col
-												md={12}
-												xs={24}
-												className="DoctorProfile-heading"
-											>
-												Available Beds
-											</Col>
-											<Col md={12} xs={24}>
-												{data.availableBeds}
-											</Col>
-										</Row>
-										<Row className="DoctorProfile-row">
-											<Col
-												md={12}
-												xs={24}
-												className="DoctorProfile-heading"
-											>
-												Occupied Beds
-											</Col>
-											<Col md={12} xs={24}>
-												{data.occupiedBeds}
-											</Col>
-										</Row>
-										<Row className="DoctorProfile-row">
-											<Col
-												md={12}
-												xs={24}
-												className="DoctorProfile-heading"
-											>
-												Reserved Beds
-											</Col>
-											<Col md={12} xs={24}>
-												{data.reservedBeds}
-											</Col>
-										</Row>
-										<Row className="DoctorProfile-row">
-											<Col
-												md={12}
-												xs={24}
-												className="DoctorProfile-heading"
-											>
-												Phone Number
-											</Col>
-											<Col md={12} xs={24}>
-												+91-{data.contact}
-											</Col>
-										</Row>
-										<Row className="DoctorProfile-row">
-											<Col
-												md={12}
-												xs={24}
-												className="DoctorProfile-heading"
-											>
-												Email
-											</Col>
-											<Col md={12} xs={24}>
-												{data.email}
-											</Col>
-										</Row>
-										<Row className="DoctorProfile-row">
-											<Col md={12} xs={24}>
-												<Button
-													type="primary"
-													// htmlType="submit"
-													className="login-form-button DoctorProfile-btn"
-													onClick={showModal}
-												>
-													Edit Profile
-												</Button>
-											</Col>
-										</Row>
-									</div>
-								</Row>
-							</div>
-						</div>
-					</Card>
+                    <div className="HospitalProfile-container">
+                        <Row >
+                            <Col md={6} xs={12}>
+                                Name
+                            </Col>
+                            <Col md={6} xs={12}>
+                                {data.name}
+                            </Col>
+                            <Col md={6} xs={12}>
+                                Total Beds
+                            </Col>
+                            <Col md={6} xs={12}>
+                                {data.totalBeds}
+                            </Col>
+                        </Row>
+                        <Row >
+                            <Col md={6} xs={12}>
+                                Category
+                            </Col>
+                            <Col md={6} xs={12}>
+                                {data.category}
+                            </Col>
+                            <Col md={6} xs={12}>
+                                Available Beds
+                            </Col>
+                            <Col md={6} xs={12}>
+                                {data.availableBeds}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={6} xs={12}>
+                                Address
+                            </Col>
+                            <Col md={6} xs={12}>
+                                {data.address}
+                            </Col>
+                            <Col md={6} xs={12}>                          
+                                Occupied Beds
+                            </Col>
+                            <Col md={6} xs={12}>
+                                {data.occupiedBeds}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={6} xs={12}>
+                                Phone Number
+                            </Col>
+                            <Col md={6} xs={12}>
+                                +91-{data.contact}
+                            </Col>
+                            <Col md={6} xs={12}>
+                                Reserved Beds
+                            </Col>
+                            <Col md={6} xs={12}>
+                                {data.reservedBeds}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={6} xs={12}>
+                                Email
+                            </Col>
+                            <Col md={6} xs={12}>
+                                {data.email}
+                            </Col>
+                        </Row><br/>
+                        <Row>
+                            <Col md={12} xs={24}>
+                                <Button
+                                    type="primary"
+                                    
+                                    onClick={showModal}
+                                >
+                                    Edit Profile
+                                </Button>
+                            </Col>
+                        </Row>
+                    </div>
+
 				) : null}
-			</Skeleton>
+			</Skeleton><br/>
+
 			<Modal
 				title={
 					<h3
@@ -271,16 +264,16 @@ const HospitalProfile = () => {
 				visible={isVisible}
 				destroyOnClose={true}
 				onCancel={handleCancel}
-				width={400}
+				width={350}
 				footer={null}
 			>
-				<div className="DoctorEditProfile-container">
+				<div>
 					<Skeleton loading={isLoading} active>
 						<Form
 							{...formItemLayout}
-							form={form}
+							form={form1}
 							name="Edit profile"
-							onFinish={onFinish}
+							onFinish={onFinishprofile}
 						>
 							<Form.Item
 								name="name"
@@ -292,10 +285,7 @@ const HospitalProfile = () => {
 									}
 								]}
 							>
-								<Input
-									className="input-field"
-									placeholder="Enter name"
-								/>
+								<Input/>
 							</Form.Item>
 							<Form.Item
 								name="category"
@@ -303,14 +293,15 @@ const HospitalProfile = () => {
 								rules={[
 									{
 										required: true,
-										message: "Please input total beds!"
+										message: "Please select level"
 									}
 								]}
 							>
-								<Input
-									className="input-field"
-									placeholder="Enter category"
-								/>
+                                <Select>
+                                    <Option value="l1">l1</Option>
+                                    <Option value="l2">l2</Option>
+                                    <Option value="l3">l3</Option>
+                                </Select>
 							</Form.Item>
 							<Form.Item
 								name="address"
@@ -322,10 +313,7 @@ const HospitalProfile = () => {
 									}
 								]}
 							>
-								<Input
-									className="input-field"
-									placeholder="Enter address"
-								/>
+								<Input/>
 							</Form.Item>
 							<Form.Item
 								name="contact"
@@ -337,26 +325,8 @@ const HospitalProfile = () => {
 									}
 								]}
 							>
-								<Input
-									className="input-field"
-									placeholder="Enter contact"
-								/>
+								<Input/>
 							</Form.Item>
-							{/* <Form.Item
-							name="email"
-							label="email"
-							rules={[
-								{
-									required: true,
-									message: "Please input email!"
-								}
-							]}
-						>
-                            <Input
-								className="input-field"
-								placeholder="Enter email"
-							/>
-						</Form.Item> */}
 							<Form.Item
 								name="totalBeds"
 								label="Total Beds"
@@ -367,18 +337,15 @@ const HospitalProfile = () => {
 									}
 								]}
 							>
-								<Input
-									className="input-field"
-									placeholder="Enter total beds"
-								/>
+								<Input/>
 							</Form.Item>
-							<Form.Item>
+							<Form.Item {...tailFormItemLayout}>
 								<Button
 									type="primary"
-									htmlType="submit"
+                                    htmlType="submit"
 									className="login-form-button "
 									block
-									loading={isBtnLoading}
+                                    loading={isBtnLoading}
 								>
 									Save
 								</Button>
@@ -387,8 +354,108 @@ const HospitalProfile = () => {
 					</Skeleton>
 				</div>
 			</Modal>
-		</>
+
+            <PageTitle title="Change Password" />
+            <Form name="register" onFinish={onFinishPass} form={form2}>
+					<Row>
+						<Col span={4}>Current Password</Col>
+						<Col span={6}>
+							<Form.Item
+								name="currPassword"
+								rules={[
+									{
+										required: true,
+										message:
+											"Please input your current password!"
+									}
+								]}
+							>
+								<Input />
+							</Form.Item>
+						</Col>
+					</Row>
+					<Row>
+						<Col span={4}>New Password</Col>
+						<Col span={6}>
+							<Form.Item
+								name="newPassword"
+								dependencies={["currPassword"]}
+								rules={[
+									{
+										required: true,
+										message:
+											"Please enter your new password!"
+									},
+									({ getFieldValue }) => ({
+										validator(rule, value) {
+											if (
+												!value ||
+												(getFieldValue(
+													"currPassword"
+												) !== value &&
+													value.length >= 6)
+											) {
+												return Promise.resolve();
+											} else if (
+												getFieldValue(
+													"currPassword"
+												) !== value &&
+												value.length < 6
+											) {
+												return Promise.reject(
+													"Password must be atleast 6 digits long !"
+												);
+											}
+											return Promise.reject(
+												"New and Old password cannot be same"
+											);
+										}
+									})
+								]}
+							>
+								<Input.Password />
+							</Form.Item>
+						</Col>
+					</Row>
+					<Row>
+						<Col span={4}>Confirm Password</Col>
+						<Col span={6}>
+							<Form.Item
+								name="conPassword"
+								dependencies={["newPassword"]}
+								rules={[
+									{
+										required: true,
+										message: "Please confirm your password!"
+									},
+									({ getFieldValue }) => ({
+										validator(rule, value) {
+											if (
+												!value ||
+												getFieldValue("newPassword") ===
+													value
+											) {
+												return Promise.resolve();
+											}
+											return Promise.reject(
+												"password that you entered do not match!"
+											);
+										}
+									})
+								]}
+							>
+								<Input.Password />
+							</Form.Item>
+						</Col>
+					</Row>
+					<Button
+						type="primary"
+						htmlType="submit"						
+					>
+						Change Password
+					</Button>
+				</Form>
+            </Spin>
 	);
 };
-
 export default HospitalProfile;

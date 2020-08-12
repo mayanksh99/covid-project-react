@@ -65,7 +65,7 @@ let routes = [
 	},
 
 	{
-		path: "/assignambulance",
+		path: "/ambulance-operators/ambulances/assign",
 		exact: true,
 		component: AssignAmbulance,
 		name: "Assign Ambulance",
@@ -74,7 +74,7 @@ let routes = [
 		role: "ambulanceoperator"
 	},
 	{
-		path: "/ambulancestatus",
+		path: "/ambulance-operators/ambulances/status",
 		exact: true,
 		component: AmbulanceStatus,
 		name: "Ambulance Status",
@@ -83,7 +83,7 @@ let routes = [
 		role: "ambulanceoperator"
 	},
 	{
-		path: "/amb-admin-Profile",
+		path: "/ambulance-operators/profile",
 		exact: true,
 		name: "Profile",
 		component: AmbOperatorProfile,
@@ -92,7 +92,7 @@ let routes = [
 		role: "ambulanceoperator"
 	},
 	{
-		path: "/assignbed",
+		path: "/hospitals/patients/assign-bed",
 		exact: true,
 		component: AssignBed,
 		name: "Assign Bed",
@@ -101,7 +101,7 @@ let routes = [
 		role: "hospital"
 	},
 	{
-		path: "/updatedailyreport",
+		path: "/hospitals/patients/update-daily-report",
 		exact: true,
 		component: UpdateDailyReport,
 		name: "Update Daily Report",
@@ -120,6 +120,7 @@ let routes = [
 	},
 	{
 		path: "/patientexamine",
+		path: "/doctors/patients/examine",
 		exact: true,
 		name: "Examine Patient",
 		component: PatientExamine,
@@ -128,7 +129,7 @@ let routes = [
 		role: "doctor"
 	},
 	{
-		path: "/unassignedpatient",
+		path: "/doctors/patients/unassigned",
 		exact: true,
 		name: "Unassigned Patient",
 		component: UnassignedPatients,
@@ -137,7 +138,7 @@ let routes = [
 		role: "doctor"
 	},
 	{
-		path: "/declinedpatient",
+		path: "/doctors/patients/declined",
 		exact: true,
 		name: "Declined Patient",
 		component: DeclinedPatient,
@@ -146,7 +147,7 @@ let routes = [
 		role: "doctor"
 	},
 	{
-		path: "/doctorprofile",
+		path: "/doctors/profile",
 		exact: true,
 		component: DoctorProfile,
 		name: "Doctor Profile",
@@ -155,7 +156,7 @@ let routes = [
 		role: "doctor"
 	},
 	{
-		path: "/ambulanceadmin",
+		path: "/admins/ambulance-operators",
 		exact: true,
 		component: AmbulanceAdmin,
 		name: "Ambulance",
@@ -165,7 +166,7 @@ let routes = [
 		permission: ["master", "ambulance"]
 	},
 	{
-		path: "/hospitaladmin",
+		path: "/admins/hospitals",
 		exact: true,
 		name: "Hospital",
 		component: HospitalAdmin,
@@ -175,7 +176,7 @@ let routes = [
 		permission: ["master", "hospital"]
 	},
 	{
-		path: "/doctoradmin",
+		path: "/admins/doctors",
 		exact: true,
 		name: "Doctor",
 		component: DoctorAdmin,
@@ -185,7 +186,7 @@ let routes = [
 		permission: ["master", "doctor"]
 	},
 	{
-		path: "/adminlist",
+		path: "/admins",
 		exact: true,
 		name: "Admin",
 		component: AdminList,
@@ -195,7 +196,7 @@ let routes = [
 		permission: ["master"]
 	},
 	{
-		path: "/patientlist",
+		path: "/admins/patients",
 		exact: true,
 		name: "Patient",
 		component: PatientList,

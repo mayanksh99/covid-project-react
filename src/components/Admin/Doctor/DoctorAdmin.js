@@ -12,7 +12,8 @@ import DoctorAdminOption from "./DoctorAdminOption";
 import {
 	getDoctorsService,
 	searchDoctorService,
-	delByAdminService
+	delByAdminService,
+	resetPwdByAdminService
 } from "../../../utils/services";
 import { _notification } from "../../../utils/_helper";
 
@@ -52,6 +53,20 @@ const DoctorAdmin = () => {
 		}
 	};
 
+	const handleResetPassword = async id => {
+		try {
+			const res = await resetPwdByAdminService("doctor", id);
+			if (res.error) {
+				_notification("error", "Error", res.message);
+			} else if (res.message === "success") {
+				_notification("success", "Success", "Password resetted.");
+				setRefresh(!refresh);
+			}
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+		}
+	};
+
 	const handleQuery = async val => {
 		setIsLoading(true);
 		try {
@@ -76,10 +91,12 @@ const DoctorAdmin = () => {
 
 		{
 			title: "Name",
-			dataIndex: "name",
-			key: "name",
-			render: name => (
-				<Link to={`/doctordetails/${name[0]}`}>{name[1]}</Link>
+			dataIndex: "details",
+			key: "details",
+			render: details => (
+				<Link to={`/admins/doctors/${details._id}`}>
+					{details.name}
+				</Link>
 			)
 		},
 		{
@@ -100,46 +117,74 @@ const DoctorAdmin = () => {
 
 		{
 			title: "Action",
-			dataIndex: "action",
-			key: "action",
-			render: id => (
+			dataIndex: "actions",
+			key: "actions",
+			render: actions => (
 				<>
 					<Popconfirm
 						title="Do you want to toggle user block?"
-						// onConfirm={() => handleUserRevoke(action[1])}
+						// onConfirm={() => handleUserRevoke(actions._id)}
 						okText="Yes"
 						cancelText="No"
+						disabled={actions.isDeleted}
 					>
-						{id ? (
+						{actions.isBlocked ? (
 							<Tooltip title="Unblock user">
 								<CloseCircleOutlined
-									style={{ color: "#DB4437" }}
+									style={{
+										color: actions.isDeleted
+											? "#000000A6"
+											: "#DB4437"
+									}}
 								/>
 							</Tooltip>
 						) : (
 							<Tooltip title="Block user">
 								<CheckCircleOutlined
-									style={{ color: "#0F9D58" }}
+									style={{
+										color: actions.isDeleted
+											? "#000000A6"
+											: "#0F9D58"
+									}}
 								/>
 							</Tooltip>
 						)}
 					</Popconfirm>
 					<Divider type="vertical" />
-					<Tooltip title="Edit password">
-						<Link to="#">
-							<EditOutlined style={{ color: "#F4B400" }} />
-						</Link>
+					<Tooltip title="Reset Password">
+						<Popconfirm
+							title="Are you reset password for this user?"
+							onConfirm={() => handleResetPassword(actions._id)}
+							okText="Yes"
+							cancelText="No"
+							disabled={actions.isDeleted}
+						>
+							<EditOutlined
+								style={{
+									color: actions.isDeleted
+										? "#000000A6"
+										: "#F4B400"
+								}}
+							/>
+						</Popconfirm>
 					</Tooltip>
 
 					<Divider type="vertical" />
 					<Tooltip title="Delete doctor">
 						<Popconfirm
 							title="Are you sure delete this user?"
-							onConfirm={() => handleDelete(id)}
+							onConfirm={() => handleDelete(actions._id)}
 							okText="Yes"
 							cancelText="No"
+							disabled={actions.isDeleted}
 						>
-							<DeleteOutlined style={{ color: "#DB4437" }} />
+							<DeleteOutlined
+								style={{
+									color: actions.isDeleted
+										? "#000000A6"
+										: "#DB4437"
+								}}
+							/>
 						</Popconfirm>
 					</Tooltip>
 				</>
@@ -149,16 +194,25 @@ const DoctorAdmin = () => {
 
 	const data = doctors
 		? doctors.map((doctor, id) => {
-				const { _id, name, hospital, contact, age, empId } = doctor;
-				return {
-					index: ++id,
-					key: _id,
-					name: [_id, name],
+				const {
+					_id,
+					name,
 					hospital,
 					contact,
 					age,
 					empId,
-					action: _id
+					isDeleted,
+					isBlocked
+				} = doctor;
+				return {
+					index: ++id,
+					key: _id,
+					details: { _id, name },
+					hospital,
+					contact,
+					age,
+					empId,
+					actions: { _id, isDeleted, isBlocked }
 				};
 		  })
 		: null;

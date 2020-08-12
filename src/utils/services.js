@@ -9,6 +9,7 @@ import {
 	GET_ADMINS,
 	ADD_ADMIN,
 	DEL_BY_ADMIN,
+	RESET_PWD_BY_ADMIN,
 	GET_DOCTORS,
 	ADD_DOCTOR,
 	GET_HOSPITALS,
@@ -191,6 +192,21 @@ export const delByAdminService = async (role, id) => {
 	setUserToken();
 	try {
 		const response = await axios.delete(`${DEL_BY_ADMIN}/${role}/${id}`);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const resetPwdByAdminService = async (role, id) => {
+	setUserToken();
+	try {
+		const response = await axios.post(
+			`${RESET_PWD_BY_ADMIN}/${role}/${id}`
+		);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

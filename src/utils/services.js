@@ -9,6 +9,7 @@ import {
 	GET_ADMINS,
 	ADD_ADMIN,
 	DEL_BY_ADMIN,
+	RESET_PWD_BY_ADMIN,
 	GET_DOCTORS,
 	ADD_DOCTOR,
 	GET_HOSPITALS,
@@ -43,7 +44,7 @@ import {
 	UPDATE_ADMIN
 } from "./routes";
 
-const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
+export const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 export const EndPoint = "https://covid-project-gzb.herokuapp.com";
 
 axios.defaults.baseURL = BASE_URL;
@@ -190,6 +191,21 @@ export const delByAdminService = async (role, id) => {
 	setUserToken();
 	try {
 		const response = await axios.delete(`${DEL_BY_ADMIN}/${role}/${id}`);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const resetPwdByAdminService = async (role, id) => {
+	setUserToken();
+	try {
+		const response = await axios.post(
+			`${RESET_PWD_BY_ADMIN}/${role}/${id}`
+		);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -403,12 +419,12 @@ export const startAttentPatientForAmbulance = async id => {
 	}
 };
 
-export const allotAmbulanceForPatient = async (ambId, patientId) => {
+export const allotAmbulanceForPatient = async (ambId, patientId, data) => {
 	setUserToken();
 	try {
 		const response = await axios.post(
 			`${ALLOT_AMBULANCE_FOR_PATIENT}${ambId}/${patientId}`,
-			null
+			data
 		);
 		if (response.status === 200 && response.data.error === false)
 			return response.data;

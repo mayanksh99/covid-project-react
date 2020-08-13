@@ -52,12 +52,6 @@ const Dashboard = props => {
 							mode="inline"
 							// defaultSelectedKeys={"dashboard"}
 						>
-							{/* <Menu.Item key={"dashboard"}>
-								<AppstoreOutlined />
-								<span>Dashboard</span>
-								<Link to="/" />
-							</Menu.Item> */}
-
 							{routes.map((route, idx) => {
 								if (
 									route.role === userData[0].role &&
@@ -131,22 +125,6 @@ const Dashboard = props => {
 							}}
 						>
 							<Switch>
-								{/* {routes.map((route, idx) => {
-									return route.component ? (
-										<PrivateRoute
-											key={idx}
-											path={route.path}
-											exact={route.exact}
-											data={userData[0]}
-											role={route.role}
-											permission={route.permission}
-											render={props => (
-												<route.component {...props} />
-											)}
-										/>
-									) : null;
-								})}
-								 */}
 								{/* <Route exact path="/" component={Dashboard} /> */}
 								<PrivateRoute
 									exact
@@ -192,14 +170,13 @@ const Dashboard = props => {
 								/>
 								<PrivateRoute
 									exact
-									path="/hospitalprofile"
+									path="/hospital/profile"
 									component={HospitalProfile}
 									data={userData[0]}
 									role="hospital"
 								/>
 								<PrivateRoute
 									exact
-									path="/doctorprofile"
 									path="/doctors/profile"
 									component={DoctorProfile}
 									data={userData[0]}

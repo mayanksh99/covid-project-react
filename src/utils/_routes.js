@@ -110,7 +110,7 @@ let routes = [
 		role: "hospital"
 	},
 	{
-		path: "/hospitalprofile",
+		path: "/hospital/profile",
 		exact: true,
 		component: HospitalProfile,
 		name: "Profile",
@@ -119,7 +119,7 @@ let routes = [
 		role: "hospital"
 	},
 	{
-		path: "/patientexamine",
+		// path: "/patientexamine",
 		path: "/doctors/patients/examine",
 		exact: true,
 		name: "Examine Patient",

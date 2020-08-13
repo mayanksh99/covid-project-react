@@ -10,12 +10,18 @@ const Patients = () => {
 	const [patients, setPatients] = useState(null);
 	const [search, setSearch] = useState(null);
 	const [level, setLevel] = useState(null);
+	const [status, setStatus] = useState("diagnosed");
 
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);
 			try {
-				const res = await getPatientsService();
+				let params = {
+					status,
+					level,
+					search
+				};
+				const res = await getPatientsService(params);
 				console.log(res);
 				setPatients(res.data);
 				setIsLoading(false);
@@ -23,45 +29,21 @@ const Patients = () => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, []);
+	}, [status, level, search]);
 
-	const handleQuery = async val => {
-		setIsLoading(true);
+	const handleQuery = val => {
 		setSearch(val);
-		try {
-			let params = {
-				search: val,
-				level
-			};
-			const res = await getPatientsService(params);
-			setPatients(res.data);
-			setIsLoading(false);
-		} catch (err) {
-			_notification("warning", "Error", err.message);
-			setIsLoading(false);
-		}
 	};
 
-	const handleLevel = async val => {
-		setIsLoading(true);
+	const handleLevel = val => {
 		setLevel(val);
-		try {
-			let params = { level: val, search };
-			const res = await getPatientsService(params);
-			setPatients(res.data);
-			setIsLoading(false);
-		} catch (err) {
-			_notification("warning", "Error", err.message);
-			setIsLoading(false);
-		}
+	};
+
+	const handleStatus = async val => {
+		setStatus(val);
 	};
 
 	const columns = [
-		{
-			title: "Case ID",
-			dataIndex: "caseId",
-			key: "caseId"
-		},
 		{
 			title: "Name",
 			dataIndex: "name",
@@ -142,17 +124,45 @@ const Patients = () => {
 					/>
 				</Col>
 				<Col span={12}>
-					<div style={{ float: "right" }}>
-						<Select
-							placeholder="Select level"
-							onChange={handleLevel}
-							allowClear
-							className="input-field"
-						>
-							<Option value="l1">L1</Option>
-							<Option value="l2">L2</Option>
-							<Option value="l3">L3</Option>
-						</Select>
+					<div className="wrapper">
+						<div style={{ marginRight: "10px" }}>
+							<Select
+								placeholder="Select level"
+								onChange={handleLevel}
+								allowClear
+								className="input-field"
+							>
+								<Option value="l1">L1</Option>
+								<Option value="l2">L2</Option>
+								<Option value="l3">L3</Option>
+							</Select>
+						</div>
+						<div style={{ float: "right" }}>
+							<Select
+								placeholder="Select status"
+								onChange={handleStatus}
+								className="input-field"
+								allowClear
+								defaultValue={status}
+							>
+								<Option value="diagnosed">Diagnosed</Option>
+								<Option value="levelAlloted">
+									Level Alloted
+								</Option>
+								<Option value="hospitalAlloted">
+									Hospital Alloted
+								</Option>
+								<Option value="ambulanceAlloted">
+									Ambulance Alloted
+								</Option>
+								<Option value="hospitalised">
+									Hospitalised
+								</Option>
+								<Option value="recovered">Recovered</Option>
+								<Option value="deceased">Deceased</Option>
+								<Option value="declined">Declined</Option>
+							</Select>
+						</div>
 					</div>
 				</Col>
 			</Row>

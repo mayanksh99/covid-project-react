@@ -8,7 +8,7 @@ import {
 	Avatar,
 	Modal,
 	Form,
-	Input,
+	Input
 } from "antd";
 import PageTitle from "../common/PageTitle";
 import "./style.css";
@@ -56,7 +56,6 @@ const DoctorProfile = () => {
 					"Password Changed Successfully"
 				);
 				setIsVisible(!isVisible);
-
 			}
 		} catch (err) {
 			// setIsSpinning(false);

@@ -6,7 +6,7 @@ import {
 	Link
 } from "react-router-dom";
 import "./style.css";
-import { Layout, Menu, Row, Col } from "antd";
+import { Layout, Menu, Row, Col, Modal, Button } from "antd";
 import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getRole } from "./../../utils/_helper";
 import routes from "../../utils/_routes";
@@ -19,6 +19,7 @@ import AssignAmbulance from "./../Ambulance/AssignAmbulance";
 import AmbulanceStatus from "./../Ambulance/AmbulanceStatus";
 import AssignBed from "./../Hospital/AssignBed";
 import UpdateDailyReport from "./../Hospital/UpdateDailyReport";
+import HospitalProfile from "./../Hospital/HospitalProfile";
 import DoctorProfile from "./../Doctor/DoctorProfile";
 import AmbulanceAdmin from "./../Admin/Ambulance/AmbulanceAdmin";
 import HospitalAdmin from "./../Admin/Hospital/HospitalAdmin";
@@ -34,6 +35,20 @@ const { Content, Sider, Footer } = Layout;
 const Dashboard = props => {
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const userData = useState(getRole());
+	const [isVisible, setIsVisible] = useState(false);
+
+	// const handleOk = () =>
+	// 						{
+	// 							setIsVisible(!isVisible);
+	// 						};
+
+	const handleCancel = () => {
+		setIsVisible(!isVisible);
+	};
+
+	const showModal = () => {
+		setIsVisible(!isVisible);
+	};
 
 	return (
 		<>
@@ -51,12 +66,6 @@ const Dashboard = props => {
 							mode="inline"
 							// defaultSelectedKeys={"dashboard"}
 						>
-							{/* <Menu.Item key={"dashboard"}>
-								<AppstoreOutlined />
-								<span>Dashboard</span>
-								<Link to="/" />
-							</Menu.Item> */}
-
 							{routes.map((route, idx) => {
 								if (
 									route.role === userData[0].role &&
@@ -88,13 +97,7 @@ const Dashboard = props => {
 								return 0;
 							})}
 
-							<Menu.Item
-								key={"signout"}
-								onClick={() => {
-									localStorage.clear();
-									props.history.push("/login");
-								}}
-							>
+							<Menu.Item key={"signout"} onClick={showModal}>
 								<LockOutlined />
 								<span>Sign Out</span>
 							</Menu.Item>
@@ -130,22 +133,6 @@ const Dashboard = props => {
 							}}
 						>
 							<Switch>
-								{/* {routes.map((route, idx) => {
-									return route.component ? (
-										<PrivateRoute
-											key={idx}
-											path={route.path}
-											exact={route.exact}
-											data={userData[0]}
-											role={route.role}
-											permission={route.permission}
-											render={props => (
-												<route.component {...props} />
-											)}
-										/>
-									) : null;
-								})}
-								 */}
 								{/* <Route exact path="/" component={Dashboard} /> */}
 								<PrivateRoute
 									exact
@@ -186,6 +173,13 @@ const Dashboard = props => {
 									exact
 									path="/hospitals/patients/update-daily-report"
 									component={UpdateDailyReport}
+									data={userData[0]}
+									role="hospital"
+								/>
+								<PrivateRoute
+									exact
+									path="/hospital/profile"
+									component={HospitalProfile}
 									data={userData[0]}
 									role="hospital"
 								/>
@@ -307,6 +301,38 @@ const Dashboard = props => {
 					</Row>
 				</Footer>
 			</Router>
+
+			<Modal
+				title={
+					<h3
+						style={{
+							textAlign: "center",
+							marginBottom: "-3px",
+							color: "#fff"
+						}}
+					>
+						Warning!
+					</h3>
+				}
+				visible={isVisible}
+				centered
+				onCancel={handleCancel}
+				width={400}
+				footer={[
+					<Button
+						key="submit"
+						type="primary"
+						onClick={() => {
+							localStorage.clear();
+							props.history.push("/login");
+						}}
+					>
+						Sign Out
+					</Button>
+				]}
+			>
+				<p>Do You want to SignOut</p>
+			</Modal>
 		</>
 	);
 };

@@ -33,6 +33,7 @@ import {
 	UPDATE_AMBULANCE,
 	GET_PATIENT_BY_HOSPITAL,
 	UPDATE_HOSPITAL,
+	HOSPITAL_UPDATE_PROFILE,
 	ADD_PATIENT_REPORT,
 	DOCTOR_PROFILE,
 	PATIENT_UNDER_DOCTOR,
@@ -757,6 +758,21 @@ export const dischargePatientService = async (id, data) => {
 	setUserToken();
 	try {
 		const response = await axios.post(`${DISCHARGE_PATIENT}${id}`, data);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+export const updateHospitalProfileService = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.put(
+			`${HOSPITAL_UPDATE_PROFILE}/${id}`,
+			data
+		);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

@@ -277,7 +277,7 @@ const DoctorProfile = () => {
 									}
 								]}
 							>
-								<Input placeholder="Current Password" />
+								<Input.Password placeholder="Current Password" />
 							</Form.Item>
 						</Col>
 					</Row>
@@ -320,7 +320,7 @@ const DoctorProfile = () => {
 									})
 								]}
 							>
-								<Input placeholder="New Password" />
+								<Input.Password placeholder="New Password" />
 							</Form.Item>
 						</Col>
 					</Row>
@@ -351,7 +351,7 @@ const DoctorProfile = () => {
 									})
 								]}
 							>
-								<Input placeholder="Confirm Password" />
+								<Input.Password placeholder="Confirm Password" />
 							</Form.Item>
 						</Col>
 					</Row>

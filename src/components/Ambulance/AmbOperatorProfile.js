@@ -7,7 +7,7 @@ import PageTitle from "../common/PageTitle";
 import "./style.css";
 
 const AmbAdminProfile = () => {
-	const userData = useState(getRole());
+	const [userData] = useState(getRole());
 	const [form1] = Form.useForm();
 	const [isSpinning, setIsSpinning] = useState(false);
 	const onFinish = async values => {
@@ -46,15 +46,15 @@ const AmbAdminProfile = () => {
 				<PageTitle title="Profile" />
 				<Row>
 					<Col span={3}>Name</Col>
-					<Col>{userData ? userData[0].name : null}</Col>
+					<Col>{userData ? userData.name : null}</Col>
 				</Row>
 				<Row>
 					<Col span={3}>Email</Col>
-					<Col>{userData ? userData[0].email : null}</Col>
+					<Col>{userData ? userData.email : null}</Col>
 				</Row>
 				<Row>
 					<Col span={3}>ID</Col>
-					<Col>{userData ? userData[0].id : null}</Col>
+					<Col>{userData ? userData.id : null}</Col>
 				</Row>
 				<div style={{ marginTop: "50px" }}>
 					<PageTitle title="Change Password" />

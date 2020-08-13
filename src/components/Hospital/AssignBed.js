@@ -2,18 +2,13 @@ import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
 import { Table, Row, Col, Button, Input } from "antd";
 import PageTitle from "../common/PageTitle";
-import {
-	getPatientDetails,
-	searchPatients,
-	getProfileService
-} from "../../utils/services";
+import { getPatientDetails, searchPatients } from "../../utils/services";
 import { _notification, getRole } from "../../utils/_helper";
 import PatientDetail from "./PatientDetail";
 import PageStats from "./../common/PageStats";
 
 const AssignBed = () => {
 	const [userData] = useState(getRole());
-	const [profile, setProfile] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [Patients, setPatients] = useState(null);
 	const [isVisible, setIsVisible] = useState(false);
@@ -34,19 +29,6 @@ const AssignBed = () => {
 			}
 		})();
 	}, [userData, refresh]);
-
-	useEffect(() => {
-		(async () => {
-			setIsLoading(true);
-			try {
-				const res = await getProfileService();
-				setProfile(res.data);
-				setIsLoading(false);
-			} catch (err) {
-				_notification("warning", "Error", err.message);
-			}
-		})();
-	}, []);
 
 	const handleModal = data => {
 		setModalData(data);

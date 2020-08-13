@@ -142,16 +142,6 @@ const AssignBed = () => {
 		<div style={{ padding: "10px 30px" }}>
 			<PageTitle title="Assign Beds" />
 			<Row>
-				{profile ? (
-					<Col span={8}>
-						<PageStats
-							title="Number of Beds available"
-							value={profile.availableBeds}
-							suffix={`/${profile.totalBeds}`}
-						/>
-					</Col>
-				) : null}
-
 				<Col span={8}>
 					<PageStats
 						title="Total Unattended Patients"

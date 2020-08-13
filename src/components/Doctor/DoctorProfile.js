@@ -9,7 +9,6 @@ import {
 	Modal,
 	Form,
 	Input,
-	Checkbox
 } from "antd";
 import PageTitle from "../common/PageTitle";
 import "./style.css";
@@ -29,9 +28,9 @@ const DoctorProfile = () => {
 		setIsVisible(!isVisible);
 	};
 
-	const handleOk = () => {
-		setIsVisible(!isVisible);
-	};
+	// const handleOk = () => {
+	// 	setIsVisible(!isVisible);
+	// };
 
 	const onFinish = async values => {
 		// setIsSpinning(true);
@@ -56,6 +55,8 @@ const DoctorProfile = () => {
 					"Success",
 					"Password Changed Successfully"
 				);
+				setIsVisible(!isVisible);
+
 			}
 		} catch (err) {
 			// setIsSpinning(false);

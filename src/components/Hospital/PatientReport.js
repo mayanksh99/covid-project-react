@@ -58,8 +58,8 @@ const PatientReport = ({
 				]}
 			>
 				<Select onChange={handleChange}>
-					<Option value="no">No</Option>
 					<Option value="yes">Yes</Option>
+					<Option value="no">No</Option>
 				</Select>
 			</Form.Item>
 		);

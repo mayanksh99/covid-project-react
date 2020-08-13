@@ -41,3 +41,9 @@ thead[class*="ant-table-thead"] th {
 	display: flex;
 	justify-content: center;
 }
+
+.wrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+}

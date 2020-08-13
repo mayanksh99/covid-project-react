@@ -19,6 +19,7 @@ import AssignAmbulance from "./../Ambulance/AssignAmbulance";
 import AmbulanceStatus from "./../Ambulance/AmbulanceStatus";
 import AssignBed from "./../Hospital/AssignBed";
 import UpdateDailyReport from "./../Hospital/UpdateDailyReport";
+import HospitalProfile from "./../Hospital/HospitalProfile";
 import DoctorProfile from "./../Doctor/DoctorProfile";
 import AmbulanceAdmin from "./../Admin/Ambulance/AmbulanceAdmin";
 import HospitalAdmin from "./../Admin/Hospital/HospitalAdmin";
@@ -65,12 +66,6 @@ const Dashboard = props => {
 							mode="inline"
 							// defaultSelectedKeys={"dashboard"}
 						>
-							{/* <Menu.Item key={"dashboard"}>
-								<AppstoreOutlined />
-								<span>Dashboard</span>
-								<Link to="/" />
-							</Menu.Item> */}
-
 							{routes.map((route, idx) => {
 								if (
 									route.role === userData[0].role &&
@@ -138,22 +133,6 @@ const Dashboard = props => {
 							}}
 						>
 							<Switch>
-								{/* {routes.map((route, idx) => {
-									return route.component ? (
-										<PrivateRoute
-											key={idx}
-											path={route.path}
-											exact={route.exact}
-											data={userData[0]}
-											role={route.role}
-											permission={route.permission}
-											render={props => (
-												<route.component {...props} />
-											)}
-										/>
-									) : null;
-								})}
-								 */}
 								{/* <Route exact path="/" component={Dashboard} /> */}
 								<PrivateRoute
 									exact
@@ -194,6 +173,13 @@ const Dashboard = props => {
 									exact
 									path="/hospitals/patients/update-daily-report"
 									component={UpdateDailyReport}
+									data={userData[0]}
+									role="hospital"
+								/>
+								<PrivateRoute
+									exact
+									path="/hospital/profile"
+									component={HospitalProfile}
 									data={userData[0]}
 									role="hospital"
 								/>

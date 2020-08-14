@@ -84,7 +84,7 @@ const DoctorEditProfile = props => {
 					"Success",
 					"Profile update successfully"
 				);
-				props.history.push("/doctorprofile");
+				props.history.push("/doctors/profile");
 			}
 			setIsBtnLoading(false);
 		} catch (err) {

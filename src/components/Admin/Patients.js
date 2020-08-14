@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Table, Card, Tag, Row, Col, Input, Select } from "antd";
 import { getPatientsService } from "../../utils/services";
 import { _notification } from "./../../utils/_helper";
+import { Link } from "react-router-dom";
+import PatientHistory from "./PatientHistory";
 
 const { Option } = Select;
 
@@ -11,6 +13,8 @@ const Patients = () => {
 	const [search, setSearch] = useState(null);
 	const [level, setLevel] = useState(null);
 	const [status, setStatus] = useState("diagnosed");
+	const [isVisible, setIsVisible] = useState(false);
+	const [pid, setPid] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -22,7 +26,6 @@ const Patients = () => {
 					search
 				};
 				const res = await getPatientsService(params);
-				console.log(res);
 				setPatients(res.data);
 				setIsLoading(false);
 			} catch (err) {
@@ -43,11 +46,21 @@ const Patients = () => {
 		setStatus(val);
 	};
 
+	const handleModal = (val, id) => {
+		setPid(id);
+		setIsVisible(val);
+	};
+
 	const columns = [
 		{
 			title: "Name",
 			dataIndex: "name",
-			key: "name"
+			key: "name",
+			render: name => (
+				<Link to="#" onClick={() => handleModal(true, name[1])}>
+					{name[0]}
+				</Link>
+			)
 		},
 		{
 			title: "Age",
@@ -68,7 +81,11 @@ const Patients = () => {
 			title: "Status",
 			dataIndex: "status",
 			key: "status",
-			render: status => <Tag color="green">{status}</Tag>
+			render: status => (
+				<Tag color="green">
+					{status.charAt(0).toUpperCase() + status.slice(1)}
+				</Tag>
+			)
 		},
 		{
 			title: "Email",
@@ -98,7 +115,7 @@ const Patients = () => {
 				return {
 					index: ++i,
 					key: _id,
-					name,
+					name: [name, _id],
 					email,
 					gender,
 					phone,
@@ -191,6 +208,11 @@ const Patients = () => {
 					/>
 				</div>
 			</Card>
+			<PatientHistory
+				visible={isVisible}
+				handleModal={handleModal}
+				pid={pid}
+			/>
 		</>
 	);
 };

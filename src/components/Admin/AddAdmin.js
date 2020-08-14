@@ -31,6 +31,7 @@ const AddAdmin = ({ refresh, setRefresh }) => {
 				form.setFieldsValue({
 					name: "",
 					email: "",
+					contact: "",
 					permissions: []
 				});
 				setRefresh(!refresh);

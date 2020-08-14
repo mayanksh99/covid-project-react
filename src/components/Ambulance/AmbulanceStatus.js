@@ -150,13 +150,14 @@ const AmbulanceStatus = () => {
 		},
 		onChange(info) {
 			if (info.file.status === "done") {
-				console.log(info.file);
+				// console.log(info.file);
 				if (info.file.response.data.invalidAmbulances.length === 0) {
 					_notification(
 						"success",
 						"Success",
-						"All hospitals were added successfully !"
+						"All ambulances were added successfully !"
 					);
+					setRefresh(!refresh);
 				} else {
 					setBulkData(
 						info.file.response.data.invalidAmbulances.map(amb => {
@@ -174,6 +175,7 @@ const AmbulanceStatus = () => {
 						"Ambulance addition failed. Please Check !"
 					);
 					setIsResultsVisible(true);
+					setRefresh(!refresh);
 				}
 			} else if (info.file.status === "error") {
 				_notification(

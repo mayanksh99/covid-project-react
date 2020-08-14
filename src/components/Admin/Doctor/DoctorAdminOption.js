@@ -37,6 +37,7 @@ const DoctorAdminOption = ({ count, refresh, setRefresh }) => {
 						"Success",
 						"All doctors were added successfully !"
 					);
+					setRefresh(!refresh);
 				} else {
 					setData(
 						info.file.response.data.invalidDoctors.map(doc => {
@@ -53,6 +54,7 @@ const DoctorAdminOption = ({ count, refresh, setRefresh }) => {
 						"Attention !",
 						"Doctor addition failed. Please Check !"
 					);
+					setRefresh(!refresh);
 					setIsResultsVisible(true);
 				}
 			} else if (info.file.status === "error") {

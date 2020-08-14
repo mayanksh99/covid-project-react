@@ -1,10 +1,21 @@
-import React from "react";
-import { Modal, Row, Col, Tag } from "antd";
+import React, { useState } from "react";
+import { Modal, Row, Col, Tag, Checkbox, Input, Form, Button } from "antd";
+
 const AmbulanceDutiesModal = props => {
-	const handleModal = () => {
-		props.setIsVisible(false);
+	const { form } = Form.useForm;
+	const { TextArea } = Input;
+	const [check, setCheck] = useState(null);
+
+	const onChange = e => {
+		setCheck(e.target.checked);
 	};
+
+	const handleFinish = values => {
+		console.log(values);
+	};
+
 	let index = props.modalData ? props.modalData.length : null;
+
 	const tripDetails = props.modalData
 		? props.modalData.reverse().map(duty => (
 				<>
@@ -16,7 +27,7 @@ const AmbulanceDutiesModal = props => {
 									? "green"
 									: duty.ambulance.status === "onDuty"
 									? "orange"
-									: null
+									: "red"
 							}
 						>
 							{duty.ambulance.status.toUpperCase()}
@@ -34,7 +45,7 @@ const AmbulanceDutiesModal = props => {
 							</Col>
 						</Row>
 						<Row>
-							<Col span={12}>
+							{/* <Col span={12}>
 								<Row>
 									Patient{" "}
 									{duty.status === "completed"
@@ -53,8 +64,8 @@ const AmbulanceDutiesModal = props => {
 								<Row>Address : {duty.hospital.address}</Row>
 								<Row>Category : {duty.hospital.category}</Row>
 								<Row>Contact : {duty.hospital.contact}</Row>
-							</Col>
-							{/* <Col span={12}>
+							</Col> */}
+							<Col span={12}>
 								Patient{" "}
 								{duty.status === "completed"
 									? "carried"
@@ -77,8 +88,52 @@ const AmbulanceDutiesModal = props => {
 							<Col span={12}>Contact : {duty.patient.phone}</Col>
 							<Col span={12}>
 								Contact : {duty.hospital.contact}
-							</Col> */}
+							</Col>
 						</Row>
+						<Form
+							form={form}
+							onFinish={handleFinish}
+							name="ambulanceDetails"
+							layout="vertical"
+						>
+							{duty.status === "onDuty" ? (
+								<Form.Item>
+									<Checkbox
+										onChange={onChange}
+										checked={check}
+									>
+										Declined to come ?
+									</Checkbox>
+								</Form.Item>
+							) : null}
+
+							{check ? (
+								<>
+									<Form.Item
+										name="declinedComment"
+										label="Add a comment"
+										rules={[
+											{
+												required: true,
+												message:
+													"Please write comment !"
+											}
+										]}
+									>
+										<TextArea placeholder="Write here" />
+									</Form.Item>
+									<Form.Item>
+										<Button
+											type="primary"
+											htmlType="submit"
+											style={{ float: "right" }}
+										>
+											Submit
+										</Button>
+									</Form.Item>
+								</>
+							) : null}
+						</Form>
 						<Row>
 							Journey Status :{" "}
 							<Tag
@@ -114,7 +169,13 @@ const AmbulanceDutiesModal = props => {
 				centered={true}
 				width={650}
 				visible={props.isVisible}
-				onCancel={handleModal}
+				onCancel={() => {
+					props.setIsVisible(false);
+					// form.setFieldsValue({
+					// 	declinedComment: null
+					// });
+					setCheck(false);
+				}}
 			>
 				{tripDetails}
 			</Modal>

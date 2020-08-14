@@ -15,7 +15,7 @@ import "./style.css";
 import { _notification } from "../../utils/_helper";
 import { getProfileService, changePassword } from "./../../utils/services";
 import { Link } from "react-router-dom";
-import { UserOutlined, RightOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 
 const DoctorProfile = () => {
 	const [isLoading, setIsLoading] = useState(false);

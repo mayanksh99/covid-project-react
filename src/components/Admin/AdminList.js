@@ -47,13 +47,13 @@ const AdminList = () => {
 			try {
 				const res = await getAdminsService();
 				setAdmins(res.data);
+
 				setIsLoading(false);
 			} catch (err) {
 				_notification("warning", "Error", err.message);
 			}
 		})();
 	}, [refresh]);
-
 	const handleDelete = async id => {
 		try {
 			const res = await delByAdminService("admin", id);
@@ -110,6 +110,7 @@ const AdminList = () => {
 			let params = { permission: val, search };
 			const res = await searchAdminsService(params);
 			setAdmins(res.data);
+
 			setIsLoading(false);
 		} catch (err) {
 			_notification("warning", "Error", err.message);

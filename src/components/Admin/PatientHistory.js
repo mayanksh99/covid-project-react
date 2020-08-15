@@ -482,7 +482,7 @@ const PatientHistory = props => {
 
 							{/* Report Detail */}
 
-							{patient.hasOwnProperty("reports") ? (
+							{patient.reports.length > 0 ? (
 								<>
 									<Divider>Report Detail</Divider>
 									<Timeline mode="alternate">

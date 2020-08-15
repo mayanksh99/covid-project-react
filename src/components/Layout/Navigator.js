@@ -285,9 +285,9 @@ const Dashboard = props => {
 					<Row>
 						<Col span={12}>
 							<img
-								src="https://raw.githubusercontent.com/dsckiet/resources/master/covidkietdsclogo.png"
+								src="/assets/images/covid.png"
 								alt="logo"
-								width="150px"
+								width="180px"
 							/>
 						</Col>
 						<Col span={12}>

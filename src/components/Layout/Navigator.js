@@ -6,7 +6,7 @@ import {
 	Link
 } from "react-router-dom";
 import "./style.css";
-import { Layout, Menu, Row, Col } from "antd";
+import { Layout, Menu, Row, Col, Modal, Button } from "antd";
 import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getRole } from "./../../utils/_helper";
 import routes from "../../utils/_routes";
@@ -35,6 +35,20 @@ const { Content, Sider, Footer } = Layout;
 const Dashboard = props => {
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const userData = useState(getRole());
+	const [isVisible, setIsVisible] = useState(false);
+
+	// const handleOk = () =>
+	// 						{
+	// 							setIsVisible(!isVisible);
+	// 						};
+
+	const handleCancel = () => {
+		setIsVisible(!isVisible);
+	};
+
+	const showModal = () => {
+		setIsVisible(!isVisible);
+	};
 
 	return (
 		<>
@@ -83,13 +97,7 @@ const Dashboard = props => {
 								return 0;
 							})}
 
-							<Menu.Item
-								key={"signout"}
-								onClick={() => {
-									localStorage.clear();
-									props.history.push("/login");
-								}}
-							>
+							<Menu.Item key={"signout"} onClick={showModal}>
 								<LockOutlined />
 								<span>Sign Out</span>
 							</Menu.Item>
@@ -293,6 +301,38 @@ const Dashboard = props => {
 					</Row>
 				</Footer>
 			</Router>
+
+			<Modal
+				title={
+					<h3
+						style={{
+							textAlign: "center",
+							marginBottom: "-3px",
+							color: "#fff"
+						}}
+					>
+						Warning!
+					</h3>
+				}
+				visible={isVisible}
+				centered
+				onCancel={handleCancel}
+				width={400}
+				footer={[
+					<Button
+						key="submit"
+						type="primary"
+						onClick={() => {
+							localStorage.clear();
+							props.history.push("/login");
+						}}
+					>
+						Sign Out
+					</Button>
+				]}
+			>
+				<p>Do You want to SignOut</p>
+			</Modal>
 		</>
 	);
 };

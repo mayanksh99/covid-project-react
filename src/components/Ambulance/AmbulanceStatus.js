@@ -17,7 +17,8 @@ import { _notification } from "../../utils/_helper";
 import {
 	getAllAmbulanceUnder,
 	getOperatorAmbService,
-	addAmbulance
+	addAmbulance,
+	getAmbulanceDuties
 } from "../../utils/services";
 import "./style.css";
 import AmbulanceStatusModal from "./AmbulanceStatusModal";
@@ -25,6 +26,7 @@ import AddAmbulanceModal from "./AddAmbulanceModal";
 import AddBulkResponseModal from "../../utils/_helper";
 import { ADD_BULK_AMBULANCES } from "../../utils/routes";
 import { BASE_URL } from "../../utils/services";
+import AmbulanceDutiesModal from "./AmbulanceDutiesModal";
 
 const AmbulanceStatus = () => {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
@@ -36,8 +38,10 @@ const AmbulanceStatus = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
 	const [isAddAmbVisible, setIsAddAmbVisible] = useState(false);
+	const [isDutiesModalVisible, setIsDutiesModalVisible] = useState(false);
 	const [modalData, setModalData] = useState(null);
 	const [ambulance, setAmbulance] = useState(null);
+	const [dutiesModalData, setDutiesModalData] = useState(null);
 	const [isAmbAdding, setIsAmbAdding] = useState(false);
 	const [count, setCount] = useState(null);
 	const [refresh, setRefresh] = useState(false);
@@ -123,6 +127,21 @@ const AmbulanceStatus = () => {
 		}
 	};
 
+	const handleClick = async data => {
+		setIsLoading(true);
+		try {
+			const res = await getAmbulanceDuties(data.key);
+			console.log(res.data);
+			if (res.error === false && res.message === "success") {
+				setDutiesModalData(res.data);
+				setIsDutiesModalVisible(true);
+				setIsLoading(false);
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	// console.log(dutiesModalData);
 	const props = {
 		name: "file",
 		action: `${BASE_URL}${ADD_BULK_AMBULANCES}${userData[0].id}`,
@@ -131,13 +150,14 @@ const AmbulanceStatus = () => {
 		},
 		onChange(info) {
 			if (info.file.status === "done") {
-				console.log(info.file);
+				// console.log(info.file);
 				if (info.file.response.data.invalidAmbulances.length === 0) {
 					_notification(
 						"success",
 						"Success",
-						"All hospitals were added successfully !"
+						"All ambulances were added successfully !"
 					);
+					setRefresh(!refresh);
 				} else {
 					setBulkData(
 						info.file.response.data.invalidAmbulances.map(amb => {
@@ -155,6 +175,7 @@ const AmbulanceStatus = () => {
 						"Ambulance addition failed. Please Check !"
 					);
 					setIsResultsVisible(true);
+					setRefresh(!refresh);
 				}
 			} else if (info.file.status === "error") {
 				_notification(
@@ -193,7 +214,15 @@ const AmbulanceStatus = () => {
 		{
 			title: "Driver's Name",
 			dataIndex: "driverName",
-			key: "driverName"
+			key: "driverName",
+			render: (driverName, data) => (
+				<div
+					onClick={() => handleClick(data)}
+					style={{ color: "blue", cursor: "pointer" }}
+				>
+					{driverName}
+				</div>
+			)
 		},
 		{
 			title: "Vehicle number",
@@ -231,7 +260,12 @@ const AmbulanceStatus = () => {
 			title: "Action",
 			key: "changeStatusButton",
 			render: data => (
-				<Button type="primary" onClick={() => handleModal(data)}>
+				<Button
+					type="primary"
+					onClick={() => {
+						handleModal(data);
+					}}
+				>
 					Change Status
 				</Button>
 			)
@@ -387,6 +421,11 @@ const AmbulanceStatus = () => {
 				setIsVisible={setIsAddAmbVisible}
 				isAmbAdding={isAmbAdding}
 				add={add}
+			/>
+			<AmbulanceDutiesModal
+				isVisible={isDutiesModalVisible}
+				setIsVisible={setIsDutiesModalVisible}
+				modalData={dutiesModalData}
 			/>
 		</div>
 	);

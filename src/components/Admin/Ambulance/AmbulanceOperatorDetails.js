@@ -12,10 +12,15 @@ import {
 	Tooltip,
 	Input,
 	Select,
-	Divider
+	Divider,
+	Upload
 } from "antd";
 import AddAmbulance from "./AddAmbulance";
 import PageTitle from "../../common/PageTitle";
+import { UploadOutlined } from "@ant-design/icons";
+import AddBulkResponseModal from "../../../utils/_helper";
+import { BASE_URL } from "../../../utils/services";
+import { ADD_BULK_AMBULANCES } from "../../../utils/routes";
 import { _notification } from "../../../utils/_helper";
 import {
 	getOperatorAmbService,
@@ -28,6 +33,10 @@ import AmbulanceOperatorUpdate from "./AmbulanceOperatorUpdate";
 const { Option } = Select;
 
 const AmbulanceAdminDetails = props => {
+	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
+	const [bulkUploadDetails, setBulkUploadDetails] = useState(false);
+	const [bulkData, setBulkData] = useState(null);
+	const [isResultsVisible, setIsResultsVisible] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [ambulances, setAmbulances] = useState(null);
@@ -79,6 +88,10 @@ const AmbulanceAdminDetails = props => {
 	const handleUpdateModal = (value, data) => {
 		setShowUpdateModal(value);
 		setAmbulanceData(data);
+	};
+
+	const closeResults = () => {
+		setIsResultsVisible(false);
 	};
 
 	const handleQuery = async val => {
@@ -188,6 +201,69 @@ const AmbulanceAdminDetails = props => {
 		  })
 		: null;
 
+	const tableColumns = [
+		{
+			title: "#",
+			dataIndex: "key",
+			key: "key"
+		},
+		{
+			title: "Vehivle Number",
+			dataIndex: "vehicleNo",
+			key: "vehicleNo"
+		},
+		{
+			title: "Reason",
+			dataIndex: "reason",
+			key: "reason"
+		}
+	];
+
+	const bulkProps = {
+		name: "file",
+		action: `${BASE_URL}${ADD_BULK_AMBULANCES}${props.match.params.id}`,
+		headers: {
+			"x-auth-token": `${AUTH_TOKEN.token}`
+		},
+		onChange(info) {
+			if (info.file.status === "done") {
+				console.log(info.file.response);
+				if (info.file.response.data.invalidAmbulances.length === 0) {
+					_notification(
+						"success",
+						"Success",
+						"All ambulances were added successfully !"
+					);
+					setRefresh(!refresh);
+				} else {
+					setBulkData(
+						info.file.response.data.invalidAmbulances.map(amb => {
+							return {
+								key: amb.index + 1,
+								vehicleNo: amb.Ambulance,
+								reason: amb.error
+							};
+						})
+					);
+					setBulkUploadDetails(info.file.response.data);
+					_notification(
+						"error",
+						"Attention !",
+						"Ambulance addition failed. Please Check !"
+					);
+					setRefresh(!refresh);
+					setIsResultsVisible(true);
+				}
+			} else if (info.file.status === "error") {
+				_notification(
+					"error",
+					"Error",
+					"Upload failed. Please try again later !"
+				);
+			}
+		}
+	};
+
 	return (
 		<div>
 			<PageTitle title="Ambulance" />
@@ -274,6 +350,12 @@ const AmbulanceAdminDetails = props => {
 								</Button>
 								<br />
 								<Divider>OR</Divider>
+								<Upload accept=".csv" {...bulkProps}>
+									<Button>
+										<UploadOutlined />
+										Upload CSV
+									</Button>
+								</Upload>
 							</Skeleton>
 						</Card>
 					</Col>
@@ -400,6 +482,15 @@ const AmbulanceAdminDetails = props => {
 				data={operator}
 				refresh={refreshProfile}
 				setRefresh={setRefreshProfile}
+			/>
+			<AddBulkResponseModal
+				isResultsVisible={isResultsVisible}
+				closeResults={closeResults}
+				tableColumns={tableColumns}
+				data={bulkData}
+				bulkUploadDetails={bulkUploadDetails}
+				title={"Invalid Ambulances"}
+				whatIsBeingAdded={"Ambulance"}
 			/>
 		</div>
 	);

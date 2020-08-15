@@ -226,7 +226,7 @@ const DoctorAdmin = () => {
 				setRefresh={setRefresh}
 			/>
 			<div>
-				<h3 style={{ fontSize: "16px" }}>List of Hospitals</h3>
+				<h3 style={{ fontSize: "16px" }}>List of Doctors</h3>
 				<div>
 					<Col span={6}>
 						<Input.Search

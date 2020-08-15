@@ -38,6 +38,7 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 						"Success",
 						"All hospitals were added successfully !"
 					);
+					setRefresh(!refresh);
 				} else {
 					setData(
 						info.file.response.data.invalidHospitals.map(h => {
@@ -54,6 +55,7 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 						"Attention !",
 						"Hospital addition failed. Please Check !"
 					);
+					setRefresh(!refresh);
 					setIsResultsVisible(true);
 				}
 			} else if (info.file.status === "error") {

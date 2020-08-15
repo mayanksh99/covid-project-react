@@ -5,7 +5,7 @@ import { _notification } from "./../../utils/_helper";
 
 const { Option } = Select;
 
-const Patients = () => {
+const Patients = ({ refresh }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [patients, setPatients] = useState(null);
 	const [search, setSearch] = useState(null);
@@ -29,7 +29,7 @@ const Patients = () => {
 				_notification("warning", "Error", err.message);
 			}
 		})();
-	}, [status, level, search]);
+	}, [status, level, search, refresh]);
 
 	const handleQuery = val => {
 		setSearch(val);

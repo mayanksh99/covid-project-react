@@ -24,6 +24,7 @@ const PatientList = () => {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
 	const [form] = Form.useForm();
 	const dateFormat = "DD/MM/YYYY";
+	const [refresh, setRefresh] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [bulkUploadDetails, setBulkUploadDetails] = useState(false);
 	const [isResultsVisible, setIsResultsVisible] = useState(false);
@@ -45,6 +46,7 @@ const PatientList = () => {
 						"Success",
 						"All patients were added successfully !"
 					);
+					setRefresh(!refresh);
 				} else {
 					setData(
 						info.file.response.data.invalidPatients.map(h => {
@@ -61,6 +63,7 @@ const PatientList = () => {
 						"Attention !",
 						"Patient addition failed. Please Check !"
 					);
+					setRefresh(!refresh);
 					setIsResultsVisible(true);
 				}
 			} else if (info.file.status === "error") {
@@ -102,6 +105,7 @@ const PatientList = () => {
 					"Success",
 					"Patient added successfully"
 				);
+				setRefresh(!refresh);
 				form.setFieldsValue({
 					name: "",
 					caseId: "",
@@ -392,7 +396,7 @@ const PatientList = () => {
 					</Card>
 				</Col>
 				<Col xl={16} lg={16} md={14} sm={24} xs={24}>
-					<Patients />
+					<Patients refresh={refresh} />
 				</Col>
 			</Row>
 			<AddBulkResponseModal

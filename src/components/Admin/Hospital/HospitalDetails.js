@@ -123,43 +123,67 @@ const HospitalDetails = props => {
 		}
 	};
 
-	const columns = [
-		{
-			title: "Id",
-			dataIndex: "caseId",
-			key: "caseId"
-		},
-		{
-			title: "Name",
-			dataIndex: "name",
-			key: "name"
-		},
-		{
-			title: "Gender",
-			dataIndex: "gender",
-			key: "gender"
-		},
-		{
-			title: "Age",
-			dataIndex: "age",
-			key: "age"
-		},
-		{
-			title: "Action",
-			key: "action",
-			render: data => (
-				<>
-					<Button
-						type="primary"
-						className="login-form-button ambulance-button"
-						onClick={() => handleModal(true, data)}
-					>
-						Update Report
-					</Button>
-				</>
-			)
-		}
-	];
+	const columns =
+		category === "reserved"
+			? [
+					{
+						title: "Id",
+						dataIndex: "caseId",
+						key: "caseId"
+					},
+					{
+						title: "Name",
+						dataIndex: "name",
+						key: "name"
+					},
+					{
+						title: "Gender",
+						dataIndex: "gender",
+						key: "gender"
+					},
+					{
+						title: "Age",
+						dataIndex: "age",
+						key: "age"
+					}
+			  ]
+			: [
+					{
+						title: "Id",
+						dataIndex: "caseId",
+						key: "caseId"
+					},
+					{
+						title: "Name",
+						dataIndex: "name",
+						key: "name"
+					},
+					{
+						title: "Gender",
+						dataIndex: "gender",
+						key: "gender"
+					},
+					{
+						title: "Age",
+						dataIndex: "age",
+						key: "age"
+					},
+					{
+						title: "Action",
+						key: "action",
+						render: data => (
+							<>
+								<Button
+									type="primary"
+									className="login-form-button ambulance-button"
+									onClick={() => handleModal(true, data)}
+								>
+									Update Report
+								</Button>
+							</>
+						)
+					}
+			  ];
 
 	const data = patients
 		? patients.map((patient, id) => {

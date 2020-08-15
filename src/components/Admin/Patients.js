@@ -12,7 +12,7 @@ const Patients = () => {
 	const [patients, setPatients] = useState(null);
 	const [search, setSearch] = useState(null);
 	const [level, setLevel] = useState(null);
-	const [status, setStatus] = useState("diagnosed");
+	const [status, setStatus] = useState("recovered");
 	const [isVisible, setIsVisible] = useState(false);
 	const [pid, setPid] = useState(null);
 

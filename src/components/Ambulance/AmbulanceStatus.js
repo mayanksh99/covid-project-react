@@ -9,7 +9,8 @@ import {
 	Row,
 	Upload,
 	Select,
-	Form
+	Form,
+	message
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import PageTitle from "../common/PageTitle";
@@ -80,6 +81,10 @@ const AmbulanceStatus = () => {
 		handleCancel(true);
 	};
 
+	const error = () => {
+		message.error("Sorry! No history found");
+	};
+
 	const handleStatus = async val => {
 		setIsLoading(true);
 		try {
@@ -131,17 +136,20 @@ const AmbulanceStatus = () => {
 		setIsLoading(true);
 		try {
 			const res = await getAmbulanceDuties(data.key);
-			console.log(res.data);
 			if (res.error === false && res.message === "success") {
-				setDutiesModalData(res.data);
-				setIsDutiesModalVisible(true);
-				setIsLoading(false);
+				if (res.data.length === 0) {
+					error();
+					setIsLoading(false);
+				} else {
+					setDutiesModalData(res.data);
+					setIsDutiesModalVisible(true);
+					setIsLoading(false);
+				}
 			}
 		} catch (err) {
 			console.log(err);
 		}
 	};
-	// console.log(dutiesModalData);
 	const props = {
 		name: "file",
 		action: `${BASE_URL}${ADD_BULK_AMBULANCES}${userData[0].id}`,
@@ -150,7 +158,6 @@ const AmbulanceStatus = () => {
 		},
 		onChange(info) {
 			if (info.file.status === "done") {
-				// console.log(info.file);
 				if (info.file.response.data.invalidAmbulances.length === 0) {
 					_notification(
 						"success",
@@ -425,7 +432,9 @@ const AmbulanceStatus = () => {
 			<AmbulanceDutiesModal
 				isVisible={isDutiesModalVisible}
 				setIsVisible={setIsDutiesModalVisible}
-				modalData={dutiesModalData}
+				setRefresh={setRefresh}
+				refresh={refresh}
+				data={dutiesModalData}
 			/>
 		</div>
 	);

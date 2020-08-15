@@ -1,103 +1,184 @@
 import React, { useState } from "react";
-import { Modal, Row, Col, Tag, Checkbox, Input, Form, Button } from "antd";
+import {
+	Modal,
+	Row,
+	Col,
+	Tag,
+	Checkbox,
+	Input,
+	Form,
+	Button,
+	Spin,
+	Divider
+} from "antd";
+import moment from "moment";
+import { declinedPatientService } from "../../utils/services";
+import { _notification } from "../../utils/_helper";
 
 const AmbulanceDutiesModal = props => {
 	const { form } = Form.useForm;
 	const { TextArea } = Input;
 	const [check, setCheck] = useState(null);
+	const [spin, setSpin] = useState(false);
 
 	const onChange = e => {
 		setCheck(e.target.checked);
 	};
 
-	const handleFinish = values => {
-		console.log(values);
+	const handleFinish = async values => {
+		setSpin(true);
+		try {
+			const res = await declinedPatientService(
+				props.data[0].ambulance._id,
+				{
+					comments: values.declinedComment
+						? values.declinedComment
+						: null
+				}
+			);
+			if (res.error === false && res.message === "success") {
+				_notification(
+					"success",
+					"Success",
+					"Status updated successfully"
+				);
+				setCheck(false);
+				setSpin(false);
+				props.setIsVisible(false);
+				props.setRefresh(!props.refresh);
+			}
+		} catch (err) {
+			_notification("warning", "Error", err.message);
+		}
 	};
+	let index = props.data ? props.data.length + 1 : null;
 
-	let index = props.modalData ? props.modalData.length : null;
+	const ambulanceStatus = props.data ? (
+		<Divider
+			style={{
+				fontSize: "25px"
+			}}
+			orientation="left"
+		>
+			Status :{" "}
+			<Tag
+				style={{ fontSize: "16px" }}
+				color={
+					props.data
+						? props.data[0].ambulance.status === "available"
+							? "green"
+							: props.data[0].ambulance.status === "onDuty"
+							? "orange"
+							: "red"
+						: null
+				}
+			>
+				{props.data
+					? props.data[0].ambulance.status.toUpperCase()
+					: null}
+			</Tag>
+		</Divider>
+	) : null;
 
-	const tripDetails = props.modalData
-		? props.modalData.reverse().map(duty => (
-				<>
-					<Row>
-						Current Ambulance Status :{" "}
-						<Tag
-							color={
-								duty.ambulance.status === "available"
-									? "green"
-									: duty.ambulance.status === "onDuty"
-									? "orange"
-									: "red"
-							}
-						>
-							{duty.ambulance.status.toUpperCase()}
-						</Tag>
+	const tripDetails = props.data
+		? props.data.map(duty => (
+				<div key={--index} style={{ marginLeft: "2%" }}>
+					<Divider
+						style={{
+							paddingBottom: "10px",
+							fontWeight: "800",
+							fontSize: "20px"
+						}}
+					>
+						Journey : {index}
+					</Divider>
+					<Row
+						style={{
+							fontSize: "14px"
+						}}
+					>
+						<Col span={4}>Alloted At :</Col>
+						<Col span={20}>
+							{moment(duty.allotedAt).format(
+								"Do MMMM YYYY, h:mm:ss a"
+							)}
+						</Col>
+
+						{duty.completedAt ? (
+							<>
+								<Col span={4}>Completed At :</Col>
+								<Col span={20}>
+									{moment(duty.completedAt).format(
+										"Do MMMM YYYY, h:mm:ss a"
+									)}
+								</Col>
+							</>
+						) : null}
 					</Row>
-					<Row>Journey {index--}</Row>
-					<Row>Vehicle Number : {duty.ambulance.vehicleNo}</Row>
+					<Row style={{ fontSize: "18px" }}>
+						Vehicle Number : {duty.ambulance.vehicleNo}
+					</Row>
 					<div>
 						<Row>
-							<Col span={12}>
+							<Col span={13} style={{ fontSize: "18px" }}>
 								Driver Name : {duty.ambulance.driver.name}
 							</Col>
-							<Col span={12}>
+							<Col span={11} style={{ fontSize: "18px" }}>
 								Driver Contact : {duty.ambulance.driver.contact}
 							</Col>
 						</Row>
-						<Row>
-							{/* <Col span={12}>
-								<Row>
-									Patient{" "}
-									{duty.status === "completed"
-										? "carried"
-										: "carrying"}{" "}
-									:
-								</Row>
-								<Row>Name : {duty.patient.name}</Row>
-								<Row>Address : {duty.patient.address}</Row>
-								<Row>Gender : {duty.patient.gender}</Row>
-								<Row>Contact : {duty.patient.phone}</Row>
-							</Col>
-							<Col span={12}>
-								<Row>Destination Hospital :</Row>
-								<Row>Name : {duty.hospital.name}</Row>
-								<Row>Address : {duty.hospital.address}</Row>
-								<Row>Category : {duty.hospital.category}</Row>
-								<Row>Contact : {duty.hospital.contact}</Row>
-							</Col> */}
-							<Col span={12}>
+						<Row style={{ paddingBottom: "8px" }}>
+							<Col
+								span={13}
+								style={{
+									fontWeight: "700",
+									fontSize: "18px",
+									paddingBottom: "10px"
+								}}
+							>
 								Patient{" "}
 								{duty.status === "completed"
 									? "carried"
+									: duty.status === "declined"
+									? "alloted"
 									: "carrying"}{" "}
 								:
 							</Col>
-							<Col span={12}>Destination Hospital :</Col>
-							<Col span={12}>Name : {duty.patient.name}</Col>
-							<Col span={12}>Name : {duty.hospital.name}</Col>
-							<Col span={12}>
+							<Col
+								span={11}
+								style={{
+									fontWeight: "700",
+									fontSize: "18px",
+									paddingBottom: "10px"
+								}}
+							>
+								Destination Hospital :
+							</Col>
+							<Col span={13}>Name : {duty.patient.name}</Col>
+							<Col span={11}>Name : {duty.hospital.name}</Col>
+							<Col span={13}>
 								Address : {duty.patient.address}
 							</Col>
-							<Col span={12}>
+							<Col span={11}>
 								Address : {duty.hospital.address}
 							</Col>
-							<Col span={12}>Gender : {duty.patient.gender}</Col>
-							<Col span={12}>
+							<Col span={13}>Gender : {duty.patient.gender}</Col>
+							<Col span={11}>
 								Category : {duty.hospital.category}
 							</Col>
-							<Col span={12}>Contact : {duty.patient.phone}</Col>
-							<Col span={12}>
+							<Col span={13}>Contact : {duty.patient.phone}</Col>
+							<Col span={11}>
 								Contact : {duty.hospital.contact}
 							</Col>
 						</Row>
 						<Form
 							form={form}
 							onFinish={handleFinish}
-							name="ambulanceDetails"
+							name={`ambulanceDetails${index}`}
 							layout="vertical"
 						>
 							{duty.status === "onDuty" ? (
-								<Form.Item>
+								<Form.Item name={`checkBox${index}`}>
 									<Checkbox
 										onChange={onChange}
 										checked={check}
@@ -107,18 +188,11 @@ const AmbulanceDutiesModal = props => {
 								</Form.Item>
 							) : null}
 
-							{check ? (
+							{check && index === props.data.length ? (
 								<>
 									<Form.Item
 										name="declinedComment"
 										label="Add a comment"
-										rules={[
-											{
-												required: true,
-												message:
-													"Please write comment !"
-											}
-										]}
 									>
 										<TextArea placeholder="Write here" />
 									</Form.Item>
@@ -134,23 +208,24 @@ const AmbulanceDutiesModal = props => {
 								</>
 							) : null}
 						</Form>
-						<Row>
+						<Row style={{ paddingBottom: "40px" }}>
 							Journey Status :{" "}
 							<Tag
 								color={
 									duty.status === "completed"
 										? "green"
-										: "orange"
+										: duty.status === "onDuty"
+										? "orange"
+										: "red"
 								}
 							>
 								{duty.status.toUpperCase()}
 							</Tag>{" "}
 						</Row>
 					</div>
-				</>
+				</div>
 		  ))
 		: null;
-
 	return (
 		<div>
 			<Modal
@@ -167,17 +242,17 @@ const AmbulanceDutiesModal = props => {
 				}
 				footer={false}
 				centered={true}
-				width={650}
+				width={700}
 				visible={props.isVisible}
 				onCancel={() => {
 					props.setIsVisible(false);
-					// form.setFieldsValue({
-					// 	declinedComment: null
-					// });
 					setCheck(false);
 				}}
 			>
-				{tripDetails}
+				<Spin tip="Loading..." spinning={spin}>
+					{ambulanceStatus}
+					{tripDetails}
+				</Spin>
 			</Modal>
 		</div>
 	);

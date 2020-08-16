@@ -21,8 +21,7 @@ const Login = props => {
 				props.history.push("/");
 			}
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [props.history]);
 
 	const onFinish = async values => {
 		setIsLoading(true);
@@ -70,9 +69,12 @@ const Login = props => {
 				<Col span={10}>
 					<div className="login-poster">
 						<div className="login-grad">
-							<h2 className="login-poster-text">
-								Welcome <br /> Corona Warriors
-							</h2>
+							<img
+								src="./assets/images/covid.png"
+								alt="logo"
+								width="240"
+								style={{ marginLeft: "180px" }}
+							/>
 						</div>
 					</div>
 				</Col>

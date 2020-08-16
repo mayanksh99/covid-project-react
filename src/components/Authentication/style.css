@@ -2,18 +2,23 @@
 	height: 100vh;
 	margin: 0;
 	padding: 0;
-	background-image: url("/assets/images/doctor5.png");
+	background-image: url("/assets/images/doctor1.png");
 	background-size: contain;
 	background-repeat: no-repeat;
 }
 
 .login-grad {
-	height: 100%;
+	/* height: 100%;
 	background: linear-gradient(
 		0deg,
-		#005ea5 16.55%,
+		rgba(196, 196, 196, 0.2) 16.55%,
 		rgba(196, 196, 196, 0.2) 99.9%
-	);
+	); */
+	/* float: bottom; */
+	/* width: 100% !important; */
+	position: absolute;
+	bottom: 0px;
+	/* margin: auto !important; */
 }
 
 .login-poster-text {
@@ -46,10 +51,3 @@
 	width: fit-content;
 	height: 30px;
 }
-
-/* .login-select-role {
-	margin-bottom: 10px;
-}
-
-.login-input-form {
-} */

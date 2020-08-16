@@ -164,6 +164,19 @@ export const getPatientsService = async params => {
 	}
 };
 
+export const getParticularPatientService = async id => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_PATIENT}/${id}`);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
 export const getAdminsService = async () => {
 	setUserToken();
 	try {

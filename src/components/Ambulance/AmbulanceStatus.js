@@ -273,7 +273,7 @@ const AmbulanceStatus = () => {
 						handleModal(data);
 					}}
 				>
-					Change Status
+					Update Ambulance
 				</Button>
 			)
 		}

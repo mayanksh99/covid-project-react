@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { _notification } from "../../utils/_helper";
 import { Modal, Spin, Row, Col, Tag, Select, Button, Form, Input } from "antd";
-import { updateAmbulanceStatus } from "../../utils/services";
+import { updateAmbulance } from "../../utils/services";
 
 const { Option } = Select;
 
@@ -25,7 +25,7 @@ const AmbulanceStatusModal = ({
 				pincode: values.pincode
 			};
 			console.log(rawdata);
-			const res = await updateAmbulanceStatus(detail.key, rawdata);
+			const res = await updateAmbulance(detail.key, rawdata);
 			if (res.error) {
 				_notification("error", "Error", res.res.message);
 				setIsSpinning(false);

@@ -2,7 +2,6 @@ import axios from "axios";
 import {
 	LOGIN,
 	AMBULANCEUNDER,
-	UPDATESTATUS,
 	CHANGEPASSWORD,
 	ADDAMBULANCE,
 	ADD_PATIENT,
@@ -262,10 +261,10 @@ export async function updateAdminService(id, data) {
 
 /*******************Update Ambulance status*******************/
 
-export async function updateAmbulanceStatus(id, data) {
+export async function updateAmbulance(id, data) {
 	setUserToken();
 	try {
-		const response = await axios.put(`${UPDATESTATUS}${id}`, data);
+		const response = await axios.put(`${AMBULANCE_UPDATE}${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -278,7 +277,7 @@ export async function updateAmbulanceStatus(id, data) {
 export async function updateAmb(id, data) {
 	setUserToken();
 	try {
-		const response = await axios.put(`${UPDATESTATUS}/${id}`, data);
+		const response = await axios.put(`${AMBULANCE_UPDATE}/${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -538,18 +537,6 @@ export const addPatientReportService = async (id, data) => {
 	setUserToken();
 	try {
 		const response = await axios.post(`${ADD_PATIENT_REPORT}/${id}`, data);
-		if (response.status === 200 && response.data.error === false) {
-			return response.data;
-		} else return response.data;
-	} catch (err) {
-		if (err.response) throw err.response.data;
-		else throw err.message;
-	}
-};
-export const updateAmbulance = async (id, data) => {
-	setUserToken();
-	try {
-		const response = await axios.put(`${AMBULANCE_UPDATE}/${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

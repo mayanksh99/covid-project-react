@@ -64,4 +64,4 @@ export const START_ATTEND_PATIENT_FOR_AMBULANCE =
 export const ALLOT_AMBULANCE_FOR_PATIENT = "/ambulances/patients/assign/"; //POST
 export const ADD_BULK_AMBULANCES = "/ambulances/bulk/"; //POST
 export const PATIENT_DECLIED = "/ambulances/patients/declined/"; //POST
-export const AMBULANCE_UPDATE ="/ambulances/update"//PUT  
+export const AMBULANCE_UPDATE = "/ambulances/update"; //PUT

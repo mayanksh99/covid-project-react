@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { _notification } from "../../utils/_helper";
-import { Modal, Spin, Row, Col, Tag, Select, Button, Form,Input } from "antd";
+import { Modal, Spin, Row, Col, Tag, Select, Button, Form, Input } from "antd";
 import { updateAmbulanceStatus } from "../../utils/services";
 
 const { Option } = Select;
@@ -18,12 +18,12 @@ const AmbulanceStatusModal = ({
 		// console.log(detail);
 		setIsSpinning(true);
 		try {
-			const rawdata={
-				status:values.status,
-				name:values.name,
-				contact:values.contact,
-				pincode:values.pincode
-			}
+			const rawdata = {
+				status: values.status,
+				name: values.name,
+				contact: values.contact,
+				pincode: values.pincode
+			};
 			console.log(rawdata);
 			const res = await updateAmbulanceStatus(detail.key, rawdata);
 			if (res.error) {
@@ -46,7 +46,7 @@ const AmbulanceStatusModal = ({
 	};
 
 	return (
-		<>		
+		<>
 			<Modal
 				title={
 					<h3
@@ -133,7 +133,7 @@ const AmbulanceStatusModal = ({
 								<Option value="removed">Removed</Option>
 							</Select>
 						</Form.Item>
-						
+
 						<Form.Item
 							name="name"
 							label="Driver Name"
@@ -144,7 +144,7 @@ const AmbulanceStatusModal = ({
 								}
 							]}
 						>
-							<Input/>
+							<Input />
 						</Form.Item>
 						<Form.Item
 							name="contact"
@@ -156,7 +156,7 @@ const AmbulanceStatusModal = ({
 								}
 							]}
 						>
-							<Input/>
+							<Input />
 						</Form.Item>
 						<Form.Item
 							name="pincode"
@@ -168,7 +168,7 @@ const AmbulanceStatusModal = ({
 								}
 							]}
 						>
-							<Input/>
+							<Input />
 						</Form.Item>
 
 						<Form.Item>

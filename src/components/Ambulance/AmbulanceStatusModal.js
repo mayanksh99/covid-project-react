@@ -61,7 +61,7 @@ const AmbulanceStatusModal = ({
 				}
 				width={400}
 				visible={isVisible}
-				style={{ top: 150 }}
+				style={{ top: 20 }}
 				onCancel={() => handleCancel(false)}
 				footer={null}
 			>

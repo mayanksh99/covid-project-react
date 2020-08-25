@@ -113,7 +113,7 @@ const AmbulanceStatusModal = ({
 						name="examine-form"
 						onFinish={onFinish}
 						style={{
-							padding:"20px 0px 0px 0px"
+							padding: "20px 0px 0px 0px"
 						}}
 					>
 						<Form.Item
@@ -178,9 +178,10 @@ const AmbulanceStatusModal = ({
 							<Button
 								type="primary"
 								htmlType="submit"
-								style={{ float: "right",
-								margin:"20px 0px 0px 0px"
-							 }}
+								style={{
+									float: "right",
+									margin: "20px 0px 0px 0px"
+								}}
 								block
 							>
 								Submit

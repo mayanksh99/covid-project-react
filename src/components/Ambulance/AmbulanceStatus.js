@@ -287,7 +287,7 @@ const AmbulanceStatus = () => {
 					phoneNumber: `+91-${amb.driver.contact}`,
 					vehicleNo: amb.vehicleNo,
 					driverName: amb.driver.name,
-					pincode:amb.pincode
+					pincode: amb.pincode
 				};
 		  })
 		: null;

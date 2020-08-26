@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { _notification } from "../../utils/_helper";
 import { Modal, Spin, Row, Col, Tag, Select, Button, Form, Input } from "antd";
 import { updateAmbulance } from "../../utils/services";
@@ -17,10 +17,10 @@ const AmbulanceStatusModal = ({
 	useEffect(() => {
 		if (detail) {
 			form.setFieldsValue({
-				status:detail.status[0],
+				status: detail.status[0],
 				name: detail.driverName,
 				phoneNumber: detail.phoneNumber,
-			    pincode:detail.pincode
+				pincode: detail.pincode
 			});
 		}
 	}, [detail, form]);
@@ -76,7 +76,7 @@ const AmbulanceStatusModal = ({
 			>
 				<Spin tip="Updating status..." spinning={isSpinning}>
 					{detail ? (
-						<> 
+						<>
 							<Row>
 								<Col span={24} className="pl-11">
 									Vehicle number

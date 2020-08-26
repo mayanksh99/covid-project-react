@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { _notification } from "../../utils/_helper";
 import { Modal, Spin, Row, Col, Tag, Select, Button, Form, Input } from "antd";
 import { updateAmbulance } from "../../utils/services";
@@ -14,6 +14,16 @@ const AmbulanceStatusModal = ({
 }) => {
 	const [form] = Form.useForm();
 	const [isSpinning, setIsSpinning] = useState(false);
+	useEffect(() => {
+		if (detail) {
+			form.setFieldsValue({
+				status:detail.status[0],
+				name: detail.driverName,
+				phoneNumber: detail.phoneNumber,
+			    pincode:detail.pincode
+			});
+		}
+	}, [detail, form]);
 	const onFinish = async values => {
 		// console.log(detail);
 		setIsSpinning(true);
@@ -44,7 +54,6 @@ const AmbulanceStatusModal = ({
 			_notification("warning", "Error", err.message);
 		}
 	};
-
 	return (
 		<>
 			<Modal
@@ -67,7 +76,7 @@ const AmbulanceStatusModal = ({
 			>
 				<Spin tip="Updating status..." spinning={isSpinning}>
 					{detail ? (
-						<>
+						<> 
 							<Row>
 								<Col span={24} className="pl-11">
 									Vehicle number
@@ -150,7 +159,7 @@ const AmbulanceStatusModal = ({
 							<Input />
 						</Form.Item>
 						<Form.Item
-							name="contact"
+							name="phoneNumber"
 							label="Driver Phone no"
 							rules={[
 								{

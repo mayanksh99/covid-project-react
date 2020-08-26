@@ -44,8 +44,8 @@ import {
 	UPDATE_ADMIN,
 	GET_AMBULANCE_DUTIES,
 	PATIENT_DECLIED
+	// AMBULANCE_UPDATE
 } from "./routes";
-
 export const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 export const EndPoint = "https://covid-project-gzb.herokuapp.com";
 
@@ -258,6 +258,34 @@ export async function updateAdminService(id, data) {
 		else throw err.message;
 	}
 }
+
+// /*******************Update Ambulance status*******************/
+
+// export async function updateAmbulance(id, data) {
+// 	setUserToken();
+// 	try {
+// 		const response = await axios.put(`${AMBULANCE_UPDATE}${id}`, data);
+// 		if (response.status === 200 && response.data.error === false) {
+// 			return response.data;
+// 		} else return response.data;
+// 	} catch (err) {
+// 		if (err.response) throw err.response.data;
+// 		else throw err.message;
+// 	}
+// }
+
+// export async function updateAmb(id, data) {
+// 	setUserToken();
+// 	try {
+// 		const response = await axios.put(`${AMBULANCE_UPDATE}/${id}`, data);
+// 		if (response.status === 200 && response.data.error === false) {
+// 			return response.data;
+// 		} else return response.data;
+// 	} catch (err) {
+// 		if (err.response) throw err.response.data;
+// 		else throw err.message;
+// 	}
+// }
 
 /******************DOCTOR ADMIN SERVICES********************/
 
@@ -783,7 +811,7 @@ export const updateHospitalProfileService = async (id, data) => {
 	setUserToken();
 	try {
 		const response = await axios.put(
-			`${HOSPITAL_UPDATE_PROFILE}/${id}`,
+			`${HOSPITAL_UPDATE_PROFILE}${id}`,
 			data
 		);
 		if (response.status === 200 && response.data.error === false) {

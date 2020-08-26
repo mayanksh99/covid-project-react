@@ -274,12 +274,11 @@ const AmbulanceStatus = () => {
 						handleModal(data);
 					}}
 				>
-					Change Status
+					Update Ambulance
 				</Button>
 			)
 		}
 	];
-
 	const data = ambulance
 		? ambulance.map((amb, i) => {
 				return {
@@ -288,7 +287,8 @@ const AmbulanceStatus = () => {
 					status: [amb.status],
 					phoneNumber: `+91-${amb.driver.contact}`,
 					vehicleNo: amb.vehicleNo,
-					driverName: amb.driver.name
+					driverName: amb.driver.name,
+					pincode: amb.pincode
 				};
 		  })
 		: null;

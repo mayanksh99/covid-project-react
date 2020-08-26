@@ -111,6 +111,17 @@ const AmbulanceDutiesModal = props => {
 							)}
 						</Col>
 
+						{duty.tripStartedAt ? (
+							<>
+								<Col span={4}>Trip Started :</Col>
+								<Col span={20}>
+									{moment(duty.tripStartedAt).format(
+										"Do MMMM YYYY, h:mm:ss a"
+									)}
+								</Col>
+							</>
+						) : null}
+
 						{duty.completedAt ? (
 							<>
 								<Col span={4}>Completed At :</Col>
@@ -128,10 +139,12 @@ const AmbulanceDutiesModal = props => {
 					<div>
 						<Row>
 							<Col span={13} style={{ fontSize: "18px" }}>
-								Driver Name : {duty.ambulance.driver.name}
+								Driver Name :{" "}
+								{duty.driver ? duty.driver.name : ""}
 							</Col>
 							<Col span={11} style={{ fontSize: "18px" }}>
-								Driver Contact : {duty.ambulance.driver.contact}
+								Driver Contact :{" "}
+								{duty.driver ? duty.driver.contact : ""}
 							</Col>
 						</Row>
 						<Row style={{ paddingBottom: "8px" }}>

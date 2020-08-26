@@ -58,10 +58,10 @@ const AssignAmbulanceModal = props => {
 		try {
 			const updatedData = {
 				driverName: values.driverName,
-				driverPhone: values.driverNo
+				driverPhone: values.driverNo,
+				aid: selectedId
 			};
 			const res = await allotAmbulanceForPatient(
-				selectedId,
 				props.modalData.key,
 				updatedData
 			);

@@ -11,18 +11,25 @@ import {
 	Spin,
 	Divider
 } from "antd";
+
 import moment from "moment";
 import { declinedPatientService } from "../../utils/services";
 import { _notification } from "../../utils/_helper";
+import Map from "./Map";
 
 const AmbulanceDutiesModal = props => {
 	const { form } = Form.useForm;
 	const { TextArea } = Input;
 	const [check, setCheck] = useState(null);
+	const [showMap, setShowMap] = useState(false);
 	const [spin, setSpin] = useState(false);
-
+	console.log(props.data);
 	const onChange = e => {
 		setCheck(e.target.checked);
+	};
+
+	const handleMap = e => {
+		setShowMap(true);
 	};
 
 	const handleFinish = async values => {
@@ -223,6 +230,22 @@ const AmbulanceDutiesModal = props => {
 							</Tag>{" "}
 						</Row>
 					</div>
+					<Button type="primary" onClick={handleMap}>
+						Show route
+					</Button>
+					{showMap && index === props.data.length ? (
+						<Modal
+							closable={true}
+							visible={showMap}
+							footer={false}
+							style={{ top: "35px" }}
+							width={1300}
+							bodyStyle={{ height: "630px" }}
+							onCancel={() => setShowMap(false)}
+						>
+							<Map data={props.data} />
+						</Modal>
+					) : null}
 				</div>
 		  ))
 		: null;

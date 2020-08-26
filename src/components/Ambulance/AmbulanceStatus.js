@@ -120,6 +120,7 @@ const AmbulanceStatus = () => {
 				});
 				setIsAmbAdding(false);
 				setIsAddAmbVisible(false);
+				setRefresh(!refresh);
 				_notification(
 					"success",
 					"Success",

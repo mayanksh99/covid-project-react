@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { _notification } from "../../utils/_helper";
 import { Modal, Spin, Row, Col, Tag, Select, Button, Form } from "antd";
-import { updateAmbulanceStatus } from "../../utils/services";
+import { updateAmbulanceService } from "../../utils/services";
 
 const { Option } = Select;
 
@@ -18,7 +18,9 @@ const AmbulanceStatusModal = ({
 	const onFinish = async values => {
 		setIsSpinning(true);
 		try {
-			const res = await updateAmbulanceStatus(detail.key, values.status);
+			const res = await updateAmbulanceService(detail.key, {
+				status: values.status
+			});
 			if (res.error) {
 				_notification("error", "Error", res.res.message);
 				setIsSpinning(false);

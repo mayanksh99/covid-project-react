@@ -13,7 +13,8 @@ import {
 	Input,
 	Select,
 	Divider,
-	Upload
+	Upload,
+	message
 } from "antd";
 import AddAmbulance from "./AddAmbulance";
 import PageTitle from "../../common/PageTitle";
@@ -22,9 +23,11 @@ import AddBulkResponseModal from "../../../utils/_helper";
 import { BASE_URL } from "../../../utils/services";
 import { ADD_BULK_AMBULANCES } from "../../../utils/routes";
 import { _notification } from "../../../utils/_helper";
+import AmbulanceDutiesModal from "./AmbulanceDutiesModal";
 import {
 	getOperatorAmbService,
-	searchAmbOperatorService
+	searchAmbOperatorService,
+	getAmbulanceDuties
 } from "../../../utils/services";
 import { EditOutlined } from "@ant-design/icons";
 import AmbulanceUpdate from "./AmbulanceUpdate";
@@ -45,6 +48,8 @@ const AmbulanceAdminDetails = props => {
 	const [showUpdateModal, setShowUpdateModal] = useState(false);
 	const [operatorUpdate, setOperatorUpdate] = useState(false);
 	const [ambulanceData, setAmbulanceData] = useState(null);
+	const [dutiesModalData, setDutiesModalData] = useState(null);
+	const [isDutiesModalVisible, setIsDutiesModalVisible] = useState(false);
 	const [refresh, setRefresh] = useState(false);
 	const [refreshProfile, setRefreshProfile] = useState(false);
 	const [status, setStatus] = useState(null);
@@ -90,8 +95,31 @@ const AmbulanceAdminDetails = props => {
 		setAmbulanceData(data);
 	};
 
+	const error = () => {
+		message.error("Sorry! No history found");
+	};
+
 	const closeResults = () => {
 		setIsResultsVisible(false);
+	};
+
+	const handleClick = async data => {
+		setIsLoading(true);
+		try {
+			const res = await getAmbulanceDuties(data.key);
+			if (res.error === false && res.message === "success") {
+				if (res.data.length === 0) {
+					error();
+					setIsLoading(false);
+				} else {
+					setDutiesModalData(res.data);
+					setIsDutiesModalVisible(true);
+					setIsLoading(false);
+				}
+			}
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	const handleQuery = async val => {
@@ -134,7 +162,15 @@ const AmbulanceAdminDetails = props => {
 		{
 			title: "Vehicle No.",
 			dataIndex: "vehicleNo",
-			key: "vehicleNo"
+			key: "vehicleNo",
+			render: (vehicleNo, data) => (
+				<div
+					onClick={() => handleClick(data)}
+					style={{ color: "blue", cursor: "pointer" }}
+				>
+					{vehicleNo}
+				</div>
+			)
 		},
 		{
 			title: "Status",
@@ -491,6 +527,13 @@ const AmbulanceAdminDetails = props => {
 				bulkUploadDetails={bulkUploadDetails}
 				title={"Invalid Ambulances"}
 				whatIsBeingAdded={"Ambulance"}
+			/>
+			<AmbulanceDutiesModal
+				isVisible={isDutiesModalVisible}
+				setIsVisible={setIsDutiesModalVisible}
+				setRefresh={setRefresh}
+				refresh={refresh}
+				data={dutiesModalData}
 			/>
 		</div>
 	);

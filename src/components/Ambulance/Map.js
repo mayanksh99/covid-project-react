@@ -131,6 +131,7 @@ const Map = props => {
 		return () => {
 			socket.off();
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [Data.token]);
 
 	return (

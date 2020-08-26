@@ -45,18 +45,18 @@ export const UPDATE_PROFILE = "/doctors"; //POST
 export const ADD_BULK_DOCTORS = "/doctors/bulk"; //POST
 
 /******************HOSPITAL ROUTES***********************/
-export const GET_ADMITTED_PATIENTS = "/hospitals/patients/admitted"; //GET
-export const ADD_REPORT = "hospitals/report"; //POST
-export const GET_PATIENT_DETAILS = "/hospitals/patients/alloted"; //GET
-export const ASSIGN_BED = "/hospitals/admit"; //POST
-export const DISCHARGE_PATIENT = "/hospitals/discharge/"; //POST
-export const HOSPITAL_UPDATE_PROFILE = "/hospitals"; //PUT
+export const GET_ADMITTED_PATIENTS = "/hospitals/patients/admitted?hid="; //GET
+export const ADD_REPORT = "hospitals/report?hid="; //POST
+export const GET_PATIENT_DETAILS = "/hospitals/patients/alloted?hid="; //GET
+export const ASSIGN_BED = "/hospitals/admit?hid="; //POST
+export const DISCHARGE_PATIENT = "/hospitals/discharge?hid="; //POST
+export const HOSPITAL_UPDATE_PROFILE = "/hospitals/?hid="; //PUT
 export const ADD_BULK_HOSPITALS = "/hospitals/bulk"; //POST
 
 /******************AMBULANCE ROUTES********************/
 
 export const AMBULANCEUNDER = "/ambulances"; //GET
-export const UPDATESTATUS = "/ambulances/update"; //PUT
+export const AMBULANCE_UPDATE = "/ambulances/update?aid="; //PUT
 export const CHANGEPASSWORD = "/users/change-pwd"; //POST
 export const ADDAMBULANCE = "/ambulances/add"; //POST
 export const START_ATTEND_PATIENT_FOR_AMBULANCE =

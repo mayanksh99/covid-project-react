@@ -9,8 +9,7 @@ import {
 	Row,
 	Upload,
 	Select,
-	Form,
-	message
+	Form
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import PageTitle from "../common/PageTitle";
@@ -81,10 +80,6 @@ const AmbulanceStatus = () => {
 		handleCancel(true);
 	};
 
-	const error = () => {
-		message.error("Sorry! No history found");
-	};
-
 	const handleStatus = async val => {
 		setIsLoading(true);
 		try {
@@ -120,6 +115,7 @@ const AmbulanceStatus = () => {
 				});
 				setIsAmbAdding(false);
 				setIsAddAmbVisible(false);
+				setRefresh(!refresh);
 				_notification(
 					"success",
 					"Success",
@@ -138,7 +134,7 @@ const AmbulanceStatus = () => {
 			const res = await getAmbulanceDuties(data.key);
 			if (res.error === false && res.message === "success") {
 				if (res.data.length === 0) {
-					error();
+					_notification("error", "Error", "Sorry! no history found.");
 					setIsLoading(false);
 				} else {
 					setDutiesModalData(res.data);

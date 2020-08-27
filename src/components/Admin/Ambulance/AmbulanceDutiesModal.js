@@ -13,24 +13,24 @@ import {
 } from "antd";
 
 import moment from "moment";
-import { declinedPatientService } from "../../utils/services";
-import { _notification } from "../../utils/_helper";
-import Map from "./Map";
+import { declinedPatientService } from "../../../utils/services";
+import { _notification } from "../../../utils/_helper";
+// import Map from "./Map";
 
 const AmbulanceDutiesModal = props => {
 	const { form } = Form.useForm;
 	const { TextArea } = Input;
 	const [check, setCheck] = useState(null);
-	const [showMap, setShowMap] = useState(false);
+	// const [showMap, setShowMap] = useState(false);
 	const [spin, setSpin] = useState(false);
 	console.log(props.data);
 	const onChange = e => {
 		setCheck(e.target.checked);
 	};
 
-	const handleMap = e => {
-		setShowMap(true);
-	};
+	// const handleMap = e => {
+	// 	setShowMap(true);
+	// };
 
 	const handleFinish = async values => {
 		setSpin(true);
@@ -243,10 +243,10 @@ const AmbulanceDutiesModal = props => {
 							</Tag>{" "}
 						</Row>
 					</div>
-					<Button type="primary" onClick={handleMap}>
+					{/* <Button type="primary" onClick={handleMap}>
 						Show route
-					</Button>
-					{showMap && index === props.data.length ? (
+					</Button> */}
+					{/* {showMap && index === props.data.length ? (
 						<Modal
 							closable={true}
 							visible={showMap}
@@ -258,7 +258,7 @@ const AmbulanceDutiesModal = props => {
 						>
 							<Map data={props.data} />
 						</Modal>
-					) : null}
+					) : null} */}
 				</div>
 		  ))
 		: null;

@@ -47,8 +47,8 @@ import {
 	PATIENT_DECLIED
 } from "./routes";
 
-export const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
-export const EndPoint = "https://covid-project-gzb.herokuapp.com";
+export const BASE_URL = "https://fdbf0a431a4b.ngrok.io/api/v1";
+export const EndPoint = "https://fdbf0a431a4b.ngrok.io/";
 
 axios.defaults.baseURL = BASE_URL;
 

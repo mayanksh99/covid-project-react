@@ -97,6 +97,7 @@ const AmbulanceAdminChangePass = props => {
 						<InputNumber
 							className="input-field"
 							placeholder="Enter contact no."
+							style={{ width: "100%" }}
 						/>
 					</Form.Item>
 

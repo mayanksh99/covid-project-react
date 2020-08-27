@@ -12,6 +12,7 @@ import {
 } from "antd";
 import { assignLevelService } from "../../utils/services";
 import { _notification } from "../../utils/_helper";
+import HospitalList from "./HospitalList";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -28,6 +29,7 @@ const AttendPatient = ({
 	const [form] = Form.useForm();
 	const [isLoading, setIsLoading] = useState(false);
 	const [check, setCheck] = useState(false);
+	const [listModal, setListModal] = useState(false);
 
 	const onFinish = async values => {
 		setIsLoading(true);
@@ -76,6 +78,10 @@ const AttendPatient = ({
 				level: []
 			});
 		}
+	};
+
+	const handleListModal = value => {
+		setListModal(value);
 	};
 
 	return (
@@ -223,19 +229,33 @@ const AttendPatient = ({
 						</Form.Item>
 
 						<Form.Item>
-							<Button
-								type="primary"
-								htmlType="submit"
-								className="login-form-button"
-								style={{ float: "right" }}
-								loading={isLoading}
-							>
-								Submit
-							</Button>
+							<Row>
+								<Col span={12}>
+									<Button
+										type="primary"
+										className="login-form-button"
+										onClick={() => handleListModal(true)}
+									>
+										List of Hospitals
+									</Button>
+								</Col>
+								<Col span={12}>
+									<Button
+										type="primary"
+										htmlType="submit"
+										className="login-form-button"
+										style={{ float: "right" }}
+										loading={isLoading}
+									>
+										Submit
+									</Button>
+								</Col>
+							</Row>
 						</Form.Item>
 					</Form>
 				</Skeleton>
 			</Modal>
+			<HospitalList isVisible={listModal} showModal={handleListModal} />
 		</>
 	);
 };

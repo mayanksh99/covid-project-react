@@ -90,124 +90,86 @@ const HospitalAdminOption = ({ refresh, setRefresh, stats, isLoading }) => {
 		<>
 			<Skeleton loading={isLoading} active>
 				<Row gutter={[16, 16]}>
-					{stats ? (
-						<Col xl={20} lg={20} md={20} sm={24} xs={24}>
-							<Row gutter={[16, 16]}>
-								<Col xl={24} lg={24} md={24} sm={24} xs={12}>
-									<Row gutter={[16, 16]}>
-										<Col
-											xl={6}
-											lg={6}
-											md={6}
-											sm={6}
-											xs={24}
-										>
-											<PageStats
-												title="Total beds"
-												value={
-													stats.total_l1 +
-													stats.total_l2 +
-													stats.total_l3
-												}
-											/>
-										</Col>
-										<Col
-											xl={6}
-											lg={6}
-											md={6}
-											sm={6}
-											xs={24}
-										>
-											<PageStats
-												title="Total L1 beds"
-												value={stats.total_l1}
-											/>
-										</Col>
-										<Col
-											xl={6}
-											lg={6}
-											md={6}
-											sm={6}
-											xs={24}
-										>
-											<PageStats
-												title="Total L2 beds"
-												value={stats.total_l2}
-											/>
-										</Col>
-										<Col
-											xl={6}
-											lg={6}
-											md={6}
-											sm={6}
-											xs={24}
-										>
-											<PageStats
-												title="Total L3 beds"
-												value={stats.total_l3}
-											/>
-										</Col>
-									</Row>
-								</Col>
-								<Col xl={24} lg={24} md={24} sm={24} xs={12}>
-									<Row gutter={[16, 16]}>
-										<Col
-											xl={6}
-											lg={6}
-											md={6}
-											sm={6}
-											xs={24}
-										>
-											<PageStats
-												title="Available beds"
-												value={
-													stats.available_l1 +
-													stats.available_l2 +
-													stats.available_l3
-												}
-											/>
-										</Col>
-										<Col
-											xl={6}
-											lg={6}
-											md={6}
-											sm={6}
-											xs={24}
-										>
-											<PageStats
-												title="Available L1 beds"
-												value={stats.available_l1}
-											/>
-										</Col>
-										<Col
-											xl={6}
-											lg={6}
-											md={6}
-											sm={6}
-											xs={24}
-										>
-											<PageStats
-												title="Available L2 beds"
-												value={stats.available_l2}
-											/>
-										</Col>
-										<Col
-											xl={6}
-											lg={6}
-											md={6}
-											sm={6}
-											xs={24}
-										>
-											<PageStats
-												title="Available L3 beds"
-												value={stats.available_l3}
-											/>
-										</Col>
-									</Row>
-								</Col>
-							</Row>
-						</Col>
-					) : null}
+					{/* {stats ? ( */}
+					<Col xl={20} lg={20} md={20} sm={24} xs={24}>
+						<Row gutter={[16, 16]}>
+							<Col xl={24} lg={24} md={24} sm={24} xs={12}>
+								<Row gutter={[16, 16]}>
+									<Col xl={6} lg={6} md={6} sm={6} xs={24}>
+										<PageStats
+											title="Total beds"
+											value={
+												stats
+													? stats.total_l1 +
+													  stats.total_l2 +
+													  stats.total_l3
+													: 0
+											}
+										/>
+									</Col>
+									<Col xl={6} lg={6} md={6} sm={6} xs={24}>
+										<PageStats
+											title="Total L1 beds"
+											value={stats ? stats.total_l1 : 0}
+										/>
+									</Col>
+									<Col xl={6} lg={6} md={6} sm={6} xs={24}>
+										<PageStats
+											title="Total L2 beds"
+											value={stats ? stats.total_l2 : 0}
+										/>
+									</Col>
+									<Col xl={6} lg={6} md={6} sm={6} xs={24}>
+										<PageStats
+											title="Total L3 beds"
+											value={stats ? stats.total_l3 : 0}
+										/>
+									</Col>
+								</Row>
+							</Col>
+							<Col xl={24} lg={24} md={24} sm={24} xs={12}>
+								<Row gutter={[16, 16]}>
+									<Col xl={6} lg={6} md={6} sm={6} xs={24}>
+										<PageStats
+											title="Available beds"
+											value={
+												stats
+													? stats.available_l1 +
+													  stats.available_l2 +
+													  stats.available_l3
+													: 0
+											}
+										/>
+									</Col>
+									<Col xl={6} lg={6} md={6} sm={6} xs={24}>
+										<PageStats
+											title="Available L1 beds"
+											value={
+												stats ? stats.available_l1 : 0
+											}
+										/>
+									</Col>
+									<Col xl={6} lg={6} md={6} sm={6} xs={24}>
+										<PageStats
+											title="Available L2 beds"
+											value={
+												stats ? stats.available_l2 : 0
+											}
+										/>
+									</Col>
+									<Col xl={6} lg={6} md={6} sm={6} xs={24}>
+										<PageStats
+											title="Available L3 beds"
+											value={
+												stats ? stats.available_l3 : 0
+											}
+										/>
+									</Col>
+								</Row>
+							</Col>
+						</Row>
+					</Col>
+					{/* ) : null} */}
 					<Col xl={4} lg={4} md={4} sm={24} xs={24}>
 						<Row gutter={[16, 16]}>
 							<Col xl={24} lg={24} md={24} sm={24} xs={12}>

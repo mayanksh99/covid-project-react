@@ -2,7 +2,6 @@ import axios from "axios";
 import {
 	LOGIN,
 	AMBULANCEUNDER,
-	UPDATESTATUS,
 	CHANGEPASSWORD,
 	ADDAMBULANCE,
 	ADD_PATIENT,
@@ -46,9 +45,11 @@ import {
 	GET_AMBULANCE_DUTIES,
 	PATIENT_DECLIED
 } from "./routes";
+export const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
+export const EndPoint = "https://covid-project-gzb.herokuapp.com";
 
-export const BASE_URL = "https://fdbf0a431a4b.ngrok.io/api/v1";
-export const EndPoint = "https://fdbf0a431a4b.ngrok.io/";
+// export const BASE_URL = "https://fdbf0a431a4b.ngrok.io/api/v1";
+// export const EndPoint = "https://fdbf0a431a4b.ngrok.io/";
 
 axios.defaults.baseURL = BASE_URL;
 
@@ -167,7 +168,7 @@ export const getPatientsService = async params => {
 export const getParticularPatientService = async id => {
 	setUserToken();
 	try {
-		const response = await axios.get(`${GET_PATIENT}/${id}`);
+		const response = await axios.get(`${GET_PATIENT}/single?pid=${id}`);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -206,7 +207,7 @@ export const addAdminService = async data => {
 export const delByAdminService = async (role, id) => {
 	setUserToken();
 	try {
-		const response = await axios.delete(`${DEL_BY_ADMIN}/${role}/${id}`);
+		const response = await axios.delete(`${DEL_BY_ADMIN}/${role}?id=${id}`);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -220,7 +221,7 @@ export const resetPwdByAdminService = async (role, id) => {
 	setUserToken();
 	try {
 		const response = await axios.post(
-			`${RESET_PWD_BY_ADMIN}/${role}/${id}`
+			`${RESET_PWD_BY_ADMIN}/${role}?id=${id}`
 		);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
@@ -247,7 +248,7 @@ export const searchAdminsService = async params => {
 export async function updateAdminService(id, data) {
 	setUserToken();
 	try {
-		const response = await axios.put(`${UPDATE_ADMIN}/${id}`, data);
+		const response = await axios.put(`${UPDATE_ADMIN}${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -257,14 +258,12 @@ export async function updateAdminService(id, data) {
 	}
 }
 
-/*******************Update Ambulance status*******************/
+// /*******************Update Ambulance *******************/
 
-export async function updateAmbulanceStatus(id, newStatus) {
+export const updateAmbulanceService = async (id, data) => {
 	setUserToken();
 	try {
-		const response = await axios.put(`${UPDATESTATUS}/${id}`, {
-			status: `${newStatus}`
-		});
+		const response = await axios.put(`${UPDATE_AMBULANCE}${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -272,20 +271,7 @@ export async function updateAmbulanceStatus(id, newStatus) {
 		if (err.response) throw err.response.data;
 		else throw err.message;
 	}
-}
-
-export async function updateAmb(id, data) {
-	setUserToken();
-	try {
-		const response = await axios.put(`${UPDATESTATUS}/${id}`, data);
-		if (response.status === 200 && response.data.error === false) {
-			return response.data;
-		} else return response.data;
-	} catch (err) {
-		if (err.response) throw err.response.data;
-		else throw err.message;
-	}
-}
+};
 
 /******************DOCTOR ADMIN SERVICES********************/
 
@@ -331,7 +317,7 @@ export const searchDoctorService = async params => {
 export const getDoctorProfileService = async id => {
 	setUserToken();
 	try {
-		const response = await axios.get(`${DOCTOR_PROFILE}/${id}`);
+		const response = await axios.get(`${DOCTOR_PROFILE}${id}`);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -359,7 +345,7 @@ export const getPatientUnderDoctorService = async (status, params) => {
 export const updateDoctorService = async (id, data) => {
 	setUserToken();
 	try {
-		const response = await axios.put(`${UPDATE_DOCTOR}/${id}`, data);
+		const response = await axios.put(`${UPDATE_DOCTOR}${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -406,7 +392,7 @@ export const getHospitalsService = async () => {
 export async function addAmbulance(values, id) {
 	try {
 		setUserToken();
-		const response = await axios.post(`${ADDAMBULANCE}/${id}`, values);
+		const response = await axios.post(`${ADDAMBULANCE}${id}`, values);
 		if (response.status === 200 && response.data.error === false) {
 			return {
 				res: response.data
@@ -424,7 +410,7 @@ export const startAttentPatientForAmbulance = async id => {
 	setUserToken();
 	try {
 		const response = await axios.post(
-			`${START_ATTEND_PATIENT_FOR_AMBULANCE}${id}`
+			`${START_ATTEND_PATIENT_FOR_AMBULANCE}?pid=${id}`
 		);
 		if (response.status === 200 && response.data.error === false)
 			return response.data;
@@ -435,11 +421,11 @@ export const startAttentPatientForAmbulance = async id => {
 	}
 };
 
-export const allotAmbulanceForPatient = async (ambId, patientId, data) => {
+export const allotAmbulanceForPatient = async (patientId, data) => {
 	setUserToken();
 	try {
 		const response = await axios.post(
-			`${ALLOT_AMBULANCE_FOR_PATIENT}${ambId}/${patientId}`,
+			`${ALLOT_AMBULANCE_FOR_PATIENT}${patientId}`,
 			data
 		);
 		if (response.status === 200 && response.data.error === false)
@@ -480,7 +466,7 @@ export const getHospitalByParamsServices = async params => {
 export const getPatientByHospitalService = async id => {
 	setUserToken();
 	try {
-		const response = await axios.get(`${GET_PATIENT_BY_HOSPITAL}/${id}`);
+		const response = await axios.get(`${GET_PATIENT_BY_HOSPITAL}${id}`);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -493,7 +479,7 @@ export const getPatientByHospitalService = async id => {
 export const getPatientByHospitalParamService = async (id, params) => {
 	setUserToken();
 	try {
-		const response = await axios.get(`${GET_PATIENT_BY_HOSPITAL}/${id}`, {
+		const response = await axios.get(`${GET_PATIENT_BY_HOSPITAL}${id}`, {
 			params
 		});
 		if (response.status === 200 && response.data.error === false) {
@@ -508,7 +494,7 @@ export const getPatientByHospitalParamService = async (id, params) => {
 export const getAllotedPatientService = async (id, params) => {
 	setUserToken();
 	try {
-		const response = await axios.get(`${GET_PATIENT_DETAILS}/${id}`, {
+		const response = await axios.get(`${GET_PATIENT_DETAILS}${id}`, {
 			params
 		});
 		if (response.status === 200 && response.data.error === false) {
@@ -523,7 +509,7 @@ export const getAllotedPatientService = async (id, params) => {
 export const updateHospitalService = async (id, data) => {
 	setUserToken();
 	try {
-		const response = await axios.put(`${UPDATE_HOSPITAL}/${id}`, data);
+		const response = await axios.put(`${UPDATE_HOSPITAL}${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -639,19 +625,6 @@ export const delAmbulanceService = async id => {
 	}
 };
 
-export const updateAmbulanceService = async (id, data) => {
-	setUserToken();
-	try {
-		const response = await axios.put(`${UPDATE_AMBULANCE}/${id}`, data);
-		if (response.status === 200 && response.data.error === false) {
-			return response.data;
-		} else return response.data;
-	} catch (err) {
-		if (err.response) throw err.response.data;
-		else throw err.message;
-	}
-};
-
 export const updateOperatorService = async (id, data) => {
 	setUserToken();
 	try {
@@ -696,7 +669,7 @@ export const declinedPatientService = async (id, data) => {
 export const attendPatientService = async id => {
 	setUserToken();
 	try {
-		const response = await axios.post(`${ATTEND_PATIENT}/${id}`);
+		const response = await axios.post(`${ATTEND_PATIENT}${id}`);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -709,7 +682,7 @@ export const attendPatientService = async id => {
 export const assignLevelService = async (id, data) => {
 	setUserToken();
 	try {
-		const response = await axios.post(`${ASSIGN_LEVEL}/${id}`, data);
+		const response = await axios.post(`${ASSIGN_LEVEL}${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;
@@ -761,7 +734,7 @@ export const updateProfileService = async (id, data) => {
 export const getadmittedPatientsService = async id => {
 	setUserToken();
 	try {
-		const response = await axios.get(`${GET_ADMITTED_PATIENTS}/${id}`);
+		const response = await axios.get(`${GET_ADMITTED_PATIENTS}${id}`);
 		if (response.status === 200 && response.data.error === false)
 			return response.data;
 	} catch (err) {
@@ -773,7 +746,7 @@ export const getadmittedPatientsService = async id => {
 export const addReportService = async (id, data) => {
 	setUserToken();
 	try {
-		const response = await axios.post(`${ADD_REPORT}/${id}`, data);
+		const response = await axios.post(`${ADD_REPORT}${id}`, data);
 		if (response.status === 200 && response.data.error === false)
 			return response.data;
 	} catch (err) {
@@ -784,7 +757,7 @@ export const addReportService = async (id, data) => {
 export const searchAdmittedPatientsService = async (id, params) => {
 	setUserToken();
 	try {
-		const response = await axios.get(`${GET_ADMITTED_PATIENTS}/${id}`, {
+		const response = await axios.get(`${GET_ADMITTED_PATIENTS}${id}`, {
 			params
 		});
 		if (response.status === 200 && response.data.error === false) {
@@ -811,7 +784,7 @@ export const updateHospitalProfileService = async (id, data) => {
 	setUserToken();
 	try {
 		const response = await axios.put(
-			`${HOSPITAL_UPDATE_PROFILE}/${id}`,
+			`${HOSPITAL_UPDATE_PROFILE}${id}`,
 			data
 		);
 		if (response.status === 200 && response.data.error === false) {
@@ -827,7 +800,7 @@ export const updateHospitalProfileService = async (id, data) => {
 export async function getPatientDetails(id) {
 	try {
 		setUserToken();
-		const response = await axios.get(`${GET_PATIENT_DETAILS}/${id}`);
+		const response = await axios.get(`${GET_PATIENT_DETAILS}${id}`);
 		if (response.status === 200 && response.data.error === false)
 			return response.data;
 	} catch (err) {
@@ -839,7 +812,7 @@ export async function getPatientDetails(id) {
 export const assignPatientBed = async (id, data) => {
 	setUserToken();
 	try {
-		const response = await axios.post(`${ASSIGN_BED}/${id}`, data);
+		const response = await axios.post(`${ASSIGN_BED}${id}`, data);
 		if (response.status === 200 && response.data.error === false)
 			return response.data;
 	} catch (err) {
@@ -851,7 +824,7 @@ export const assignPatientBed = async (id, data) => {
 export const searchPatients = async (id, params) => {
 	setUserToken();
 	try {
-		const response = await axios.get(`${GET_PATIENT_DETAILS}/${id}`, {
+		const response = await axios.get(`${GET_PATIENT_DETAILS}${id}`, {
 			params
 		});
 		if (response.status === 200 && response.data.error === false)

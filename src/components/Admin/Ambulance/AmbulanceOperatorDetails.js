@@ -13,8 +13,7 @@ import {
 	Input,
 	Select,
 	Divider,
-	Upload,
-	message
+	Upload
 } from "antd";
 import AddAmbulance from "./AddAmbulance";
 import PageTitle from "../../common/PageTitle";
@@ -95,10 +94,6 @@ const AmbulanceAdminDetails = props => {
 		setAmbulanceData(data);
 	};
 
-	const error = () => {
-		message.error("Sorry! No history found");
-	};
-
 	const closeResults = () => {
 		setIsResultsVisible(false);
 	};
@@ -109,7 +104,11 @@ const AmbulanceAdminDetails = props => {
 			const res = await getAmbulanceDuties(data.key);
 			if (res.error === false && res.message === "success") {
 				if (res.data.length === 0) {
-					error();
+					_notification(
+						"warning",
+						"Error",
+						"Sorry! no history found."
+					);
 					setIsLoading(false);
 				} else {
 					setDutiesModalData(res.data);

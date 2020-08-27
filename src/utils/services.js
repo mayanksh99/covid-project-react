@@ -44,7 +44,6 @@ import {
 	UPDATE_ADMIN,
 	GET_AMBULANCE_DUTIES,
 	PATIENT_DECLIED
-	// AMBULANCE_UPDATE
 } from "./routes";
 export const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 export const EndPoint = "https://covid-project-gzb.herokuapp.com";
@@ -259,33 +258,20 @@ export async function updateAdminService(id, data) {
 	}
 }
 
-// /*******************Update Ambulance status*******************/
+// /*******************Update Ambulance *******************/
 
-// export async function updateAmbulance(id, data) {
-// 	setUserToken();
-// 	try {
-// 		const response = await axios.put(`${AMBULANCE_UPDATE}${id}`, data);
-// 		if (response.status === 200 && response.data.error === false) {
-// 			return response.data;
-// 		} else return response.data;
-// 	} catch (err) {
-// 		if (err.response) throw err.response.data;
-// 		else throw err.message;
-// 	}
-// }
-
-// export async function updateAmb(id, data) {
-// 	setUserToken();
-// 	try {
-// 		const response = await axios.put(`${AMBULANCE_UPDATE}/${id}`, data);
-// 		if (response.status === 200 && response.data.error === false) {
-// 			return response.data;
-// 		} else return response.data;
-// 	} catch (err) {
-// 		if (err.response) throw err.response.data;
-// 		else throw err.message;
-// 	}
-// }
+export const updateAmbulanceService = async (id, data) => {
+	setUserToken();
+	try {
+		const response = await axios.put(`${UPDATE_AMBULANCE}${id}`, data);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
 
 /******************DOCTOR ADMIN SERVICES********************/
 
@@ -630,19 +616,6 @@ export const delAmbulanceService = async id => {
 	setUserToken();
 	try {
 		const response = await axios.del(`${DEL_AMBULANCE}/${id}`);
-		if (response.status === 200 && response.data.error === false) {
-			return response.data;
-		} else return response.data;
-	} catch (err) {
-		if (err.response) throw err.response.data;
-		else throw err.message;
-	}
-};
-
-export const updateAmbulanceService = async (id, data) => {
-	setUserToken();
-	try {
-		const response = await axios.put(`${UPDATE_AMBULANCE}${id}`, data);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

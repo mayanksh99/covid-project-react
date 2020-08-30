@@ -30,6 +30,7 @@ import DoctorDetail from "../Admin/Doctor/DoctorDetail";
 import DoctorEditProfile from "../Doctor/DoctorEditProfile";
 import UnassignedPatients from "../Doctor/UnassignedPatients";
 import DeclinedPatient from "./../Doctor/DeclinedPatient";
+import AmbulanceDuties from "../Ambulance/AmbulanceDuties";
 const { Content, Sider, Footer } = Layout;
 
 const Dashboard = props => {
@@ -152,6 +153,13 @@ const Dashboard = props => {
 									exact
 									path="/ambulance-operators/ambulances/assign"
 									component={AssignAmbulance}
+									role="ambulanceoperator"
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/ambulance-operators/ambulances/duties/:did"
+									component={AmbulanceDuties}
 									role="ambulanceoperator"
 									data={userData[0]}
 								/>

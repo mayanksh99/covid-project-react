@@ -26,7 +26,8 @@ import AddAmbulanceModal from "./AddAmbulanceModal";
 import AddBulkResponseModal from "../../utils/_helper";
 import { ADD_BULK_AMBULANCES } from "../../utils/routes";
 import { BASE_URL } from "../../utils/services";
-import AmbulanceDutiesModal from "./AmbulanceDutiesModal";
+// import AmbulanceDutiesModal from "./AmbulanceDutiesModal";
+import AmbDutiesTable from "./AmbulanceDutiesTable";
 
 const AmbulanceStatus = () => {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
@@ -38,10 +39,11 @@ const AmbulanceStatus = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
 	const [isAddAmbVisible, setIsAddAmbVisible] = useState(false);
-	const [isDutiesModalVisible, setIsDutiesModalVisible] = useState(false);
+	// const [isDutiesModalVisible, setIsDutiesModalVisible] = useState(false);
+	const [isTableVisible, setIsTableVisible] = useState(false);
 	const [modalData, setModalData] = useState(null);
 	const [ambulance, setAmbulance] = useState(null);
-	const [dutiesModalData, setDutiesModalData] = useState(null);
+	const [dutiesTableData, setDutiesTableData] = useState(null);
 	const [isAmbAdding, setIsAmbAdding] = useState(false);
 	const [count, setCount] = useState(null);
 	const [refresh, setRefresh] = useState(false);
@@ -129,6 +131,7 @@ const AmbulanceStatus = () => {
 	};
 
 	const handleClick = async data => {
+		console.log(data);
 		setIsLoading(true);
 		try {
 			const res = await getAmbulanceDuties(data.key);
@@ -137,8 +140,8 @@ const AmbulanceStatus = () => {
 					_notification("error", "Error", "Sorry! no history found.");
 					setIsLoading(false);
 				} else {
-					setDutiesModalData(res.data);
-					setIsDutiesModalVisible(true);
+					setDutiesTableData(res.data);
+					setIsTableVisible(true);
 					setIsLoading(false);
 				}
 			}
@@ -425,12 +428,17 @@ const AmbulanceStatus = () => {
 				isAmbAdding={isAmbAdding}
 				add={add}
 			/>
-			<AmbulanceDutiesModal
+			{/* <AmbulanceDutiesModal
 				isVisible={isDutiesModalVisible}
 				setIsVisible={setIsDutiesModalVisible}
 				setRefresh={setRefresh}
 				refresh={refresh}
 				data={dutiesModalData}
+			/> */}
+			<AmbDutiesTable
+				showTable={isTableVisible}
+				setShowTable={setIsTableVisible}
+				data={dutiesTableData}
 			/>
 		</div>
 	);

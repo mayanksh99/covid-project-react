@@ -35,6 +35,7 @@ export const UPDATE_AMBULANCE = "/ambulances/update?aid="; //PUT
 export const UPDATE_OPERATOR = "/ambulances/operator"; //PUT
 export const ADD_AMBULANCE = "/ambulances/add"; //POST
 export const GET_AMBULANCE_DUTIES = "/ambulances/duties?aid="; //GET
+export const GET_AMBULANCE_DUTY = "/ambulances/duties/single?did="; //GET
 
 /******************DOCTOR ROUTES********************/
 export const ATTEND_PATIENT = "/doctors/patients/attend?pid="; //POST

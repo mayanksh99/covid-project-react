@@ -27,10 +27,11 @@ const Map = props => {
 		socket.on("AMBULANCE_LOCATIONS_FOR_MAP", res => {
 			console.log(res);
 		});
-		//socket.emit("ambulanceLocationsForMap", { token: Data.token,did:,aoid:props.data[0].operator._id });
-		// return () => {
-		// 	socket.off();
-		// };
+		socket.emit("ambulanceLocationsForMap", {
+			token: Data.token,
+			did: props.did,
+			aoid: props.data.operator._id
+		});
 
 		const map = new mapboxgl.Map({
 			container: mapRef.current,
@@ -128,9 +129,9 @@ const Map = props => {
 				}
 			});
 		});
-		// return () => {
-		// 	socket.off();
-		// };
+		return () => {
+			socket.off();
+		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [Data.token]);
 

@@ -43,7 +43,8 @@ import {
 	UPDATE_OPERATOR,
 	UPDATE_ADMIN,
 	GET_AMBULANCE_DUTIES,
-	PATIENT_DECLIED
+	PATIENT_DECLIED,
+	GET_AMBULANCE_DUTY
 } from "./routes";
 export const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 export const EndPoint = "https://covid-project-gzb.herokuapp.com";
@@ -564,6 +565,19 @@ export const getAmbulanceDuties = async id => {
 	setUserToken();
 	try {
 		const response = await axios.get(`${GET_AMBULANCE_DUTIES}${id}`);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const getAmbulanceDuty = async id => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_AMBULANCE_DUTY}${id}`);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

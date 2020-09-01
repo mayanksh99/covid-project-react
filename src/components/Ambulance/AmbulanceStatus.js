@@ -137,7 +137,11 @@ const AmbulanceStatus = () => {
 			const res = await getAmbulanceDuties(data.key);
 			if (res.error === false && res.message === "success") {
 				if (res.data.length === 0) {
-					_notification("error", "Error", "Sorry! no history found.");
+					_notification(
+						"warning",
+						"Warning",
+						"Sorry! no history found."
+					);
 					setIsLoading(false);
 				} else {
 					setDutiesTableData(res.data);

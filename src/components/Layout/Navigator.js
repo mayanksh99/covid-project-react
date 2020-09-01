@@ -6,8 +6,13 @@ import {
 	Link
 } from "react-router-dom";
 import "./style.css";
-import { Layout, Menu, Row, Col, Modal, Button } from "antd";
-import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Layout, Menu, Row, Col, Modal, Button, Badge } from "antd";
+import {
+	LockOutlined,
+	LeftOutlined,
+	RightOutlined,
+	BellOutlined
+} from "@ant-design/icons";
 import { getRole } from "./../../utils/_helper";
 import routes from "../../utils/_routes";
 import PrivateRoute from "./PrivateRoute";
@@ -60,7 +65,7 @@ const Dashboard = props => {
 						trigger={null}
 						collapsible
 						collapsed={isCollapsed}
-						width={280}
+						width={240}
 					>
 						<Menu
 							theme="light"
@@ -288,6 +293,27 @@ const Dashboard = props => {
 							</Switch>
 						</Content>
 					</Layout>
+
+					<div
+						style={{
+							cursor: "pointer",
+							position: "absolute",
+							top: "32px",
+							right: "35px"
+						}}
+					>
+						<Badge count={10} overflowCount={9}>
+							<BellOutlined
+								style={{ fontSize: "26px" }}
+								onMouseOver={e =>
+									(e.target.style.color = "#1890ff")
+								}
+								onMouseOut={e =>
+									(e.target.style.color = "black")
+								}
+							/>
+						</Badge>
+					</div>
 				</Layout>
 				<Footer>
 					<Row>

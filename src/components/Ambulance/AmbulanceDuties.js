@@ -246,7 +246,11 @@ const AmbulanceDuties = props => {
 						{data ? data.status.toUpperCase() : null}
 					</Tag>{" "}
 				</Row>
-				<Button type="primary" onClick={handleMap}>
+				<Button
+					type="primary"
+					onClick={handleMap}
+					disabled={data.tripStatus === "pending" ? true : false}
+				>
 					Show route
 				</Button>
 			</Spin>

@@ -6,14 +6,10 @@ import {
 	Link
 } from "react-router-dom";
 import "./style.css";
-import { Layout, Menu, Row, Col, Modal, Button, Badge } from "antd";
-import {
-	LockOutlined,
-	LeftOutlined,
-	RightOutlined,
-	BellOutlined
-} from "@ant-design/icons";
+import { Layout, Menu, Row, Col, Modal, Button } from "antd";
+import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getRole } from "./../../utils/_helper";
+import BellNotification from "./../../utils/BellNotification";
 import routes from "../../utils/_routes";
 import PrivateRoute from "./PrivateRoute";
 import AmbulanceOperatorDetails from "../Admin/Ambulance/AmbulanceOperatorDetails";
@@ -293,27 +289,7 @@ const Dashboard = props => {
 							</Switch>
 						</Content>
 					</Layout>
-
-					<div
-						style={{
-							cursor: "pointer",
-							position: "absolute",
-							top: "32px",
-							right: "35px"
-						}}
-					>
-						<Badge count={10} overflowCount={9}>
-							<BellOutlined
-								style={{ fontSize: "26px" }}
-								onMouseOver={e =>
-									(e.target.style.color = "#1890ff")
-								}
-								onMouseOut={e =>
-									(e.target.style.color = "black")
-								}
-							/>
-						</Badge>
-					</div>
+					<BellNotification userData={userData} />
 				</Layout>
 				<Footer>
 					<Row>

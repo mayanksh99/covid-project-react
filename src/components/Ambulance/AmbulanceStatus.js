@@ -131,7 +131,7 @@ const AmbulanceStatus = () => {
 	};
 
 	const handleClick = async data => {
-		console.log(data);
+		//console.log(data);
 		setIsLoading(true);
 		try {
 			const res = await getAmbulanceDuties(data.key);

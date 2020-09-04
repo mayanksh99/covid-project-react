@@ -69,18 +69,8 @@ const Map = props => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [Data.token]);
 
-	//console.log(coordinates ? coordinates[0][0] : null)
-
 	useEffect(() => {
 		if (mapState !== null) {
-			// const map = new mapboxgl.Map({
-			// 	container: mapRef.current,
-			// 	style: "mapbox://styles/mapbox/streets-v11",
-			// 	center: [77.498709, 28.752535],
-			// 	zoom: 15,
-			// 	maxBounds: bounds
-			// });
-
 			mapState.flyTo({
 				center: [lng, lat],
 				essential: true
@@ -96,7 +86,6 @@ const Map = props => {
 				.setPopup(popupStart)
 				.addTo(mapState);
 
-			// mapState.on("load", function () {
 			mapState.addSource("route", {
 				type: "geojson",
 				data: {
@@ -104,29 +93,6 @@ const Map = props => {
 					properties: {},
 					geometry: {
 						type: "LineString",
-						// coordinates: [
-						// 	[77.443817, 28.699455],
-						// 	[77.444438, 28.69986],
-						// 	[77.444655, 28.699841],
-						// 	[77.445588, 28.699549],
-						// 	[77.445588, 28.699464],
-						// 	[77.444816, 28.698683],
-						// 	[77.444924, 28.698514],
-						// 	[77.447585, 28.701337],
-						// 	[77.450085, 28.703925],
-						// 	[77.453432, 28.707426],
-						// 	[77.457219, 28.711312],
-						// 	[77.473804, 28.729332],
-						// 	[77.477677, 28.733735],
-						// 	[77.4836, 28.742633],
-						// 	[77.484662, 28.744039],
-						// 	[77.485995, 28.745311],
-						// 	[77.490796, 28.749116],
-						// 	[77.493146, 28.751251],
-						// 	[77.495829, 28.754037],
-						// 	[77.495935, 28.754057],
-						// 	[77.498709, 28.752535]
-						// ]
 						coordinates: coordinates
 					}
 				}

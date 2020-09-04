@@ -23,9 +23,10 @@ const AmbulanceDuties = props => {
 	const [check, setCheck] = useState(false);
 	const [showMap, setShowMap] = useState(false);
 	const [data, setData] = useState(false);
+	const [refresh, setRefresh] = useState(false);
 
 	useEffect(() => {
-		console.log(props);
+		//console.log(props);
 		setIsLoading(true);
 		(async () => {
 			try {
@@ -41,7 +42,7 @@ const AmbulanceDuties = props => {
 			}
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [props.match.params.did]);
+	}, [props.match.params.did, refresh]);
 
 	const handleFinish = async values => {
 		setIsLoading(true);
@@ -56,6 +57,7 @@ const AmbulanceDuties = props => {
 					"Status updated successfully"
 				);
 				setCheck(false);
+				setRefresh(!refresh);
 				setIsLoading(false);
 			}
 		} catch (err) {
@@ -274,8 +276,13 @@ const AmbulanceDuties = props => {
 				width={1300}
 				bodyStyle={{ height: "630px" }}
 				onCancel={() => setShowMap(false)}
+				destroyOnClose={true}
 			>
-				<Map data={data} did={props.match.params.did} />
+				<Map
+					data={data}
+					did={props.match.params.did}
+					setShowMap={setShowMap}
+				/>
 			</Modal>
 		</>
 	);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import mapboxgl from "mapbox-gl";
 import io from "socket.io-client";
+import { _notification } from "../../utils/_helper";
 import { Button } from "antd";
 import { AimOutlined } from "@ant-design/icons";
 import { AuthContext } from "../../contexts/userContext";
@@ -34,9 +35,14 @@ const Map = props => {
 		socket = io(EndPoint, { transports: ["websocket", "polling"] });
 		socket.on("AMBULANCE_LOCATIONS_FOR_MAP", res => {
 			console.log(res);
-			setLng(res.location.coordinates[0][0]);
-			setLat(res.location.coordinates[0][1]);
-			setCoordinates(res.location.coordinates);
+			if (res.location !== undefined) {
+				setLng(res.location.coordinates[0][0]);
+				setLat(res.location.coordinates[0][1]);
+				setCoordinates(res.location.coordinates);
+			} else {
+				_notification("error", "Error", "Location not found !");
+				props.setShowMap(false);
+			}
 		});
 		socket.emit("ambulanceLocationsForMap", {
 			token: Data.token,

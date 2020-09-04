@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Badge, Popover, Card } from "antd";
+import { Badge, Popover, Card, Spin } from "antd";
+import { useHistory } from "react-router-dom";
 import io from "socket.io-client";
 import { EndPoint } from "./services";
 import { AuthContext } from "../contexts/userContext";
@@ -9,13 +10,19 @@ const BellNotification = () => {
 	const [bellColor, setBellColor] = useState("Black");
 	const [content, setContent] = useState(null);
 	const [count, setCount] = useState(0);
+	const [isVisible, setIsVisible] = useState(false);
 	const Data = useContext(AuthContext);
+	let history = useHistory();
 	let total = 0;
 
 	const notificationCount = n => {
 		if (n.seen === false) {
 			total++;
 		}
+	};
+
+	const handleVisibleChange = visible => {
+		setIsVisible(visible);
 	};
 
 	useEffect(() => {
@@ -27,6 +34,12 @@ const BellNotification = () => {
 			setContent(
 				res.map((notification, i) => (
 					<Card
+						onClick={() =>
+							history.push(
+								`${notification.path}`,
+								setIsVisible(false)
+							)
+						}
 						key={i}
 						title={
 							<div>
@@ -58,9 +71,9 @@ const BellNotification = () => {
 							backgroundColor: `${
 								notification.seen ? "#fafbfc" : "#fff"
 							}`,
-							marginBottom: "7px",
-							marginTop: "7px",
-							cursor: "pointer"
+							marginBottom: `${i !== total ? "10px" : "0px"}`,
+							cursor: "pointer",
+							marginRight: "7px"
 						}}
 					>
 						{notification.description}
@@ -72,6 +85,7 @@ const BellNotification = () => {
 		return () => {
 			socket.off();
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [Data.token]);
 
 	return (
@@ -87,21 +101,35 @@ const BellNotification = () => {
 		>
 			<Badge count={count} overflowCount={9}>
 				<Popover
+					visible={isVisible}
 					trigger="click"
 					color="#fafbfc"
+					onVisibleChange={handleVisibleChange}
 					content={
-						<div
-							style={{
-								width: "500px",
-								backgroundColor: "#fafbfc"
-							}}
-						>
-							{content}
-						</div>
+						content !== null ? (
+							<div
+								style={{
+									height: "535px",
+									overflowY: "auto",
+									width: "500px",
+									backgroundColor: "#fafbfc"
+								}}
+							>
+								{content}
+							</div>
+						) : (
+							<Spin
+								size="small"
+								tip="Fetching Notifications ..."
+							/>
+						)
 					}
 					placement="leftTop"
 				>
 					<BellOutlined
+						onClick={() => {
+							setIsVisible(true);
+						}}
 						style={{
 							fontSize: "26px",
 							color: bellColor

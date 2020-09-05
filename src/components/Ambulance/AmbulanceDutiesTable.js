@@ -2,7 +2,6 @@ import React from "react";
 import { Table, Modal, Tag } from "antd";
 import { Link } from "react-router-dom";
 const AmbDutiesTable = props => {
-	// const [tableData, setTableData] = useState(null);
 	let i = props.data ? props.data.length + 1 : 0;
 	const tableData = props.data
 		? props.data.map(duty => ({
@@ -14,8 +13,6 @@ const AmbDutiesTable = props => {
 				did: duty._id
 		  }))
 		: null;
-
-	// console.log(tableData);
 
 	const tableColumns = [
 		{

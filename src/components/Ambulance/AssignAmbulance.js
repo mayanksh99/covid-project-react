@@ -30,16 +30,17 @@ const AssignAmbulance = () => {
 
 	useEffect(() => {
 		setIsLoading(true);
-		let socket = io(EndPoint);
+		let socket = io(EndPoint, { transports: ["websocket", "polling"] });
 		socket.on("PATIENTS_POOL_FOR_AMBULANCE", res => {
 			setPatient(res.patients);
 			setIsLoading(false);
 		});
 		socket.emit("patientsPoolForAmbulance", { token: Data.token });
+
 		return () => {
 			socket.off();
 		};
-	}, [Data.token, refresh]);
+	}, [Data.token]);
 
 	const attendPatient = async data => {
 		setModalData(data);
@@ -65,6 +66,7 @@ const AssignAmbulance = () => {
 		(async () => {
 			try {
 				const res = await getAllAmbulanceUnder(userData.id);
+
 				setTotalAmbulance(res.data.ambulanceCount);
 			} catch (err) {
 				setIsLoading(false);

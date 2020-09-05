@@ -23,8 +23,10 @@ const AmbulanceDuties = props => {
 	const [check, setCheck] = useState(false);
 	const [showMap, setShowMap] = useState(false);
 	const [data, setData] = useState(false);
+	const [refresh, setRefresh] = useState(false);
 
 	useEffect(() => {
+		//console.log(props);
 		setIsLoading(true);
 		(async () => {
 			try {
@@ -39,7 +41,8 @@ const AmbulanceDuties = props => {
 				setIsLoading(false);
 			}
 		})();
-	}, [props.match.params.did]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [props.match.params.did, refresh]);
 
 	const handleFinish = async values => {
 		setIsLoading(true);
@@ -54,6 +57,7 @@ const AmbulanceDuties = props => {
 					"Status updated successfully"
 				);
 				setCheck(false);
+				setRefresh(!refresh);
 				setIsLoading(false);
 			}
 		} catch (err) {
@@ -194,61 +198,75 @@ const AmbulanceDuties = props => {
 						</>
 					) : null}
 				</Row>
-				{data.status === "onDuty" ? (
-					<Form
-						form={form}
-						onFinish={handleFinish}
-						name="ambulanceDetails"
-						layout="vertical"
-					>
-						{data.status === "onDuty" ? (
+				{data.tripStatus !== "pending" ? (
+					data.status === "onDuty" ? (
+						<Form
+							form={form}
+							onFinish={handleFinish}
+							name="ambulanceDetails"
+							layout="vertical"
+						>
 							<Form.Item name={`checkBox`}>
 								<Checkbox onChange={onChange} checked={check}>
 									Declined to come ?
 								</Checkbox>
 							</Form.Item>
-						) : null}
 
-						{check ? (
-							<>
-								<Form.Item
-									name="declinedComment"
-									label="Add a comment"
-								>
-									<TextArea placeholder="Write here" />
-								</Form.Item>
-								<Form.Item>
-									<Button
-										type="primary"
-										htmlType="submit"
-										style={{ float: "right" }}
+							{check ? (
+								<>
+									<Form.Item
+										name="declinedComment"
+										label="Add a comment"
 									>
-										Submit
-									</Button>
-								</Form.Item>
-							</>
-						) : null}
-					</Form>
-				) : null}
-				<Row style={{ paddingBottom: "40px" }}>
-					Journey Status :{" "}
-					<Tag
-						color={
-							data
-								? data.status === "completed"
-									? "green"
-									: data.status === "onDuty"
-									? "orange"
-									: "red"
-								: null
-						}
+										<TextArea placeholder="Write here" />
+									</Form.Item>
+									<Form.Item>
+										<Button
+											type="primary"
+											htmlType="submit"
+											style={{ float: "right" }}
+										>
+											Submit
+										</Button>
+									</Form.Item>
+								</>
+							) : null}
+						</Form>
+					) : null
+				) : (
+					<div
+						style={{
+							color: "#ff0000",
+							fontSize: "18px",
+							fontWeight: "600"
+						}}
 					>
-						{data ? data.status.toUpperCase() : null}
-					</Tag>{" "}
-				</Row>
-				<Button type="primary" onClick={handleMap}>
-					Show route
-				</Button>
+						Journey has not started yet !
+					</div>
+				)}
+				{data.tripStatus !== "pending" ? (
+					<>
+						<Row style={{ paddingBottom: "40px" }}>
+							Journey Status :{" "}
+							<Tag
+								color={
+									data
+										? data.status === "completed"
+											? "green"
+											: data.status === "onDuty"
+											? "orange"
+											: "red"
+										: null
+								}
+							>
+								{data ? data.status.toUpperCase() : null}
+							</Tag>{" "}
+						</Row>
+						<Button type="primary" onClick={handleMap}>
+							Show route
+						</Button>
+					</>
+				) : null}
 			</Spin>
 			<Modal
 				closable={true}
@@ -258,8 +276,13 @@ const AmbulanceDuties = props => {
 				width={1300}
 				bodyStyle={{ height: "630px" }}
 				onCancel={() => setShowMap(false)}
+				destroyOnClose={true}
 			>
-				<Map data={data} did={props.match.params.did} />
+				<Map
+					data={data}
+					did={props.match.params.did}
+					setShowMap={setShowMap}
+				/>
 			</Modal>
 		</>
 	);

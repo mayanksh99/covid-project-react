@@ -9,6 +9,7 @@ import "./style.css";
 import { Layout, Menu, Row, Col, Modal, Button } from "antd";
 import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getRole } from "./../../utils/_helper";
+import BellNotification from "./../../utils/BellNotification";
 import routes from "../../utils/_routes";
 import PrivateRoute from "./PrivateRoute";
 import AmbulanceOperatorDetails from "../Admin/Ambulance/AmbulanceOperatorDetails";
@@ -60,7 +61,7 @@ const Dashboard = props => {
 						trigger={null}
 						collapsible
 						collapsed={isCollapsed}
-						width={280}
+						width={240}
 					>
 						<Menu
 							theme="light"
@@ -288,6 +289,7 @@ const Dashboard = props => {
 							</Switch>
 						</Content>
 					</Layout>
+					<BellNotification userData={userData} />
 				</Layout>
 				<Footer>
 					<Row>

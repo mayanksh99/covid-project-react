@@ -24,7 +24,9 @@ const AmbulanceDuties = props => {
 	const { form } = Form.useForm;
 	const { TextArea } = Input;
 	const [isLoading, setIsLoading] = useState(false);
-	const [check, setCheck] = useState(false);
+	const [declineCheck, setDeclineCheck] = useState(false);
+	const [completeCheck, setCompleteCheck] = useState(false);
+	const [checkValue, setCheckValue] = useState(null);
 	const [showMap, setShowMap] = useState(false);
 	const [data, setData] = useState(false);
 	const [tripModal, setTripModal] = useState(false);
@@ -64,6 +66,7 @@ const AmbulanceDuties = props => {
 	}, [props.match.params.did, refresh]);
 
 	const handleFinish = async values => {
+		console.log(values);
 		setEndTripSpin(true);
 		setIsLoading(true);
 		try {
@@ -78,7 +81,8 @@ const AmbulanceDuties = props => {
 				);
 				setEndTripSpin(false);
 				setTripModal(false);
-				setCheck(false);
+				setDeclineCheck(false);
+				setCompleteCheck(false);
 				setRefresh(!refresh);
 				setIsLoading(false);
 			}
@@ -89,9 +93,9 @@ const AmbulanceDuties = props => {
 		}
 	};
 
-	const onChange = e => {
-		setCheck(e.target.checked);
-	};
+	// const onChange = e => {
+
+	// };
 
 	const handleEndTrip = () => {
 		setTripModal(true);
@@ -115,6 +119,8 @@ const AmbulanceDuties = props => {
 				);
 				setIsLoading(false);
 				setEndTripSpin(false);
+				setDeclineCheck(false);
+				setCompleteCheck(false);
 				setTripModal(false);
 				setRefresh(!refresh);
 				//console.log(res.data);
@@ -172,23 +178,27 @@ const AmbulanceDuties = props => {
 						)}
 					</Col>
 
-					<>
-						<Col span={4}>Trip Started :</Col>
-						<Col span={20}>
-							{moment(data ? data.tripStartedAt : null).format(
-								"Do MMMM YYYY, h:mm:ss a"
-							)}
-						</Col>
-					</>
+					{data.tripStartedAt === undefined ? null : (
+						<>
+							<Col span={4}>Trip Started :</Col>
+							<Col span={20}>
+								{moment(
+									data ? data.tripStartedAt : null
+								).format("Do MMMM YYYY, h:mm:ss a")}
+							</Col>
+						</>
+					)}
 
-					<>
-						<Col span={4}>Completed At :</Col>
-						<Col span={20}>
-							{moment(data ? data.completedAt : null).format(
-								"Do MMMM YYYY, h:mm:ss a"
-							)}
-						</Col>
-					</>
+					{data.tripCompletedAt === undefined ? null : (
+						<>
+							<Col span={4}>Completed At :</Col>
+							<Col span={20}>
+								{moment(data ? data.completedAt : null).format(
+									"Do MMMM YYYY, h:mm:ss a"
+								)}
+							</Col>
+						</>
+					)}
 				</Row>
 				<Row style={{ fontSize: "18px" }}>
 					Vehicle Number : {data ? data.ambulance.vehicleNo : null}
@@ -255,20 +265,46 @@ const AmbulanceDuties = props => {
 						data.status === "onDuty" ? (
 							<Form
 								form={form}
-								onFinish={handleFinish}
+								onFinish={
+									checkValue === "declined"
+										? handleFinish
+										: handleTripConfirm
+								}
 								name="ambulanceDetails"
 								layout="vertical"
 							>
-								<Form.Item name={`checkBox`}>
-									<Checkbox
-										onChange={onChange}
-										checked={check}
-									>
-										Declined to come ?
-									</Checkbox>
-								</Form.Item>
+								{declineCheck ? null : (
+									<Form.Item name={`checkBox`}>
+										<Checkbox
+											onChange={e => {
+												setCompleteCheck(
+													e.target.checked
+												);
+												setCheckValue("completed");
+											}}
+											checked={completeCheck}
+										>
+											Trip completed successfully !
+										</Checkbox>
+									</Form.Item>
+								)}
+								{completeCheck ? null : (
+									<Form.Item name={`checkBox`}>
+										<Checkbox
+											onChange={e => {
+												setDeclineCheck(
+													e.target.checked
+												);
+												setCheckValue("declined");
+											}}
+											checked={declineCheck}
+										>
+											Declined to come ?
+										</Checkbox>
+									</Form.Item>
+								)}
 
-								{check ? (
+								{declineCheck && checkValue === "declined" ? (
 									<>
 										<Form.Item
 											name="declinedComment"
@@ -276,16 +312,18 @@ const AmbulanceDuties = props => {
 										>
 											<TextArea placeholder="Write here" />
 										</Form.Item>
-										<Form.Item>
-											<Button
-												type="primary"
-												htmlType="submit"
-												style={{ float: "right" }}
-											>
-												Submit
-											</Button>
-										</Form.Item>
 									</>
+								) : null}
+								{declineCheck || completeCheck ? (
+									<Form.Item>
+										<Button
+											type="primary"
+											htmlType="submit"
+											style={{ float: "right" }}
+										>
+											Submit
+										</Button>
+									</Form.Item>
 								) : null}
 							</Form>
 						) : null

@@ -49,9 +49,6 @@ import {
 export const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 export const EndPoint = "https://covid-project-gzb.herokuapp.com";
 
-//export const BASE_URL = "https://0787d5b1234d.ngrok.io/api/v1";
-//export const EndPoint = "https://0787d5b1234d.ngrok.io/";
-
 axios.defaults.baseURL = BASE_URL;
 
 function setUserToken() {

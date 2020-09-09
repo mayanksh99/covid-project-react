@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Badge, Popover, Card, Spin } from "antd";
+import { Badge, Popover, Card, Spin, notification } from "antd";
 import { useHistory } from "react-router-dom";
 import io from "socket.io-client";
+import moment from "moment";
 import { EndPoint } from "./services";
 import { AuthContext } from "../contexts/userContext";
-import { BellOutlined } from "@ant-design/icons";
+import { BellOutlined, InfoCircleOutlined } from "@ant-design/icons";
 
 const BellNotification = () => {
 	const [bellColor, setBellColor] = useState("Black");
@@ -20,13 +21,30 @@ const BellNotification = () => {
 	};
 
 	useEffect(() => {
+		let total;
 		let socket = io(EndPoint, { transports: ["websocket", "polling"] });
 		socket.on("NOTIFICATIONS_LIST", res => {
-			setUnseen(
-				res.filter(notif => {
-					return !notif.seen;
-				}).length
-			);
+			total = res.filter(notif => {
+				return !notif.seen;
+			}).length;
+			setUnseen(total);
+
+			if (total > 3) {
+				notification.open({
+					message: "Pending Notifications !",
+					description: `You have ${total} unseen notifications !`,
+					icon: <InfoCircleOutlined style={{ color: "#108ee9" }} />,
+					duration: 5
+				});
+			} else if (total >= 1 && total <= 3) {
+				notification.open({
+					message: `${res[0].title}`,
+					description: `${res[0].description}`,
+					icon: <InfoCircleOutlined style={{ color: "#108ee9" }} />,
+					duration: 0
+				});
+			}
+
 			setCount(res.length);
 			console.log(res);
 			if (res.length) {
@@ -39,16 +57,24 @@ const BellNotification = () => {
 										token: Data.token,
 										nid: notification._id
 									});
-								history.push(
-									`${notification.path}`,
-									setIsVisible(false)
-								);
+								history.push(`${notification.path}`, {
+									title: notification.title,
+									seen: notification.seen,
+									description: notification.description,
+									declined: notification.description.search(
+										"DECLINED"
+									),
+									completed: notification.description.search(
+										"COMPLETED"
+									)
+								});
+								setIsVisible(false);
 							}}
-							key={i}
+							key={++i}
 							title={
 								<div>
 									<Badge
-										count={++i}
+										count={i}
 										style={{
 											backgroundColor: `${
 												notification.seen
@@ -74,17 +100,32 @@ const BellNotification = () => {
 							size={"small"}
 							style={{
 								backgroundColor: `${
-									notification.seen ? "#fafbfc" : "#fff"
+									notification.seen ? "#ededed" : "#fff"
 								}`,
 								marginBottom: `${i !== count ? "10px" : "0px"}`,
 								cursor: "pointer",
 								marginRight: "7px"
 							}}
 						>
-							{notification.description}
+							<div>
+								{notification.description}
+								<div
+									style={{
+										paddingTop: "20px",
+										fontSize: "12px",
+										float: "right"
+									}}
+								>
+									{moment(notification.createdAt).format(
+										"DD/MM/YY, h:mm:ss a"
+									)}
+								</div>
+							</div>
 						</Card>
 					))
 				);
+			} else {
+				setContent("No notifications yet!");
 			}
 		});
 		socket.emit("listenForNotifications", { token: Data.token });
@@ -105,34 +146,36 @@ const BellNotification = () => {
 			onMouseOver={() => setBellColor("#1890ff")}
 			onMouseOut={() => setBellColor("black")}
 		>
-			<Badge count={unseen} overflowCount={9}>
+			<Badge count={unseen} overflowCount={99}>
 				<Popover
 					visible={isVisible}
 					trigger="click"
 					color="#fafbfc"
 					onVisibleChange={handleVisibleChange}
+					placement="leftTop"
 					content={
 						content !== null ? (
-							<div
-								style={{
-									height: "535px",
-									overflowY: "auto",
-									width: "500px",
-									backgroundColor: "#fafbfc"
-								}}
-							>
-								{content}
-							</div>
-						) : count === null ? (
+							content !== "No notifications yet!" ? (
+								<div
+									style={{
+										height: "630px",
+										overflowY: "auto",
+										width: "500px",
+										backgroundColor: "#fafbfc"
+									}}
+								>
+									{content}
+								</div>
+							) : (
+								content
+							)
+						) : (
 							<Spin
 								size="small"
 								tip="Fetching Notifications ..."
 							/>
-						) : (
-							"No Notifications ..."
 						)
 					}
-					placement="leftTop"
 				>
 					<BellOutlined
 						onClick={() => {

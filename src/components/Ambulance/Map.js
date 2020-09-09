@@ -28,13 +28,14 @@ const Map = props => {
 	const [lng, setLng] = useState(77.498709);
 	const [lat, setLat] = useState(28.752535);
 	const [mapState, setMapState] = useState(null);
+	const [startMarker, setStartMarker] = useState(null);
+	const [finishMarker, setFinishMarker] = useState(null);
 	const [coordinates, setCoordinates] = useState(null);
 	const mapRef = useRef();
 
 	useEffect(() => {
 		socket = io(EndPoint, { transports: ["websocket", "polling"] });
 		socket.on("AMBULANCE_LOCATIONS_FOR_MAP", res => {
-			console.log(res);
 			if (res.location !== undefined) {
 				setLng(res.location.coordinates[0][0]);
 				setLat(res.location.coordinates[0][1]);
@@ -50,6 +51,9 @@ const Map = props => {
 			aoid: props.data.operator._id
 		});
 
+		setStartMarker(new mapboxgl.Marker({ color: "#0055ff", scale: 1 }));
+		setFinishMarker(new mapboxgl.Marker({ color: "red", scale: 1.5 }));
+
 		const map = new mapboxgl.Map({
 			container: mapRef.current,
 			style: "mapbox://styles/mapbox/streets-v11",
@@ -60,6 +64,35 @@ const Map = props => {
 
 		map.addControl(new mapboxgl.FullscreenControl(), "top-left");
 		map.addControl(new mapboxgl.NavigationControl(), "top-left");
+
+		map.on("load", () => {
+			map.addSource("route", {
+				type: "geojson",
+				data: {
+					type: "Feature",
+					properties: {},
+					geometry: {
+						type: "LineString",
+						coordinates: [[77.498709, 28.752535]]
+					}
+				}
+			});
+
+			map.addLayer({
+				id: "route",
+				type: "line",
+				source: "route",
+				layout: {
+					"line-join": "round",
+					"line-cap": "round"
+				},
+				paint: {
+					"line-color": "#0055ff",
+					"line-width": 8,
+					"line-opacity": 0.8
+				}
+			});
+		});
 
 		setMapState(map);
 
@@ -72,44 +105,26 @@ const Map = props => {
 	useEffect(() => {
 		if (mapState !== null) {
 			mapState.flyTo({
-				center: [lng, lat],
+				center: coordinates[coordinates.length - 1],
 				essential: true
 			});
 
-			new mapboxgl.Marker({ color: "red", scale: 1.5 })
-				.setLngLat([lng, lat])
+			finishMarker
+				.setLngLat(coordinates[coordinates.length - 1])
 				.setPopup(popupFinal)
 				.addTo(mapState);
 
-			new mapboxgl.Marker({ color: "#0055ff", scale: 1 })
-				.setLngLat(coordinates[coordinates.length - 1])
+			startMarker
+				.setLngLat([lng, lat])
 				.setPopup(popupStart)
 				.addTo(mapState);
 
-			mapState.addSource("route", {
-				type: "geojson",
-				data: {
-					type: "Feature",
-					properties: {},
-					geometry: {
-						type: "LineString",
-						coordinates: coordinates
-					}
-				}
-			});
-
-			mapState.addLayer({
-				id: "route",
-				type: "line",
-				source: "route",
-				layout: {
-					"line-join": "round",
-					"line-cap": "round"
-				},
-				paint: {
-					"line-color": "#0055ff",
-					"line-width": 8,
-					"line-opacity": 0.8
+			mapState.getSource("route").setData({
+				type: "Feature",
+				properties: {},
+				geometry: {
+					type: "LineString",
+					coordinates: coordinates
 				}
 			});
 		}
@@ -136,7 +151,9 @@ const Map = props => {
 					type="primary"
 					onClick={() =>
 						mapState.flyTo({
-							center: coordinates ? coordinates[0] : null,
+							center: coordinates
+								? coordinates[coordinates.length - 1]
+								: null,
 							essential: true
 						})
 					}
@@ -169,9 +186,7 @@ const Map = props => {
 					type="primary"
 					onClick={() =>
 						mapState.flyTo({
-							center: coordinates
-								? coordinates[coordinates.length - 1]
-								: null,
+							center: coordinates ? coordinates[0] : null,
 							essential: true
 						})
 					}

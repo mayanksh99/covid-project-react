@@ -17,8 +17,10 @@ import {
 	Checkbox,
 	Button,
 	Modal,
-	Spin
+	Spin,
+	Timeline
 } from "antd";
+import ProfileDetails from "../common/ProfileDetails";
 
 const AmbulanceDuties = props => {
 	const { form } = Form.useForm;
@@ -93,10 +95,6 @@ const AmbulanceDuties = props => {
 		}
 	};
 
-	// const onChange = e => {
-
-	// };
-
 	const handleEndTrip = () => {
 		setTripModal(true);
 	};
@@ -137,128 +135,199 @@ const AmbulanceDuties = props => {
 			<Spin tip="Loading..." spinning={isLoading}>
 				<Divider
 					style={{
-						fontSize: "25px"
-					}}
-					orientation="left"
-				>
-					Ambulance status :{" "}
-					<Tag
-						style={{ fontSize: "16px" }}
-						color={
-							data
-								? data.ambulance.status === "available"
-									? "green"
-									: data.ambulance.status === "onDuty"
-									? "orange"
-									: "red"
-								: null
-						}
-					>
-						{data ? data.ambulance.status.toUpperCase() : null}
-					</Tag>
-				</Divider>
-				<Divider
-					style={{
 						paddingBottom: "10px",
 						fontWeight: "800",
 						fontSize: "20px"
 					}}
 				>
-					Journey details
+					Journey Details
 				</Divider>
-				<Row
-					style={{
-						fontSize: "14px"
-					}}
-				>
-					<Col span={4}>Alloted At :</Col>
-					<Col span={20}>
-						{moment(data ? data.allotedAt : null).format(
-							"Do MMMM YYYY, h:mm:ss a"
-						)}
-					</Col>
+				<Timeline mode={"left"}>
+					{data.allotedAt ? (
+						<Timeline.Item
+							label={moment(data ? data.allotedAt : null).format(
+								"Do MMMM YYYY, h:mm:ss a"
+							)}
+						>
+							<ProfileDetails label="Ambulance Alloted" />
+						</Timeline.Item>
+					) : null}
+					{data.tripStartedAt ? (
+						<Timeline.Item
+							label={moment(
+								data ? data.tripStartedAt : null
+							).format("Do MMMM YYYY, h:mm:ss a")}
+						>
+							<ProfileDetails label="Trip Started" />
+						</Timeline.Item>
+					) : null}
+					{data.completedAt ? (
+						<Timeline.Item
+							label={moment(
+								data ? data.completedAt : null
+							).format("Do MMMM YYYY, h:mm:ss a")}
+						>
+							<ProfileDetails label="Trip Completed" />
+						</Timeline.Item>
+					) : null}
+				</Timeline>
 
-					{data.tripStartedAt === undefined ? null : (
-						<>
-							<Col span={4}>Trip Started :</Col>
-							<Col span={20}>
-								{moment(
-									data ? data.tripStartedAt : null
-								).format("Do MMMM YYYY, h:mm:ss a")}
-							</Col>
-						</>
-					)}
-
-					{data.tripCompletedAt === undefined ? null : (
-						<>
-							<Col span={4}>Completed At :</Col>
-							<Col span={20}>
-								{moment(data ? data.completedAt : null).format(
-									"Do MMMM YYYY, h:mm:ss a"
-								)}
-							</Col>
-						</>
-					)}
-				</Row>
 				<Row style={{ fontSize: "18px" }}>
-					Vehicle Number : {data ? data.ambulance.vehicleNo : null}
+					<Col
+						xl={12}
+						lg={12}
+						md={12}
+						sm={12}
+						xs={24}
+						style={{ fontSize: "18px" }}
+					>
+						<ProfileDetails
+							label="Vehicle Number"
+							data={data ? data.ambulance.vehicleNo : ""}
+						/>
+					</Col>
+					<Col
+						xl={12}
+						lg={12}
+						md={12}
+						sm={12}
+						xs={24}
+						style={{ fontSize: "18px" }}
+					>
+						<ProfileDetails
+							label="Ambulance Status"
+							data={
+								<Tag
+									style={{ fontSize: "16px" }}
+									color={
+										data
+											? data.ambulance.status ===
+											  "available"
+												? "green"
+												: data.ambulance.status ===
+												  "onDuty"
+												? "orange"
+												: "red"
+											: null
+									}
+								>
+									{data
+										? data.ambulance.status.toUpperCase()
+										: null}
+								</Tag>
+							}
+						/>
+					</Col>
 				</Row>
 				<Row>
-					<Col span={13} style={{ fontSize: "18px" }}>
-						Driver Name : {data ? data.driver.name : ""}
+					<Col
+						xl={12}
+						lg={12}
+						md={12}
+						sm={12}
+						xs={24}
+						style={{ fontSize: "18px" }}
+					>
+						<ProfileDetails
+							label="Driver Name"
+							data={data ? data.driver.name : ""}
+						/>
 					</Col>
-					<Col span={11} style={{ fontSize: "18px" }}>
-						Driver Contact : {data ? data.driver.contact : ""}
+					<Col
+						xl={12}
+						lg={12}
+						md={12}
+						sm={12}
+						xs={24}
+						style={{ fontSize: "18px" }}
+					>
+						<ProfileDetails
+							label="Driver Contact"
+							data={data ? data.driver.contact : ""}
+						/>
 					</Col>
 				</Row>
-				<Row style={{ paddingBottom: "8px" }}>
+				<Row style={{ paddingBottom: "8px", fontSize: "16px" }}>
 					<Col
-						span={13}
+						xl={12}
+						lg={12}
+						md={12}
+						sm={12}
+						xs={24}
 						style={{
 							fontWeight: "700",
 							fontSize: "18px",
 							paddingBottom: "10px"
 						}}
 					>
-						Patient{" "}
-						{data
-							? data.status === "completed"
-								? "carried"
-								: data.status === "declined"
-								? "alloted"
-								: "carrying"
-							: null}
+						<ProfileDetails
+							label={`Patient
+                            ${
+								data
+									? data.status === "completed"
+										? "carried: "
+										: data.status === "declined"
+										? "alloted: "
+										: "carrying: "
+									: null
+							}`}
+							data={
+								data ? (
+									<>
+										<Col
+											span={13}
+											style={{ marginTop: "0px" }}
+										>
+											Name : {data.patient.name}
+										</Col>
+										<Col span={13}>
+											Address : {data.patient.address}
+										</Col>
+										<Col span={13}>
+											Gender : {data.patient.gender}
+										</Col>
+										<Col span={13}>
+											Contact : {data.patient.phone}
+										</Col>
+									</>
+								) : null
+							}
+						/>
 					</Col>
 					<Col
-						span={11}
+						xl={12}
+						lg={12}
+						md={12}
+						sm={12}
+						xs={24}
 						style={{
 							fontWeight: "700",
 							fontSize: "18px",
 							paddingBottom: "10px"
 						}}
 					>
-						Destination Hospital :
+						<ProfileDetails
+							label={"Destination Hospital: "}
+							data={
+								data ? (
+									<>
+										<Col span={13}>
+											Name : {data.hospital.name}
+										</Col>
+										<Col span={13}>
+											Address : {data.hospital.address}
+										</Col>
+										<Col span={13}>
+											Category : {data.hospital.category}
+										</Col>
+										<Col span={13}>
+											Contact : {data.hospital.contact}
+										</Col>
+									</>
+								) : null
+							}
+						/>
 					</Col>
-					{data ? (
-						<>
-							<Col span={13}>Name : {data.patient.name}</Col>
-							<Col span={11}>Name : {data.hospital.name}</Col>
-							<Col span={13}>
-								Address : {data.patient.address}
-							</Col>
-							<Col span={11}>
-								Address : {data.hospital.address}
-							</Col>
-							<Col span={13}>Gender : {data.patient.gender}</Col>
-							<Col span={11}>
-								Category : {data.hospital.category}
-							</Col>
-							<Col span={13}>Contact : {data.patient.phone}</Col>
-							<Col span={11}>
-								Contact : {data.hospital.contact}
-							</Col>
-						</>
-					) : null}
 				</Row>
 				{props.location.state === undefined ? (
 					data.tripStatus !== "pending" ? (

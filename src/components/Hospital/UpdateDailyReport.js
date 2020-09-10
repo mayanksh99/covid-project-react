@@ -8,6 +8,8 @@ import {
 	searchAdmittedPatientsService
 } from "../../utils/services";
 import PatientReport from "./PatientReport";
+import PatientHistory from "../common/PatientHistory";
+import { Link } from "react-router-dom";
 
 const UpdateDailyReport = () => {
 	const [userData] = useState(getRole());
@@ -17,6 +19,11 @@ const UpdateDailyReport = () => {
 	const [patients, setpatients] = useState(null);
 	const [refresh, setRefresh] = useState(false);
 	const [number, setNumber] = useState("");
+	const [
+		patientHistoryModalvisible,
+		setPatientHistoryModalvisible
+	] = useState(false);
+	const [pid, setPid] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -52,6 +59,11 @@ const UpdateDailyReport = () => {
 		}
 	};
 
+	const togglePatientHistoryModal = (val, id) => {
+		setPid(id);
+		setPatientHistoryModalvisible(val);
+	};
+
 	const data = patients
 		? patients.map((patient, i) => {
 				const {
@@ -68,7 +80,7 @@ const UpdateDailyReport = () => {
 				return {
 					index: ++i,
 					key: _id,
-					name,
+					name: [name, _id],
 					gender,
 					age,
 					phone,
@@ -95,7 +107,15 @@ const UpdateDailyReport = () => {
 		{
 			title: "Name",
 			dataIndex: "name",
-			key: "name"
+			key: "name",
+			render: name => (
+				<Link
+					to="#"
+					onClick={() => togglePatientHistoryModal(true, name[1])}
+				>
+					{name[0]}
+				</Link>
+			)
 		},
 
 		{
@@ -164,6 +184,11 @@ const UpdateDailyReport = () => {
 				setRefresh={setRefresh}
 				isVisible={isVisible}
 				handleModal={showModal}
+			/>
+			<PatientHistory
+				patientHistoryModalvisible={patientHistoryModalvisible}
+				togglePatientHistoryModal={togglePatientHistoryModal}
+				pid={pid}
 			/>
 		</div>
 	);

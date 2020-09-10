@@ -4,6 +4,8 @@ import "./style.css";
 import { getUnassignedPatientService } from "./../../utils/services";
 import { _notification } from "../../utils/_helper";
 import PatientTable from "./PatientTable";
+import PatientHistory from "../common/PatientHistory";
+import { Link } from "react-router-dom";
 
 const UnassignedPatients = () => {
 	const [isVisible, setIsVisible] = useState(false);
@@ -11,6 +13,11 @@ const UnassignedPatients = () => {
 	const [patients, setPatients] = useState(null);
 	const [patientData, setPatientData] = useState(null);
 	const [refresh, setRefresh] = useState(false);
+	const [
+		patientHistoryModalvisible,
+		setPatientHistoryModalvisible
+	] = useState(false);
+	const [pid, setPid] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -34,6 +41,11 @@ const UnassignedPatients = () => {
 		setIsVisible(value);
 	};
 
+	const togglePatientHistoryModal = (val, id) => {
+		setPid(id);
+		setPatientHistoryModalvisible(val);
+	};
+
 	const tableColumns = [
 		{
 			title: "#",
@@ -48,7 +60,15 @@ const UnassignedPatients = () => {
 		{
 			title: "Patient Name",
 			dataIndex: "name",
-			key: "name"
+			key: "name",
+			render: name => (
+				<Link
+					to="#"
+					onClick={() => togglePatientHistoryModal(true, name[1])}
+				>
+					{name[0]}
+				</Link>
+			)
 		},
 		{
 			title: "Patient Age",
@@ -87,7 +107,7 @@ const UnassignedPatients = () => {
 					index: ++id,
 					key: _id,
 					caseId,
-					name,
+					name: [name, _id],
 					age,
 					address,
 					district,
@@ -99,21 +119,28 @@ const UnassignedPatients = () => {
 		: null;
 
 	return (
-		<PatientTable
-			pageTitle="Unassigned Patients"
-			statTitle="Number of unassigned patients"
-			tableTitle="List of Unassigned Patients"
-			count={patients ? patients.length : 0}
-			isLoading={isLoading}
-			tableColumns={tableColumns}
-			data={data}
-			isVisible={isVisible}
-			showModal={showModal}
-			patientData={patientData}
-			refresh={refresh}
-			setRefresh={setRefresh}
-			parent="Unassigned"
-		/>
+		<>
+			<PatientTable
+				pageTitle="Unassigned Patients"
+				statTitle="Number of unassigned patients"
+				tableTitle="List of Unassigned Patients"
+				count={patients ? patients.length : 0}
+				isLoading={isLoading}
+				tableColumns={tableColumns}
+				data={data}
+				isVisible={isVisible}
+				showModal={showModal}
+				patientData={patientData}
+				refresh={refresh}
+				setRefresh={setRefresh}
+				parent="Unassigned"
+			/>
+			<PatientHistory
+				patientHistoryModalvisible={patientHistoryModalvisible}
+				togglePatientHistoryModal={togglePatientHistoryModal}
+				pid={pid}
+			/>
+		</>
 	);
 };
 export default UnassignedPatients;

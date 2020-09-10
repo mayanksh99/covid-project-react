@@ -12,6 +12,8 @@ import {
 import PageStats from "../../common/PageStats";
 import ProfileDetails from "../../common/ProfileDetails";
 import UpdateProfile from "./UpdateProfile";
+import PatientHistory from "../../common/PatientHistory";
+import { Link } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -26,6 +28,11 @@ const HospitalDetails = props => {
 	const [refreshPatients, setRefreshPatients] = useState(false);
 	const [category, setCategory] = useState("occupied");
 	const [search, setSearch] = useState(null);
+	const [
+		patientHistoryModalvisible,
+		setPatientHistoryModalvisible
+    ] = useState(false);
+    const [pid, setPid] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -123,6 +130,11 @@ const HospitalDetails = props => {
 		}
 	};
 
+	const togglePatientHistoryModal = (val, id) => {
+		setPid(id);
+		setPatientHistoryModalvisible(val);
+	};
+
 	const columns =
 		category === "reserved"
 			? [
@@ -134,7 +146,15 @@ const HospitalDetails = props => {
 					{
 						title: "Name",
 						dataIndex: "name",
-						key: "name"
+                        key: "name",
+                        render: name => (
+                            <Link
+                                to="#"
+                                onClick={() => togglePatientHistoryModal(true, name[1])}
+                            >
+                                {name[0]}
+                            </Link>
+                        )
 					},
 					{
 						title: "Gender",
@@ -156,7 +176,15 @@ const HospitalDetails = props => {
 					{
 						title: "Name",
 						dataIndex: "name",
-						key: "name"
+                        key: "name",
+                        render: name => (
+                            <Link
+                                to="#"
+                                onClick={() => togglePatientHistoryModal(true, name[1])}
+                            >
+                                {name[0]}
+                            </Link>
+                        )
 					},
 					{
 						title: "Gender",
@@ -202,7 +230,7 @@ const HospitalDetails = props => {
 				return {
 					index: ++id,
 					key: _id,
-					name,
+					name: [name, _id],
 					caseId,
 					phone,
 					gender,
@@ -377,6 +405,11 @@ const HospitalDetails = props => {
 				details={details}
 				refresh={refresh}
 				setRefresh={setRefresh}
+			/>
+            <PatientHistory
+				patientHistoryModalvisible={patientHistoryModalvisible}
+				togglePatientHistoryModal={togglePatientHistoryModal}
+				pid={pid}
 			/>
 		</div>
 	);

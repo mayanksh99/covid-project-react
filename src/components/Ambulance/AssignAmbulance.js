@@ -12,6 +12,8 @@ import {
 import "./style.css";
 import AssignAmbulanceModal from "./AssignAmbulanceModal";
 import PageStats from "./../common/PageStats";
+import PatientHistory from "../common/PatientHistory";
+import { Link } from "react-router-dom";
 
 const AssignAmbulance = () => {
 	const Data = useContext(AuthContext);
@@ -27,6 +29,11 @@ const AssignAmbulance = () => {
 	const handleCancel = value => {
 		setIsVisible(value);
 	};
+	const [
+		patientHistoryModalvisible,
+		setPatientHistoryModalvisible
+	] = useState(false);
+	const [pid, setPid] = useState(null);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -75,6 +82,11 @@ const AssignAmbulance = () => {
 		})();
 	}, [userData, refresh]);
 
+    const togglePatientHistoryModal = (val, id) => {
+		setPid(id);
+		setPatientHistoryModalvisible(val);
+    };
+    
 	const tableColumns = [
 		{
 			title: "#",
@@ -84,7 +96,15 @@ const AssignAmbulance = () => {
 		{
 			title: "Name",
 			dataIndex: "name",
-			key: "name"
+			key: "name",
+			render: name => (
+				<Link
+					to="#"
+					onClick={() => togglePatientHistoryModal(true, name[1])}
+				>
+					{name[0]}
+				</Link>
+			)
 		},
 		{
 			title: "Gender",
@@ -122,7 +142,7 @@ const AssignAmbulance = () => {
 				return {
 					index: ++i,
 					key: patient._id,
-					name: patient.name,
+					name: [patient.name, patient._id],
 					gender: patient.gender,
 					address: patient.address,
 					hospitalAddress: patient.hospitalAddress,
@@ -165,6 +185,11 @@ const AssignAmbulance = () => {
 				modalData={modalData}
 				refresh={refresh}
 				setRefresh={setRefresh}
+			/>
+			<PatientHistory
+				patientHistoryModalvisible={patientHistoryModalvisible}
+				togglePatientHistoryModal={togglePatientHistoryModal}
+				pid={pid}
 			/>
 		</div>
 	);

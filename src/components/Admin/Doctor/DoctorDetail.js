@@ -11,6 +11,8 @@ import { _notification } from "../../../utils/_helper";
 import ProfileDetails from "../../common/ProfileDetails";
 import PageStats from "../../common/PageStats";
 import UpdateDoctorProfile from "./UpdateDoctorProfile";
+import PatientHistory from "../../common/PatientHistory";
+import { Link } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -21,7 +23,12 @@ const DoctorDetail = props => {
 	const [patients, setPatients] = useState(null);
 	const [showModal, setShowModal] = useState(false);
 	const [refresh, setRefresh] = useState(false);
-	const [status, setStatus] = useState("examined");
+    const [status, setStatus] = useState("examined");
+    const [
+		patientHistoryModalvisible,
+		setPatientHistoryModalvisible
+    ] = useState(false);
+    const [pid, setPid] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -96,6 +103,11 @@ const DoctorDetail = props => {
 		// 	_notification("warning", "Error", err.message);
 		// 	setIsLoading(false);
 		// }
+    };
+    
+    const togglePatientHistoryModal = (val, id) => {
+		setPid(id);
+		setPatientHistoryModalvisible(val);
 	};
 
 	const columns = [
@@ -107,7 +119,15 @@ const DoctorDetail = props => {
 		{
 			title: "Name",
 			dataIndex: "name",
-			key: "name"
+            key: "name",
+            render: name => (
+                <Link
+                    to="#"
+                    onClick={() => togglePatientHistoryModal(true, name[1])}
+                >
+                    {name[0]}
+                </Link>
+            )
 		},
 		{
 			title: "Age",
@@ -160,7 +180,7 @@ const DoctorDetail = props => {
 					doctorComment,
 					gender,
 					lab,
-					name,
+					name: [name, _id],
 					phone
 				};
 		  })
@@ -340,6 +360,11 @@ const DoctorDetail = props => {
 				did={props.match.params.id}
 				refresh={refresh}
 				setRefresh={setRefresh}
+			/>
+            <PatientHistory
+				patientHistoryModalvisible={patientHistoryModalvisible}
+				togglePatientHistoryModal={togglePatientHistoryModal}
+				pid={pid}
 			/>
 		</div>
 	);

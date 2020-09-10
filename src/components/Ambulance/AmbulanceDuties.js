@@ -172,7 +172,7 @@ const AmbulanceDuties = props => {
 					) : null}
 				</Timeline>
 
-				<Row style={{ fontSize: "18px" }}>
+				<Row style={{ fontSize: "18px", textAlign: "center" }}>
 					<Col
 						xl={12}
 						lg={12}
@@ -219,7 +219,7 @@ const AmbulanceDuties = props => {
 						/>
 					</Col>
 				</Row>
-				<Row>
+				<Row style={{ fontSize: "18px", textAlign: "center" }}>
 					<Col
 						xl={12}
 						lg={12}
@@ -247,7 +247,13 @@ const AmbulanceDuties = props => {
 						/>
 					</Col>
 				</Row>
-				<Row style={{ paddingBottom: "8px", fontSize: "16px" }}>
+				<Row
+					style={{
+						paddingBottom: "8px",
+						fontSize: "16px",
+						textAlign: "center"
+					}}
+				>
 					<Col
 						xl={12}
 						lg={12}
@@ -265,30 +271,23 @@ const AmbulanceDuties = props => {
                             ${
 								data
 									? data.status === "completed"
-										? "carried: "
+										? "Carried"
 										: data.status === "declined"
-										? "alloted: "
-										: "carrying: "
+										? "Alloted"
+										: "Carrying"
 									: null
 							}`}
 							data={
 								data ? (
 									<>
-										<Col
-											span={13}
-											style={{ marginTop: "0px" }}
-										>
-											Name : {data.patient.name}
-										</Col>
-										<Col span={13}>
-											Address : {data.patient.address}
-										</Col>
-										<Col span={13}>
-											Gender : {data.patient.gender}
-										</Col>
-										<Col span={13}>
-											Contact : {data.patient.phone}
-										</Col>
+										Name : {data.patient.name}
+										<br />
+										Address : {data.patient.address}
+										<br />
+										Gender : {data.patient.gender}
+										<br />
+										Contact : {data.patient.phone}
+										<br />
 									</>
 								) : null
 							}
@@ -307,22 +306,18 @@ const AmbulanceDuties = props => {
 						}}
 					>
 						<ProfileDetails
-							label={"Destination Hospital: "}
+							label={"Destination Hospital"}
 							data={
 								data ? (
 									<>
-										<Col span={13}>
-											Name : {data.hospital.name}
-										</Col>
-										<Col span={13}>
-											Address : {data.hospital.address}
-										</Col>
-										<Col span={13}>
-											Category : {data.hospital.category}
-										</Col>
-										<Col span={13}>
-											Contact : {data.hospital.contact}
-										</Col>
+										Name : {data.hospital.name}
+										<br />
+										Address :{data.hospital.address}
+										<br />
+										Category :{" "}
+										{data.hospital.category.toUpperCase()}
+										<br />
+										Contact :{data.hospital.contact}
 									</>
 								) : null
 							}
@@ -420,7 +415,10 @@ const AmbulanceDuties = props => {
 							Pending Request :
 						</div>
 						<div
-							style={{ fontSize: "18px", paddingBottom: "20px" }}
+							style={{
+								fontSize: "18px",
+								paddingBottom: "20px"
+							}}
 						>
 							<div>
 								{props.location.state.description.slice(

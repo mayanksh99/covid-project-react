@@ -21,27 +21,43 @@ const BellNotification = () => {
 	};
 
 	useEffect(() => {
-		let total;
 		let socket = io(EndPoint, { transports: ["websocket", "polling"] });
 		socket.on("NOTIFICATIONS_LIST", res => {
-			total = res.filter(notif => {
+			let totalUnseen = res.filter(notif => {
 				return !notif.seen;
 			}).length;
-			setUnseen(total);
+			setUnseen(totalUnseen);
 
-			if (total > 3) {
+			if (totalUnseen > 3) {
 				notification.open({
 					message: "Pending Notifications !",
-					description: `You have ${total} unseen notifications !`,
+					description: `You have ${totalUnseen} unseen notifications !`,
 					icon: <InfoCircleOutlined style={{ color: "#108ee9" }} />,
 					duration: 5
 				});
-			} else if (total >= 1 && total <= 3) {
+			} else if (totalUnseen >= 1 && totalUnseen <= 3) {
 				notification.open({
 					message: `${res[0].title}`,
 					description: `${res[0].description}`,
 					icon: <InfoCircleOutlined style={{ color: "#108ee9" }} />,
-					duration: 0
+					duration: 0,
+					key: res[0]._id,
+					onClick: () => {
+						if (!res[0].seen)
+							socket.emit("markNotificationSeen", {
+								token: Data.token,
+								nid: res[0]._id
+							});
+						history.push(`${res[0].path}`, {
+							title: res[0].title,
+							seen: res[0].seen,
+							description: res[0].description,
+							declined: res[0].description.search("DECLINED"),
+							completed: res[0].description.search("COMPLETED")
+						});
+						setIsVisible(false);
+						notification.close(res[0]._id);
+					}
 				});
 			}
 

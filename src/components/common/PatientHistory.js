@@ -10,7 +10,7 @@ import { ClockCircleOutlined } from "@ant-design/icons";
 const PatientHistory = props => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [patient, setPatient] = useState(null);
-	const [userData, setUserData] = useState(getRole());
+	const [userData] = useState(getRole());
 
 	useEffect(() => {
 		if (props.pid) {

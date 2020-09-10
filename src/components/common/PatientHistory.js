@@ -239,23 +239,6 @@ const PatientHistory = props => {
 													}
 												/>
 											</Col>
-											<Col
-												xl={12}
-												lg={12}
-												md={12}
-												sm={12}
-												xs={24}
-											>
-												<ProfileDetails
-													label="Alloted At"
-													data={moment(
-														patient.history.history
-															.levelAlloted.time
-													).format(
-														"Do MMMM YYYY, h:mm:ss a"
-													)}
-												/>
-											</Col>
 										</Row>
 									) : null}
 									{patient.history.history.hasOwnProperty(
@@ -263,6 +246,7 @@ const PatientHistory = props => {
 									) &&
 									patient.history.history.declined.time ? (
 										<>
+											<Divider>Declined Details</Divider>
 											<Row>
 												<Col
 													xl={12}
@@ -272,7 +256,12 @@ const PatientHistory = props => {
 													xs={24}
 												>
 													<ProfileDetails
-														label={`Declined to ${patient.history.history.declined.to}`}
+														label={"Declined to"}
+														data={
+															patient.history
+																.history
+																.declined.to
+														}
 													/>
 												</Col>
 												<Col
@@ -423,6 +412,56 @@ const PatientHistory = props => {
 											</Col>
 										</Row>
 									) : null}
+									<Row>
+										<Col
+											xl={12}
+											lg={12}
+											md={12}
+											sm={12}
+											xs={24}
+										>
+											<ProfileDetails
+												label="Trip Started At"
+												data={
+													patient.ambulanceDuty &&
+													patient.ambulanceDuty
+														.tripStartedAt
+														? moment(
+																patient
+																	.ambulanceDuty
+																	.tripStartedAt
+														  ).format(
+																"Do MMMM YYYY, h:mm:ss a"
+														  )
+														: "----"
+												}
+											/>
+										</Col>
+										<Col
+											xl={12}
+											lg={12}
+											md={12}
+											sm={12}
+											xs={24}
+										>
+											<ProfileDetails
+												label="Trip Completed At"
+												data={
+													patient.ambulanceDuty &&
+													patient.ambulanceDuty
+														.completedAt
+														? moment(
+																patient
+																	.ambulanceDuty
+																	.completedAt
+														  ).format(
+																"Do MMMM YYYY, h:mm:ss a"
+														  )
+														: "----"
+												}
+											/>
+										</Col>
+									</Row>
 								</>
 							) : null}
 
@@ -514,7 +553,7 @@ const PatientHistory = props => {
 												xs={24}
 											>
 												<ProfileDetails
-													label="Bed alloted at"
+													label="Hospitalised at"
 													data={moment(
 														patient.history.history
 															.hospitalised.time

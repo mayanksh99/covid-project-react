@@ -82,11 +82,11 @@ const AssignAmbulance = () => {
 		})();
 	}, [userData, refresh]);
 
-    const togglePatientHistoryModal = (val, id) => {
+	const togglePatientHistoryModal = (val, id) => {
 		setPid(id);
 		setPatientHistoryModalvisible(val);
-    };
-    
+	};
+
 	const tableColumns = [
 		{
 			title: "#",

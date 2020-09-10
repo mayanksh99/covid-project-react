@@ -31,8 +31,8 @@ const HospitalDetails = props => {
 	const [
 		patientHistoryModalvisible,
 		setPatientHistoryModalvisible
-    ] = useState(false);
-    const [pid, setPid] = useState(null);
+	] = useState(false);
+	const [pid, setPid] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -146,15 +146,17 @@ const HospitalDetails = props => {
 					{
 						title: "Name",
 						dataIndex: "name",
-                        key: "name",
-                        render: name => (
-                            <Link
-                                to="#"
-                                onClick={() => togglePatientHistoryModal(true, name[1])}
-                            >
-                                {name[0]}
-                            </Link>
-                        )
+						key: "name",
+						render: name => (
+							<Link
+								to="#"
+								onClick={() =>
+									togglePatientHistoryModal(true, name[1])
+								}
+							>
+								{name[0]}
+							</Link>
+						)
 					},
 					{
 						title: "Gender",
@@ -176,15 +178,17 @@ const HospitalDetails = props => {
 					{
 						title: "Name",
 						dataIndex: "name",
-                        key: "name",
-                        render: name => (
-                            <Link
-                                to="#"
-                                onClick={() => togglePatientHistoryModal(true, name[1])}
-                            >
-                                {name[0]}
-                            </Link>
-                        )
+						key: "name",
+						render: name => (
+							<Link
+								to="#"
+								onClick={() =>
+									togglePatientHistoryModal(true, name[1])
+								}
+							>
+								{name[0]}
+							</Link>
+						)
 					},
 					{
 						title: "Gender",
@@ -406,7 +410,7 @@ const HospitalDetails = props => {
 				refresh={refresh}
 				setRefresh={setRefresh}
 			/>
-            <PatientHistory
+			<PatientHistory
 				patientHistoryModalvisible={patientHistoryModalvisible}
 				togglePatientHistoryModal={togglePatientHistoryModal}
 				pid={pid}

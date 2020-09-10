@@ -23,12 +23,12 @@ const DoctorDetail = props => {
 	const [patients, setPatients] = useState(null);
 	const [showModal, setShowModal] = useState(false);
 	const [refresh, setRefresh] = useState(false);
-    const [status, setStatus] = useState("examined");
-    const [
+	const [status, setStatus] = useState("examined");
+	const [
 		patientHistoryModalvisible,
 		setPatientHistoryModalvisible
-    ] = useState(false);
-    const [pid, setPid] = useState(null);
+	] = useState(false);
+	const [pid, setPid] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -103,9 +103,9 @@ const DoctorDetail = props => {
 		// 	_notification("warning", "Error", err.message);
 		// 	setIsLoading(false);
 		// }
-    };
-    
-    const togglePatientHistoryModal = (val, id) => {
+	};
+
+	const togglePatientHistoryModal = (val, id) => {
 		setPid(id);
 		setPatientHistoryModalvisible(val);
 	};
@@ -119,15 +119,15 @@ const DoctorDetail = props => {
 		{
 			title: "Name",
 			dataIndex: "name",
-            key: "name",
-            render: name => (
-                <Link
-                    to="#"
-                    onClick={() => togglePatientHistoryModal(true, name[1])}
-                >
-                    {name[0]}
-                </Link>
-            )
+			key: "name",
+			render: name => (
+				<Link
+					to="#"
+					onClick={() => togglePatientHistoryModal(true, name[1])}
+				>
+					{name[0]}
+				</Link>
+			)
 		},
 		{
 			title: "Age",
@@ -361,7 +361,7 @@ const DoctorDetail = props => {
 				refresh={refresh}
 				setRefresh={setRefresh}
 			/>
-            <PatientHistory
+			<PatientHistory
 				patientHistoryModalvisible={patientHistoryModalvisible}
 				togglePatientHistoryModal={togglePatientHistoryModal}
 				pid={pid}

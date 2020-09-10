@@ -29,7 +29,7 @@ import { BASE_URL } from "../../utils/services";
 // import AmbulanceDutiesModal from "./AmbulanceDutiesModal";
 import AmbDutiesTable from "./AmbulanceDutiesTable";
 
-const AmbulanceStatus = (props) => {
+const AmbulanceStatus = props => {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
 	const { Option } = Select;
 	const userData = useState(getRole());

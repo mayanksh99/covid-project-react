@@ -21,35 +21,62 @@ const BellNotification = () => {
 	};
 
 	useEffect(() => {
-		let total;
 		let socket = io(EndPoint, { transports: ["websocket", "polling"] });
 		socket.on("NOTIFICATIONS_LIST", res => {
-			total = res.filter(notif => {
+			let { notifications, method } = res;
+			let totalUnseen = notifications.filter(notif => {
 				return !notif.seen;
 			}).length;
-			setUnseen(total);
+			setUnseen(totalUnseen);
 
-			if (total > 3) {
-				notification.open({
-					message: "Pending Notifications !",
-					description: `You have ${total} unseen notifications !`,
-					icon: <InfoCircleOutlined style={{ color: "#108ee9" }} />,
-					duration: 5
-				});
-			} else if (total >= 1 && total <= 3) {
-				notification.open({
-					message: `${res[0].title}`,
-					description: `${res[0].description}`,
-					icon: <InfoCircleOutlined style={{ color: "#108ee9" }} />,
-					duration: 0
-				});
+			if (method !== "UPDATE_SEEN") {
+				if (totalUnseen > 3) {
+					notification.open({
+						message: "Pending Notifications !",
+						description: `You have ${totalUnseen} unseen notifications !`,
+						icon: (
+							<InfoCircleOutlined style={{ color: "#108ee9" }} />
+						),
+						duration: 5
+					});
+				} else if (totalUnseen >= 1 && totalUnseen <= 3) {
+					notification.open({
+						message: `${notifications[0].title}`,
+						description: `${notifications[0].description}`,
+						icon: (
+							<InfoCircleOutlined style={{ color: "#108ee9" }} />
+						),
+						duration: 0,
+						key: notifications[0]._id,
+						onClick: () => {
+							if (!notifications[0].seen)
+								socket.emit("markNotificationSeen", {
+									token: Data.token,
+									nid: notifications[0]._id
+								});
+							history.push(`${notifications[0].path}`, {
+								title: notifications[0].title,
+								seen: notifications[0].seen,
+								description: notifications[0].description,
+								declined: notifications[0].description.search(
+									"DECLINED"
+								),
+								completed: notifications[0].description.search(
+									"COMPLETED"
+								)
+							});
+							setIsVisible(false);
+							notification.close(notifications[0]._id);
+						}
+					});
+				}
 			}
 
-			setCount(res.length);
-			console.log(res);
-			if (res.length) {
+			setCount(notifications.length);
+			console.log(notifications);
+			if (notifications.length) {
 				setContent(
-					res.map((notification, i) => (
+					notifications.map((notification, i) => (
 						<Card
 							onClick={() => {
 								if (!notification.seen)

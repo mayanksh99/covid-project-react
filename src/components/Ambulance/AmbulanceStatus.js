@@ -29,7 +29,7 @@ import { BASE_URL } from "../../utils/services";
 // import AmbulanceDutiesModal from "./AmbulanceDutiesModal";
 import AmbDutiesTable from "./AmbulanceDutiesTable";
 
-const AmbulanceStatus = () => {
+const AmbulanceStatus = props => {
 	let AUTH_TOKEN = JSON.parse(localStorage.getItem("token"));
 	const { Option } = Select;
 	const userData = useState(getRole());
@@ -153,7 +153,7 @@ const AmbulanceStatus = () => {
 			console.log(err);
 		}
 	};
-	const props = {
+	const props1 = {
 		name: "file",
 		action: `${BASE_URL}${ADD_BULK_AMBULANCES}${userData[0].id}`,
 		headers: {
@@ -367,7 +367,7 @@ const AmbulanceStatus = () => {
 						<Col xl={24} lg={24} md={24} sm={24} xs={12}>
 							<Row gutter={[16, 16]}>
 								<Col xl={24} lg={24} md={24} sm={24} xs={12}>
-									<Upload accept=".csv" {...props}>
+									<Upload accept=".csv" {...props1}>
 										<Button>
 											<UploadOutlined />
 											Upload CSV

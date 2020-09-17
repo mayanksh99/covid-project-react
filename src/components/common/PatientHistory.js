@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Row, Col, Skeleton, Tag, Divider, Timeline } from "antd";
-import { _notification } from "../../utils/_helper";
+import { _notification, getRole } from "../../utils/_helper";
 import { getParticularPatientService } from "./../../utils/services";
 import ProfileDetails from "./../common/ProfileDetails";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import { ClockCircleOutlined } from "@ant-design/icons";
 const PatientHistory = props => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [patient, setPatient] = useState(null);
+	const [userData] = useState(getRole());
 
 	useEffect(() => {
 		if (props.pid) {
@@ -43,8 +44,8 @@ const PatientHistory = props => {
 						Patient Detail
 					</h3>
 				}
-				visible={props.visible}
-				onCancel={() => props.handleModal(false)}
+				visible={props.patientHistoryModalvisible}
+				onCancel={() => props.togglePatientHistoryModal(false)}
 				footer={null}
 				width={800}
 				style={{ top: 50 }}
@@ -174,14 +175,29 @@ const PatientHistory = props => {
 											sm={12}
 											xs={24}
 										>
-											<Link
-												to={`/admins/doctors/${patient.history.history.doctorExamined.doctor}`}
-											>
+											{userData.role === "admin" &&
+											(userData.permissions.includes(
+												"master"
+											) ||
+												userData.permissions.includes(
+													"doctor"
+												)) ? (
+												<Link
+													to={`/admins/doctors/${patient.history.history.doctorExamined.doctor}`}
+												>
+													<ProfileDetails
+														label="Doctor's Name"
+														data={
+															patient.doctor.name
+														}
+													/>
+												</Link>
+											) : (
 												<ProfileDetails
 													label="Doctor's Name"
 													data={patient.doctor.name}
 												/>
-											</Link>
+											)}
 										</Col>
 										<Col
 											xl={12}
@@ -223,23 +239,6 @@ const PatientHistory = props => {
 													}
 												/>
 											</Col>
-											<Col
-												xl={12}
-												lg={12}
-												md={12}
-												sm={12}
-												xs={24}
-											>
-												<ProfileDetails
-													label="Alloted At"
-													data={moment(
-														patient.history.history
-															.levelAlloted.time
-													).format(
-														"Do MMMM YYYY, h:mm:ss a"
-													)}
-												/>
-											</Col>
 										</Row>
 									) : null}
 									{patient.history.history.hasOwnProperty(
@@ -247,6 +246,7 @@ const PatientHistory = props => {
 									) &&
 									patient.history.history.declined.time ? (
 										<>
+											<Divider>Declined Details</Divider>
 											<Row>
 												<Col
 													xl={12}
@@ -256,7 +256,12 @@ const PatientHistory = props => {
 													xs={24}
 												>
 													<ProfileDetails
-														label={`Declined to ${patient.history.history.declined.to}`}
+														label={"Declined to"}
+														data={
+															patient.history
+																.history
+																.declined.to
+														}
 													/>
 												</Col>
 												<Col
@@ -325,9 +330,25 @@ const PatientHistory = props => {
 											sm={12}
 											xs={24}
 										>
-											<Link
-												to={`/admins/ambulance-operators/${patient.ambulance.aoid}`}
-											>
+											{userData.role === "admin" &&
+											(userData.permissions.includes(
+												"master"
+											) ||
+												userData.permissions.includes(
+													"ambulance"
+												)) ? (
+												<Link
+													to={`/admins/ambulance-operators/${patient.ambulance.aoid}`}
+												>
+													<ProfileDetails
+														label="Ambulance"
+														data={
+															patient.ambulance
+																.vehicleNo
+														}
+													/>
+												</Link>
+											) : (
 												<ProfileDetails
 													label="Ambulance"
 													data={
@@ -335,7 +356,7 @@ const PatientHistory = props => {
 															.vehicleNo
 													}
 												/>
-											</Link>
+											)}
 										</Col>
 										<Col
 											xl={12}
@@ -391,6 +412,56 @@ const PatientHistory = props => {
 											</Col>
 										</Row>
 									) : null}
+									<Row>
+										<Col
+											xl={12}
+											lg={12}
+											md={12}
+											sm={12}
+											xs={24}
+										>
+											<ProfileDetails
+												label="Trip Started At"
+												data={
+													patient.ambulanceDuty &&
+													patient.ambulanceDuty
+														.tripStartedAt
+														? moment(
+																patient
+																	.ambulanceDuty
+																	.tripStartedAt
+														  ).format(
+																"Do MMMM YYYY, h:mm:ss a"
+														  )
+														: "----"
+												}
+											/>
+										</Col>
+										<Col
+											xl={12}
+											lg={12}
+											md={12}
+											sm={12}
+											xs={24}
+										>
+											<ProfileDetails
+												label="Trip Completed At"
+												data={
+													patient.ambulanceDuty &&
+													patient.ambulanceDuty
+														.completedAt
+														? moment(
+																patient
+																	.ambulanceDuty
+																	.completedAt
+														  ).format(
+																"Do MMMM YYYY, h:mm:ss a"
+														  )
+														: "----"
+												}
+											/>
+										</Col>
+									</Row>
 								</>
 							) : null}
 
@@ -410,14 +481,30 @@ const PatientHistory = props => {
 											sm={12}
 											xs={24}
 										>
-											<Link
-												to={`/admins/hospitals/${patient.hospital._id}`}
-											>
+											{userData.role === "admin" &&
+											(userData.permissions.includes(
+												"master"
+											) ||
+												userData.permissions.includes(
+													"hospital"
+												)) ? (
+												<Link
+													to={`/admins/hospitals/${patient.hospital._id}`}
+												>
+													<ProfileDetails
+														label="Hospital name"
+														data={
+															patient.hospital
+																.name
+														}
+													/>
+												</Link>
+											) : (
 												<ProfileDetails
 													label="Hospital name"
 													data={patient.hospital.name}
 												/>
-											</Link>
+											)}
 										</Col>
 										<Col
 											xl={12}
@@ -466,7 +553,7 @@ const PatientHistory = props => {
 												xs={24}
 											>
 												<ProfileDetails
-													label="Bed alloted at"
+													label="Hospitalised at"
 													data={moment(
 														patient.history.history
 															.hospitalised.time

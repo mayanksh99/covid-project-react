@@ -35,6 +35,7 @@ export const UPDATE_AMBULANCE = "/ambulances/update?aid="; //PUT
 export const UPDATE_OPERATOR = "/ambulances/operator"; //PUT
 export const ADD_AMBULANCE = "/ambulances/add"; //POST
 export const GET_AMBULANCE_DUTIES = "/ambulances/duties?aid="; //GET
+export const GET_AMBULANCE_DUTY = "/ambulances/duties/single?did="; //GET
 
 /******************DOCTOR ROUTES********************/
 export const ATTEND_PATIENT = "/doctors/patients/attend?pid="; //POST
@@ -47,10 +48,6 @@ export const ADD_BULK_DOCTORS = "/doctors/bulk"; //POST
 /******************HOSPITAL ROUTES***********************/
 export const GET_ADMITTED_PATIENTS = "/hospitals/patients/admitted?hid="; //GET
 export const ADD_REPORT = "hospitals/report?hid="; //POST
-// export const GET_PATIENT_DETAILS = "/hospitals/patients/alloted/?hid="; //GET
-// export const ASSIGN_BED = "/hospitals/admit?hid="; //POST
-// export const DISCHARGE_PATIENT = "/hospitals/discharge?hid="; //POST
-// export const HOSPITAL_UPDATE_PROFILE = "/hospitals"; //PUT
 export const GET_PATIENT_DETAILS = "/hospitals/patients/alloted?hid="; //GET
 export const ASSIGN_BED = "/hospitals/admit?hid="; //POST
 export const DISCHARGE_PATIENT = "/hospitals/discharge?hid="; //POST
@@ -66,3 +63,4 @@ export const START_ATTEND_PATIENT_FOR_AMBULANCE = "/ambulances/patients/attend";
 export const ALLOT_AMBULANCE_FOR_PATIENT = "/ambulances/patients/assign?pid="; //POST
 export const ADD_BULK_AMBULANCES = "/ambulances/bulk?aoid="; //POST
 export const PATIENT_DECLIED = "/ambulances/patients/declined?aid="; //POST
+export const END_TRIP = "/ambulances/patients/end-trip?aid="; //POST

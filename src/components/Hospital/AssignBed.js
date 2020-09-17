@@ -6,6 +6,8 @@ import { getPatientDetails, searchPatients } from "../../utils/services";
 import { _notification, getRole } from "../../utils/_helper";
 import PatientDetail from "./PatientDetail";
 import PageStats from "./../common/PageStats";
+import PatientHistory from "../common/PatientHistory";
+import { Link } from "react-router-dom";
 
 const AssignBed = () => {
 	const [userData] = useState(getRole());
@@ -15,6 +17,11 @@ const AssignBed = () => {
 	const [number, setNumber] = useState(0);
 	const [modalData, setModalData] = useState(false);
 	const [refresh, setRefresh] = useState(false);
+	const [
+		patientHistoryModalvisible,
+		setPatientHistoryModalvisible
+	] = useState(false);
+	const [pid, setPid] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -52,6 +59,11 @@ const AssignBed = () => {
 		}
 	};
 
+	const togglePatientHistoryModal = (val, id) => {
+		setPid(id);
+		setPatientHistoryModalvisible(val);
+	};
+
 	const columns = [
 		{
 			title: "#",
@@ -66,7 +78,15 @@ const AssignBed = () => {
 		{
 			title: "Name",
 			dataIndex: "name",
-			key: "name"
+			key: "name",
+			render: name => (
+				<Link
+					to="#"
+					onClick={() => togglePatientHistoryModal(true, name[1])}
+				>
+					{name[0]}
+				</Link>
+			)
 		},
 		{
 			title: "Gender",
@@ -106,7 +126,7 @@ const AssignBed = () => {
 				return {
 					index: ++i,
 					key: patient._id,
-					name: patient.name,
+					name: [patient.name, patient._id],
 					gender: patient.gender,
 					age: patient.age,
 					severity: patient.history.levelAlloted.level,
@@ -156,6 +176,11 @@ const AssignBed = () => {
 				detail={modalData}
 				refresh={refresh}
 				setRefresh={setRefresh}
+			/>
+			<PatientHistory
+				patientHistoryModalvisible={patientHistoryModalvisible}
+				togglePatientHistoryModal={togglePatientHistoryModal}
+				pid={pid}
 			/>
 		</div>
 	);

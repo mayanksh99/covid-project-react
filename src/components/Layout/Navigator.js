@@ -9,6 +9,7 @@ import "./style.css";
 import { Layout, Menu, Row, Col, Modal, Button } from "antd";
 import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getRole } from "./../../utils/_helper";
+import BellNotification from "./../../utils/BellNotification";
 import routes from "../../utils/_routes";
 import PrivateRoute from "./PrivateRoute";
 import AmbulanceOperatorDetails from "../Admin/Ambulance/AmbulanceOperatorDetails";
@@ -30,6 +31,7 @@ import DoctorDetail from "../Admin/Doctor/DoctorDetail";
 import DoctorEditProfile from "../Doctor/DoctorEditProfile";
 import UnassignedPatients from "../Doctor/UnassignedPatients";
 import DeclinedPatient from "./../Doctor/DeclinedPatient";
+import AmbulanceDuties from "../Ambulance/AmbulanceDuties";
 const { Content, Sider, Footer } = Layout;
 
 const Dashboard = props => {
@@ -59,7 +61,7 @@ const Dashboard = props => {
 						trigger={null}
 						collapsible
 						collapsed={isCollapsed}
-						width={280}
+						width={240}
 					>
 						<Menu
 							theme="light"
@@ -152,6 +154,13 @@ const Dashboard = props => {
 									exact
 									path="/ambulance-operators/ambulances/assign"
 									component={AssignAmbulance}
+									role="ambulanceoperator"
+									data={userData[0]}
+								/>
+								<PrivateRoute
+									exact
+									path="/ambulance-operators/ambulances/duties/:did"
+									component={AmbulanceDuties}
 									role="ambulanceoperator"
 									data={userData[0]}
 								/>
@@ -280,6 +289,7 @@ const Dashboard = props => {
 							</Switch>
 						</Content>
 					</Layout>
+					<BellNotification userData={userData} />
 				</Layout>
 				<Footer>
 					<Row>

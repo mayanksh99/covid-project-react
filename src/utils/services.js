@@ -43,13 +43,12 @@ import {
 	UPDATE_OPERATOR,
 	UPDATE_ADMIN,
 	GET_AMBULANCE_DUTIES,
-	PATIENT_DECLIED
+	PATIENT_DECLIED,
+	GET_AMBULANCE_DUTY,
+	END_TRIP
 } from "./routes";
 export const BASE_URL = "https://covid-project-gzb.herokuapp.com/api/v1";
 export const EndPoint = "https://covid-project-gzb.herokuapp.com";
-
-// export const BASE_URL = "https://fdbf0a431a4b.ngrok.io/api/v1";
-// export const EndPoint = "https://fdbf0a431a4b.ngrok.io/";
 
 axios.defaults.baseURL = BASE_URL;
 
@@ -573,6 +572,19 @@ export const getAmbulanceDuties = async id => {
 	}
 };
 
+export const getAmbulanceDuty = async id => {
+	setUserToken();
+	try {
+		const response = await axios.get(`${GET_AMBULANCE_DUTY}${id}`);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
 export const searchAmbOperatorService = async params => {
 	setUserToken();
 	try {
@@ -655,6 +667,19 @@ export const declinedPatientService = async (id, data) => {
 	setUserToken();
 	try {
 		const response = await axios.post(`${PATIENT_DECLIED}${id}`, data);
+		if (response.status === 200 && response.data.error === false) {
+			return response.data;
+		} else return response.data;
+	} catch (err) {
+		if (err.response) throw err.response.data;
+		else throw err.message;
+	}
+};
+
+export const endTripService = async id => {
+	setUserToken();
+	try {
+		const response = await axios.post(`${END_TRIP}${id}`);
 		if (response.status === 200 && response.data.error === false) {
 			return response.data;
 		} else return response.data;

@@ -5,6 +5,8 @@ import io from "socket.io-client";
 import { AuthContext } from "../../contexts/userContext";
 import { attendPatientService, EndPoint } from "../../utils/services";
 import PatientTable from "./PatientTable";
+import PatientHistory from "../common/PatientHistory";
+import { Link } from "react-router-dom";
 
 let socket;
 const PatientExamine = () => {
@@ -17,6 +19,11 @@ const PatientExamine = () => {
 	const [isBtnLoading, setIsBtnLoading] = useState(false);
 	const [patientData, setPatientData] = useState(null);
 	const [refresh, setRefresh] = useState(false);
+	const [
+		patientHistoryModalvisible,
+		setPatientHistoryModalvisible
+	] = useState(false);
+	const [pid, setPid] = useState(null);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -56,6 +63,11 @@ const PatientExamine = () => {
 		setIsVisible(value);
 	};
 
+	const togglePatientHistoryModal = (val, id) => {
+		setPid(id);
+		setPatientHistoryModalvisible(val);
+	};
+
 	const tableColumns = [
 		{
 			title: "#",
@@ -70,7 +82,15 @@ const PatientExamine = () => {
 		{
 			title: "Patient Name",
 			dataIndex: "name",
-			key: "name"
+			key: "name",
+			render: name => (
+				<Link
+					to="#"
+					onClick={() => togglePatientHistoryModal(true, name[1])}
+				>
+					{name[0]}
+				</Link>
+			)
 		},
 		{
 			title: "Patient Age",
@@ -110,7 +130,7 @@ const PatientExamine = () => {
 					index: ++id,
 					key: _id,
 					caseId,
-					name,
+					name: [name, _id],
 					age,
 					address,
 					district,
@@ -122,22 +142,29 @@ const PatientExamine = () => {
 		: null;
 
 	return (
-		<PatientTable
-			pageTitle="Examine Patients"
-			statTitle="Number of patients left to examine"
-			tableTitle="List of Patients to Examine"
-			count={count}
-			isLoading={isLoading}
-			tableColumns={tableColumns}
-			data={data}
-			isVisible={isVisible}
-			showModal={showModal}
-			patientData={patientData}
-			refresh={refresh}
-			setRefresh={setRefresh}
-			parent="Examine"
-			modalLoading={isModalLoading}
-		/>
+		<>
+			<PatientTable
+				pageTitle="Examine Patients"
+				statTitle="Number of patients left to examine"
+				tableTitle="List of Patients to Examine"
+				count={count}
+				isLoading={isLoading}
+				tableColumns={tableColumns}
+				data={data}
+				isVisible={isVisible}
+				showModal={showModal}
+				patientData={patientData}
+				refresh={refresh}
+				setRefresh={setRefresh}
+				parent="Examine"
+				modalLoading={isModalLoading}
+			/>
+			<PatientHistory
+				patientHistoryModalvisible={patientHistoryModalvisible}
+				togglePatientHistoryModal={togglePatientHistoryModal}
+				pid={pid}
+			/>
+		</>
 	);
 };
 

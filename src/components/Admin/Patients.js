@@ -3,7 +3,7 @@ import { Table, Card, Tag, Row, Col, Input, Select } from "antd";
 import { getPatientsService } from "../../utils/services";
 import { _notification } from "./../../utils/_helper";
 import { Link } from "react-router-dom";
-import PatientHistory from "./PatientHistory";
+import PatientHistory from "../common/PatientHistory";
 
 const { Option } = Select;
 
@@ -13,7 +13,10 @@ const Patients = ({ refresh }) => {
 	const [search, setSearch] = useState(null);
 	const [level, setLevel] = useState(null);
 	const [status, setStatus] = useState("diagnosed");
-	const [isVisible, setIsVisible] = useState(false);
+	const [
+		patientHistoryModalvisible,
+		setPatientHistoryModalvisible
+	] = useState(false);
 	const [pid, setPid] = useState(null);
 
 	useEffect(() => {
@@ -46,9 +49,9 @@ const Patients = ({ refresh }) => {
 		setStatus(val);
 	};
 
-	const handleModal = (val, id) => {
+	const togglePatientHistoryModal = (val, id) => {
 		setPid(id);
-		setIsVisible(val);
+		setPatientHistoryModalvisible(val);
 	};
 
 	const columns = [
@@ -57,7 +60,10 @@ const Patients = ({ refresh }) => {
 			dataIndex: "name",
 			key: "name",
 			render: name => (
-				<Link to="#" onClick={() => handleModal(true, name[1])}>
+				<Link
+					to="#"
+					onClick={() => togglePatientHistoryModal(true, name[1])}
+				>
 					{name[0]}
 				</Link>
 			)
@@ -209,8 +215,8 @@ const Patients = ({ refresh }) => {
 				</div>
 			</Card>
 			<PatientHistory
-				visible={isVisible}
-				handleModal={handleModal}
+				patientHistoryModalvisible={patientHistoryModalvisible}
+				togglePatientHistoryModal={togglePatientHistoryModal}
 				pid={pid}
 			/>
 		</>

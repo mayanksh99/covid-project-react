@@ -6,6 +6,7 @@ import PageTitle from "./../common/PageTitle";
 import { loginService } from "../../utils/services";
 import { _notification } from "../../utils/_helper";
 import { DispatchContext } from "../../contexts/userContext";
+import jwt from "jwt-decode";
 
 const { Option } = Select;
 
@@ -43,8 +44,19 @@ const Login = props => {
 					email: "",
 					password: ""
 				});
+				const decode = jwt(res.token);
 				setTimeout(() => {
-					props.history.push("/");
+					if (decode.role === "admin") {
+						props.history.push("/admins/patients");
+					} else if (decode.role === "doctor") {
+						props.history.push("/doctors/patients/examine");
+					} else if (decode.role === "hospital") {
+						props.history.push("/hospitals/patients/assign-bed");
+					} else if (decode.role === "ambulanceoperator") {
+						props.history.push(
+							"/ambulance-operators/ambulances/assign"
+						);
+					}
 				}, 200);
 			}
 			setIsLoading(false);

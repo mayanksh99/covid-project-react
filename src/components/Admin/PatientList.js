@@ -159,7 +159,7 @@ const PatientList = () => {
 			<PageTitle title="Add Patient" />
 			<br />
 			<Row gutter={[16, 16]}>
-				<Col xl={8} lg={8} md={14} sm={24} xs={24}>
+				<Col xl={8} lg={8} md={10} sm={24} xs={24}>
 					<Card>
 						<p
 							style={{

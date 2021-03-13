@@ -57,11 +57,19 @@ const Dashboard = props => {
 			<Router>
 				<Layout>
 					<Sider
-						theme="light"
-						trigger={null}
+						// theme="light"
+						// trigger={null}
 						collapsible
 						collapsed={isCollapsed}
-						width={240}
+						// width={240}
+						breakpoint="xl"
+						collapsedWidth="0"
+						// onBreakpoint={broken => {
+						// 	console.log(broken);
+						// }}
+						onCollapse={collapsed => {
+							setIsCollapsed(collapsed);
+						}}
 					>
 						<Menu
 							theme="light"
@@ -106,7 +114,7 @@ const Dashboard = props => {
 
 							<Menu.Divider />
 
-							<Menu.Item
+							{/* <Menu.Item
 								key={"menu-extend"}
 								onClick={() => {
 									setIsCollapsed(!isCollapsed);
@@ -122,16 +130,20 @@ const Dashboard = props => {
 								)}
 
 								<span></span>
-							</Menu.Item>
+							</Menu.Item> */}
 						</Menu>
 					</Sider>
 
 					<Layout>
 						<Content
 							style={{
-								padding: 24,
+								paddingTop: 24,
+								paddingRight: 24,
+								paddingBottom: 24,
+								paddingLeft: 50,
 								background: "#f9f9f9",
 								minHeight: "100vh"
+								// zIndex: -1
 							}}
 						>
 							<Switch>

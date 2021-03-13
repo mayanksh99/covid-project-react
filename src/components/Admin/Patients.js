@@ -136,17 +136,17 @@ const Patients = ({ refresh }) => {
 	return (
 		<>
 			<Row>
-				<Col span={12}>
+				<Col xl={12} lg={12} md={24} sm={24} xs={24}>
 					<Input.Search
 						className="input-field"
 						type="text"
-						style={{ width: 200, marginBottom: 12 }}
+						style={{ marginBottom: 12 }}
 						placeholder="Search"
 						allowClear
 						onSearch={value => handleQuery(value)}
 					/>
 				</Col>
-				<Col span={12}>
+				<Col xl={12} lg={12} md={24} sm={24} xs={24}>
 					<div className="wrapper">
 						<div style={{ marginRight: "10px" }}>
 							<Select
@@ -209,7 +209,7 @@ const Patients = ({ refresh }) => {
 					<Table
 						columns={columns}
 						dataSource={data}
-						pagination={{ position: ["bottomCenter"] }}
+						pagination={{ position: ["bottomLeft"] }}
 						loading={isLoading}
 					/>
 				</div>

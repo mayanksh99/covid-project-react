@@ -35,10 +35,9 @@ const PatientTable = ({
 				title={() => tableTitle}
 				showHeader={true}
 				loading={isLoading}
-				bordered={false}
 				columns={tableColumns}
 				dataSource={data}
-				pagination={{ position: ["none", "bottomCenter"] }}
+				pagination={{ position: ["bottomCenter"] }}
 			/>
 			<AttendPatient
 				isVisible={isVisible}

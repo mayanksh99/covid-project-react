@@ -91,10 +91,10 @@ li.ant-menu-item.ant-menu-item-selected::after {
 .mt-10 {
 	margin-top: 10px;
 }
-
+/* 
 .ant-table-tbody > tr > td {
 	white-space: nowrap;
-}
+} */
 
 .ant-input-affix-wrapper > input.ant-input {
 	background: #fafbfc;

@@ -21,6 +21,7 @@ export const UPDATE_DOCTOR = "/doctors?did="; //PUT
 
 /******************HOSPITAL ADMIN ROUTES********************/
 export const GET_HOSPITALS = "/hospitals"; //GET
+export const GET_AVAILABLE_HOSPITALS = "/hospitals/available"; //GET
 export const ADD_HOSPITAL = "/hospitals"; //POST
 export const GET_PATIENT_BY_HOSPITAL = "/hospitals/patients/admitted?hid="; //GET
 export const UPDATE_HOSPITAL = "/hospitals/?hid="; //PUT

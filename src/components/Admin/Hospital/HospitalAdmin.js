@@ -254,17 +254,17 @@ const HospitalAdmin = () => {
 				<h3 style={{ fontSize: "16px" }}>List of Hospitals</h3>
 				<div>
 					<Row>
-						<Col span={12}>
+						<Col xl={4} lg={8} md={12} sm={12} xs={24}>
 							<Input.Search
 								className="input-field"
 								type="text"
-								style={{ width: 200, marginBottom: 12 }}
+								style={{ marginBottom: 12 }}
 								placeholder="Search"
 								allowClear
 								onSearch={value => handleQuery(value)}
 							/>
 						</Col>
-						<Col span={12}>
+						<Col xl={20} lg={16} md={12} sm={12} xs={24}>
 							<div style={{ float: "right" }}>
 								<Select
 									placeholder="select category"

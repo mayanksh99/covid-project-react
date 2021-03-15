@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import "./style.css";
 import { Layout, Menu, Row, Col, Modal, Button } from "antd";
-import { LockOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { LockOutlined } from "@ant-design/icons";
 import { getRole } from "./../../utils/_helper";
 import BellNotification from "./../../utils/BellNotification";
 import routes from "../../utils/_routes";
@@ -88,7 +88,12 @@ const Dashboard = props => {
 										)
 									) {
 										return (
-											<Menu.Item key={route.key}>
+											<Menu.Item
+												onClick={() =>
+													setIsCollapsed(true)
+												}
+												key={route.key}
+											>
 												<route.icon />
 												<span>{route.name}</span>
 												<Link to={route.path} />
@@ -97,7 +102,10 @@ const Dashboard = props => {
 									}
 								} else if (route.role === userData[0].role) {
 									return (
-										<Menu.Item key={route.key}>
+										<Menu.Item
+											onClick={() => setIsCollapsed(true)}
+											key={route.key}
+										>
 											<route.icon />
 											<span>{route.name}</span>
 											<Link to={route.path} />
@@ -312,14 +320,14 @@ const Dashboard = props => {
 								width="180px"
 							/>
 						</Col>
-						<Col span={12}>
+						{/* <Col span={12}>
 							<p className="paragraph">
 								&copy; copyright 2020 DSC KIET - Developed by{" "}
 								<a href="https://dsckiet.com">
 									<b>DSC KIET</b>
 								</a>
 							</p>
-						</Col>
+						</Col> */}
 					</Row>
 				</Footer>
 			</Router>

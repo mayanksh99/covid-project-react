@@ -280,17 +280,24 @@ const AdminList = () => {
 				</Col>
 				<Col xs={24} sm={24} md={24} lg={16} xl={18}>
 					<Row>
-						<Col span={12}>
+						<Col xl={8} lg={12} md={12} sm={12} xs={24}>
 							<Input.Search
 								className="input-field"
 								type="text"
-								style={{ width: 200, marginBottom: 12 }}
+								style={{ marginBottom: 12 }}
 								placeholder="Search"
 								allowClear
 								onSearch={value => handleQuery(value)}
 							/>
 						</Col>
-						<Col span={12} style={{ float: "right" }}>
+						<Col
+							xs={24}
+							sm={12}
+							md={12}
+							lg={12}
+							xl={16}
+							style={{ float: "right" }}
+						>
 							<div style={{ float: "right" }}>
 								<Select
 									placeholder="Select Permissions"
